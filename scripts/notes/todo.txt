@@ -1,0 +1,17 @@
+
+
+ - Os modelos deverão ter indicação das dimensões e respetivos atributos selecionados. 
+   Remover a existência de um segundo objecto com esta indicação e usar eventos para notificar 
+   interessados da alteração do modelo.
+   
+   
+ - Introduzir a ideia de configuração
+	 - Devem continuar a ser os charts que têm o eixo default seleccionado! 
+	 	Deverá existir uma configuração por chart. Ou poderá ser partilhada! 
+  
+  	 - Cada controller(representation) deverá ter a sua configuração.
+  	 	 - Dimensoes selecionadas e eixo selecionado para representar gráficos.
+  	 	 
+  	 - Controladores (representações) disponibilizam um método para obter a configuração. 
+  	 	Indicator.js afeta a configuração default. Indicando dimensões selecionadas e eixo 
+  	 	selecionado para obter valores.  

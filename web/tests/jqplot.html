@@ -1,0 +1,131 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+		<title>JQPlot</title>
+		<script type="text/javascript" src="../../scripts/statistics_debug.js"></script>
+		<script type="text/javascript">
+			
+			var plot;
+			
+			$(document).ready(function(){
+				
+//				//$.jqplot('chartdiv',  [[[1, 2],[3,5.12],[5,13.1],[7,33.6],[9,85.9],[11,219.9]]]);
+//				$.jqplot('chartdiv',  [[[1, 2],[3,5.12],[5,13.1],[7,33.6],[9,85.9],[11,219.9]]],
+//							{ 
+//								title:'Exponential Line',
+//  								axes:{yaxis:{min:-10, max:240}},
+//								series:[{color:'#5FAB78'}]
+//							});
+				
+//				plot1 = $.jqplot('chartdiv',  [[34.53, 56.32, 25.1, 18.6]], {series:[{renderer:$.jqplot.BarRenderer}]});
+				
+				
+//			  var data = [
+//			    ['Heavy Industry', 12],['Retail', 9], ['Light Industry', 14], 
+//			    ['Out of home', 16],['Commuting', 7], ['Orientation', 9]
+//			  ];
+//			  plot1 = jQuery.jqplot ('chartdiv', [data], 
+//			    { 
+//			      seriesDefaults: {
+//			        // Make this a pie chart.
+//			        renderer: jQuery.jqplot.PieRenderer, 
+//			        rendererOptions: {
+//			          // Put data labels on the pie slices.
+//			          // By default, labels show the percentage of the slice.
+//			          showDataLabels: true
+//			        }
+//			      }, 
+//			      legend: { show:true, location: 'e' }
+//			    }
+//			  );
+			
+			
+//			plot1 = $.jqplot('chartdiv', [[['a',25],['b',14],['c',7]]], 
+//					{
+//		        			gridPadding: {top:0, bottom:38, left:0, right:0},
+//		      				seriesDefaults: {
+//								renderer: $.jqplot.PieRenderer, 
+//								trendline:{ show:false }, 
+//								rendererOptions: { 
+//									padding: 8, 
+//									showDataLabels: true
+//								}
+//							},
+//		                  	legend:{
+//		                      show:true, 
+//		                      placement: 'outside', 
+//		                      rendererOptions: {
+//		                          numberRows: 1
+//		                      }, 
+//		                      location:'s',
+//		                      marginTop: '15px'
+//		                  }       
+//		    		});			
+			
+//			var s1 = [['a',6], ['b',8], ['c',14], ['d',20]];
+//			var s2 = [['a', 8], ['b', 12], ['c', 6], ['d', 9]];
+//			   
+//			var plot3 = $.jqplot('chartdiv', [s1, s2], {
+//			    seriesDefaults: {
+//			      // make this a donut chart.
+//			      renderer:$.jqplot.DonutRenderer,
+//			      rendererOptions:{
+//			        // Donut's can be cut into slices like pies.
+//			        sliceMargin: 3,
+//			        // Pies and donuts can start at any arbitrary angle.
+//			        startAngle: -90,
+//			        showDataLabels: true,
+//			        // By default, data labels show the percentage of the donut/pie.
+//			        // You can show the data 'value' or data 'label' instead.
+//			        dataLabels: 'value'
+//			      }
+//			    }
+//			  });
+
+				
+				var data = [['Verwerkende FruedenStunde Companaziert Eine industrie', 9],
+							['Primaire producent', 7], ['Out of home', 6], 
+							['Groothandel', 5], ['Consument', 3],  
+							['Grondstof', 4], ['Retail', 8],
+							['Bewerkende industrie', 2]];
+				jQuery.jqplot.config.enablePlugins = true;
+				plot1 = jQuery.jqplot('chartdiv', 
+					[data], 
+					{
+						title: ' ', 
+						seriesDefaults: {
+				    		shadow: true, 
+				    		renderer: jQuery.jqplot.PieRenderer, 
+				    		rendererOptions: { padding: 2, sliceMargin: 2, showDataLabels: false } 
+				  		}, 
+						legend: { 
+							show:true, 
+							placement: 'outside',
+							rendererOptions: {
+		                          numberRows: 2
+		                     },
+							location: 'e' 
+						}
+					});
+					
+					
+			});
+			
+			function replot(){
+				var data = [
+			    	['Teste 1', 5],['Teste 2', 9], ['Teste 3', 14], 
+			    	['Teste 6', 16],['Teste 5', 7], ['Teste 4', 9]
+			  	];
+				
+				plot1.series[0].data = data;
+				plot1.repaint();
+			}
+				
+		</script>
+	</head>
+	<body>
+		<div id="chartdiv" style="height:300px;width:200px; "></div>
+		<input type="button" onclick="replot();" value="replot" />
+	</body>
+</html>
