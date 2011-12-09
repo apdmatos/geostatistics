@@ -4,13 +4,6 @@ Statistics.Representation = Statistics.Class({
 	
 	/**
 	 * @protected
-	 * @property {Statistics.Model.IndicatorMetadata}
-	 * A reference to indicator metadata, that is being represented
-	 */
-	indicatorMetadata: null,
-	
-	/**
-	 * @protected
 	 * @property {Statistics.Repository}
 	 * Contains a repository inplementation to request for statistic data
 	 */
@@ -18,10 +11,9 @@ Statistics.Representation = Statistics.Class({
 	
 	/**
 	 * @protected
-	 * @property {Array<Statistics.Model.Dimension>}
-	 * An array of selected dimensions to request for
+	 * @property {Statistics.Model.Configuration}
 	 */
-	selectedDimensions: null,
+	configuration: null,
 	
 	/**
 	 * @protected
@@ -32,55 +24,35 @@ Statistics.Representation = Statistics.Class({
 	
 	/**
 	 * @constructor
-	 * @param {Statistics.Model.IndicatorMetadata} indicatorMetadata
+	 * @param {Statistics.Model.Configuration} configuration
 	 * @param {Statistics.Repository} repository
-	 * @param {Array<Statistics.Model.Dimension>} selectedDimensions
 	 * @param {Statistics.Control} control - The view/control to represent this controller/representation
 	 */
-	_init: function(indicatorMetadata, repository, selectedDimensions, control) {
-		this.indicatorMetadata = indicatorMetadata;
+	_init: function(configuration, repository, control) {
+		this.configuration = configuration;
 		this.repository = repository;
-		this.selectedDimensions = selectedDimensions;
 		this.control = control
+		
+		//TODO: check if the configuration has the metadata
+		//TODO: register some events to configuration
 	},
 	
 	/**
 	 * @public
 	 * @function
-	 * @param {Statistics.Model.IndicatorMetadata} indicatorMetadata
+	 * @returns {Statistics.Model.Configuration}
 	 */
-	setIndicatorMetadata: function(indicatorMetadata){
-		this.indicatorMetadata = indicatorMetadata;
+	getConfiguration: function() {
+		return this.configuration;
 	},
 	
 	/**
 	 * @public
 	 * @function
-	 * @param {Array<Statistics.Dimension>} dimensions - The selected dimensions
+	 * @returns {Statistics.Model.IndicatorMetadata} 
 	 */
-	setSelectedDimensions: function(dimensions){
-		this.selectedDimensions = dimensions;
-		this.renderData();
-	},
-	
-	/**
-	 * @public
-	 * @function
-	 * @param {Statuistics.Model.Dimension} axisDimension
-	 * 
-	 * Sets the dimension to be present on axis
-	 */
-	setSelectedAxisDimension: function(axisDimension){
-		/*Must be implemented by the subclass if needed*/
-	},
-	
-	/**
-	 * @public
-	 * @function
-	 * returns the current selected dimensions
-	 */
-	getSelectedDimensions: function() {
-		return this.selectedDimensions;
+	setMetadata: function(metadata) {
+		this.configuration.setMetadata(metadata);
 	},
 	
 	/**

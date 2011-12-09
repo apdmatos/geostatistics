@@ -10,52 +10,47 @@ Statistics.Representation.Chart = Statistics.Class(Statistics.Representation, {
 	 */
 	requestObj: null,
 	
-	/**
-	 * @private
-	 * @property {Statistics.Model.Dimension}
-	 * The selected dimension to present on axis
-	 */
-	axisDimension: null,
-	
-	/**
-	 * @private
-	 * @property {Statistics.DimensionSelector}
-	 * The dimension selector to extract the default selected axis
-	 */
-	dimensionSelector: null,
+//	/**
+//	 * @private
+//	 * @property {Statistics.Model.Dimension}
+//	 * The selected dimension to present on axis
+//	 */
+//	axisDimension: null,
+//	
+//	/**
+//	 * @private
+//	 * @property {Statistics.DimensionSelector}
+//	 * The dimension selector to extract the default selected axis
+//	 */
+//	dimensionSelector: null,
 	
 	/**
 	 * @constructor
-	 * @param {Statistics.Repository} indicatorMetadata
+	 * @param {Statistics.Model.Configuration} configuration
 	 * @param {Statistics.Repository} repository
-	 * @param {Array<Statistics.Model.Dimension>} selectedDimensions
-	 * @param {Array<Statistics.Model.Dimension>} axisDimension
 	 * @param {Statistics.Control} control - The view/control to represent this controller/representation
 	 */
-	_init: function(indicatorMetadata, repository, selectedDimensions, axisDimension, control) {
+	_init: function(configuration, repository, control) {
 		Statistics.Representation.prototype._init.apply(
 			this, 
 			[ 
-			  	indicatorMetadata, 
+			  	configuration, 
 			  	repository, 
-			  	selectedDimensions, 
-			  	axisDimension, 
 			  	control
 			 ]);
-		this.axisDimension = axisDimension;
 	},
 	
-	/**
-	 * @public
-	 * @function
-	 * @param {Statuistics.Model.Dimension} axisDimension
-	 * 
-	 * Sets the dimension to be present on axis
-	 */
-	setSelectedAxisDimension: function(axisDimension){
-		this.axisDimension = axisDimension;
-		if(this.dimensions) this.renderData();
-	},
+//	/**
+//	 * @public
+//	 * @function
+//	 * @param {Statuistics.Model.Dimension} axisDimension
+//	 * 
+//	 * Sets the dimension to be present on axis
+//	 */
+//	setSelectedAxisDimension: function(axisDimension){
+//		this.axisDimension = axisDimension;
+//		if(this.dimensions) this.renderData();
+//	},
 	
 	/**
 	 * @protected
@@ -66,12 +61,14 @@ Statistics.Representation.Chart = Statistics.Class(Statistics.Representation, {
 		Statistics.Representation.prototype.renderData.apply(this, arguments);
 		if(this.requestObj) this.requestObj.cancelRequest();
 		
+		var metadata = this.configuration.getMetadata();
+		
 		this.requestObj = 
 			this.repository.getChartDataSerie(
-				this.indicatorMetadata.sourceid, 
-				this.indicatorMetadata.id, 
-				this.axisDimension, 
-				this.selectedDimensions,
+				metadata.sourceid, 
+				metadata.id, 
+				this.configuration.getAxisDimension(),
+				this.configuration.getSelectedDimensions(),
 				{
 					successCallback: jQuery.proxy(this._complete, this),
 					errorCallback: jQuery.proxy(this._error, this)
@@ -82,7 +79,7 @@ Statistics.Representation.Chart = Statistics.Class(Statistics.Representation, {
 	/**
 	 * @private
 	 * @function
-	 * @param {Array<Statistics.Model.ChartValue>} data
+	 * @param {Statistics.Model.RepresentationData.ChartValue[]} data
 	 * Callback function. Called when the server responds with chart data
 	 */
 	_complete: function(data){

@@ -36,7 +36,7 @@ Statistics.Events = Statistics.Class ({
      *   @param {string} eventType A string containing a JavaScript event type.
      *   @param {function} [handler] The function that is to be no longer executed.
      */
-    unbind: function (eventType, handler, context) {
+    unbind: function (eventType, handler) {
 		Statistics.Events.unbind(eventType, handler, this.element);
     },
    
@@ -44,10 +44,9 @@ Statistics.Events = Statistics.Class ({
      *   Execute all handlers and behaviors attached to the matched elements for the given event type.
      *   @function 
      *   @param {string} eventType A string containing a JavaScript event type.
-     *   @param {Object[]} [params='[]'] An array of additional parameters to pass along to the event handler.
-     *   @param {object} [context='document'] The object to trigger the event. 
+     *   @param {Object[]} [params='[]'] An array of additional parameters to pass along to the event handler. 
      */
-    trigger: function (eventType, params, context) {
+    trigger: function (eventType, params) {
         return Statistics.Events.trigger(eventType, params, this.element);
     },
 
@@ -58,10 +57,9 @@ Statistics.Events = Statistics.Class ({
      *   @p The event do not bubble up the DOM hierarchy.
      *   @function 
      *   @param {string} eventType A string containing a JavaScript event type.
-     *   @param {Object[]} [params='[]'] An array of additional parameters to pass along to the event handler.
-     *   @param {object} [context='document'] The object to trigger the event. 
+     *   @param {Object[]} [params='[]'] An array of additional parameters to pass along to the event handler. 
      */
-    triggerhandler: function (eventType, params, context) {	
+    triggerhandler: function (eventType, params) {	
 		return Statistics.Events.triggerhandler(eventType, params, this.element);
     }
 });

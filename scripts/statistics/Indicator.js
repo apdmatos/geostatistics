@@ -7,7 +7,7 @@ Statistics.Indicator = Statistics.Class({
 	 * @constant
 	 * @property EVENT_TYPES 
 	 */
-	EVENT_TYPES: ['indicator:requestmetadata', 'indicator:metadataavailable'],
+	EVENT_TYPES: ['indicator::requestmetadata', 'indicator::metadataavailable'],
 	
 	/**
 	 * @private
@@ -25,9 +25,9 @@ Statistics.Indicator = Statistics.Class({
 	
 	/**
 	 * @private
-	 * @property {Array<Statistics.Representation>}
+	 * @property {Statistics.Model.Configurations[]}
 	 */
-	representations: null,
+	configurations: null,
 	
 	/**
 	 * @private
@@ -45,20 +45,8 @@ Statistics.Indicator = Statistics.Class({
 	
 	/**
 	 * @private
-	 * @property {Statistics.Model.Dimension}
-	 */
-	selectedDimensions: null,
-	
-	/**
-	 * @private
-	 * @property {Statistics.DimensionsSelector}
-	 * A dimension selector to select the dimension when the server responds with metadata
-	 */
-	dimensionSelector: null,
-	
-	/**
-	 * @private
 	 * @property {Statistics.Repository.Request}
+	 * Contains the request state. Used to cancel requests
 	 */
 	request: null,
 	
@@ -67,23 +55,21 @@ Statistics.Indicator = Statistics.Class({
 	 * @param {String} id
 	 * @param {String} sourceid
 	 * @param {Statistics.Repository} repository
-	 * @param {Array<Statistics.Representation>} representations
-	 * @param {Statistics.DimensionsSelector} dimensionSelector
+	 * @param {Statistics.Model.Configuration[]} controllers
 	 * @param {Object} options
-	 * 	- selectedDimensions {Array<Statistics.Model.Dimension>}
 	 *  - metadata {Array<Statistics.Model.IndicatorMetadata>}
 	 */
-	_init: function(id, sourceid, repository, representations, dimensionSelector, options) {
+	_init: function(id, sourceid, repository, configurations, options) {
 		
 		jQuery.extend(this, options);
 		
 		this.id = id;
 		this.sourceid = sourceid;
 		this.repository = repository;
-		this.representations = representations;
+		this.configurations = configurations;
 		
 		if(!metadata) this._loadMetadata();
-		else this.chooseSelectedDimensions();
+		else this._setMetadataToConfiguration(metadata);
 	},
 	
 	/**
@@ -93,27 +79,6 @@ Statistics.Indicator = Statistics.Class({
 	 */
 	getMetadata: function() {
 		return this.metadata;
-	},
-	
-	/**
-	 * @public
-	 * @function
-	 * @returns {Array<Statistics.Model.Dimension>}
-	 */
-	getSelectedDimensions: function(){
-		return this.selectedDimensions;
-	},
-	
-	/**
-	 * @public
-	 * @function
-	 * @param {Statistics.Model.Dimension} selectedDimensions
-	 */
-	setSelectedDimensions: function(selectedDimensions) {
-		
-		this.selectedDimensions = dimensionSelector;
-		for(var i = 0, representation; representation = this.representations[i]; i++)
-			representation.setSelectedDimensions(selectedDimensions);
 	},
 	
 	/**
@@ -145,15 +110,8 @@ Statistics.Indicator = Statistics.Class({
 	 */
 	_onComplete: function(indicatorMetadata){
 		
-		this.selectedDimensions = this.dimensionSelector.getSelectedDimensions(indicatorMetadata.dimensions);
-		var defaultAxisSelected = this.dimensionSelector.getAxisSelectedDimensions(indicatorMetadata.dimensions);
-		
-		for (var i = 0, representation; representation = this.representations[i]; i++) {
-			
-			representation.setIndicatorMetadata(indicatorMetadata);
-			representation.setSelectedDimensions(this.selectedDimensions);
-			representation.setSelectedAxisDimension(defaultAxisSelected);
-		}
+		this.request = null;
+		this._setMetadataToConfiguration(indicatorMetadata);
 		
 	},
 	
@@ -164,7 +122,24 @@ Statistics.Indicator = Statistics.Class({
 	 * TO BE DEFINED...
 	 */
 	_onError: function(){
+		
+		this.request = null;
 		//TODO: implement this...
+	},
+	
+	/**
+	 * @private
+	 * @function
+	 * @param {Statistics.Model.IndicatorMetadata} metadata
+	 * Sets metadata to configurations
+	 */
+	_setMetadataToConfiguration: function(metadata) {
+		
+		for (var i = 0, configuration; configuration = this.configurations[i]; i++) {
+			
+			configuration.setMetadata(metadata);
+			
+		}
 	}
 	
 });

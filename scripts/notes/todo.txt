@@ -14,4 +14,12 @@
   	 	 
   	 - Controladores (representações) disponibilizam um método para obter a configuração. 
   	 	Indicator.js afeta a configuração default. Indicando dimensões selecionadas e eixo 
-  	 	selecionado para obter valores.  
+  	 	selecionado para obter valores.
+  	 	
+  	 	
+ - Alterar namespaces: 
+ 	Representation -> Controller
+ 	Control -> Views  
+ 	
+ - Na configuração, expor na interface métodos para adicionar dimensões e atributos.
+ 	Clonar dimensões dos metadados, para as várias configurações.
