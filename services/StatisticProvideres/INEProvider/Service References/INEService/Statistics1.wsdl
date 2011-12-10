@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:tns="http://services.sapo.pt/Metadata/Statistics" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:i0="http://tempuri.org/" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="Statistics" targetNamespace="http://services.sapo.pt/Metadata/Statistics" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:import namespace="http://tempuri.org/" location="http://statisticsws.ine.pt/Statistics.svc?wsdl=wsdl0" />
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://services.sapo.pt/Metadata/Statistics/Imports">
+      <xsd:import schemaLocation="http://statisticsws.ine.pt/Statistics.svc?xsd=xsd0" namespace="http://services.sapo.pt/Metadata/Statistics" />
+      <xsd:import schemaLocation="http://statisticsws.ine.pt/Statistics.svc?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+      <xsd:import schemaLocation="http://statisticsws.ine.pt/Statistics.svc?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/StatisticsModel" />
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="Statistics_GetClassificationCategories_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetClassificationCategories" />
+  </wsdl:message>
+  <wsdl:message name="Statistics_GetClassificationCategories_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetClassificationCategoriesResponse" />
+  </wsdl:message>
+  <wsdl:message name="Statistics_GetConventionalSigns_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetConventionalSigns" />
+  </wsdl:message>
+  <wsdl:message name="Statistics_GetConventionalSigns_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetConventionalSignsResponse" />
+  </wsdl:message>
+  <wsdl:message name="Statistics_GetFrequences_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetFrequences" />
+  </wsdl:message>
+  <wsdl:message name="Statistics_GetFrequences_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetFrequencesResponse" />
+  </wsdl:message>
+  <wsdl:message name="Statistics_GetGeoLevels_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetGeoLevels" />
+  </wsdl:message>
+  <wsdl:message name="Statistics_GetGeoLevels_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetGeoLevelsResponse" />
+  </wsdl:message>
+  <wsdl:message name="Statistics_GetIndicators_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetIndicators" />
+  </wsdl:message>
+  <wsdl:message name="Statistics_GetIndicators_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetIndicatorsResponse" />
+  </wsdl:message>
+  <wsdl:message name="Statistics_GetMeasurementVariable_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetMeasurementVariable" />
+  </wsdl:message>
+  <wsdl:message name="Statistics_GetMeasurementVariable_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetMeasurementVariableResponse" />
+  </wsdl:message>
+  <wsdl:message name="Statistics_GetMetadata_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetMetadata" />
+  </wsdl:message>
+  <wsdl:message name="Statistics_GetMetadata_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetMetadataResponse" />
+  </wsdl:message>
+  <wsdl:message name="Statistics_GetValues_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetValues" />
+  </wsdl:message>
+  <wsdl:message name="Statistics_GetValues_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetValuesResponse" />
+  </wsdl:message>
+  <wsdl:message name="Statistics_GetIndicatorsBySearch_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetIndicatorsBySearch" />
+  </wsdl:message>
+  <wsdl:message name="Statistics_GetIndicatorsBySearch_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetIndicatorsBySearchResponse" />
+  </wsdl:message>
+  <wsdl:message name="Statistics_GetThemes_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetThemes" />
+  </wsdl:message>
+  <wsdl:message name="Statistics_GetThemes_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetThemesResponse" />
+  </wsdl:message>
+  <wsdl:message name="Statistics_GetIndicatorsByTheme_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetIndicatorsByTheme" />
+  </wsdl:message>
+  <wsdl:message name="Statistics_GetIndicatorsByTheme_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetIndicatorsByThemeResponse" />
+  </wsdl:message>
+  <wsdl:portType name="Statistics">
+    <wsdl:operation name="GetClassificationCategories">
+      <wsdl:input wsaw:Action="http://services.sapo.pt/Metadata/StatisticsGetClassificationCategories" message="tns:Statistics_GetClassificationCategories_InputMessage" />
+      <wsdl:output wsaw:Action="http://services.sapo.pt/Metadata/Statistics/Statistics/GetClassificationCategoriesResponse" message="tns:Statistics_GetClassificationCategories_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetConventionalSigns">
+      <wsdl:input wsaw:Action="http://services.sapo.pt/Metadata/StatisticsGetConventionalSigns" message="tns:Statistics_GetConventionalSigns_InputMessage" />
+      <wsdl:output wsaw:Action="http://services.sapo.pt/Metadata/Statistics/Statistics/GetConventionalSignsResponse" message="tns:Statistics_GetConventionalSigns_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetFrequences">
+      <wsdl:input wsaw:Action="http://services.sapo.pt/Metadata/StatisticsGetFrequences" message="tns:Statistics_GetFrequences_InputMessage" />
+      <wsdl:output wsaw:Action="http://services.sapo.pt/Metadata/Statistics/Statistics/GetFrequencesResponse" message="tns:Statistics_GetFrequences_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetGeoLevels">
+      <wsdl:input wsaw:Action="http://services.sapo.pt/Metadata/StatisticsGetGeoLevels" message="tns:Statistics_GetGeoLevels_InputMessage" />
+      <wsdl:output wsaw:Action="http://services.sapo.pt/Metadata/Statistics/Statistics/GetGeoLevelsResponse" message="tns:Statistics_GetGeoLevels_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetIndicators">
+      <wsdl:input wsaw:Action="http://services.sapo.pt/Metadata/StatisticsGetIndicators" message="tns:Statistics_GetIndicators_InputMessage" />
+      <wsdl:output wsaw:Action="http://services.sapo.pt/Metadata/Statistics/Statistics/GetIndicatorsResponse" message="tns:Statistics_GetIndicators_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetMeasurementVariable">
+      <wsdl:input wsaw:Action="http://services.sapo.pt/Metadata/StatisticsGetMeasurementVariable" message="tns:Statistics_GetMeasurementVariable_InputMessage" />
+      <wsdl:output wsaw:Action="http://services.sapo.pt/Metadata/Statistics/Statistics/GetMeasurementVariableResponse" message="tns:Statistics_GetMeasurementVariable_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetMetadata">
+      <wsdl:input wsaw:Action="http://services.sapo.pt/Metadata/StatisticsGetMetadata" message="tns:Statistics_GetMetadata_InputMessage" />
+      <wsdl:output wsaw:Action="http://services.sapo.pt/Metadata/Statistics/Statistics/GetMetadataResponse" message="tns:Statistics_GetMetadata_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetValues">
+      <wsdl:input wsaw:Action="http://services.sapo.pt/Metadata/StatisticsGetValues" message="tns:Statistics_GetValues_InputMessage" />
+      <wsdl:output wsaw:Action="http://services.sapo.pt/Metadata/Statistics/Statistics/GetValuesResponse" message="tns:Statistics_GetValues_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetIndicatorsBySearch">
+      <wsdl:input wsaw:Action="http://services.sapo.pt/Metadata/StatisticsGetIndicatorsBySearch" message="tns:Statistics_GetIndicatorsBySearch_InputMessage" />
+      <wsdl:output wsaw:Action="http://services.sapo.pt/Metadata/Statistics/Statistics/GetIndicatorsBySearchResponse" message="tns:Statistics_GetIndicatorsBySearch_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetThemes">
+      <wsdl:input wsaw:Action="http://services.sapo.pt/Metadata/StatisticsGetThemes" message="tns:Statistics_GetThemes_InputMessage" />
+      <wsdl:output wsaw:Action="http://services.sapo.pt/Metadata/Statistics/Statistics/GetThemesResponse" message="tns:Statistics_GetThemes_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetIndicatorsByTheme">
+      <wsdl:input wsaw:Action="http://services.sapo.pt/Metadata/StatisticsGetIndicatorsByTheme" message="tns:Statistics_GetIndicatorsByTheme_InputMessage" />
+      <wsdl:output wsaw:Action="http://services.sapo.pt/Metadata/Statistics/Statistics/GetIndicatorsByThemeResponse" message="tns:Statistics_GetIndicatorsByTheme_OutputMessage" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:service name="Statistics">
+    <wsdl:port name="BasicHttpBinding_Statistics" binding="i0:BasicHttpBinding_Statistics">
+      <soap:address location="http://statisticsws.ine.pt/Statistics.svc" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
