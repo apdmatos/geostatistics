@@ -1,0 +1,9 @@
+
+/services/providerDefinitions/ProviderDataContracts/bin
+/services/providerDefinitions/ProviderDataContracts/obj
+/services/providerDefinitions/ProviderServiceInterface/bin
+/services/providerDefinitions/ProviderServiceInterface/obj
+/services/StatisticProvideres/INEProvider/obj
+/services/StatisticProvideres/INEProvider/bin
+/scripts/.project
+/web/.project

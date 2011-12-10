@@ -104,6 +104,11 @@ Statistics.Model.Dimension.FromObject = function(obj){
 		}
 	}
 	
+	
+	var type = Statistics.Model.DimensionType[obj.type] ? 
+					Statistics.Model.DimensionType[obj.type] : 
+					Statistics.Model.DimensionType.Other;
+	
 	return new Statistics.Model.Dimension(obj.name, obj.id, obj.type, attributes); 
 	
 };
