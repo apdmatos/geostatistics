@@ -33,8 +33,13 @@ Statistics.Representation = Statistics.Class({
 		this.repository = repository;
 		this.control = control
 		
-		//TODO: check if the configuration has the metadata
-		//TODO: register some events to configuration
+		// Check if the configuration has the metadata
+		if(this.configuration.getSelectedDimensions()) this.renderData();
+		
+		// Register some events to configuration
+		this.configuration.events.bind (
+				'config::dimensionsSelected', 
+				jQuery.proxy(this.renderData, this));
 	},
 	
 	/**

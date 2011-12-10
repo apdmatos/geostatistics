@@ -26,10 +26,21 @@ Statistics.Control = Statistics.Class({
 	/**
 	 * @constructor
 	 * @param {jQueryElement} div - The div element to render the control to
-	 * @param {String} title - The title to display on the control
+	 * @param {String} [options] - Some optional parameters to override in this instance
+	 * 	- title {String}
 	 */
-	_init: function(div, title){
+	_init: function(div, options){
+		jQuery.extend(this, options);
+		
 		this.div = div;
+	},
+	
+	/**
+	 * @public
+	 * @function
+	 * @param {String} title - The indicator title to display
+	 */
+	setTitle: function(title){
 		this.title = title;
 	},
 	
@@ -68,5 +79,14 @@ Statistics.Control = Statistics.Class({
 	 */
 	hide: function() {
 		if(this._controlContent) this._controlContent.hide(); 
+	},
+	
+	/**
+	 * @public
+	 * @function
+	 * @returns {Boolean} returns true if is visible, false otherwise.
+	 */
+	isShown: function(){
+		return !this._controlContent.is(':visible');
 	}
 });

@@ -1,7 +1,7 @@
 
 
 
-Statistics.DimensionsSelector.DefaultDimensionSelector = Statistics.Class(Statistics.DimensionsSelector, {
+Statistics.DimensionSelector.DefaultDimensionSelector = Statistics.Class(Statistics.DimensionSelector, {
 	
 	
 	/**

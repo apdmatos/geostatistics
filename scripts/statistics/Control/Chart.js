@@ -20,31 +20,30 @@ Statistics.Control.Chart = Statistics.Class(Statistics.Control, {
 	/**
 	 * @constructor 
 	 * @param {jQueryElement} div
-	 * @param {String} title
-	 * @param {Object} plotOptions
+	 * @param {Object} [plotOptions]
 	 */
-	_init: function(div, title, plotOptions){
-		Statistics.Control.prototype._init(this, arguments);
+	_init: function(div, plotOptions){
+		Statistics.Control.prototype._init.apply(this, arguments);
 		
 		this.plotOptions = 
 			jQuery.extend(true, {
-				title: this.title,
+				title: this.title, 
 				seriesDefaults: {
-					shadow: false,
-					renderer: jQuery.jqplot.PieRenderer, 
+		    		shadow: true, 
+		    		renderer: jQuery.jqplot.PieRenderer, 
 		    		rendererOptions: { 
-						padding: 2, 
-						sliceMargin: 2, 
-						showDataLabels: false 
-					},
-					legend: {
-						show:true, 
-						placement: 'outside',
-						rendererOptions: {
-		                      numberRows: 2
-		                 },
-						location: 'e'					
-					}
+						padding: 0, 
+						sliceMargin: 0, 
+						showDataLabels: true 
+					} 
+		  		}, 
+				legend: { 
+					show:true, 
+					placement: 'outside',
+					rendererOptions: {
+                          numberRows: 5
+                     },
+					location: 'e' 
 				}
 			}, plotOptions);
 	},
@@ -66,6 +65,11 @@ Statistics.Control.Chart = Statistics.Class(Statistics.Control, {
 		}
 	},
 	
+	/**
+	 * @private
+	 * @param {Statistics.Model.RepresentationData.ChartData} data
+	 * 	The data to display on chart
+	 */
 	_createPlot: function(data){
 		
 //		var data = [['Verwerkende FruedenStunde Companaziert Eine industrie', 9],
@@ -92,7 +96,7 @@ Statistics.Control.Chart = Statistics.Class(Statistics.Control, {
 //							location: 'e' 
 //						}
 //					});
-		
+
 		return jQuery.jqplot(this.div, [this._convertChartData2Plot(data)], this.plotOptions);
 	},
 	
@@ -100,7 +104,7 @@ Statistics.Control.Chart = Statistics.Class(Statistics.Control, {
 		
 		var converted = [];
 		for(var i = 0, d; d = data[i]; i++)
-			converted.push([data.label, data.value]);
+			converted.push([d.label, d.value]);
 		
 		return converted;	
 	}

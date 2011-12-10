@@ -10,23 +10,9 @@ Statistics.Representation.Chart = Statistics.Class(Statistics.Representation, {
 	 */
 	requestObj: null,
 	
-//	/**
-//	 * @private
-//	 * @property {Statistics.Model.Dimension}
-//	 * The selected dimension to present on axis
-//	 */
-//	axisDimension: null,
-//	
-//	/**
-//	 * @private
-//	 * @property {Statistics.DimensionSelector}
-//	 * The dimension selector to extract the default selected axis
-//	 */
-//	dimensionSelector: null,
-	
 	/**
 	 * @constructor
-	 * @param {Statistics.Model.Configuration} configuration
+	 * @param {Statistics.Model.ChartConfig} configuration
 	 * @param {Statistics.Repository} repository
 	 * @param {Statistics.Control} control - The view/control to represent this controller/representation
 	 */
@@ -39,18 +25,6 @@ Statistics.Representation.Chart = Statistics.Class(Statistics.Representation, {
 			  	control
 			 ]);
 	},
-	
-//	/**
-//	 * @public
-//	 * @function
-//	 * @param {Statuistics.Model.Dimension} axisDimension
-//	 * 
-//	 * Sets the dimension to be present on axis
-//	 */
-//	setSelectedAxisDimension: function(axisDimension){
-//		this.axisDimension = axisDimension;
-//		if(this.dimensions) this.renderData();
-//	},
 	
 	/**
 	 * @protected
@@ -67,8 +41,8 @@ Statistics.Representation.Chart = Statistics.Class(Statistics.Representation, {
 			this.repository.getChartDataSerie(
 				metadata.sourceid, 
 				metadata.id, 
-				this.configuration.getAxisDimension(),
-				this.configuration.getSelectedDimensions(),
+				this.configuration.getSelectedDimensions()[0],
+				this.configuration.getDimensionsConfig().getSelectedDimensions(),
 				{
 					successCallback: jQuery.proxy(this._complete, this),
 					errorCallback: jQuery.proxy(this._error, this)
@@ -85,7 +59,7 @@ Statistics.Representation.Chart = Statistics.Class(Statistics.Representation, {
 	_complete: function(data){
 		
 		this.control.setData(data);
-		this.show();
+		this.control.show();
 	},
 	
 	/**

@@ -44,10 +44,13 @@ Statistics.Model.HierarchyAttribute.FromObject = function(obj) {
 	var childAttributes = [];
 	
 	if (obj.childAttributes) { 
-		for (var i = 0, attribute; attribute = obj.attributes[i]; i++) {
+		for (var i = 0, attribute; attribute = obj.childAttributes[i]; i++) {
+			
+			var attr = Statistics.Model.Attribute;
+			if(attribute.childAttributes) attr = Statistics.Model.HierarchyAttribute;
 			
 			childAttributes.push(
-				Statistics.Model.Attribute.FromObject(attribute)
+				attr.FromObject(attribute)
 			);
 		}
 	}

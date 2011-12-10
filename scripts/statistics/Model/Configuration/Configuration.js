@@ -39,7 +39,7 @@ Statistics.Model.Configuration = Statistics.Class({
 	
 	/**
 	 * @constructor
-	 * @param {Statistics.DimensionSelector} dimensionSelector
+	 * @param {Statistics.DimensionSelector} dimensionSelector - Dimension selector, to select the first dimensions
 	 * @param {Statistics.Events} [events] this is optional. If not passed, a new one will be instanciated
 	 * @param {Object} options
 	 * 	- metadata {Statistics.Model.IndicatorMetadata}
@@ -51,7 +51,16 @@ Statistics.Model.Configuration = Statistics.Class({
 		this.events = events ? events : new Statistics.Events(this);
 		
 		this.dimensionSelector = dimensionSelector;
-		if(metadata) this.selectDefaultDimensions();
+		if(this.metadata) this.selectDefaultDimensions();
+	},
+	
+	/**
+	 * @public
+	 * @param {Statistics.DimensionSelector} dimensionSelector
+	 * Sets the a dimension selector, to select the default dimensions, at the first time
+	 */
+	setDimensionSelector: function(dimensionSelector){
+		this.dimensionSelector = dimensionSelector;
 	},
 	
 	/**
@@ -80,15 +89,18 @@ Statistics.Model.Configuration = Statistics.Class({
 	 * @public
 	 * @function
 	 * @param {Statistics.Model.IndicatorMetadata} metadata
+	 * @param {Boolean} [silent=false] optional property to silent the event
 	 * sets the metadata.
 	 * 
 	 * When this method is called some things need to happen:
 	 * 	1. trigger the event setted metadata
 	 *  2. select default dimensions
 	 */
-	setMetadata: function(metadata) {
+	setMetadata: function(metadata, silent) {
 		this.metadata = metadata;
-		this.events.trigger('config::settedMetadata', [this, metadata]);
+		
+		if(!silent) 
+			this.events.trigger('config::settedMetadata', [this, metadata]);
 		
 		this.selectDefaultDimensions();
 	},

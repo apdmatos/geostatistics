@@ -48,7 +48,7 @@ Statistics.Model.Configuration.ChartConfig = Statistics.Class(Statistics.Model.C
 	 */
 	setMetadata: function(metadata){ 
 		Statistics.Model.Configuration.prototype.setMetadata.apply(this, arguments);
-		this.dimensionConfig(metadata);
+		this.dimensionsConfig.setMetadata(metadata);
 	},
 	
 	/**
@@ -73,7 +73,7 @@ Statistics.Model.Configuration.ChartConfig = Statistics.Class(Statistics.Model.C
 		this.selectedDimensions = 
 			[this.dimensionSelector.getAxisSelectedDimensions(this.metadata.dimensions)];
 		
-		//fire event
-		this.events.trigger('config::dimensionsSelected', [this.selectedDimensions]);
+		// will be fired by DimensionConfig Object. We share the same event object
+		//this.events.trigger('config::dimensionsSelected', [this.selectedDimensions]);
 	}
 });

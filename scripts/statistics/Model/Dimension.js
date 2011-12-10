@@ -95,11 +95,11 @@ Statistics.Model.Dimension.FromObject = function(obj){
 	if (obj.attributes) { 
 		for (var i = 0, attribute; attribute = obj.attributes[i]; i++) {
 			
-			var func = Statistics.Model.Attribute.FromObject;
-			if(attribute.childAttributes) func = Statistics.Model.HierarchyAttribute.FromObject;
+			var attr = Statistics.Model.Attribute;
+			if(attribute.childAttributes) attr = Statistics.Model.HierarchyAttribute;
 			
 			attributes.push(
-				func.FromObject(attribute)
+				attr.FromObject(attribute)
 			);
 		}
 	}

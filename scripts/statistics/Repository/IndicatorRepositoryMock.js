@@ -1,9 +1,9 @@
 
 Statistics.Repository.IndicatorRepositoryMock = Statistics.Class(Statistics.Repository, {
 	
-	_init: function(configuration, objectFactories) {
-		Statistics.Request.prototype._init.apply(this, arguments);
-	},
+//	_init: function(configuration, objectFactories) {
+//		Statistics.Repository.prototype._init.apply(this, arguments);
+//	},
 	
 	/**
 	 * @public
@@ -22,7 +22,7 @@ Statistics.Repository.IndicatorRepositoryMock = Statistics.Class(Statistics.Repo
 				abort: function() { }
 			});
 		
-		window.setTimeout(function() {
+		window.setTimeout(jQuery.proxy(function() {
 			
 			if(request.isCanceled()) return;
 			
@@ -84,7 +84,7 @@ Statistics.Repository.IndicatorRepositoryMock = Statistics.Class(Statistics.Repo
 			var metadata = this.objectFactories.newIndicatorMetadata(obj);
 			callbacks.successCallback(metadata);
 			
-		}, 1000);
+		}, this), 1000);
 		
 		return request;
 	},
@@ -107,7 +107,7 @@ Statistics.Repository.IndicatorRepositoryMock = Statistics.Class(Statistics.Repo
 				abort: function() { }
 			});
 		
-		window.setTimeout(function(){
+		window.setTimeout(jQuery.proxy(function(){
 			
 			if(request.isCanceled()) return;
 			
@@ -148,7 +148,7 @@ Statistics.Repository.IndicatorRepositoryMock = Statistics.Class(Statistics.Repo
 			
 			callbacks.successCallback(data);
 			
-		}, 1000);
+		}, this), 1000);
 		
 		return request;
 	}

@@ -37,7 +37,7 @@ Statistics.Model.RepresentationData.ChartData = Statistics.Class({
  * @param {Object} object
  * converts this object to a ChartData object
  */
-Statistics.Model.ChartData.RepresentationData.FromObject = function(obj){
+Statistics.Model.RepresentationData.ChartData.FromObject = function(obj){
 	
-	return new Statistcs.Model.ChartData(obj.value, obj.label);
+	return new Statistics.Model.RepresentationData.ChartData(obj.value, obj.label);
 };

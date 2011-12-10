@@ -55,7 +55,7 @@ Statistics.Indicator = Statistics.Class({
 	 * @param {String} id
 	 * @param {String} sourceid
 	 * @param {Statistics.Repository} repository
-	 * @param {Statistics.Model.Configuration[]} controllers
+	 * @param {Statistics.Model.Configuration[]} configurations
 	 * @param {Object} options
 	 *  - metadata {Array<Statistics.Model.IndicatorMetadata>}
 	 */
@@ -68,7 +68,7 @@ Statistics.Indicator = Statistics.Class({
 		this.repository = repository;
 		this.configurations = configurations;
 		
-		if(!metadata) this._loadMetadata();
+		if(!this.metadata) this._loadMetadata();
 		else this._setMetadataToConfiguration(metadata);
 	},
 	

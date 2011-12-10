@@ -1,30 +1,92 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html>
 	<head>
-		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 		<title>First Example</title>
 		<style>
 			#chartHolder{
-				height: 400px;
-				width: 400px;
+				height: 250px;
+				width: 200px;
 			}
 		</style>
 		
 		<script type="text/javascript" src="../scripts/statistics_debug.js"></script>
 		<script type="text/javascript">
 			
-			$(document).ready(function(){
-				
-				var repository = 
-					new Statistics.Request.IndicatorRepositoryMock(
+			var repository = 
+					new Statistics.Repository.IndicatorRepositoryMock(
+						null,
 						{
-							newIndicatorMetadata: Statistics.Model.IndicatorMetadata.FromObject
-						}); 
-				
-				var chartRepresentation = 
+							newIndicatorMetadata: Statistics.Model.IndicatorMetadata.FromObject,
+							newChartData: Statistics.Model.RepresentationData.ChartData.FromObject
+						});
+			
+			var dimensionSelector = new Statistics.DimensionSelector.DefaultDimensionSelector();
+			var chartConfig = new Statistics.Model.Configuration.ChartConfig (
+				dimensionSelector,
+				new Statistics.Model.Configuration.DimensionConfig(dimensionSelector)
+			);
+			
+			var chartRepresentation = 
 					new Statistics.Representation.Chart(
-						
+						chartConfig,
+						repository,
+						new Statistics.Control.Chart('chartHolder')
 					);
+			
+			var indicator = new Statistics.Indicator(1, 1, repository, [chartConfig]);
+			
+			
+			jQuery(document).ready(function(){
+				
+//				var data = [
+//					['label 1', 10], ['label 2', 15], ['label 3', 5], ['label 4', 20],
+//					['label 5', 22], ['label 6', 2], ['label 7', 7]
+//				];
+//				jQuery.jqplot(
+//					'chartHolder', 
+//					[data], 
+//					{
+//						title: ' ',
+//						seriesDefaults: {
+//							shadow: false,
+//							renderer: jQuery.jqplot.PieRenderer, 
+//				    		rendererOptions: { 
+//								padding: 2, 
+//								sliceMargin: 2, 
+//								showDataLabels: false 
+//							},
+//							legend: {
+//								show:true, 
+//								placement: 'outside',
+//								rendererOptions: {
+//				                      numberRows: 2
+//				                 },
+//								location: 'e'					
+//							}
+//						}
+//					});
+
+//				jQuery.jqplot.config.enablePlugins = true;
+//				plot1 = jQuery.jqplot('chartHolder', 
+//					[data], 
+//					{
+//						title: null, 
+//						seriesDefaults: {
+//				    		shadow: true, 
+//				    		renderer: jQuery.jqplot.PieRenderer, 
+//				    		rendererOptions: { padding: 2, sliceMargin: 2, showDataLabels: false } 
+//				  		}, 
+//						legend: { 
+//							show:true, 
+//							placement: 'outside',
+//							rendererOptions: {
+//		                          numberRows: 2
+//		                     },
+//							location: 'e' 
+//						}
+//					});
+//
 			});
 			
 			
