@@ -18,14 +18,22 @@ namespace ProviderDataContracts.Metadata
         [DataMember(Name = "sourceName")]
         public string SourceName { get; set; }
 
+        [DataMember(Name = "lastUpdate")]
+        public string SourceNameAbbr { get; set; }
+
         [DataMember(Name = "sourceURL")]
         public string SourceURL { get; set; }
 
         [DataMember(Name = "name")]
-        public string Name { get; set; }
+        public string IndicatorName { get; set; }
+
+        [DataMember(Name = "nameAbbr")]
+        public string IndicatorNameAbbr { get; set; }
 
         [DataMember(Name = "dimensions")]
-        public List<Dimension> Dimensions { get; set; }
+        public IEnumerable<Dimension> Dimensions { get; set; }
 
+        [DataMember(Name = "lastUpdate")]
+        public DateTime LastUpdate { get; set; }
     }
 }

@@ -7,8 +7,19 @@ using System.Runtime.Serialization;
 namespace ProviderDataContracts.Metadata
 {
     [DataContract]
-    public class HierarchyAttribute : Attribute
+    [KnownType(typeof(GeoAttributeHierarchy))]
+    public class HierarchyAttribute : DimensionAttribute
     {
-        [DataMember(Name="childAttributes")] public List<Attribute> ChildAttributes { get; set; }
+        [DataMember(Name="childAttributes")] public IEnumerable<DimensionAttribute> ChildAttributes { get; set; }
+
+
+        public void AddAttribute(DimensionAttribute attr) 
+        {
+            if (ChildAttributes == null) ChildAttributes = new List<DimensionAttribute>();
+            if (!(ChildAttributes is List<DimensionAttribute>))
+                ChildAttributes = new List<DimensionAttribute>(ChildAttributes);
+
+            ((List<DimensionAttribute>)ChildAttributes).Add(attr);
+        }
     }
 }

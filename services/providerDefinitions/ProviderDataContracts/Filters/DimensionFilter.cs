@@ -10,6 +10,7 @@ namespace ProviderDataContracts.Filters
     public class DimensionFilter
     {
         [DataMember] public string DimensionID { get; set; }
-        [DataMember] public List<string> AttributeIDs { get; set; }
+        [DataMember] public Object ServerContextData { get; set; }
+        [DataMember] public IEnumerable<string> AttributeIDs { get; set; }
     }
 }

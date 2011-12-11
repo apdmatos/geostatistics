@@ -5,13 +5,14 @@ using System.Runtime.Serialization;
 using System.ServiceModel;
 using System.Text;
 using ProviderServiceInterface;
-using ProviderDataContracts.Metadata;
-using ProviderDataContracts.Values;
 using ProviderDataContracts.Filters;
+using ProviderDataContracts.Values;
+using ProviderDataContracts.Metadata;
 
-namespace INEProvider
+namespace FakeStatisticsProvider
 {
-    public class INEProvider : IStatisticsProvider
+    // NOTE: You can use the "Rename" command on the "Refactor" menu to change the class name "Statistics" in code, svc and config file together.
+    public class Statistics : IStatisticsProvider
     {
 
         public IndicatorMetadata GetMetadata(string indicatorId)
@@ -19,7 +20,7 @@ namespace INEProvider
             throw new NotImplementedException();
         }
 
-        public List<IndicatorValue> GetValues(string indicatorId, List<DimensionFilter> filters)
+        public IEnumerable<IndicatorValue> GetValues(string indicatorId, IEnumerable<DimensionFilter> filters)
         {
             throw new NotImplementedException();
         }

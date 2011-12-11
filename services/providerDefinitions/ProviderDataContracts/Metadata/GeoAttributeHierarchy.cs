@@ -7,11 +7,10 @@ using System.Runtime.Serialization;
 namespace ProviderDataContracts.Metadata
 {
     [DataContract]
-    [KnownType(typeof(HierarchyAttribute))]
-    public class Attribute
+    public class GeoAttributeHierarchy : HierarchyAttribute
     {
-        [DataMember(Name="id")] public string ID { get; set; }
+        [DataMember] public int Level { get; set; }
 
-        [DataMember(Name="name")] public string Name { get; set; }
+        [DataMember] public GeoAttributeHierarchy GeoHierachyConfiguration { get; set; }
     }
 }

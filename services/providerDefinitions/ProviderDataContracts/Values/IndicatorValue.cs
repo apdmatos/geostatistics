@@ -11,6 +11,6 @@ namespace ProviderDataContracts.Values
     public class IndicatorValue
     {
         [DataMember] public double Value { get; set; }
-        [DataMember] public List<DimensionFilter> Filters { get; set; }
+        [DataMember] public IEnumerable<DimensionFilter> Filters { get; set; }
     }
 }
