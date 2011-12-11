@@ -7,3 +7,5 @@
 /services/StatisticProvideres/INEProvider/bin
 /scripts/.project
 /web/.project
+/services/StatisticProvideres/FakeStatisticsProvider/obj
+/services/StatisticProvideres/FakeStatisticsProvider/bin
