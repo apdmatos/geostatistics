@@ -9,3 +9,7 @@
 /web/.project
 /services/StatisticProvideres/FakeStatisticsProvider/obj
 /services/StatisticProvideres/FakeStatisticsProvider/bin
+/services/StatisticsProxyService/ParametersParser/obj
+/services/StatisticsProxyService/ParametersParser/bin
+/services/StatisticsProxyService/StatisticsService/obj
+/services/StatisticsProxyService/StatisticsService/bin
