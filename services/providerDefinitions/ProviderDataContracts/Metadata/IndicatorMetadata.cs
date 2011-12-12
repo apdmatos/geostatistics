@@ -18,7 +18,7 @@ namespace ProviderDataContracts.Metadata
         [DataMember(Name = "sourceName")]
         public string SourceName { get; set; }
 
-        [DataMember(Name = "lastUpdate")]
+        [DataMember(Name = "sourceNameAbbr")]
         public string SourceNameAbbr { get; set; }
 
         [DataMember(Name = "sourceURL")]
