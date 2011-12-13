@@ -19,11 +19,12 @@ Statistics.Repository = Statistics.Class({
 	/**
 	 * @constructor
 	 * @param {Object} configuration
+	 * @param {Statistics.Serializer} serializer - The serializer object to serialize the requests, for axis dimension and selected dimensions
 	 * @param {Object} objectFactories - An object with the following keys
 	 * 	- newChartData {Object}
 	 *  - newIndicatorMetadata {Object}
 	 */
-	_init: function(configuration, objectFactories){
+	_init: function(configuration, serializer, objectFactories){
 		this.config = configuration;
 		this.objectFactories = objectFactories;
 	},

@@ -10,7 +10,7 @@ namespace ProviderDataContracts.Values
     [DataContract]
     public class IndicatorValue
     {
-        [DataMember] public double Value { get; set; }
-        [DataMember] public IEnumerable<DimensionFilter> Filters { get; set; }
+        [DataMember(EmitDefaultValue=false)] public double Value { get; set; }
+        [DataMember(EmitDefaultValue=false)] public IEnumerable<DimensionFilter> Filters { get; set; }
     }
 }

@@ -13,3 +13,9 @@
 /services/StatisticsProxyService/ParametersParser/bin
 /services/StatisticsProxyService/StatisticsService/obj
 /services/StatisticsProxyService/StatisticsService/bin
+/services/StatisticsProxyService/services/RestService/obj
+/services/StatisticsProxyService/services/RestService/bin
+/services/StatisticsProxyService/StatisticsProxyImpl/bin
+/services/StatisticsProxyService/StatisticsProxyImpl/obj
+/services/StatisticsProxyService/StatisticsProxyServiceDefenitions/bin
+/services/StatisticsProxyService/StatisticsProxyServiceDefenitions/obj

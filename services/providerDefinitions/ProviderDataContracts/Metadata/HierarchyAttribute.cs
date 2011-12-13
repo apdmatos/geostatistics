@@ -10,7 +10,8 @@ namespace ProviderDataContracts.Metadata
     [KnownType(typeof(GeoAttributeHierarchy))]
     public class HierarchyAttribute : DimensionAttribute
     {
-        [DataMember(Name="childAttributes")] public IEnumerable<DimensionAttribute> ChildAttributes { get; set; }
+        [DataMember(Name = "childAttributes", EmitDefaultValue = false)]
+        public IEnumerable<DimensionAttribute> ChildAttributes { get; set; }
 
 
         public void AddAttribute(DimensionAttribute attr) 

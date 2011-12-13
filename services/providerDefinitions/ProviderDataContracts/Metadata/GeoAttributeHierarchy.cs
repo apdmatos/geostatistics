@@ -9,8 +9,8 @@ namespace ProviderDataContracts.Metadata
     [DataContract]
     public class GeoAttributeHierarchy : HierarchyAttribute
     {
-        [DataMember] public int Level { get; set; }
+        [DataMember(EmitDefaultValue=false)] public int Level { get; set; }
 
-        [DataMember] public GeoAttributeHierarchy GeoHierachyConfiguration { get; set; }
+        [DataMember(EmitDefaultValue=false)] public GeoAttributeHierarchy GeoHierachyConfiguration { get; set; }
     }
 }

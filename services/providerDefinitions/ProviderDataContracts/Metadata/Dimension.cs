@@ -9,22 +9,22 @@ namespace ProviderDataContracts.Metadata
     [DataContract]
     public class Dimension
     {
-        [DataMember(Name="id")] 
+        [DataMember(Name="id", EmitDefaultValue=false)] 
         public string ID { get; set; }
 
-        [DataMember(Name = "name")] 
+        [DataMember(Name = "name", EmitDefaultValue=false)] 
         public string Name { get; set; }
 
-        [DataMember(Name = "nameAbbr")]
+        [DataMember(Name = "nameAbbr", EmitDefaultValue = false)]
         public string NameAbbr { get; set; }
 
-        [DataMember(Name = "type")] 
+        [DataMember(Name = "type", EmitDefaultValue = false)] 
         public DimensionType DimensionType { get; set; }
 
-        [DataMember(Name = "attributes")] 
+        [DataMember(Name = "attributes", EmitDefaultValue = false)] 
         public IEnumerable<DimensionAttribute> Attributes { get; set; }
 
-        [DataMember(Name = "serverContextData")]
+        [DataMember(Name = "serverContextData", EmitDefaultValue = false)]
         public Object ServerContextData { get; set; }
 
         public void AddAttribute(DimensionAttribute attribute) {
