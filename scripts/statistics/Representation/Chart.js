@@ -53,10 +53,27 @@ Statistics.Representation.Chart = Statistics.Class(Statistics.Representation, {
 	/**
 	 * @private
 	 * @function
-	 * @param {Statistics.Model.RepresentationData.ChartValue[]} data
+	 * @param {Statistics.Model.ServerData.DataSerie} data
 	 * Callback function. Called when the server responds with chart data
 	 */
 	_complete: function(data){
+		
+//		// complete information
+//		var axisDimension = this.configuration.getSelectedDimensions()[0];
+//		
+//		for(var i = 0, value; value = data.values[i]; ++i) {
+//			
+//			// copy values to axisDimension
+//			this._completeDimensionInfo(axisDimension, value.axisDimension);
+//			
+//			// copy values to selected dimensions
+//			for(var j = 0, selected; selected = value.selectedDimensions[j]; ++j)
+//				this._completeDimensionInfo(
+//					this.configuration.metadata.getDimensionById(selected.id),
+//					dimension
+//				);
+//		}
+		
 		
 		this.control.setData(data);
 		this.control.show();
@@ -71,6 +88,19 @@ Statistics.Representation.Chart = Statistics.Class(Statistics.Representation, {
 	_fail: function(){
 		/*Do something... Cannot get data from the server*/
 		alert('Ups... Erro!');
-	}
+	},
+	
+//	/**
+//	 * @private
+//	 * @function
+//	 * @param {Statistics.Model.Dimension} originalDimension
+//	 * @param {Statistics.Model.Dimension} dimension
+//	 */
+//	_completeDimensionInfo: function(originalDimension, dimension) {
+//		
+//		dimension.copy(originalDimension);
+//		var axisAttr = dimension.attributes[0];
+//		axisAttr.copy(axisDimension.getAttributeById(axisAttr.id));
+//	}
 	
 });

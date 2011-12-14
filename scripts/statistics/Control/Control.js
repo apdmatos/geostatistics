@@ -9,12 +9,19 @@ Statistics.Control = Statistics.Class({
 	 */
 	div: null,
 	
+//	/**
+//	 * @public
+//	 * @property {String} title
+//	 * The indicator name to display on control
+//	 */
+//	title: null,
+	
 	/**
 	 * @public
-	 * @property {String} title
-	 * The indicator name to display on control
+	 * @property {Statistics.Model.IndicatorMetadata}
+	 * The metadata to represent
 	 */
-	title: null,
+	metadata: null,
 	
 	/**
 	 * @protected
@@ -35,13 +42,22 @@ Statistics.Control = Statistics.Class({
 		this.div = div;
 	},
 	
+//	/**
+//	 * @public
+//	 * @function
+//	 * @param {String} title - The indicator title to display
+//	 */
+//	setTitle: function(title){
+//		this.title = title;
+//	},
+	
 	/**
 	 * @public
 	 * @function
-	 * @param {String} title - The indicator title to display
+	 * @param {Statistics.Model.IndicatorMetadata} metadata
 	 */
-	setTitle: function(title){
-		this.title = title;
+	setMetadata: function(metadata){
+		this.metadata = metadata;
 	},
 	
 	/**

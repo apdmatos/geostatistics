@@ -18,14 +18,14 @@ Statistics.Repository.StatisticsRepositoryImpl = Statistics.Class(Statistics.Rep
 		var xhr = jQuery.getJSON(
 			this.config.getMetadataEndpoint() + "?callback=?", 
 			{
-				sourceid: sourceid, 
-				indicatorid: indicatorid
+				sourceid: sourceId, 
+				indicatorid: indicatorId
 			}, 
-			function(data) {
+			jQuery.proxy(function(data) {
 				if(request.isCanceled()) return;
-				var metadata = this.objectFactories.newIndicatorMetadata(obj);
+				var metadata = this.objectFactories.newIndicatorMetadata(data);
 				callbacks.successCallback(metadata);
-			});
+			}, this));
 			
 		request = new Statistics.Repository.Request(xhr);
 		return request;
@@ -50,16 +50,18 @@ Statistics.Repository.StatisticsRepositoryImpl = Statistics.Class(Statistics.Rep
 		var xhr = jQuery.getJSON(
 			this.config.getDataSerieEndpoint() + "?callback=?", 
 			{
-				sourceid: sourceid, 
-				indicatorid: indicatorid,
+				sourceid: sourceId, 
+				indicatorid: indicatorId,
 				axisDimension: this.serializer.serializeDimension(axisDimension),
 				selectedDimensions: this.serializer.serializeDimensionsArray(selectedDimensions)
 			}, 
-			function(data) {
+			jQuery.proxy(function(data) {
 				if(request.isCanceled()) return;
 				
-				this.objectFactories.newChartData(currdata);
-			});
+				var dataSerie = this.objectFactories.newDataSerie(data);
+				callbacks.successCallback(dataSerie);
+				
+			}, this));
 			
 		request = new Statistics.Repository.Request(xhr);
 		return request;

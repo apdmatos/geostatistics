@@ -69,6 +69,22 @@ Statistics.Model.IndicatorMetadata = Statistics.Class(Statistics.Model.Attribute
 	 */
 	addDimension: function(dimension){
 		this.dimensions.push(dimension);
+	},
+	
+	/**
+	 * @public
+	 * @function
+	 * @param {string} dimensionId - A dimension id key
+	 * 
+	 * @returns {Dimension} if the dimensionid does not exist, returns null
+	 */
+	getDimensionById: function(dimensionId){
+		
+		for(var i = 0, dimension; dimension = this.dimensions[i]; ++i)
+			if(dimension.id == dimensionId) 
+				return dimension;
+			
+		return null;
 	}
 	
 });

@@ -28,7 +28,31 @@ Statistics.Model.HierarchyAttribute = Statistics.Class(Statistics.Model.Attribut
 	 */
 	addAttribute: function(attribute){
 		this.childAttributes = attribute;
-	}
+	},
+	
+	/**
+	 * @public
+	 * @function
+	 * @param {string} attributeId - the attributeid to return
+	 * @returns {Statistics.Model.Attribute} returns the attribute with the id. 
+	 * If the attributeid, does not exist, returns null
+	 */
+	getAttributeById: function(attributeId){
+		
+		for(var i = 0, attribute; attribute = this.childAttributes[i]; ++i) {
+			
+			if(attribute.id = attributeId)
+				return attribute;
+				
+			if(attribute instanceof Statistics.Model.HierarchyAttribute)
+			{
+				var attr = attribute.getAttributeById(attributeId);
+				if(attr) return attr;
+			}
+		}
+		
+		return null;
+	},
 });
 
 

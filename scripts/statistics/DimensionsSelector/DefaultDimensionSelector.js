@@ -38,7 +38,7 @@ Statistics.DimensionSelector.DefaultDimensionSelector = Statistics.Class(Statist
 		var newDimension = dimensions[0].clone();
 		
 		var attributes = dimensions[0].attributes;
-		for (var i = 0, attribute; attribute = attributes[i] && i < 2; i++) {
+		for (var i = 0, attribute; (attribute = attributes[i]) && i < 2; i++) {
 						
 			newDimension.addAttribute(attribute);
 					

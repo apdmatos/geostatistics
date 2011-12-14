@@ -62,6 +62,31 @@ Statistics.Model.Dimension = Statistics.Class({
 	/**
 	 * @public
 	 * @function
+	 * @param {string} attributeId - the attributeid to return
+	 * @returns {Statistics.Model.Attribute} returns the attribute with the id. 
+	 * If the attributeid, does not exist, returns null
+	 */
+	getAttributeById: function(attributeId){
+		
+		for(var i = 0, attribute; attribute = this.attributes[i]; ++i) {
+			
+			if(attribute.id = attributeId)
+				return attribute;
+				
+			if(attribute instanceof Statistics.Model.HierarchyAttribute)
+			{
+				var attr = attribute.getAttributeById(attributeId);
+				if(attr) return attr;
+			}
+		}
+			
+		
+		return null;
+	},
+	
+	/**
+	 * @public
+	 * @function
 	 * @param {Boolean} cloneAttributes
 	 * 
 	 * Indicates if the attributes should be cloned too.
@@ -78,6 +103,21 @@ Statistics.Model.Dimension = Statistics.Class({
 		
 		return new Statistics.Model.Dimension(this.name, this.id, this.type, attributes);
 	},
+	
+	/**
+	 * @public
+	 * @function
+	 * @param {Statistics.Model.Dimension} dimension - A dimension to copy properties from
+	 * @param {Boolean} [copyAttributes] - optional. Default is false
+	 */
+	copy: function(dimension, copyAttributes) {
+		
+		this.id = dimension.id;
+		this.name = dimension.name;
+		this.type = dimension.type;
+		
+		if(copyAttributes) this.attributes = dimension.attributes;
+	}
 	
 });
 

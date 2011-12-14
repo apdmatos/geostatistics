@@ -12,7 +12,7 @@ Statistics.Serializer.DimensionSerializer = Statistics.Class(Statistics.Serializ
 	serializeDimension: function(dimension){ 
 		var str = dimension.id + ",";
 		for(var i = 0, attr; attr = dimension.attributes[i]; ++i)
-			str += attr + ",";
+			str += attr.id + ",";
 			
 		return str.substring(0, str.length - 1);
 	},

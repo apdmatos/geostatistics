@@ -51,7 +51,7 @@ Statistics.Control.Chart = Statistics.Class(Statistics.Control, {
 	/**
 	 * @public
 	 * @function
-	 * @param {Statistics.Model.ChartData} data
+	 * @param {Statistics.Model.RepresentationData.DataSerie} data
 	 * Sets the data to be represented
 	 */
 	setData: function(data){
@@ -100,13 +100,30 @@ Statistics.Control.Chart = Statistics.Class(Statistics.Control, {
 		return jQuery.jqplot(this.div, [this._convertChartData2Plot(data)], this.plotOptions);
 	},
 	
-	_convertChartData2Plot: function(data){
+	/**
+	 * @private
+	 * @function
+	 * @param {Statistics.Model.RepresentationData.DataSerie} data
+	 */
+	_convertChartData2Plot: function(data) {
 		
+//		var converted = [];
+//		for(var i = 0, d; d = data[i]; i++)
+//			converted.push([d.label, d.value]);
+//		
+//		return converted;
+
 		var converted = [];
-		for(var i = 0, d; d = data[i]; i++)
-			converted.push([d.label, d.value]);
+		for(var i = 0, seriesValue; seriesValue = data.values[i]; ++i) {
+			
+			var axisDimension = seriesValue.axisDimension;
+			var dimension = this.metadata.getDimensionById(axisDimension.dimensionId);	
+			var attribute = dimension.getAttributeById(axisDimension.attributeIds[0]);
+			
+			converted.push([attribute.name, seriesValue.value]);
+		}
 		
-		return converted;	
-	}
+		return converted;
+	},
 	
 });

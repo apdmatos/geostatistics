@@ -4,10 +4,17 @@ Statistics.Repository = Statistics.Class({
 	
 	/**
 	 * @protected
-	 * @property ...
+	 * @property {Statistics.Repository.EndpointConfiguration}
 	 * This object contains a server configuration to perform requests
 	 */
 	config: null,
+	
+	/**
+	 * @protected
+	 * @property {Statistics.Serializer} 
+	 * An object to serialize the selected dimensions
+	 */
+	serializer: null,
 	
 	/**
 	 * @protected
@@ -18,14 +25,15 @@ Statistics.Repository = Statistics.Class({
 	
 	/**
 	 * @constructor
-	 * @param {Object} configuration
+	 * @param {Statistics.Repository.EndpointConfiguration} configuration
 	 * @param {Statistics.Serializer} serializer - The serializer object to serialize the requests, for axis dimension and selected dimensions
 	 * @param {Object} objectFactories - An object with the following keys
-	 * 	- newChartData {Object}
+	 * 	- newDataSerie {Object}
 	 *  - newIndicatorMetadata {Object}
 	 */
 	_init: function(configuration, serializer, objectFactories){
 		this.config = configuration;
+		this.serializer = serializer;
 		this.objectFactories = objectFactories;
 	},
 	

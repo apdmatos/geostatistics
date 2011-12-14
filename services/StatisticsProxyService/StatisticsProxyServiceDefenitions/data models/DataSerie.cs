@@ -13,20 +13,20 @@ namespace StatisticsProxyServiceDefenitions.data_models
         [DataMember(EmitDefaultValue=false)]
         public Location Location { get; set; }
 
-        [DataMember(EmitDefaultValue = false)]
+        [DataMember(EmitDefaultValue = false, Name="values")]
         public IEnumerable<DataSerieValues> Values { get; set; }
     }
 
     [DataContract]
     public class DataSerieValues
     {
-        [DataMember(EmitDefaultValue = true)]
+        [DataMember(EmitDefaultValue = true, Name="value")]
         public double Value { get; set; }
 
-        [DataMember(EmitDefaultValue = false)]
+        [DataMember(EmitDefaultValue = false, Name="axisDimension")]
         public DimensionFilter AxisDimension { get; set; }
 
-        [DataMember(EmitDefaultValue = false)]
+        [DataMember(EmitDefaultValue = false, Name = "selectedDimensions")]
         public IEnumerable<DimensionFilter> SelectedDimensions { get; set; }
     }
 }

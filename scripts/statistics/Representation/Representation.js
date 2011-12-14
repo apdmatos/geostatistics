@@ -54,7 +54,7 @@ Statistics.Representation = Statistics.Class({
 	/**
 	 * @public
 	 * @function
-	 * @returns {Statistics.Model.IndicatorMetadata} 
+	 * @param {Statistics.Model.IndicatorMetadata} metadata 
 	 */
 	setMetadata: function(metadata) {
 		this.configuration.setMetadata(metadata);
@@ -66,6 +66,7 @@ Statistics.Representation = Statistics.Class({
 	 * abstract method. Renders the control and requests for data
 	 */
 	renderData: function() {
+		this.control.setMetadata(this.configuration.metadata);
 		this.control.setLoadingData();
 	}
 });

@@ -24,6 +24,17 @@ Statistics.Model.Attribute = Statistics.Class({
 	_init: function(name, id){
 		this.name = name;
 		this.id = id;
+	},
+	
+	/**
+	 * Copies properties from the given attribute
+	 * @public
+	 * @function
+	 * @param {Statistics.Model.Attribute} attribute - An attribute to copy properties from
+	 */
+	copy: function(attribute) {
+		this.id = attribute.id;
+		this.name = attribute.name;
 	}
 	
 });
@@ -37,7 +48,7 @@ Statistics.Model.Attribute = Statistics.Class({
  */
 Statistics.Model.Attribute.FromObject = function(obj) {
 	
-	return new Statistics.Model.Attribute(obj.id, obj.name);
+	return new Statistics.Model.Attribute(obj.name, obj.id);
 	
 };
 
