@@ -1,5 +1,10 @@
-
-
+//
+//function foo(a, b){
+//	
+//	base.apply(this, [a]);
+//}
+//
+//foot.prototype = new base();
 
 Statistics.Model.Attribute = Statistics.Class({
 	
