@@ -132,7 +132,7 @@ namespace DataStore.DbHelpers.Tests
                                             "select provider_id from config.providerview limit 1",
                                             null);
 
-            Assert.AreNotEqual(providers.Count(), 1);
+            Assert.AreEqual(providers.Count(), 1);
         }
     }
 }
