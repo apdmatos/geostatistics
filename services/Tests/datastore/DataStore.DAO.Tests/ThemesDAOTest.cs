@@ -3,19 +3,17 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using DataStore.Model;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace DataStore.DAO.Tests
 {
-    
-    
     /// <summary>
     ///This is a test class for ThemesDAOTest and is intended
     ///to contain all ThemesDAOTest Unit Tests
     ///</summary>
     [TestClass()]
-    public class ThemesDAOTest
+    public class ThemesDAOTest : BaseTestClass
     {
-
 
         private TestContext testContextInstance;
 
@@ -35,37 +33,6 @@ namespace DataStore.DAO.Tests
             }
         }
 
-        #region Additional test attributes
-        // 
-        //You can use the following additional attributes as you write your tests:
-        //
-        //Use ClassInitialize to run code before running the first test in the class
-        //[ClassInitialize()]
-        //public static void MyClassInitialize(TestContext testContext)
-        //{
-        //}
-        //
-        //Use ClassCleanup to run code after all tests in a class have run
-        //[ClassCleanup()]
-        //public static void MyClassCleanup()
-        //{
-        //}
-        //
-        //Use TestInitialize to run code before running each test
-        //[TestInitialize()]
-        //public void MyTestInitialize()
-        //{
-        //}
-        //
-        //Use TestCleanup to run code after each test has run
-        //[TestCleanup()]
-        //public void MyTestCleanup()
-        //{
-        //}
-        //
-        #endregion
-
-
         /// <summary>
         ///A test for ThemesDAO Constructor
         ///</summary>
@@ -73,7 +40,7 @@ namespace DataStore.DAO.Tests
         public void ThemesDAOConstructorTest()
         {
             ThemesDAO target = new ThemesDAO();
-            Assert.Inconclusive("TODO: Implement code to verify target");
+            Assert.AreNotEqual(target, null);
         }
 
         /// <summary>
@@ -82,14 +49,21 @@ namespace DataStore.DAO.Tests
         [TestMethod()]
         public void GetProviderSubThemesTest()
         {
-            ThemesDAO target = new ThemesDAO(); // TODO: Initialize to an appropriate value
-            int providerId = 0; // TODO: Initialize to an appropriate value
-            int themeId = 0; // TODO: Initialize to an appropriate value
-            IEnumerable<Theme> expected = null; // TODO: Initialize to an appropriate value
-            IEnumerable<Theme> actual;
+            ThemesDAO target = new ThemesDAO();
+            int providerId = 1;
+            int themeId = 1;
+            SubTheme expected = new SubTheme
+            {
+                ID = 1,
+                Name = "Ordenamento do território",
+                NameAbbr = "Ordenamento do território",
+                ProviderID = 1,
+                ThemeID = 1
+            };
+            IEnumerable<SubTheme> actual;
             actual = target.GetProviderSubThemes(providerId, themeId);
-            Assert.AreEqual(expected, actual);
-            Assert.Inconclusive("Verify the correctness of this test method.");
+            Assert.AreEqual(1, actual.Count());
+            Assert.AreEqual(expected, actual.ElementAt(0));
         }
 
         /// <summary>
@@ -98,13 +72,18 @@ namespace DataStore.DAO.Tests
         [TestMethod()]
         public void GetProviderThemesTest()
         {
-            ThemesDAO target = new ThemesDAO(); // TODO: Initialize to an appropriate value
-            int providerId = 0; // TODO: Initialize to an appropriate value
-            IEnumerable<Theme> expected = null; // TODO: Initialize to an appropriate value
-            IEnumerable<Theme> actual;
-            actual = target.GetProviderThemes(providerId);
-            Assert.AreEqual(expected, actual);
-            Assert.Inconclusive("Verify the correctness of this test method.");
+            ThemesDAO target = new ThemesDAO();
+            int providerId = 1;
+            Theme expected = new Theme 
+            { 
+                ID = 1,
+                Name = "Território",
+                NameAbbr = "Território",
+                ProviderID = 1
+            }; 
+            IEnumerable<Theme> actual = target.GetProviderThemes(providerId);
+            Assert.AreEqual(1, actual.Count());
+            Assert.AreEqual(expected, actual.ElementAt(0));
         }
     }
 }

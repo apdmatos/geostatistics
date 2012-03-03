@@ -4,8 +4,6 @@ using System;
 
 namespace DataStore.DAO.Tests
 {
-    
-    
     /// <summary>
     ///This is a test class for DbUtilsTest and is intended
     ///to contain all DbUtilsTest Unit Tests
@@ -13,8 +11,6 @@ namespace DataStore.DAO.Tests
     [TestClass()]
     public class DbUtilsTest
     {
-
-
         private TestContext testContextInstance;
 
         /// <summary>
@@ -33,37 +29,6 @@ namespace DataStore.DAO.Tests
             }
         }
 
-        #region Additional test attributes
-        // 
-        //You can use the following additional attributes as you write your tests:
-        //
-        //Use ClassInitialize to run code before running the first test in the class
-        //[ClassInitialize()]
-        //public static void MyClassInitialize(TestContext testContext)
-        //{
-        //}
-        //
-        //Use ClassCleanup to run code after all tests in a class have run
-        //[ClassCleanup()]
-        //public static void MyClassCleanup()
-        //{
-        //}
-        //
-        //Use TestInitialize to run code before running each test
-        //[TestInitialize()]
-        //public void MyTestInitialize()
-        //{
-        //}
-        //
-        //Use TestCleanup to run code after each test has run
-        //[TestCleanup()]
-        //public void MyTestCleanup()
-        //{
-        //}
-        //
-        #endregion
-
-
         /// <summary>
         ///A test for DbUtils Constructor
         ///</summary>
@@ -71,21 +36,32 @@ namespace DataStore.DAO.Tests
         public void DbUtilsConstructorTest()
         {
             DbUtils target = new DbUtils();
-            Assert.Inconclusive("TODO: Implement code to verify target");
+            Assert.AreNotEqual(target, null);
         }
 
         /// <summary>
         ///A test for ReturnsDefaultDbNumber
         ///</summary>
         [TestMethod()]
-        public void ReturnsDefaultDbNumberTest()
+        public void ReturnsDefaultDbNumberShouldReturnANumberTest()
         {
-            Nullable<int> n = new Nullable<int>(); // TODO: Initialize to an appropriate value
-            object expected = null; // TODO: Initialize to an appropriate value
+            Nullable<int> n = new Nullable<int>(1);
+            int expected = 1;
             object actual;
             actual = DbUtils.ReturnsDefaultDbNumber(n);
             Assert.AreEqual(expected, actual);
-            Assert.Inconclusive("Verify the correctness of this test method.");
+        }
+
+        /// <summary>
+        ///A test for ReturnsDefaultDbNumber
+        ///</summary>
+        [TestMethod()]
+        public void ReturnsDefaultDbNumberShouldReturnDbNull()
+        {
+            object expected = DBNull.Value;
+            object actual;
+            actual = DbUtils.ReturnsDefaultDbNumber(null);
+            Assert.AreEqual(expected, actual);
         }
     }
 }

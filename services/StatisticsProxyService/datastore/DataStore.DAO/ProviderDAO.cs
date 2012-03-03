@@ -24,9 +24,9 @@ namespace DataStore.DAO
                     });
         }
 
-        public int GetTotalProviders()
+        public long GetTotalProviders()
         {
-            return DbTemplateHelper<int>.GetValueBySQLQuery("select count(*) from providerview", null);
+            return DbTemplateHelper<long>.GetValueBySQLQuery("select count(*) from config.providerview", null);
         }
     }
 }

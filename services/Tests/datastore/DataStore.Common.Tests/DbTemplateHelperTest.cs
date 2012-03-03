@@ -45,9 +45,9 @@ namespace DataStore.Common.Tests
             IEnumerable<int> config = DbTemplateHelper<int>.GetListBySQLQuery(
                                     (reader) =>
                                     {
-                                        return (int)reader["provider_id"];
+                                        return (int)reader["configuration_id"];
                                     },
-                                    "select * from config.configurationview limit 2",
+                                    "select configuration_id from config.configurationview limit 2",
                                     null);
 
 

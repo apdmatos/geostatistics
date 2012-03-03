@@ -11,9 +11,18 @@ namespace DataStore.DAO.builders
 {
     internal static class DataStoreModelBuilders
     {
+
+        private static bool HasColumn(this IDataRecord dr, string columnName)
+        {
+            for (int i=0; i < dr.FieldCount; i++)
+                if (dr.GetName(i).Equals(columnName, StringComparison.InvariantCultureIgnoreCase)) return true;
+
+            return false;
+        }
+
         public static Configuration DataReader2Configuration(IDataReader reader)
         {
-            if (reader["configuration_id"] == null) return null;
+            if (!reader.HasColumn("configuration_id")) return null;
             return new Configuration
             {
                 ID          = (int)reader["configuration_id"],
@@ -24,7 +33,7 @@ namespace DataStore.DAO.builders
 
         public static Indicator DataReader2Indicator(IDataReader reader)
         {
-            if (reader["indicator_id"] == null) return null;
+            if (!reader.HasColumn("indicator_id")) return null;
             return new Indicator
             {
                 ID          = (int)reader["indicator_id"],
@@ -39,7 +48,7 @@ namespace DataStore.DAO.builders
 
         public static Provider DataReader2Provider(IDataReader reader)
         {
-            if (reader["provider_id"] == null) return null;
+            if (!reader.HasColumn("provider_id")) return null;
             return new Provider
             {
                 ID          = (int)reader["provider_id"],
@@ -52,17 +61,17 @@ namespace DataStore.DAO.builders
 
         public static ShapefileGroup DataReader2ShapefileGroup(IDataReader reader)
         {
-            if (reader["shapefilegroup_id"] == null) return null;
+            if (!reader.HasColumn("shapefilegroup_id")) return null;
             return new ShapefileGroup
             {
-                ID      = (int)reader["shapefilegroup_name"],
+                ID      = (int)reader["shapefilegroup_id"],
                 Name    = (string)reader["shapefilegroup_name"]
             };
         }
 
         public static Shapefile DataReader2Shapefile(IDataReader reader)
         {
-            if (reader["shapefile_id"] == null) return null;
+            if (!reader.HasColumn("shapefile_id")) return null;
             return new Shapefile
             {
                 Group       = DataReader2ShapefileGroup(reader),
@@ -76,7 +85,7 @@ namespace DataStore.DAO.builders
 
         public static Theme DataReader2Theme(IDataReader reader)
         {
-            if (reader["theme_id"] == null) return null;
+            if (!reader.HasColumn("theme_id")) return null;
             return new Theme 
             {
                 ID          = (int)reader["theme_id"],
@@ -88,7 +97,7 @@ namespace DataStore.DAO.builders
 
         public static SubTheme DataReader2SubTheme(IDataReader reader)
         {
-            if (reader["subtheme_id"] == null) return null;
+            if (!reader.HasColumn("subtheme_id")) return null;
             return new SubTheme
             {
                 ID          = (int)reader["subtheme_id"],

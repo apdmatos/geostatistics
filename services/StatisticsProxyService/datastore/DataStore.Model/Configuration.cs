@@ -10,5 +10,18 @@ namespace DataStore.Model
         public int ID { get; set; }
         public Shapefile Shapefile { get; set; }
         public string GeoLevel { get; set; }
+
+        public override bool Equals(object obj)
+        {
+            Configuration conf = obj as Configuration;
+            if (conf == null) return false;
+
+            return ID == conf.ID && Shapefile.Equals(Shapefile, conf.Shapefile) && String.Equals(GeoLevel, conf.GeoLevel);
+        }
+
+        public override int GetHashCode()
+        {
+            return ID;
+        }
     }
 }

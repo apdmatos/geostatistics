@@ -24,7 +24,7 @@ namespace DataStore.DAO
                     });
         }
 
-        public IEnumerable<Shapefile> GetShapefile(int? shapefilegroupId, int? page, int? recordsPerPage)
+        public IEnumerable<Shapefile> GetShapefiles(int? shapefilegroupId, int? page, int? recordsPerPage)
         {
             return DbTemplateHelper<Shapefile>.GetListByProcedure(
                     DataStoreModelBuilders.DataReader2Shapefile,

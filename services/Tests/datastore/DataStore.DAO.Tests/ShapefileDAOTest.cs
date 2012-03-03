@@ -3,20 +3,17 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using DataStore.Model;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace DataStore.DAO.Tests
 {
-    
-    
     /// <summary>
     ///This is a test class for ShapefileDAOTest and is intended
     ///to contain all ShapefileDAOTest Unit Tests
     ///</summary>
     [TestClass()]
-    public class ShapefileDAOTest
+    public class ShapefileDAOTest : BaseTestClass
     {
-
-
         private TestContext testContextInstance;
 
         /// <summary>
@@ -35,37 +32,6 @@ namespace DataStore.DAO.Tests
             }
         }
 
-        #region Additional test attributes
-        // 
-        //You can use the following additional attributes as you write your tests:
-        //
-        //Use ClassInitialize to run code before running the first test in the class
-        //[ClassInitialize()]
-        //public static void MyClassInitialize(TestContext testContext)
-        //{
-        //}
-        //
-        //Use ClassCleanup to run code after all tests in a class have run
-        //[ClassCleanup()]
-        //public static void MyClassCleanup()
-        //{
-        //}
-        //
-        //Use TestInitialize to run code before running each test
-        //[TestInitialize()]
-        //public void MyTestInitialize()
-        //{
-        //}
-        //
-        //Use TestCleanup to run code after each test has run
-        //[TestCleanup()]
-        //public void MyTestCleanup()
-        //{
-        //}
-        //
-        #endregion
-
-
         /// <summary>
         ///A test for ShapefileDAO Constructor
         ///</summary>
@@ -73,40 +39,84 @@ namespace DataStore.DAO.Tests
         public void ShapefileDAOConstructorTest()
         {
             ShapefileDAO target = new ShapefileDAO();
-            Assert.Inconclusive("TODO: Implement code to verify target");
+            Assert.AreNotEqual(target, null);
         }
 
         /// <summary>
         ///A test for GetShapefile
         ///</summary>
         [TestMethod()]
-        public void GetShapefileTest()
+        public void GetShapefilesByFileGroupTest()
         {
-            ShapefileDAO target = new ShapefileDAO(); // TODO: Initialize to an appropriate value
-            Nullable<int> shapefilegroupId = new Nullable<int>(); // TODO: Initialize to an appropriate value
-            Nullable<int> page = new Nullable<int>(); // TODO: Initialize to an appropriate value
-            Nullable<int> recordsPerPage = new Nullable<int>(); // TODO: Initialize to an appropriate value
-            IEnumerable<Shapefile> expected = null; // TODO: Initialize to an appropriate value
-            IEnumerable<Shapefile> actual;
-            actual = target.GetShapefile(shapefilegroupId, page, recordsPerPage);
-            Assert.AreEqual(expected, actual);
-            Assert.Inconclusive("Verify the correctness of this test method.");
+            ShapefileDAO target = new ShapefileDAO();
+            Nullable<int> shapefilegroupId = new Nullable<int>(1);
+            Nullable<int> page = new Nullable<int>(1);
+            Nullable<int> recordsPerPage = new Nullable<int>(1);
+            Shapefile expected = new Shapefile
+            {
+                ID = 1,
+                FileName = "distritos.shp",
+                Group = new ShapefileGroup
+                {
+                    ID = 1,
+                    Name = "concelhos distritos e freguesias de portugal"
+                },
+                Level = 1,
+                Name = "distritos",
+                Path = "D:\\Dropbox\\My Dropbox\\Tese\\shapefiles\\sapo\\GIS\\Distritos"
+            };
+            IEnumerable<Shapefile> actual = target.GetShapefiles(shapefilegroupId, page, recordsPerPage);
+            
+            Assert.AreEqual(1, actual.Count());
+            Assert.AreEqual(expected, actual.ElementAt(0));
+        }
+
+        /// <summary>
+        ///A test for GetShapefile
+        ///</summary>
+        [TestMethod()]
+        public void GetAllShapefilesTest()
+        {
+            ShapefileDAO target = new ShapefileDAO();
+            Nullable<int> shapefilegroupId = new Nullable<int>(1);
+            Nullable<int> page = null;
+            Nullable<int> recordsPerPage = null;
+            IEnumerable<Shapefile> actual = target.GetShapefiles(shapefilegroupId, page, recordsPerPage);
+            
+            Assert.AreEqual(3, actual.Count());
         }
 
         /// <summary>
         ///A test for GetShapefileGroups
         ///</summary>
         [TestMethod()]
-        public void GetShapefileGroupsTest()
+        public void GetShapefileGroupsByPageNumberTest()
         {
-            ShapefileDAO target = new ShapefileDAO(); // TODO: Initialize to an appropriate value
-            Nullable<int> page = new Nullable<int>(); // TODO: Initialize to an appropriate value
-            Nullable<int> recordsPerPage = new Nullable<int>(); // TODO: Initialize to an appropriate value
-            IEnumerable<ShapefileGroup> expected = null; // TODO: Initialize to an appropriate value
-            IEnumerable<ShapefileGroup> actual;
-            actual = target.GetShapefileGroups(page, recordsPerPage);
-            Assert.AreEqual(expected, actual);
-            Assert.Inconclusive("Verify the correctness of this test method.");
+            ShapefileDAO target = new ShapefileDAO();
+            Nullable<int> page = new Nullable<int>(1);
+            Nullable<int> recordsPerPage = new Nullable<int>(1);
+            ShapefileGroup expected = new ShapefileGroup
+            {
+                ID = 1,
+                Name = "concelhos distritos e freguesias de portugal"
+            };
+            IEnumerable<ShapefileGroup> actual = target.GetShapefileGroups(page, recordsPerPage);
+            
+            Assert.AreEqual(1, actual.Count());
+            Assert.AreEqual(expected, actual.ElementAt(0));
+        }
+
+        /// <summary>
+        ///A test for GetShapefileGroups
+        ///</summary>
+        [TestMethod()]
+        public void GetAllShapefileGroupsTest()
+        {
+            ShapefileDAO target = new ShapefileDAO();
+            Nullable<int> page = null;
+            Nullable<int> recordsPerPage = null;
+            IEnumerable<ShapefileGroup> actual = target.GetShapefileGroups(page, recordsPerPage);
+            Assert.AreEqual(2, actual.Count());
         }
     }
 }

@@ -19,7 +19,7 @@ namespace DataStore.DAO
                     new DbParameterHelper[]
                     {
                         new DbParameterHelper(DbType.Int32, "p_indicatorId", indicatorId),
-                        new DbParameterHelper(DbType.Int32, "p_geolevel", DBNull.Value)
+                        new DbParameterHelper(DbType.String, "p_geolevel", DBNull.Value)
                     });
         }
 
@@ -31,7 +31,7 @@ namespace DataStore.DAO
                     new DbParameterHelper[]
                     {
                         new DbParameterHelper(DbType.Int32, "p_indicatorId", indicatorId),
-                        new DbParameterHelper(DbType.Int32, "p_geolevel", geoLevel)
+                        new DbParameterHelper(DbType.String, "p_geolevel", geoLevel)
                     });
         }
 

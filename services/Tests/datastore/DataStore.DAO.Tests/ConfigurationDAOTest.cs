@@ -3,6 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using DataStore.Model;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace DataStore.DAO.Tests
 {
@@ -13,10 +14,8 @@ namespace DataStore.DAO.Tests
     ///to contain all ConfigurationDAOTest Unit Tests
     ///</summary>
     [TestClass()]
-    public class ConfigurationDAOTest
+    public class ConfigurationDAOTest : BaseTestClass
     {
-
-
         private TestContext testContextInstance;
 
         /// <summary>
@@ -35,37 +34,6 @@ namespace DataStore.DAO.Tests
             }
         }
 
-        #region Additional test attributes
-        // 
-        //You can use the following additional attributes as you write your tests:
-        //
-        //Use ClassInitialize to run code before running the first test in the class
-        //[ClassInitialize()]
-        //public static void MyClassInitialize(TestContext testContext)
-        //{
-        //}
-        //
-        //Use ClassCleanup to run code after all tests in a class have run
-        //[ClassCleanup()]
-        //public static void MyClassCleanup()
-        //{
-        //}
-        //
-        //Use TestInitialize to run code before running each test
-        //[TestInitialize()]
-        //public void MyTestInitialize()
-        //{
-        //}
-        //
-        //Use TestCleanup to run code after each test has run
-        //[TestCleanup()]
-        //public void MyTestCleanup()
-        //{
-        //}
-        //
-        #endregion
-
-
         /// <summary>
         ///A test for ConfigurationDAO Constructor
         ///</summary>
@@ -73,7 +41,7 @@ namespace DataStore.DAO.Tests
         public void ConfigurationDAOConstructorTest()
         {
             ConfigurationDAO target = new ConfigurationDAO();
-            Assert.Inconclusive("TODO: Implement code to verify target");
+            Assert.AreNotEqual(target, null);
         }
 
         /// <summary>
@@ -82,14 +50,27 @@ namespace DataStore.DAO.Tests
         [TestMethod()]
         public void GetConfigurationTest()
         {
-            ConfigurationDAO target = new ConfigurationDAO(); // TODO: Initialize to an appropriate value
-            int indicatorId = 0; // TODO: Initialize to an appropriate value
-            string geoLevel = string.Empty; // TODO: Initialize to an appropriate value
-            Configuration expected = null; // TODO: Initialize to an appropriate value
+            ConfigurationDAO target = new ConfigurationDAO();
+            int indicatorId = 1;
+            string geoLevel = "NUTS1";
+            Configuration expected = new Configuration
+            {
+                ID = 1,
+                GeoLevel = "NUTS1",
+                Shapefile = new Shapefile
+                {
+                    ID = 4,
+                    FileName = "nuts1.shp",
+                    Name = "NUTS1",
+                    Path = "D:\\Dropbox\\My Dropbox\\Tese\\shapefiles\\sapo\\GIS\\NUTS1",
+                    Level = 1
+                }
+            };
+ 
             Configuration actual;
             actual = target.GetConfiguration(indicatorId, geoLevel);
+            
             Assert.AreEqual(expected, actual);
-            Assert.Inconclusive("Verify the correctness of this test method.");
         }
 
         /// <summary>
@@ -98,13 +79,17 @@ namespace DataStore.DAO.Tests
         [TestMethod()]
         public void GetConfigurationsTest()
         {
-            ConfigurationDAO target = new ConfigurationDAO(); // TODO: Initialize to an appropriate value
-            int indicatorId = 0; // TODO: Initialize to an appropriate value
-            IEnumerable<Configuration> expected = null; // TODO: Initialize to an appropriate value
+            ConfigurationDAO target = new ConfigurationDAO();
+            int indicatorId = 1;
             IEnumerable<Configuration> actual;
             actual = target.GetConfigurations(indicatorId);
-            Assert.AreEqual(expected, actual);
-            Assert.Inconclusive("Verify the correctness of this test method.");
+            
+            Assert.AreEqual(actual.Count(), 5);
+            Assert.AreEqual(actual.ElementAt(0).GeoLevel, "NUTS1");
+            Assert.AreEqual(actual.ElementAt(1).GeoLevel, "NUTS2");
+            Assert.AreEqual(actual.ElementAt(2).GeoLevel, "NUTS3");
+            Assert.AreEqual(actual.ElementAt(3).GeoLevel, "Municipalities");
+            Assert.AreEqual(actual.ElementAt(4).GeoLevel, "Parishes");
         }
 
         /// <summary>
@@ -114,13 +99,13 @@ namespace DataStore.DAO.Tests
         public void GetShapefileConfigurationURLTest()
         {
             ConfigurationDAO target = new ConfigurationDAO(); // TODO: Initialize to an appropriate value
-            int indicatorId = 0; // TODO: Initialize to an appropriate value
-            string geoLevel = string.Empty; // TODO: Initialize to an appropriate value
-            string expected = string.Empty; // TODO: Initialize to an appropriate value
+            int indicatorId = 1; 
+            string geoLevel = "NUTS1"; 
+            string expected = "D:\\Dropbox\\My Dropbox\\Tese\\shapefiles\\sapo\\GIS\\NUTS1\\nuts1.shp";
             string actual;
             actual = target.GetShapefileConfigurationURL(indicatorId, geoLevel);
+            
             Assert.AreEqual(expected, actual);
-            Assert.Inconclusive("Verify the correctness of this test method.");
         }
     }
 }

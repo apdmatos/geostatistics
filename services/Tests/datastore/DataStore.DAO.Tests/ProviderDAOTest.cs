@@ -3,20 +3,17 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using DataStore.Model;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace DataStore.DAO.Tests
 {
-    
-    
     /// <summary>
     ///This is a test class for ProviderDAOTest and is intended
     ///to contain all ProviderDAOTest Unit Tests
     ///</summary>
     [TestClass()]
-    public class ProviderDAOTest
+    public class ProviderDAOTest : BaseTestClass
     {
-
-
         private TestContext testContextInstance;
 
         /// <summary>
@@ -35,37 +32,6 @@ namespace DataStore.DAO.Tests
             }
         }
 
-        #region Additional test attributes
-        // 
-        //You can use the following additional attributes as you write your tests:
-        //
-        //Use ClassInitialize to run code before running the first test in the class
-        //[ClassInitialize()]
-        //public static void MyClassInitialize(TestContext testContext)
-        //{
-        //}
-        //
-        //Use ClassCleanup to run code after all tests in a class have run
-        //[ClassCleanup()]
-        //public static void MyClassCleanup()
-        //{
-        //}
-        //
-        //Use TestInitialize to run code before running each test
-        //[TestInitialize()]
-        //public void MyTestInitialize()
-        //{
-        //}
-        //
-        //Use TestCleanup to run code after each test has run
-        //[TestCleanup()]
-        //public void MyTestCleanup()
-        //{
-        //}
-        //
-        #endregion
-
-
         /// <summary>
         ///A test for ProviderDAO Constructor
         ///</summary>
@@ -73,7 +39,7 @@ namespace DataStore.DAO.Tests
         public void ProviderDAOConstructorTest()
         {
             ProviderDAO target = new ProviderDAO();
-            Assert.Inconclusive("TODO: Implement code to verify target");
+            Assert.AreNotEqual(target, null);
         }
 
         /// <summary>
@@ -82,14 +48,21 @@ namespace DataStore.DAO.Tests
         [TestMethod()]
         public void GetProvidersTest()
         {
-            ProviderDAO target = new ProviderDAO(); // TODO: Initialize to an appropriate value
-            Nullable<int> page = new Nullable<int>(); // TODO: Initialize to an appropriate value
-            Nullable<int> recordsPerPage = new Nullable<int>(); // TODO: Initialize to an appropriate value
-            IEnumerable<Provider> expected = null; // TODO: Initialize to an appropriate value
+            ProviderDAO target = new ProviderDAO();
+            Nullable<int> page = new Nullable<int>(1);
+            Nullable<int> recordsPerPage = new Nullable<int>(1);
+            Provider expected = new Provider
+            {
+                ID = 1,
+                Name = "Instituto Nacional de Estatística",
+                NameAbbr = "INE",
+                ServiceURL = "http://localhost:42136/INEStatisticsProvider.svc",
+                URL = "http://www.ine.pt"
+            };
             IEnumerable<Provider> actual;
             actual = target.GetProviders(page, recordsPerPage);
-            Assert.AreEqual(expected, actual);
-            Assert.Inconclusive("Verify the correctness of this test method.");
+            Assert.AreEqual(1, actual.Count());
+            Assert.AreEqual(expected, actual.ElementAt(0));
         }
 
         /// <summary>
@@ -98,12 +71,11 @@ namespace DataStore.DAO.Tests
         [TestMethod()]
         public void GetTotalProvidersTest()
         {
-            ProviderDAO target = new ProviderDAO(); // TODO: Initialize to an appropriate value
-            int expected = 0; // TODO: Initialize to an appropriate value
-            int actual;
+            ProviderDAO target = new ProviderDAO();
+            long expected = 1; 
+            long actual;
             actual = target.GetTotalProviders();
             Assert.AreEqual(expected, actual);
-            Assert.Inconclusive("Verify the correctness of this test method.");
         }
     }
 }

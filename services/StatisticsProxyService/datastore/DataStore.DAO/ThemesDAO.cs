@@ -18,10 +18,10 @@ namespace DataStore.DAO
                     null);
         }
 
-        public IEnumerable<Theme> GetProviderSubThemes(int providerId, int themeId)
+        public IEnumerable<SubTheme> GetProviderSubThemes(int providerId, int themeId)
         {
-            return DbTemplateHelper<Theme>.GetListBySQLQuery(
-                    DataStoreModelBuilders.DataReader2Theme,
+            return DbTemplateHelper<SubTheme>.GetListBySQLQuery(
+                    DataStoreModelBuilders.DataReader2SubTheme,
                     string.Format("SELECT subtheme_id, theme_id, provider_id, subtheme_name, subtheme_nameabbr FROM config.subthemeview where provider_id={0} and theme_id={1}", providerId, themeId),
                     null);
         }

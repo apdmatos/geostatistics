@@ -14,5 +14,21 @@ namespace DataStore.Model
         public string NameAbbr { get; set; }
         public int ThemeID { get; set; }
         public int SubThemeID { get; set; }
+
+
+        public override bool Equals(object obj)
+        {
+            Indicator ind = obj as Indicator;
+            if (ind == null) return false;
+
+            return ID == ind.ID && Provider.Equals(Provider, ind.Provider) && String.Equals(SourceID, ind.SourceID) &&
+                String.Equals(Name, ind.Name) && String.Equals(NameAbbr, ind.NameAbbr) && ThemeID == ind.ThemeID && 
+                SubThemeID == ind.SubThemeID;
+        }
+
+        public override int GetHashCode()
+        {
+            return ID;
+        }
     }
 }

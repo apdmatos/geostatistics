@@ -44,20 +44,20 @@ namespace DataStore.DAO
         {
             return DbTemplateHelper<Indicator>.GetObjectBySQLQuery(
                     DataStoreModelBuilders.DataReader2Indicator,
-                    string.Format("select provider_id, provider_name, provider_nameabbr, provider_serviceurl, provider_url, indicator_id, indicator_sourceid, indicator_name, indicator_nameabbr, indicator_theme_id, indicator_subthemeid from indicatorview where indicator_id={0}", indicatorId),
+                    string.Format("select provider_id, provider_name, provider_nameabbr, provider_serviceurl, provider_url, indicator_id, indicator_sourceid, indicator_name, indicator_nameabbr, indicator_themeid, indicator_subthemeid from config.indicatorview where indicator_id={0}", indicatorId),
                     null);
         }
 
-        public int GetTotalIndicators(int providerId, int? themeId = null, int? subThemeId = null)
+        public long GetTotalIndicators(int providerId, int? themeId = null, int? subThemeId = null)
         {
-            string query = string.Format("select count(*) from indicatorview where provider_id = {0}{1}",
+            string query = string.Format("select count(*) from config.indicatorview where provider_id = {0}{1}",
                                 providerId,
-                                themeId.HasValue ? string.Format(" and provider_themeid={0}{1}", 
+                                themeId.HasValue ? string.Format(" and indicator_themeid={0}{1}", 
                                                         themeId.Value,
                                                         subThemeId.HasValue ? string.Format(" and indicator_subthemeid={0}", subThemeId.Value) : string.Empty) :
                                                    string.Empty);
 
-            return DbTemplateHelper<int>.GetValueBySQLQuery(query, null);
+            return DbTemplateHelper<long>.GetValueBySQLQuery(query, null);
         }
     }
 }
