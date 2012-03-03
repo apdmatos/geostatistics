@@ -6,11 +6,11 @@
     <ProductVersion>
     </ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{942C984F-4EBD-4547-B35E-34C9CC6CCE71}</ProjectGuid>
+    <ProjectGuid>{62783A8B-4446-40F2-942E-D61ABBDCC657}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>DataStore.DAO.Tests</RootNamespace>
-    <AssemblyName>DataStore.DAO.Tests</AssemblyName>
+    <RootNamespace>DataStore.Common.Tests</RootNamespace>
+    <AssemblyName>DataStore.Common.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -33,6 +33,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.Data.Schema, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+    <Reference Include="Microsoft.Data.Schema.UnitTesting, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
     <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="Mono.Security">
       <HintPath>..\..\..\references\Npgsql\Mono.Security.dll</HintPath>
@@ -44,14 +46,12 @@
       <HintPath>..\..\..\references\Npgsql\policy.2.0.Npgsql.dll</HintPath>
     </Reference>
     <Reference Include="System" />
-    <Reference Include="System.configuration" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.Data" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="System.Xml" />
-    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
     <CodeAnalysisDependentAssemblyPaths Condition=" '$(VS100COMNTOOLS)' != '' " Include="$(VS100COMNTOOLS)..\IDE\PrivateAssemblies">
@@ -60,25 +60,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BaseTestClass.cs" />
-    <Compile Include="ConfigurationDAOTest.cs" />
-    <Compile Include="DbUtilsTest.cs" />
-    <Compile Include="IndicatorDAOTest.cs" />
+    <Compile Include="DbParameterHelperTest.cs" />
+    <Compile Include="DbTemplateHelperTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ProviderDAOTest.cs" />
-    <Compile Include="ShapefileDAOTest.cs" />
-    <Compile Include="ThemesDAOTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\StatisticsProxyService\datastore\DataStore.Common\DataStore.Common.csproj">
-      <Project>{97993FC0-9561-4B9E-9CCE-281F6DAD30C2}</Project>
-      <Name>DataStore.Common</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\StatisticsProxyService\datastore\DataStore.DAO\DataStore.DAO.csproj">
-      <Project>{DC94CE66-4BB4-49AD-A707-BDC3924645A4}</Project>
-      <Name>DataStore.DAO</Name>
+    <ProjectReference Include="..\..\..\StatisticsProxyService\datastore\DataStore.DbHelpers\DataStore.DbHelpers.csproj">
+      <Project>{5EF82FFA-0E8D-4B39-ACFA-D97E9D99A44D}</Project>
+      <Name>DataStore.DbHelpers</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

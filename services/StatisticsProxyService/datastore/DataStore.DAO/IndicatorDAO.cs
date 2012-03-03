@@ -2,15 +2,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using DataStore.Common;
+using DataStore.Common.Model;
 using DataStore.DbHelpers.templates;
 using DataStore.DAO.builders;
 using System.Data;
 using DataStore.DAO.utils;
+using DataStore.Common.Data_Interfaces;
 
 namespace DataStore.DAO
 {
-    public class IndicatorDAO
+    public class IndicatorDAO : IIndicatorDAO
     {
         public IEnumerable<Indicator> GetIndicatorsByProviderId(int providerId, int? page, int? recordsPerPage)
         {

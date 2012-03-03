@@ -2,15 +2,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using DataStore.Common;
+using DataStore.Common.Model;
 using DataStore.DbHelpers.templates;
 using DataStore.DAO.builders;
 using System.Data;
 using DataStore.DAO.utils;
+using DataStore.Common.Data_Interfaces;
 
 namespace DataStore.DAO
 {
-    public class ProviderDAO
+    public class ProviderDAO : IProviderDAO
     {
         public IEnumerable<Provider> GetProviders(int? page, int? recordsPerPage)
         {

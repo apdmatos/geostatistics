@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Configuration;
-using DataStore.DbHelpers;
 
 namespace DataStore.DAO.Tests
 {
@@ -11,8 +10,9 @@ namespace DataStore.DAO.Tests
     {
         static BaseTestClass()
         {
-            ConnectionHelper.ConnectionString = ConfigurationManager.ConnectionStrings["testdb"].ConnectionString;
-            ConnectionHelper.Provider = ConfigurationManager.ConnectionStrings["testdb"].ProviderName;
+            ConnectionSettings.SetConnectionSettings(
+                ConfigurationManager.ConnectionStrings["testdb"].ConnectionString,
+                ConfigurationManager.ConnectionStrings["testdb"].ProviderName);
         }
     }
 }

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using DataStore.Common;
+using DataStore.Common.Model;
 using System.Data.Common;
 using System.Data;
 

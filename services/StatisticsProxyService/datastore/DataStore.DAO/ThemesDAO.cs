@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using DataStore.Common;
+using DataStore.Common.Model;
 using DataStore.DbHelpers.templates;
 using DataStore.DAO.builders;
+using DataStore.Common.Data_Interfaces;
 
 namespace DataStore.DAO
 {
-    public class ThemesDAO
+    public class ThemesDAO : IThemesDAO
     {
         public IEnumerable<Theme> GetProviderThemes(int providerId)
         {

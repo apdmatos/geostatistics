@@ -2,14 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using DataStore.Common;
+using DataStore.Common.Model;
 using DataStore.DbHelpers.templates;
 using DataStore.DAO.builders;
 using System.Data;
+using DataStore.Common.Data_Interfaces;
 
 namespace DataStore.DAO
 {
-    public class ConfigurationDAO
+    public class ConfigurationDAO : IConfigurationDAO
     {
         public IEnumerable<Configuration> GetConfigurations(int indicatorId)
         {
