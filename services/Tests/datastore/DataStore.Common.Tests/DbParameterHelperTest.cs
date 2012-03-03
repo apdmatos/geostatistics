@@ -3,11 +3,11 @@ using System.Text;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using DataStore.Common.templates;
+using DataStore.DbHelpers.templates;
 using System.Data;
 using System.Data.Common;
 
-namespace DataStore.Common.Tests
+namespace DataStore.DbHelpers.Tests
 {
     /// <summary>
     /// Summary description for DbParameterHelperTest
@@ -15,9 +15,6 @@ namespace DataStore.Common.Tests
     [TestClass]
     public class DbParameterHelperTest : BaseTestClass
     {
-        public DbParameterHelperTest()
-        { }
-
         private TestContext testContextInstance;
 
         /// <summary>

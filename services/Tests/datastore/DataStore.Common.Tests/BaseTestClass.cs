@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Configuration;
 
-namespace DataStore.Common.Tests
+namespace DataStore.DbHelpers.Tests
 {
     public class BaseTestClass
     {

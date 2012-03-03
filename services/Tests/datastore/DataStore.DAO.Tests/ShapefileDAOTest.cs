@@ -1,7 +1,7 @@
 ﻿using DataStore.DAO;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
-using DataStore.Model;
+using DataStore.Common;
 using System.Collections.Generic;
 using System.Linq;
 

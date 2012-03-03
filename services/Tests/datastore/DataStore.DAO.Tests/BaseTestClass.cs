@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Configuration;
-using DataStore.Common;
+using DataStore.DbHelpers;
 
 namespace DataStore.DAO.Tests
 {

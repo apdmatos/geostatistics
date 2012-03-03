@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Data;
-using DataStore.Common.templates;
+using DataStore.DbHelpers.templates;
 
-namespace DataStore.Common.Tests
+namespace DataStore.DbHelpers.Tests
 {
     /// <summary>
     /// Summary description for DbTemplateHelperTest
@@ -14,13 +14,6 @@ namespace DataStore.Common.Tests
     [TestClass]
     public class DbTemplateHelperTest : BaseTestClass
     {
-        public DbTemplateHelperTest()
-        {
-            //
-            // TODO: Add constructor logic here
-            //
-        }
-
         private TestContext testContextInstance;
 
         /// <summary>
@@ -122,35 +115,24 @@ namespace DataStore.Common.Tests
         [TestMethod]
         public void GetValueByProcedure()
         {
-            //int providerId = DbTemplateHelper<int>.GetValueByProcedure(
-            //                        "select provider_id from config.providerview limit 1",
-            //                        null);
+            string url = DbTemplateHelper<string>.GetValueByProcedure(
+                                    "config.getShapefileConfigurarionURL", 
+                                    new DbParameterHelper[]{
+                                        new DbParameterHelper(DbType.Int32, "p_indicatorId", 1),
+                                        new DbParameterHelper(DbType.String, "p_geolevel", "NUTS1"),
+                                    });
 
-            //Assert.AreNotEqual(providerId, default(int));
-        }
-
-        [TestMethod]
-        public void GetValuesByProcedure()
-        {
-            //int providerId = DbTemplateHelper<int>.GetValuesByProcedure(
-            //                        "select provider_id from config.providerview limit 1",
-            //                        null);
-
-            //Assert.AreNotEqual(providerId, default(int));
+            Assert.AreNotEqual(url, null);
         }
 
         [TestMethod]
         public void GetValuesBySQLQuery()
         {
-            //int providerId = DbTemplateHelper<int>.GetValuesBySQLQuery(
-            //                        "select provider_id from config.providerview limit 1",
-            //                        null);
+            IEnumerable<int> providers = DbTemplateHelper<int>.GetValuesBySQLQuery(
+                                            "select provider_id from config.providerview limit 1",
+                                            null);
 
-            //Assert.AreNotEqual(providerId, default(int));
+            Assert.AreNotEqual(providers.Count(), 1);
         }
-
-        ///////////////////////////////////////////////////////////////////////////////////////////
-        //TODO: testar output parameters
-
     }
 }

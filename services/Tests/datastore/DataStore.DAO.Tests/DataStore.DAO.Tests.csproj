@@ -69,20 +69,6 @@
     <Compile Include="ThemesDAOTest.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\StatisticsProxyService\datastore\DataStore.Common\DataStore.Common.csproj">
-      <Project>{5EF82FFA-0E8D-4B39-ACFA-D97E9D99A44D}</Project>
-      <Name>DataStore.Common</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\StatisticsProxyService\datastore\DataStore.DAO\DataStore.DAO.csproj">
-      <Project>{DC94CE66-4BB4-49AD-A707-BDC3924645A4}</Project>
-      <Name>DataStore.DAO</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\StatisticsProxyService\datastore\DataStore.Model\DataStore.Model.csproj">
-      <Project>{97993FC0-9561-4B9E-9CCE-281F6DAD30C2}</Project>
-      <Name>DataStore.Model</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="app.config" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
