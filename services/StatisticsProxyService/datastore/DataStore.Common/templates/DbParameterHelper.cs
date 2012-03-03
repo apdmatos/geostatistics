@@ -5,7 +5,7 @@ using System.Text;
 using System.Data.Common;
 using System.Data;
 
-namespace DataStore.Common.templates
+namespace DataStore.DbHelpers.templates
 {
     public class DbParameterHelper
     {

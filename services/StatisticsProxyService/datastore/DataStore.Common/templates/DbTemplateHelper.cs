@@ -5,7 +5,7 @@ using System.Text;
 using System.Data;
 using System.Data.Common;
 
-namespace DataStore.Common.templates
+namespace DataStore.DbHelpers.templates
 {
     public class DbTemplateHelper<T>
     {
@@ -93,7 +93,7 @@ namespace DataStore.Common.templates
                 PrepareStatement(
                     (command) =>
                     {
-                        command.ExecuteScalar();
+                        command.ExecuteNonQuery();
                         executed = true;
                     },
                     cmdText,
@@ -221,7 +221,7 @@ namespace DataStore.Common.templates
                 timeout);
         }
 
-        public static bool ExecuteSQLQuery(string query, IEnumerable<DbParameterHelper> parameters, int? timeout)
+        public static bool ExecuteSQL(string query, IEnumerable<DbParameterHelper> parameters, int? timeout)
         {
             return DbExecutor<bool>.ExecuteSql(query, CommandType.Text, parameters, timeout);
         }

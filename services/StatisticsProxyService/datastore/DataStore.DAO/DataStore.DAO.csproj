@@ -50,13 +50,9 @@
     <Compile Include="utils\DbUtils.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\DataStore.Common\DataStore.Common.csproj">
+    <ProjectReference Include="..\DataStore.Common\DataStore.DbHelpers.csproj">
       <Project>{5EF82FFA-0E8D-4B39-ACFA-D97E9D99A44D}</Project>
-      <Name>DataStore.Common</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\DataStore.Model\DataStore.Model.csproj">
-      <Project>{97993FC0-9561-4B9E-9CCE-281F6DAD30C2}</Project>
-      <Name>DataStore.Model</Name>
+      <Name>DataStore.DbHelpers</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

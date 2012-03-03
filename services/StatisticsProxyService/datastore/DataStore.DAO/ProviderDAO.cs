@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using DataStore.Model;
-using DataStore.Common.templates;
+using DataStore.Common;
+using DataStore.DbHelpers.templates;
 using DataStore.DAO.builders;
 using System.Data;
 using DataStore.DAO.utils;
