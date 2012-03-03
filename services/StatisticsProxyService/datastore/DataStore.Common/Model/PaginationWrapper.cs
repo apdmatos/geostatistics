@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace DataStore.Common
+namespace DataStore.Common.Model
 {
     public class PaginationWrapper<T>
     {
