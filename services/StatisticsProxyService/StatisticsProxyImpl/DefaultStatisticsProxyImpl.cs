@@ -39,6 +39,7 @@ namespace StatisticsProxyImpl
             }
         }
 
+        // TODO: put this on an helper class to agregate this values and join filters
         public DataSerie GetDataSerie(int sourceid, int indicatorid, DimensionFilter axisDimension, IEnumerable<DimensionFilter> selectedDimensions) 
         {
             Indicator indicator = _indicatorRepository.GetIndicatorById(sourceid, indicatorid);
@@ -57,12 +58,12 @@ namespace StatisticsProxyImpl
             Dictionary<string, DataSerieValues> groupedValues = new Dictionary<string, DataSerieValues>();
 
             // this dictionary contains: axisDimensionAttribute -> DimensionId -> List<AttributeId>
-            Dictionary<string, Dictionary<string, List<string>>> selectedDimensionsHelper = new Dictionary<string, Dictionary<string, List<string>>>();
+            Dictionary<string, Dictionary<string, DimensionAttributesHelper>> selectedDimensionsHelper = new Dictionary<string, Dictionary<string, DimensionAttributesHelper>>();
             foreach (var value in values)
             {
                 DimensionFilter axisFilter = value.Filters.Where(f => f.DimensionID == axisDimension.DimensionID).FirstOrDefault();
                 string axisAttributeId = axisFilter.AttributeIDs.First();
-                if (!groupedValues.ContainsKey(axisFilter.DimensionID))
+                if (!groupedValues.ContainsKey(axisAttributeId))
                 {
                     DataSerieValues dataSerie = new DataSerieValues
                     {
@@ -74,7 +75,7 @@ namespace StatisticsProxyImpl
                     groupedValues.Add(axisAttributeId, dataSerie);
                 }
 
-                //AddSelectedDimensions(selectedDimensionsHelper, groupedValues[axisAttributeId], value.Filters);
+                AddSelectedDimensions(selectedDimensionsHelper, groupedValues[axisAttributeId].AxisDimension, value.Filters);
                 groupedValues[axisAttributeId].Value += value.Value;
             }
 
@@ -84,65 +85,54 @@ namespace StatisticsProxyImpl
             };
         }
 
-        //private void AddSelectedDimensions(
-        //    Dictionary<string, Dictionary<string, List<string>>> selectedDimensionsHelper,
-        //    DataSerieValues dataSerieValues,
-        //    IEnumerable<DimensionFilter> filters)
-        //{
 
-        //    var axisAttributeId = dataSerieValues.AxisDimension.AttributeIDs.First();
+        private class DimensionAttributesHelper 
+        {
+            public Dictionary<string, bool> UsedAttributes;
+            public IEnumerable<string> AttributesEnumerable { get { return UsedAttributes.Keys; } }
+        }
 
-        //    // get HashTable for current axis dimension
-        //    Dictionary<string, List<string>> selectedDimensionsHashTable = null;
-        //    if (selectedDimensionsHelper.ContainsKey(axisAttributeId))
-        //        selectedDimensionsHashTable = selectedDimensionsHelper[axisAttributeId];
-        //    else
-        //    {
-        //        selectedDimensionsHashTable = new Dictionary<string, List<string>>();
-        //        selectedDimensionsHelper.Add(axisAttributeId, selectedDimensionsHashTable);
-        //    }
+        private void AddSelectedDimensions(
+            Dictionary<string, Dictionary<string, DimensionAttributesHelper>> selectedDimensionsHelper,
+            DimensionFilter axisDimension,
+            IEnumerable<DimensionFilter> filters)
+        {
 
+            var axisAttributeId = axisDimension.AttributeIDs.First();
 
-        //    foreach (var filter in filters)
-        //    {
-        //        if (selectedDimensionsHashTable.ContainsKey(filter.DimensionID))
-        //        {
-        //            if (!selectedDimensionsHashTable[filter.DimensionID].ContainsKey(filter.AttributeIDs.First())) {
-
-        //                selectedDimensionsHashTable[filter.DimensionID] = new Dictionary<string, List<string>> { 
-        //                    { filter.AttributeIDs.First(), new List<string> {  } }
-        //                };
+            // get HashTable for current axis dimension
+            Dictionary<string, DimensionAttributesHelper> selectedDimensionsHashTable = null;
+            if (selectedDimensionsHelper.ContainsKey(axisAttributeId))
+                selectedDimensionsHashTable = selectedDimensionsHelper[axisAttributeId];
+            else
+            {
+                selectedDimensionsHashTable = new Dictionary<string, DimensionAttributesHelper>();
+                selectedDimensionsHelper.Add(axisAttributeId, selectedDimensionsHashTable);
+            }
 
 
-        //            }
-        //        }
-        //        else
-        //        {
-
-        //            // dimension does not exist
-
-        //            if (dataSerieValues.SelectedDimensions == null)
-        //                dataSerieValues.SelectedDimensions = new List<DimensionFilter>();
-
-        //            ((List<DimensionFilter>)dataSerieValues.SelectedDimensions).Add(filter);
-
-        //            // register the added selected dimensions on hashtable
-        //            selectedDimensionsHashTable.Add(
-        //                filter.DimensionID,
-        //                new Dictionary<string, DimensionFilter> { 
-        //                    { filter.AttributeIDs.First(), filter }
-        //                });
-        //        }
-        //    }
-
-        //    var axisAttributeId = dataSerieValues.AxisDimension.AttributeIDs.First();
-        //    Dictionary<string, bool> selectedDimensions = selectedDimensionsHelper[axisAttributeId];
-
-        //    if (!selectedDimensions.ContainsKey(axisAttributeId))
-        //    {
-
-        //    }
-        //}
+            foreach (var filter in filters)
+            {
+                if (selectedDimensionsHashTable.ContainsKey(filter.DimensionID))
+                {
+                    if (!selectedDimensionsHashTable[filter.DimensionID].UsedAttributes.ContainsKey(filter.AttributeIDs.First()))
+                    {
+                        selectedDimensionsHashTable[filter.DimensionID].UsedAttributes.Add(filter.AttributeIDs.First(), true);
+                    }
+                }
+                else
+                {
+                    DimensionAttributesHelper attrs = new DimensionAttributesHelper
+                    {
+                        UsedAttributes = new Dictionary<string, bool> { 
+                            { filter.AttributeIDs.First(), true }
+                        }
+                    };
+                    filter.AttributeIDs = attrs.AttributesEnumerable;
+                    selectedDimensionsHashTable.Add(filter.DimensionID, attrs);
+                }
+            }
+        }
 
         private List<DimensionFilter> JoinFilters(IEnumerable<DimensionFilter> selected, DimensionFilter axis)
         {

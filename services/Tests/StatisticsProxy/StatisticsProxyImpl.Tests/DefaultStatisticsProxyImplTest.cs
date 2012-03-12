@@ -243,7 +243,7 @@ namespace StatisticsProxyImpl.Tests
                 }
             };
             DataSerie actual = target.GetDataSerie(sourceid, indicatorid, axisDimension, selectedDimensions);
-            Assert.AreEqual(expectedValues, actual.Values);
+            Assert.IsTrue(Enumerable.SequenceEqual<DataSerieValues>(expectedValues, actual.Values));
         }
 
         /// <summary>
@@ -258,6 +258,43 @@ namespace StatisticsProxyImpl.Tests
             IndicatorMetadata expected = metadata;
             IndicatorMetadata actual = target.GetMetadata(sourceid, indicatorid);
             Assert.AreEqual(expected, actual);
+        }
+
+        /// <summary>
+        ///A test for AddSelectedDimensions
+        ///</summary>
+        [TestMethod()]
+        [DeploymentItem("StatisticsProxyImpl.dll")]
+        public void AddSelectedDimensionsTest()
+        {
+            DefaultStatisticsProxyImpl proxy = new DefaultStatisticsProxyImpl(configKey, indicatorRepository, factory);
+            PrivateObject param0 = new PrivateObject(proxy);
+            DefaultStatisticsProxyImpl_Accessor target = new DefaultStatisticsProxyImpl_Accessor(param0);
+            Dictionary<string, Dictionary<string, DefaultStatisticsProxyImpl_Accessor.DimensionAttributesHelper>> selectedDimensionsHelper = new Dictionary<string,Dictionary<string,DefaultStatisticsProxyImpl_Accessor.DimensionAttributesHelper>>();
+            DimensionFilter axisDimension = new DimensionFilter
+            {
+                AttributeIDs = new List<string>{ "1" }, 
+                DimensionID = "1"
+            };
+
+            var filters = new List<DimensionFilter>{ 
+                new DimensionFilter { AttributeIDs = new List<string>{ "1" }, DimensionID = "1" },
+                new DimensionFilter { AttributeIDs = new List<string>{ "1" }, DimensionID = "2" },
+                new DimensionFilter { AttributeIDs = new List<string>{ "1" }, DimensionID = "3" }
+            };
+
+            target.AddSelectedDimensions(selectedDimensionsHelper, axisDimension, filters);
+
+            IEnumerable<DimensionFilter> expectedValues = new List<DimensionFilter>{ 
+                new DimensionFilter { AttributeIDs = new List<string>{ "1" }, DimensionID = "1" },
+                new DimensionFilter { AttributeIDs = new List<string>{ "1" }, DimensionID = "2" },
+                new DimensionFilter { AttributeIDs = new List<string>{ "1" }, DimensionID = "3" }
+            }; ;
+
+            Assert.IsTrue(Enumerable.SequenceEqual<DimensionFilter>(expectedValues, filters));
+            Assert.Equals(selectedDimensionsHelper.Keys.Count(), 1);
+            Assert.Equals(selectedDimensionsHelper["1"].Keys.Count(), 3);
+            Assert.Equals(selectedDimensionsHelper["1"]["1"].AttributesEnumerable.Count(), 1);
         }
 
         /// <summary>
