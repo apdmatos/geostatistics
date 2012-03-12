@@ -7,7 +7,7 @@ using System.ServiceModel;
 using ProviderDataContracts.Values;
 using ProviderDataContracts.Filters;
 
-namespace ProviderServiceInterface
+namespace ProviderDataContracts.Metadata.Provider_Interfaces
 {
     [ServiceContract]
     public interface IStatisticsProvider

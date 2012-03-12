@@ -12,5 +12,19 @@ namespace ProviderDataContracts.Values
     {
         [DataMember(EmitDefaultValue=false)] public double Value { get; set; }
         [DataMember(EmitDefaultValue=false)] public IEnumerable<DimensionFilter> Filters { get; set; }
+
+        public override bool Equals(object obj)
+        {
+            IndicatorValue ivalue = obj as IndicatorValue;
+            if (ivalue == null) return false;
+
+            return Value == ivalue.Value &&
+                Enumerable.SequenceEqual<DimensionFilter>(Filters, ivalue.Filters);
+        }
+
+        public override int GetHashCode()
+        {
+            return Value.GetHashCode() ^ Filters.GetHashCode();
+        }
     }
 }

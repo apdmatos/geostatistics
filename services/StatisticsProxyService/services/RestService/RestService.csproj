@@ -33,6 +33,21 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Mono.Security">
+      <HintPath>..\..\..\references\Npgsql\Mono.Security.dll</HintPath>
+    </Reference>
+    <Reference Include="Ninject">
+      <HintPath>..\..\..\packages\Ninject.2.2.1.4\lib\net40-Full\Ninject.dll</HintPath>
+    </Reference>
+    <Reference Include="Ninject.Extensions.Wcf">
+      <HintPath>..\..\..\packages\Ninject.Extensions.Wcf.2.2.0.4\lib\net40-Full\Ninject.Extensions.Wcf.dll</HintPath>
+    </Reference>
+    <Reference Include="Npgsql">
+      <HintPath>..\..\..\references\Npgsql\Npgsql.dll</HintPath>
+    </Reference>
+    <Reference Include="policy.2.0.Npgsql">
+      <HintPath>..\..\..\references\Npgsql\policy.2.0.Npgsql.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -52,6 +67,7 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Global.asax" />
     <Content Include="Statistics.svc" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -64,6 +80,10 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DI\WCFNinjectModule.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
     <Compile Include="IStatistics.cs" />
     <Compile Include="parameters parser\IURLParametersParser.cs" />
     <Compile Include="parameters parser\URLParameterDefaultImpl.cs" />
@@ -80,14 +100,17 @@
       <Project>{965FC19E-C774-45D9-8F8F-F071552D9598}</Project>
       <Name>ProviderDataContracts</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\StatisticsProxyImpl\StatisticsProxyImpl.csproj">
-      <Project>{2894F794-8DA3-4580-A6A1-FC30F855E9C7}</Project>
-      <Name>StatisticsProxyImpl</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\StatisticsProxyServiceDefenitions\StatisticsProxyServiceDefenitions.csproj">
       <Project>{414F67CD-3270-4C30-924E-A4AD5B8A2361}</Project>
       <Name>StatisticsProxyServiceDefenitions</Name>
     </ProjectReference>
+    <ProjectReference Include="..\DependencyInjection\DependencyInjection.csproj">
+      <Project>{FA988183-6BBE-43E4-A80E-5E7CE137257E}</Project>
+      <Name>DependencyInjection</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />

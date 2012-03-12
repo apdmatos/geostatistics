@@ -41,11 +41,11 @@ namespace DataStore.DAO
                     });
         }
 
-        public Indicator GetIndicatorById(int indicatorId)
+        public Indicator GetIndicatorById(int providerId, int indicatorId)
         {
             return DbTemplateHelper<Indicator>.GetObjectBySQLQuery(
                     DataStoreModelBuilders.DataReader2Indicator,
-                    string.Format("select provider_id, provider_name, provider_nameabbr, provider_serviceurl, provider_url, indicator_id, indicator_sourceid, indicator_name, indicator_nameabbr, indicator_themeid, indicator_subthemeid from config.indicatorview where indicator_id={0}", indicatorId),
+                    string.Format("select provider_id, provider_name, provider_nameabbr, provider_serviceurl, provider_url, indicator_id, indicator_sourceid, indicator_name, indicator_nameabbr, indicator_themeid, indicator_subthemeid from config.indicatorview where indicator_id={0} and provider_id={1}", indicatorId, providerId),
                     null);
         }
 

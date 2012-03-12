@@ -14,5 +14,18 @@ namespace StatisticsProxyServiceDefenitions.data_models
 
         [DataMember(EmitDefaultValue = false)]
         public double Longitude { get; set; }
+
+        public override bool Equals(object obj)
+        {
+            var loc = obj as Location;
+            if (loc == null) return false;
+
+            return Latitude == loc.Latitude && Longitude == loc.Longitude;
+        }
+
+        public override int GetHashCode()
+        {
+            return Longitude.GetHashCode() ^ Latitude.GetHashCode();
+        }
     }
 }

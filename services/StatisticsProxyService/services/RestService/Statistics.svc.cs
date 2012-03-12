@@ -4,7 +4,6 @@ using StatisticsProxyServiceDefenitions.interfaces;
 using RestService.parameters_parser;
 using ProviderDataContracts.Filters;
 using System.Collections.Generic;
-using StatisticsProxyImpl;
 using System.ServiceModel.Activation;
 
 namespace RestService
@@ -19,23 +18,21 @@ namespace RestService
     // Formato dimensions: id,attrid1,attrid2#id,attr1,attr2,...
     public class Statistics : IStatistics
     {
-
         private IURLParametersParser parser;
         private IStatisticsProxyService service;
 
-
-        //TODO: implement IOC here
-        public Statistics() {
-            parser = new URLParameterDefaultImpl();
-            service = new DefaultStatisticsProxyImpl();
+        public Statistics(IURLParametersParser parser, IStatisticsProxyService service)
+        {
+            this.parser = parser;
+            this.service = service;
         }
 
-        public IndicatorMetadata GetMetadata(string sourceid, string indicatorid)
+        public IndicatorMetadata GetMetadata(int sourceid, int indicatorid)
         {
             return service.GetMetadata(sourceid, indicatorid);
         }
 
-        public DataSerie GetDataSerie(string sourceid, string indicatorid, string axisDimension, string selectedDimensions)
+        public DataSerie GetDataSerie(int sourceid, int indicatorid, string axisDimension, string selectedDimensions)
         {
             DimensionFilter axis = parser.ParseDimensionFilter(axisDimension);
             IEnumerable<DimensionFilter> selected = parser.ParseDimensionFilterList(selectedDimensions);

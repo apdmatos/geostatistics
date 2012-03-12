@@ -17,12 +17,12 @@ namespace RestService
         [WebGet(
             UriTemplate="Metadata?sourceid={sourceid}&indicatorid={indicatorid}", 
             ResponseFormat=WebMessageFormat.Json)]
-        IndicatorMetadata GetMetadata(string sourceid, string indicatorid);
+        IndicatorMetadata GetMetadata(int sourceid, int indicatorid);
 
         [OperationContract]
         [WebGet(
             UriTemplate = "DataSerie?sourceid={sourceid}&indicatorid={indicatorid}&axisDimension={axisDimension}&selectedDimensions={selectedDimensions}", 
             ResponseFormat = WebMessageFormat.Json)]
-        DataSerie GetDataSerie(string sourceid, string indicatorid, string axisDimension, string selectedDimensions);
+        DataSerie GetDataSerie(int sourceid, int indicatorid, string axisDimension, string selectedDimensions);
     }
 }

@@ -1,0 +1,97 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{5A0A4EDA-989C-41F0-BFEC-38230E593E22}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>StatisticsProxyImpl.Tests</RootNamespace>
+    <AssemblyName>StatisticsProxyImpl.Tests</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="Moq">
+      <HintPath>..\..\..\packages\Moq.4.0.10827\lib\NET40\Moq.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq" />
+  </ItemGroup>
+  <ItemGroup>
+    <CodeAnalysisDependentAssemblyPaths Condition=" '$(VS100COMNTOOLS)' != '' " Include="$(VS100COMNTOOLS)..\IDE\PrivateAssemblies">
+      <Visible>False</Visible>
+    </CodeAnalysisDependentAssemblyPaths>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="CachedStatisticsProviderRequesterTest.cs" />
+    <Compile Include="DefaultStatisticsProxyImplTest.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Shadow Include="Test References\StatisticsProxyImpl.accessor" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\providerDefinitions\ProviderDataContracts\ProviderDataContracts.csproj">
+      <Project>{965FC19E-C774-45D9-8F8F-F071552D9598}</Project>
+      <Name>ProviderDataContracts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\StatisticsProxyService\datastore\DataStore.Common\DataStore.Common.csproj">
+      <Project>{97993FC0-9561-4B9E-9CCE-281F6DAD30C2}</Project>
+      <Name>DataStore.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\StatisticsProxyService\datastore\DataStore.DAO\DataStore.DAO.csproj">
+      <Project>{DC94CE66-4BB4-49AD-A707-BDC3924645A4}</Project>
+      <Name>DataStore.DAO</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\StatisticsProxyService\StatisticsProxyImpl\StatisticsProxyImpl.csproj">
+      <Project>{2894F794-8DA3-4580-A6A1-FC30F855E9C7}</Project>
+      <Name>StatisticsProxyImpl</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\StatisticsProxyService\StatisticsProxyServiceDefenitions\StatisticsProxyServiceDefenitions.csproj">
+      <Project>{414F67CD-3270-4C30-924E-A4AD5B8A2361}</Project>
+      <Name>StatisticsProxyServiceDefenitions</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

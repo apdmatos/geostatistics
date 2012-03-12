@@ -12,9 +12,9 @@ namespace StatisticsProxyServiceDefenitions.interfaces
     public interface IStatisticsProxyService
     {
         [OperationContract]
-        IndicatorMetadata GetMetadata(string sourceid, string indicatorid);
+        IndicatorMetadata GetMetadata(int sourceid, int indicatorid);
 
         [OperationContract]
-        DataSerie GetDataSerie(string sourceid, string indicatorid, DimensionFilter axisDimension, IEnumerable<DimensionFilter> selectedDimensions);
+        DataSerie GetDataSerie(int sourceid, int indicatorid, DimensionFilter axisDimension, IEnumerable<DimensionFilter> selectedDimensions);
     }
 }

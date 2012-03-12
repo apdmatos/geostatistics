@@ -42,7 +42,12 @@ namespace ProviderDataContracts.Metadata
             var dimension = obj as Dimension;
             if (dimension == null) return false;
 
-            return dimension.ID == ID;
+            return string.Equals(dimension.ID, ID) &&
+                string.Equals(dimension.Name, Name) &&
+                string.Equals(dimension.NameAbbr, NameAbbr) &&
+                DimensionType == dimension.DimensionType &&
+                Enumerable.SequenceEqual<DimensionAttribute>(dimension.Attributes, Attributes) &&
+                object.Equals(ServerContextData, dimension.ServerContextData);
         }
 
         public override int GetHashCode()

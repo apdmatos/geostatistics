@@ -22,5 +22,19 @@ namespace ProviderDataContracts.Metadata
 
             ((List<DimensionAttribute>)ChildAttributes).Add(attr);
         }
+
+        public override bool Equals(object obj)
+        {
+            var attr = obj as HierarchyAttribute;
+            if (attr == null) return false;
+
+            return base.Equals(obj) && 
+                Enumerable.SequenceEqual<DimensionAttribute>(ChildAttributes, attr.ChildAttributes);
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
     }
 }

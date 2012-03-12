@@ -4,13 +4,13 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.ServiceModel;
 using System.Text;
-using ProviderServiceInterface;
 using ProviderDataContracts.Metadata;
 using ProviderDataContracts.Values;
 using ProviderDataContracts.Filters;
 using INEProvider.Extensions.INE2Provider;
 using INEProvider.Extensions.Provider2INE;
 using INEProvider.ServiceConfig;
+using ProviderDataContracts.Metadata.Provider_Interfaces;
 
 namespace INEProvider
 {

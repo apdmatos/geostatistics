@@ -75,10 +75,6 @@
       <Project>{965FC19E-C774-45D9-8F8F-F071552D9598}</Project>
       <Name>ProviderDataContracts</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\providerDefinitions\ProviderServiceInterface\ProviderServiceInterface.csproj">
-      <Project>{4DD2BDA5-678D-4A8E-BA75-9A32CD760898}</Project>
-      <Name>ProviderServiceInterface</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />

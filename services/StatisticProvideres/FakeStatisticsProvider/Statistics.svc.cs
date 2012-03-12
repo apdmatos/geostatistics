@@ -4,10 +4,10 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.ServiceModel;
 using System.Text;
-using ProviderServiceInterface;
 using ProviderDataContracts.Filters;
 using ProviderDataContracts.Values;
 using ProviderDataContracts.Metadata;
+using ProviderDataContracts.Metadata.Provider_Interfaces;
 
 namespace FakeStatisticsProvider
 {

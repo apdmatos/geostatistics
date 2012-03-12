@@ -16,5 +16,19 @@ namespace ProviderDataContracts.Metadata
 
         [DataMember(Name = "name", EmitDefaultValue = false)]
         public string Name { get; set; }
+
+        public override bool Equals(object obj)
+        {
+            var attr = obj as DimensionAttribute;
+            if (attr == null) return false;
+
+            return string.Equals(ID, attr.ID) && 
+                string.Equals(Name, attr.Name);
+        }
+
+        public override int GetHashCode()
+        {
+            return ID.GetHashCode();
+        }
     }
 }

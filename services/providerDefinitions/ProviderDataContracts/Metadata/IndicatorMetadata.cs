@@ -13,7 +13,7 @@ namespace ProviderDataContracts.Metadata
         public string ID { get; set; }
 
         [DataMember(Name = "sourceid", EmitDefaultValue = false)]
-        public string SourceID { get; set; }
+        public int SourceID { get; set; }
 
         [DataMember(Name = "sourceName", EmitDefaultValue = false)]
         public string SourceName { get; set; }
@@ -35,5 +35,26 @@ namespace ProviderDataContracts.Metadata
 
         [DataMember(Name = "lastUpdate", EmitDefaultValue = false)]
         public DateTime LastUpdate { get; set; }
+
+        public override bool Equals(object obj)
+        {
+            IndicatorMetadata metadata = obj as IndicatorMetadata;
+            if (metadata == null) return false;       
+
+            return string.Equals(ID, metadata.ID) && 
+                string.Equals(SourceID, metadata.SourceID) && 
+                string.Equals(SourceName, metadata.SourceName) &&
+                string.Equals(SourceNameAbbr, metadata.SourceNameAbbr) && 
+                string.Equals(SourceURL, metadata.SourceURL) && 
+                string.Equals(IndicatorName, metadata.IndicatorName) &&
+                string.Equals(IndicatorNameAbbr, metadata.IndicatorNameAbbr) && 
+                Enumerable.SequenceEqual<Dimension>(Dimensions, metadata.Dimensions) && 
+                DateTime.Equals(LastUpdate, metadata.LastUpdate);
+        }
+
+        public override int GetHashCode()
+        {
+            return ID.GetHashCode() ^ SourceID.GetHashCode();
+        }
     }
 }

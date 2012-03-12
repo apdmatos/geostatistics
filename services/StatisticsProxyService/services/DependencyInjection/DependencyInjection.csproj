@@ -5,13 +5,14 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{4DD2BDA5-678D-4A8E-BA75-9A32CD760898}</ProjectGuid>
+    <ProjectGuid>{FA988183-6BBE-43E4-A80E-5E7CE137257E}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ProviderServiceInterface</RootNamespace>
-    <AssemblyName>ProviderServiceInterface</AssemblyName>
+    <RootNamespace>DependencyInjection</RootNamespace>
+    <AssemblyName>DependencyInjection</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -31,25 +32,44 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Ninject">
+      <HintPath>..\..\..\packages\Ninject.2.2.1.4\lib\net35-Full\Ninject.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
-    <Reference Include="System.ServiceModel" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IStatisticsProvider.cs" />
+    <Compile Include="factories\StatisticsProviderRequestFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="DependencyInjectionNinjectModule.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ProviderDataContracts\ProviderDataContracts.csproj">
-      <Project>{965FC19E-C774-45D9-8F8F-F071552D9598}</Project>
-      <Name>ProviderDataContracts</Name>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\datastore\DataStore.Common\DataStore.Common.csproj">
+      <Project>{97993FC0-9561-4B9E-9CCE-281F6DAD30C2}</Project>
+      <Name>DataStore.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\datastore\DataStore.DAO\DataStore.DAO.csproj">
+      <Project>{DC94CE66-4BB4-49AD-A707-BDC3924645A4}</Project>
+      <Name>DataStore.DAO</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\StatisticsProxyImpl\StatisticsProxyImpl.csproj">
+      <Project>{2894F794-8DA3-4580-A6A1-FC30F855E9C7}</Project>
+      <Name>StatisticsProxyImpl</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\StatisticsProxyServiceDefenitions\StatisticsProxyServiceDefenitions.csproj">
+      <Project>{414F67CD-3270-4C30-924E-A4AD5B8A2361}</Project>
+      <Name>StatisticsProxyServiceDefenitions</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

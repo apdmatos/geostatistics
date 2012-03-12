@@ -48,7 +48,8 @@ namespace DataStore.DAO.Tests
         [TestMethod()]
         public void GetIndicatorByIdTest()
         {
-            IndicatorDAO target = new IndicatorDAO(); 
+            IndicatorDAO target = new IndicatorDAO();
+            int providerId = 1;
             int indicatorId = 1;
             Indicator expected = new Indicator
             {
@@ -68,7 +69,7 @@ namespace DataStore.DAO.Tests
                 ThemeID = 1
             };
             Indicator actual;
-            actual = target.GetIndicatorById(indicatorId);
+            actual = target.GetIndicatorById(providerId, indicatorId);
             Assert.AreEqual(expected, actual);
         }
 
