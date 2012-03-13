@@ -37,47 +37,9 @@ namespace INEProvider.Test
             }
         }
 
-        #region Additional test attributes
-        // 
-        //You can use the following additional attributes as you write your tests:
-        //
-        //Use ClassInitialize to run code before running the first test in the class
-        //[ClassInitialize()]
-        //public static void MyClassInitialize(TestContext testContext)
-        //{
-        //}
-        //
-        //Use ClassCleanup to run code after all tests in a class have run
-        //[ClassCleanup()]
-        //public static void MyClassCleanup()
-        //{
-        //}
-        //
-        //Use TestInitialize to run code before running each test
-        //[TestInitialize()]
-        //public void MyTestInitialize()
-        //{
-        //}
-        //
-        //Use TestCleanup to run code after each test has run
-        //[TestCleanup()]
-        //public void MyTestCleanup()
-        //{
-        //}
-        //
-        #endregion
-
-
         /// <summary>
         ///A test for ToIndicatorValue
         ///</summary>
-        // TODO: Ensure that the UrlToTest attribute specifies a URL to an ASP.NET page (for example,
-        // http://.../Default.aspx). This is necessary for the unit test to be executed on the web server,
-        // whether you are testing a page, web service, or a WCF service.
-        [TestMethod()]
-        [HostType("ASP.NET")]
-        [AspNetDevelopmentServerHost("D:\\Projects\\My Projects\\src\\services\\StatisticProvideres\\INEProvider", "/")]
-        [UrlToTest("http://localhost:42136/")]
         public void ToIndicatorValueTest()
         {
             IndicatorValue inevalue = null; // TODO: Initialize to an appropriate value
@@ -91,13 +53,6 @@ namespace INEProvider.Test
         /// <summary>
         ///A test for ToIndicatorValueEnumerable
         ///</summary>
-        // TODO: Ensure that the UrlToTest attribute specifies a URL to an ASP.NET page (for example,
-        // http://.../Default.aspx). This is necessary for the unit test to be executed on the web server,
-        // whether you are testing a page, web service, or a WCF service.
-        [TestMethod()]
-        [HostType("ASP.NET")]
-        [AspNetDevelopmentServerHost("D:\\Projects\\My Projects\\src\\services\\StatisticProvideres\\INEProvider", "/")]
-        [UrlToTest("http://localhost:42136/")]
         public void ToIndicatorValueEnumerableTest()
         {
             IEnumerable<IndicatorValue> ineValues = null; // TODO: Initialize to an appropriate value

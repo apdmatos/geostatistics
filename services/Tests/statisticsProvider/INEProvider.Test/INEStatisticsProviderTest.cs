@@ -77,7 +77,7 @@ namespace INEProvider.Test
         // whether you are testing a page, web service, or a WCF service.
         [TestMethod()]
         [HostType("ASP.NET")]
-        [AspNetDevelopmentServerHost("D:\\Projects\\My Projects\\src\\services\\StatisticProvideres\\INEProvider", "/")]
+        [AspNetDevelopmentServerHost("D:\\ISEL\\Tese\\src\\services\\StatisticProvideres\\INEProvider", "/")]
         [UrlToTest("http://localhost:42136/")]
         public void INEStatisticsProviderConstructorTest()
         {
@@ -93,7 +93,7 @@ namespace INEProvider.Test
         // whether you are testing a page, web service, or a WCF service.
         [TestMethod()]
         [HostType("ASP.NET")]
-        [AspNetDevelopmentServerHost("D:\\Projects\\My Projects\\src\\services\\StatisticProvideres\\INEProvider", "/")]
+        [AspNetDevelopmentServerHost("D:\\ISEL\\Tese\\src\\services\\StatisticProvideres\\INEProvider", "/")]
         [UrlToTest("http://localhost:42136/")]
         public void GetMetadataTest()
         {
@@ -114,7 +114,7 @@ namespace INEProvider.Test
         // whether you are testing a page, web service, or a WCF service.
         [TestMethod()]
         [HostType("ASP.NET")]
-        [AspNetDevelopmentServerHost("D:\\Projects\\My Projects\\src\\services\\StatisticProvideres\\INEProvider", "/")]
+        [AspNetDevelopmentServerHost("D:\\ISEL\\Tese\\src\\services\\StatisticProvideres\\INEProvider", "/")]
         [UrlToTest("http://localhost:42136/")]
         public void GetValuesTest()
         {

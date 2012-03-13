@@ -38,6 +38,9 @@
     <Reference Include="Mono.Security">
       <HintPath>..\..\..\references\Npgsql\Mono.Security.dll</HintPath>
     </Reference>
+    <Reference Include="Moq">
+      <HintPath>..\..\..\packages\Moq.4.0.10827\lib\NET40\Moq.dll</HintPath>
+    </Reference>
     <Reference Include="Ninject">
       <HintPath>..\..\..\packages\Ninject.2.2.1.4\lib\net40-Full\Ninject.dll</HintPath>
     </Reference>
@@ -97,6 +100,9 @@
       <Project>{414F67CD-3270-4C30-924E-A4AD5B8A2361}</Project>
       <Name>StatisticsProxyServiceDefenitions</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
