@@ -6,8 +6,6 @@ using INEProvider.Model;
 
 namespace INEProvider.Test
 {
-    
-    
     /// <summary>
     ///This is a test class for INEServiceHepersTest and is intended
     ///to contain all INEServiceHepersTest Unit Tests
@@ -15,8 +13,6 @@ namespace INEProvider.Test
     [TestClass()]
     public class INEServiceHepersTest
     {
-
-
         private TestContext testContextInstance;
 
         /// <summary>
@@ -38,14 +34,56 @@ namespace INEProvider.Test
         /// <summary>
         ///A test for GetGeographicLevelName
         ///</summary>
-        public void GetGeographicLevelNameTest()
+        public void GetGeographicLevelNameNUTS1Test()
         {
-            GeographicLevels level = new GeographicLevels(); // TODO: Initialize to an appropriate value
-            string expected = string.Empty; // TODO: Initialize to an appropriate value
-            string actual;
-            actual = INEServiceHepers.GetGeographicLevelName(level);
+            GeographicLevels level = GeographicLevels.NUTS1;
+            string expected = "NUTS1";
+            string actual = INEServiceHepers.GetGeographicLevelName(level);
             Assert.AreEqual(expected, actual);
-            Assert.Inconclusive("Verify the correctness of this test method.");
+        }
+
+        /// <summary>
+        ///A test for GetGeographicLevelName
+        ///</summary>
+        public void GetGeographicLevelNameNUTS2Test()
+        {
+            GeographicLevels level = GeographicLevels.NUTS2;
+            string expected = "NUTS2";
+            string actual = INEServiceHepers.GetGeographicLevelName(level);
+            Assert.AreEqual(expected, actual);
+        }
+
+        /// <summary>
+        ///A test for GetGeographicLevelName
+        ///</summary>
+        public void GetGeographicLevelNameNUTS3Test()
+        {
+            GeographicLevels level = GeographicLevels.NUTS3;
+            string expected = "NUTS3";
+            string actual = INEServiceHepers.GetGeographicLevelName(level);
+            Assert.AreEqual(expected, actual);
+        }
+
+        /// <summary>
+        ///A test for GetGeographicLevelName
+        ///</summary>
+        public void GetGeographicLevelNameMunicipalityTest()
+        {
+            GeographicLevels level = GeographicLevels.Municipality;
+            string expected = "Concelhos";
+            string actual = INEServiceHepers.GetGeographicLevelName(level);
+            Assert.AreEqual(expected, actual);
+        }
+
+        /// <summary>
+        ///A test for GetGeographicLevelName
+        ///</summary>
+        public void GetGeographicLevelNameParishTest()
+        {
+            GeographicLevels level = GeographicLevels.Parish;
+            string expected = "Freguesias";
+            string actual = INEServiceHepers.GetGeographicLevelName(level);
+            Assert.AreEqual(expected, actual);
         }
     }
 }
