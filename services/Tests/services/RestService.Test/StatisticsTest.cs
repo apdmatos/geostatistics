@@ -142,13 +142,7 @@ namespace RestService.Test
         /// <summary>
         ///A test for Statistics Constructor
         ///</summary>
-        // TODO: Ensure that the UrlToTest attribute specifies a URL to an ASP.NET page (for example,
-        // http://.../Default.aspx). This is necessary for the unit test to be executed on the web server,
-        // whether you are testing a page, web service, or a WCF service.
         [TestMethod()]
-        //[HostType("ASP.NET")]
-        //[AspNetDevelopmentServerHost("D:\\ISEL\\Tese\\src\\services\\StatisticsProxyService\\services\\RestService", "/")]
-        //[UrlToTest("http://localhost:36590/Statistics.svc")]
         public void StatisticsConstructorTest()
         {
             IURLParametersParser parser = null;
@@ -160,13 +154,7 @@ namespace RestService.Test
         /// <summary>
         ///A test for GetDataSerie
         ///</summary>
-        // TODO: Ensure that the UrlToTest attribute specifies a URL to an ASP.NET page (for example,
-        // http://.../Default.aspx). This is necessary for the unit test to be executed on the web server,
-        // whether you are testing a page, web service, or a WCF service.
         [TestMethod()]
-        //[HostType("ASP.NET")]
-        //[AspNetDevelopmentServerHost("D:\\ISEL\\Tese\\src\\services\\StatisticsProxyService\\services\\RestService", "/")]
-        //[UrlToTest("http://localhost:36590/")]
         public void GetDataSerieTest()
         {
 
@@ -191,13 +179,7 @@ namespace RestService.Test
         /// <summary>
         ///A test for GetMetadata
         ///</summary>
-        // TODO: Ensure that the UrlToTest attribute specifies a URL to an ASP.NET page (for example,
-        // http://.../Default.aspx). This is necessary for the unit test to be executed on the web server,
-        // whether you are testing a page, web service, or a WCF service.
         [TestMethod()]
-        //[HostType("ASP.NET")]
-        //[AspNetDevelopmentServerHost("D:\\ISEL\\Tese\\src\\services\\StatisticsProxyService\\services\\RestService", "/")]
-        //[UrlToTest("http://localhost:36590/")]
         public void GetMetadataTest()
         {
             IURLParametersParser parser = null;

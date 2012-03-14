@@ -57,8 +57,8 @@ namespace INEProvider.Extensions.INE2Provider
 
                 GeoAttributeHierarchy attribute = new GeoAttributeHierarchy
                 {
-                    //ID = level.ToString(),
-                    ID = "PT",
+                    ID = level.ToString(),
+                    //ID = "PT",
                     Name = INEServiceHepers.GetGeographicLevelName(level),
                     Level = (int)level
                 };

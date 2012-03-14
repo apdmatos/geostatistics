@@ -28,8 +28,11 @@ namespace ProviderDataContracts.Metadata
             var attr = obj as HierarchyAttribute;
             if (attr == null) return false;
 
-            return base.Equals(obj) && 
-                Enumerable.SequenceEqual<DimensionAttribute>(ChildAttributes, attr.ChildAttributes);
+            return base.Equals(obj) &&
+                (ChildAttributes == attr.ChildAttributes ||
+                    ChildAttributes != null && 
+                    attr.ChildAttributes != null && 
+                    Enumerable.SequenceEqual<DimensionAttribute>(ChildAttributes, attr.ChildAttributes));
         }
 
         public override int GetHashCode()

@@ -5,12 +5,10 @@ using Microsoft.VisualStudio.TestTools.UnitTesting.Web;
 using INEProvider.INEService;
 using ProviderDataContracts.Filters;
 using System.Collections.Generic;
-using INEProvider.Extensions.Provider2INE;
+using System.Linq;
 
 namespace INEProvider.Test
 {
-    
-    
     /// <summary>
     ///This is a test class for DimensionFilterExtensionTest and is intended
     ///to contain all DimensionFilterExtensionTest Unit Tests
@@ -18,8 +16,6 @@ namespace INEProvider.Test
     [TestClass()]
     public class DimensionFilterExtensionTest
     {
-
-
         private TestContext testContextInstance;
 
         /// <summary>
@@ -41,53 +37,41 @@ namespace INEProvider.Test
         /// <summary>
         ///A test for ToDimensionFilter
         ///</summary>
-        public void ToDimensionFilterTest1()
-        {
-            DimensionFilter filter = null; // TODO: Initialize to an appropriate value
-            DimensionFilter expected = null; // TODO: Initialize to an appropriate value
-            DimensionFilter actual;
-            actual = DimensionFilterExtension.ToDimensionFilter(filter);
-            Assert.AreEqual(expected, actual);
-            Assert.Inconclusive("Verify the correctness of this test method.");
-        }
-
-        /// <summary>
-        ///A test for ToDimensionFilterEnumerable
-        ///</summary>
-        public void ToDimensionFilterEnumerableTest1()
-        {
-            IEnumerable<DimensionFilter> filter = null; // TODO: Initialize to an appropriate value
-            IEnumerable<DimensionFilter> expected = null; // TODO: Initialize to an appropriate value
-            IEnumerable<DimensionFilter> actual;
-            actual = DimensionFilterExtension.ToDimensionFilterEnumerable(filter);
-            Assert.AreEqual(expected, actual);
-            Assert.Inconclusive("Verify the correctness of this test method.");
-        }
-
-        /// <summary>
-        ///A test for ToDimensionFilter
-        ///</summary>
+        [TestMethod()]
         public void ToDimensionFilterTest()
         {
-            DimensionFilter filter = null; // TODO: Initialize to an appropriate value
-            DimensionFilter expected = null; // TODO: Initialize to an appropriate value
-            DimensionFilter actual;
-            actual = DimensionFilterExtension.ToDimensionFilter(filter);
+            INEProvider.INEService.DimensionFilter filter = new INEProvider.INEService.DimensionFilter
+            {
+                Codes = new ArrayOfDimensionCode { "1", "2", "3" },
+                Order = 1,
+                AllFromLevel = 2
+            };
+            ProviderDataContracts.Filters.DimensionFilter expected = new ProviderDataContracts.Filters.DimensionFilter
+            {
+                DimensionID = "1",
+                AttributeIDs = new List<string> { "1", "2", "3" }
+            };
+            ProviderDataContracts.Filters.DimensionFilter actual = DimensionFilterExtension.ToDimensionFilter(filter);
             Assert.AreEqual(expected, actual);
-            Assert.Inconclusive("Verify the correctness of this test method.");
         }
 
         /// <summary>
         ///A test for ToDimensionFilterEnumerable
         ///</summary>
+        [TestMethod()]
         public void ToDimensionFilterEnumerableTest()
         {
-            IEnumerable<DimensionFilter> filter = null; // TODO: Initialize to an appropriate value
-            IEnumerable<DimensionFilter> expected = null; // TODO: Initialize to an appropriate value
-            IEnumerable<DimensionFilter> actual;
-            actual = DimensionFilterExtension.ToDimensionFilterEnumerable(filter);
-            Assert.AreEqual(expected, actual);
-            Assert.Inconclusive("Verify the correctness of this test method.");
+            IEnumerable<INEProvider.INEService.DimensionFilter> filter = new List<INEProvider.INEService.DimensionFilter>
+            {
+                new INEProvider.INEService.DimensionFilter { Order = 3, Codes = new ArrayOfDimensionCode { "1", "2", "3" } }
+            };
+            IEnumerable<ProviderDataContracts.Filters.DimensionFilter> expected = new List<ProviderDataContracts.Filters.DimensionFilter>
+            {
+                new ProviderDataContracts.Filters.DimensionFilter { DimensionID = "3", AttributeIDs = new List<string> { "1", "2", "3" } }
+            };
+
+            IEnumerable<ProviderDataContracts.Filters.DimensionFilter> actual = DimensionFilterExtension.ToDimensionFilterEnumerable(filter);
+            Assert.IsTrue(Enumerable.SequenceEqual<ProviderDataContracts.Filters.DimensionFilter>(expected, actual));
         }
     }
 }

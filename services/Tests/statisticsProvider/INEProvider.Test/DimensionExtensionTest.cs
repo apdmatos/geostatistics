@@ -36,29 +36,63 @@ namespace INEProvider.Test
         /// <summary>
         ///A test for GeoDimensionToDimension
         ///</summary>
+        [TestMethod()]
         public void GeoDimensionToDimensionTest()
         {
-            //INEProvider.INEService.Dimension ineDimension = new INEService.Dimension
-            //{
-            //    Code = "1",
-            //    Designation = "Dimension 1",
-            //    Abbreviation = "D1",
-            //    Categories = new List<Category> { 
-            //        new Category { Code = "1", Designation = "Category 1", Level = 1 },
-            //        new Category { Code = "1.1", Designation = "Category 1.1", Level = 2, ParentCategoryCode = "1" },
-            //        new Category { Code = "2", Designation = "Category 2", Level = 1 }
-            //    }
-            //};
-            //Dimension expected = null; // TODO: Initialize to an appropriate value
-            //Dimension actual;
-            //actual = DimensionExtension.GeoDimensionToDimension(ineDimension);
-            //Assert.AreEqual(expected, actual);
-            Assert.Inconclusive("Verify the correctness of this test method.");
+            INEProvider.INEService.Dimension ineDimension = new INEService.Dimension {
+                Code = "1",
+                Designation = "Dimension 1",
+                Abbreviation = "D1",
+                LowestClassificationLevel = 6
+            };
+
+            ProviderDataContracts.Metadata.Dimension expected = new ProviderDataContracts.Metadata.Dimension
+            {
+                ID = "2",
+                Name = "Dimension 1",
+                NameAbbr = "D1",
+                DimensionType = DimensionType.Geographic,
+                Attributes = new List<DimensionAttribute> {
+                    new GeoAttributeHierarchy
+                    {
+                        ID = "NUTS1",
+                        Level = 2,
+                        Name = "NUTS 1",
+                        GeoHierachyConfiguration = new GeoAttributeHierarchy
+                        {
+                            ID = "NUTS2",
+                            Name = "NUTS 2",
+                            Level = 3,
+                            GeoHierachyConfiguration = new GeoAttributeHierarchy
+                            {
+                                ID = "NUTS3",
+                                Name = "NUTS 3",
+                                Level = 4,
+                                GeoHierachyConfiguration = new GeoAttributeHierarchy
+                                {
+                                    ID = "Municipality",
+                                    Name = "Concelhos",
+                                    Level = 5,
+                                    GeoHierachyConfiguration = new GeoAttributeHierarchy { 
+                                        ID = "Parish",
+                                        Name = "Freguesias",
+                                        Level = 6
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            };
+
+            ProviderDataContracts.Metadata.Dimension actual = DimensionExtension.GeoDimensionToDimension(ineDimension);
+            Assert.AreEqual(expected, actual);
         }
 
         /// <summary>
         ///A test for ToDimension
         ///</summary>
+        [TestMethod()]
         public void ToDimensionTest()
         {
             INEProvider.INEService.Dimension ineDimension = new INEService.Dimension
@@ -66,6 +100,7 @@ namespace INEProvider.Test
                 Code = "1",
                 Designation = "Dimension 1",
                 Abbreviation = "D1",
+                LowestClassificationLevel = 2,
                 Categories = new List<Category> { 
                     new Category { Code = "1", Designation = "Category 1", Level = 1 },
                     new Category { Code = "1.1", Designation = "Category 1.1", Level = 2, ParentCategoryCode = "1" },
@@ -98,6 +133,7 @@ namespace INEProvider.Test
         /// <summary>
         ///A test for ToDimension
         ///</summary>
+        [TestMethod()]
         public void INETimeDimensionToDimensionTest()
         {
             TimeDimension ineDimension = new TimeDimension {

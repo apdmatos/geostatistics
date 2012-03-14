@@ -5,6 +5,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting.Web;
 using INEProvider.INEService;
 using ProviderDataContracts.Values;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace INEProvider.Test
 {
@@ -40,27 +41,63 @@ namespace INEProvider.Test
         /// <summary>
         ///A test for ToIndicatorValue
         ///</summary>
+        [TestMethod()]
         public void ToIndicatorValueTest()
         {
-            IndicatorValue inevalue = null; // TODO: Initialize to an appropriate value
-            IndicatorValue expected = null; // TODO: Initialize to an appropriate value
-            IndicatorValue actual;
-            actual = IndicatorValueExtension.ToIndicatorValue(inevalue);
+            INEService.IndicatorValue inevalue = new INEService.IndicatorValue
+            {
+                Value = 1,
+                IndicatorCode = "1",
+                Dimensions = new List<DimensionFilter>
+                {
+                    new DimensionFilter { Order = 1, Codes = new ArrayOfDimensionCode { "S7A2010" } },
+                    new DimensionFilter { Order = 2, Codes = new ArrayOfDimensionCode { "1" } },
+                }
+            };
+            ProviderDataContracts.Values.IndicatorValue expected = new ProviderDataContracts.Values.IndicatorValue
+            {
+                Value = 1,
+                Filters = new List<ProviderDataContracts.Filters.DimensionFilter> { 
+                    new ProviderDataContracts.Filters.DimensionFilter { DimensionID = "1", AttributeIDs = new List<string> { "S7A2010" } },
+                    new ProviderDataContracts.Filters.DimensionFilter { DimensionID = "2", AttributeIDs = new List<string> { "1" } }
+                }
+            };
+            ProviderDataContracts.Values.IndicatorValue actual = IndicatorValueExtension.ToIndicatorValue(inevalue);
             Assert.AreEqual(expected, actual);
-            Assert.Inconclusive("Verify the correctness of this test method.");
         }
 
         /// <summary>
         ///A test for ToIndicatorValueEnumerable
         ///</summary>
+        [TestMethod()]
         public void ToIndicatorValueEnumerableTest()
         {
-            IEnumerable<IndicatorValue> ineValues = null; // TODO: Initialize to an appropriate value
-            IEnumerable<IndicatorValue> expected = null; // TODO: Initialize to an appropriate value
-            IEnumerable<IndicatorValue> actual;
-            actual = IndicatorValueExtension.ToIndicatorValueEnumerable(ineValues);
-            Assert.AreEqual(expected, actual);
-            Assert.Inconclusive("Verify the correctness of this test method.");
+            IEnumerable<INEProvider.INEService.IndicatorValue> ineValues = new List<INEProvider.INEService.IndicatorValue>
+            {
+                new INEService.IndicatorValue
+                {
+                    Value = 1,
+                    IndicatorCode = "1",
+                    Dimensions = new List<DimensionFilter>
+                    {
+                        new DimensionFilter { Order = 1, Codes = new ArrayOfDimensionCode { "S7A2010" } },
+                        new DimensionFilter { Order = 2, Codes = new ArrayOfDimensionCode { "1" } },
+                    }
+                }
+            };
+            IEnumerable<ProviderDataContracts.Values.IndicatorValue> expected = new List<ProviderDataContracts.Values.IndicatorValue>
+            {
+                new ProviderDataContracts.Values.IndicatorValue
+                {
+                    Value = 1,
+                    Filters = new List<ProviderDataContracts.Filters.DimensionFilter> { 
+                        new ProviderDataContracts.Filters.DimensionFilter { DimensionID = "1", AttributeIDs = new List<string> { "S7A2010" } },
+                        new ProviderDataContracts.Filters.DimensionFilter { DimensionID = "2", AttributeIDs = new List<string> { "1" } }
+                    }
+                }
+            };
+            IEnumerable<ProviderDataContracts.Values.IndicatorValue> actual = IndicatorValueExtension.ToIndicatorValueEnumerable(ineValues);
+            Assert.IsTrue(Enumerable.SequenceEqual<ProviderDataContracts.Values.IndicatorValue>(expected, actual));
         }
     }
 }

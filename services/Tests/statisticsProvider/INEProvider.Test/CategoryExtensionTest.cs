@@ -85,13 +85,14 @@ namespace INEProvider.Test
             {
                 Code = "D1",
                 Designation = "Dimension 1",
-                Level = 1
+                Level = 1,
+                //ParentCategoryCode = "1"
             };
             bool hierarchical = true;
             DimensionAttribute expected = new HierarchyAttribute
             {
                 ID = "D1",
-                Name = "Dimension 1",
+                Name = "Dimension 1"
             };
             DimensionAttribute actual = CategoryExtension.ToDimensionAttribute(category, hierarchical);
             Assert.AreEqual(expected, actual);

@@ -34,10 +34,11 @@ namespace INEProvider.Test
         /// <summary>
         ///A test for GetGeographicLevelName
         ///</summary>
+        [TestMethod()]
         public void GetGeographicLevelNameNUTS1Test()
         {
             GeographicLevels level = GeographicLevels.NUTS1;
-            string expected = "NUTS1";
+            string expected = "NUTS 1";
             string actual = INEServiceHepers.GetGeographicLevelName(level);
             Assert.AreEqual(expected, actual);
         }
@@ -45,10 +46,11 @@ namespace INEProvider.Test
         /// <summary>
         ///A test for GetGeographicLevelName
         ///</summary>
+        [TestMethod()]
         public void GetGeographicLevelNameNUTS2Test()
         {
             GeographicLevels level = GeographicLevels.NUTS2;
-            string expected = "NUTS2";
+            string expected = "NUTS 2";
             string actual = INEServiceHepers.GetGeographicLevelName(level);
             Assert.AreEqual(expected, actual);
         }
@@ -56,10 +58,11 @@ namespace INEProvider.Test
         /// <summary>
         ///A test for GetGeographicLevelName
         ///</summary>
+        [TestMethod()]
         public void GetGeographicLevelNameNUTS3Test()
         {
             GeographicLevels level = GeographicLevels.NUTS3;
-            string expected = "NUTS3";
+            string expected = "NUTS 3";
             string actual = INEServiceHepers.GetGeographicLevelName(level);
             Assert.AreEqual(expected, actual);
         }
@@ -67,6 +70,7 @@ namespace INEProvider.Test
         /// <summary>
         ///A test for GetGeographicLevelName
         ///</summary>
+        [TestMethod()]
         public void GetGeographicLevelNameMunicipalityTest()
         {
             GeographicLevels level = GeographicLevels.Municipality;
@@ -78,6 +82,7 @@ namespace INEProvider.Test
         /// <summary>
         ///A test for GetGeographicLevelName
         ///</summary>
+        [TestMethod()]
         public void GetGeographicLevelNameParishTest()
         {
             GeographicLevels level = GeographicLevels.Parish;

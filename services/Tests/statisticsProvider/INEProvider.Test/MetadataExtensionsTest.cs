@@ -4,6 +4,7 @@ using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting.Web;
 using INEProvider.INEService;
 using ProviderDataContracts.Metadata;
+using System.Collections.Generic;
 
 namespace INEProvider.Test
 {
@@ -39,15 +40,72 @@ namespace INEProvider.Test
         /// <summary>
         ///A test for ToIndicatorMetadata
         ///</summary>
+        [TestMethod()]
         public void ToIndicatorMetadataTest()
         {
-            Metadata metadata = null; // TODO: Initialize to an appropriate value
-            string indicatorId = string.Empty; // TODO: Initialize to an appropriate value
-            IndicatorMetadata expected = null; // TODO: Initialize to an appropriate value
-            IndicatorMetadata actual;
-            actual = MetadataExtensions.ToIndicatorMetadata(metadata, indicatorId);
+            var lastupdate = DateTime.Now.ToShortDateString();
+
+            Metadata metadata = new Metadata
+            {
+                Designation = "Indicator 1",
+                Abbreviation = "I1",
+                TimeDimension = new TimeDimension {
+                    Code = "T1",
+                    Designation = "Time dimension",
+                    Abbreviation = "TD",
+                    Periods = new List<Period>{
+                        new Period { Code= "1", Designation = "2010" }
+                    }
+                },
+                GeoDimension = new INEService.Dimension {
+                    Code = "Geo1", 
+                    Designation = "Dimensao geografica",
+                    Abbreviation = "DG",
+                    ClassificationCode = "00320",
+                    LowestClassificationLevel = 2
+                },
+                Url = "http://nowhere.com",
+                IndicatorUrl = "http://nowhere.com",
+                DataLastUpdate = lastupdate
+            };
+            string indicatorId = "1";
+            IndicatorMetadata expected = new IndicatorMetadata
+            {
+                ID = indicatorId,
+                IndicatorName = "Indicator 1",
+                IndicatorNameAbbr = "I1",
+                Dimensions = new List<ProviderDataContracts.Metadata.Dimension>
+                {
+                    new ProviderDataContracts.Metadata.Dimension { 
+                        ID = "1", 
+                        DimensionType = DimensionType.Temporal, 
+                        Name = "Time dimension",
+                        NameAbbr = "TD",
+                        Attributes = new List<DimensionAttribute> {
+                            new DimensionAttribute { ID = "1", Name = "2010" }
+                        }
+                    }, 
+                    new ProviderDataContracts.Metadata.Dimension { 
+                        ID = "2", 
+                        DimensionType = DimensionType.Geographic, 
+                        Name = "Dimensao geografica",
+                        NameAbbr = "DG",
+                        Attributes = new List<DimensionAttribute> {
+                            new GeoAttributeHierarchy { 
+                                ID = "NUTS1",
+                                Level = 2,
+                                Name = "NUTS 1"
+                            }
+                        }
+                    }
+                },
+                LastUpdate = DateTime.Parse(lastupdate),
+                SourceName = "Instituto Nacional de Estatísticas",
+                SourceNameAbbr = "INE",
+                SourceURL = "http://nowhere.com"
+            };
+            IndicatorMetadata actual = MetadataExtensions.ToIndicatorMetadata(metadata, indicatorId);
             Assert.AreEqual(expected, actual);
-            Assert.Inconclusive("Verify the correctness of this test method.");
         }
     }
 }

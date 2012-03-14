@@ -23,8 +23,9 @@ namespace INEProvider.Extensions.INE2Provider
 
             // other dimensions
             int order = Configuration.OTHER_DIMENSIONS_START_ORDER;
-            foreach (var d in metadata.Dimensions)
-                dimensions.Add(d.ToDimension(order++));
+            if(metadata.Dimensions != null)
+                foreach (var d in metadata.Dimensions)
+                    dimensions.Add(d.ToDimension(order++));
 
             return new IndicatorMetadata
             {
