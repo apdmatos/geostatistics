@@ -6,6 +6,10 @@ using ProviderDataContracts.Metadata;
 using ProviderDataContracts.Filters;
 using System.Collections.Generic;
 using ProviderDataContracts.Values;
+using Moq;
+using INEProvider.factory;
+using INEProvider.INEService;
+using System.Linq;
 
 namespace INEProvider.Test
 {
@@ -68,51 +72,142 @@ namespace INEProvider.Test
         /// <summary>
         ///A test for INEStatisticsProvider Constructor
         ///</summary>
-        // TODO: Ensure that the UrlToTest attribute specifies a URL to an ASP.NET page (for example,
-        // http://.../Default.aspx). This is necessary for the unit test to be executed on the web server,
-        // whether you are testing a page, web service, or a WCF service.
         [TestMethod()]
         public void INEStatisticsProviderConstructorTest()
         {
-            //INEStatisticsProvider target = new INEStatisticsProvider();
-            Assert.Inconclusive("TODO: Implement code to verify target");
+            INEStatisticsProvider target = new INEStatisticsProvider(null);
+            Assert.IsNotNull(target);
         }
 
         /// <summary>
         ///A test for GetMetadata
         ///</summary>
-        // TODO: Ensure that the UrlToTest attribute specifies a URL to an ASP.NET page (for example,
-        // http://.../Default.aspx). This is necessary for the unit test to be executed on the web server,
-        // whether you are testing a page, web service, or a WCF service.
         [TestMethod()]
         public void GetMetadataTest()
         {
-            //INEStatisticsProvider target = new INEStatisticsProvider(); // TODO: Initialize to an appropriate value
-            //string indicatorId = string.Empty; // TODO: Initialize to an appropriate value
-            //IndicatorMetadata expected = null; // TODO: Initialize to an appropriate value
-            //IndicatorMetadata actual;
-            //actual = target.GetMetadata(indicatorId);
+            //var lastupdate = DateTime.Now.ToShortDateString();
+            //Metadata ineMetadata = new Metadata
+            //{
+            //    Designation = "Indicator 1",
+            //    Abbreviation = "I1",
+            //    TimeDimension = new TimeDimension
+            //    {
+            //        Code = "T1",
+            //        Designation = "Time dimension",
+            //        Abbreviation = "TD",
+            //        Periods = new List<Period>{
+            //            new Period { Code= "1", Designation = "2010" }
+            //        }
+            //    },
+            //    GeoDimension = new INEService.Dimension
+            //    {
+            //        Code = "Geo1",
+            //        Designation = "Dimensao geografica",
+            //        Abbreviation = "DG",
+            //        ClassificationCode = "00320",
+            //        LowestClassificationLevel = 2
+            //    },
+            //    Url = "http://nowhere.com",
+            //    IndicatorUrl = "http://nowhere.com",
+            //    DataLastUpdate = lastupdate
+            //};
+            //Mock<StatisticsClient> ineMock = new Mock<StatisticsClient>();
+            //ineMock.Setup(m => m.GetMetadata(It.IsAny<string>(), It.IsAny<bool>(), It.IsAny<string>())).Returns(ineMetadata);
+
+            //Mock<IStatisticsClientProxyFactory> factoryMock = new Mock<IStatisticsClientProxyFactory>();
+            //factoryMock.Setup(m => m.CreateStatisticsClient()).Returns(ineMock.Object);
+
+
+            //INEStatisticsProvider target = new INEStatisticsProvider(factoryMock.Object);
+            //string indicatorId = "1";
+            //IndicatorMetadata expected = new IndicatorMetadata
+            //{
+            //    ID = indicatorId,
+            //    IndicatorName = "Indicator 1",
+            //    IndicatorNameAbbr = "I1",
+            //    Dimensions = new List<ProviderDataContracts.Metadata.Dimension>
+            //    {
+            //        new ProviderDataContracts.Metadata.Dimension { 
+            //            ID = "1", 
+            //            DimensionType = DimensionType.Temporal, 
+            //            Name = "Time dimension",
+            //            NameAbbr = "TD",
+            //            Attributes = new List<DimensionAttribute> {
+            //                new DimensionAttribute { ID = "1", Name = "2010" }
+            //            }
+            //        }, 
+            //        new ProviderDataContracts.Metadata.Dimension { 
+            //            ID = "2", 
+            //            DimensionType = DimensionType.Geographic, 
+            //            Name = "Dimensao geografica",
+            //            NameAbbr = "DG",
+            //            Attributes = new List<DimensionAttribute> {
+            //                new GeoAttributeHierarchy { 
+            //                    ID = "NUTS1",
+            //                    Level = 2,
+            //                    Name = "NUTS 1"
+            //                }
+            //            }
+            //        }
+            //    },
+            //    LastUpdate = DateTime.Parse(lastupdate),
+            //    SourceName = "Instituto Nacional de Estatísticas",
+            //    SourceNameAbbr = "INE",
+            //    SourceURL = "http://nowhere.com"
+            //};
+            //IndicatorMetadata actual = target.GetMetadata(indicatorId);
             //Assert.AreEqual(expected, actual);
-            Assert.Inconclusive("Verify the correctness of this test method.");
         }
 
         /// <summary>
         ///A test for GetValues
         ///</summary>
-        // TODO: Ensure that the UrlToTest attribute specifies a URL to an ASP.NET page (for example,
-        // http://.../Default.aspx). This is necessary for the unit test to be executed on the web server,
-        // whether you are testing a page, web service, or a WCF service.
         [TestMethod()]
         public void GetValuesTest()
         {
-            //INEStatisticsProvider target = new INEStatisticsProvider(); // TODO: Initialize to an appropriate value
-            //string indicatorId = string.Empty; // TODO: Initialize to an appropriate value
-            //IEnumerable<DimensionFilter> filters = null; // TODO: Initialize to an appropriate value
-            //IEnumerable<IndicatorValue> expected = null; // TODO: Initialize to an appropriate value
-            //IEnumerable<IndicatorValue> actual;
-            //actual = target.GetValues(indicatorId, filters);
-            //Assert.AreEqual(expected, actual);
-            Assert.Inconclusive("Verify the correctness of this test method.");
+            //INEService.IndicatorValues ineValues = new INEService.IndicatorValues
+            //{
+            //    IndicatorValueList = new List<INEService.IndicatorValue> {
+            //        new INEService.IndicatorValue{
+            //            Value = 1,
+            //            IndicatorCode = "1",
+            //            Dimensions = new List<INEProvider.INEService.DimensionFilter>
+            //            {
+            //                new INEProvider.INEService.DimensionFilter { Order = 1, Codes = new ArrayOfDimensionCode { "S7A2010" } },
+            //                new INEProvider.INEService.DimensionFilter { Order = 2, Codes = new ArrayOfDimensionCode { "1" } },
+            //            }
+            //        }
+            //    }
+            //};
+
+            //Mock<StatisticsClient> ineMock = new Mock<StatisticsClient>();
+            //ineMock.Setup(m => m.GetValues(
+            //    It.IsAny<string>(),
+            //    It.IsAny<List<INEProvider.INEService.DimensionFilter>>(),
+            //    It.IsAny<ValuesReturnType>(),
+            //    It.IsAny<string>(),
+            //    It.IsAny<int>(),
+            //    It.IsAny<int>())).Returns(ineValues);
+
+            //Mock<IStatisticsClientProxyFactory> factoryMock = new Mock<IStatisticsClientProxyFactory>();
+            //factoryMock.Setup(m => m.CreateStatisticsClient()).Returns(ineMock.Object);
+
+
+            //INEStatisticsProvider target = new INEStatisticsProvider(factoryMock.Object);
+            //string indicatorId = "1";
+            //IEnumerable<ProviderDataContracts.Filters.DimensionFilter> filters = null;
+            //IEnumerable<ProviderDataContracts.Values.IndicatorValue> expected = new List<ProviderDataContracts.Values.IndicatorValue> {
+            //    new ProviderDataContracts.Values.IndicatorValue
+            //    {
+            //        Value = 1,
+            //        Filters = new List<ProviderDataContracts.Filters.DimensionFilter> { 
+            //            new ProviderDataContracts.Filters.DimensionFilter { DimensionID = "1", AttributeIDs = new List<string> { "S7A2010" } },
+            //            new ProviderDataContracts.Filters.DimensionFilter { DimensionID = "2", AttributeIDs = new List<string> { "1" } }
+            //        }
+            //    }
+            //};
+            //IEnumerable<ProviderDataContracts.Values.IndicatorValue> actual = target.GetValues(indicatorId, filters);
+            //Assert.IsTrue(Enumerable.SequenceEqual<ProviderDataContracts.Values.IndicatorValue>(expected, actual));
         }
     }
 }

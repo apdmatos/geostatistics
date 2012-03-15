@@ -270,10 +270,10 @@ namespace StatisticsProxyImpl.Tests
             //DefaultStatisticsProxyImpl proxy = new DefaultStatisticsProxyImpl(configKey, indicatorRepository, factory);
             //PrivateObject param0 = new PrivateObject(proxy);
             //DefaultStatisticsProxyImpl_Accessor target = new DefaultStatisticsProxyImpl_Accessor(param0);
-            //Dictionary<string, Dictionary<string, DefaultStatisticsProxyImpl_Accessor.DimensionAttributesHelper>> selectedDimensionsHelper = new Dictionary<string,Dictionary<string,DefaultStatisticsProxyImpl_Accessor.DimensionAttributesHelper>>();
+            //Dictionary<string, Dictionary<string, DefaultStatisticsProxyImpl_Accessor.DimensionAttributesHelper>> selectedDimensionsHelper = new Dictionary<string, Dictionary<string, DefaultStatisticsProxyImpl_Accessor.DimensionAttributesHelper>>();
             //DimensionFilter axisDimension = new DimensionFilter
             //{
-            //    AttributeIDs = new List<string>{ "1" }, 
+            //    AttributeIDs = new List<string> { "1" },
             //    DimensionID = "1"
             //};
 

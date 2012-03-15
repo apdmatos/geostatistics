@@ -33,6 +33,12 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Ninject">
+      <HintPath>..\..\packages\Ninject.2.2.1.4\lib\net40-Full\Ninject.dll</HintPath>
+    </Reference>
+    <Reference Include="Ninject.Extensions.Wcf">
+      <HintPath>..\..\packages\Ninject.Extensions.Wcf.2.2.0.4\lib\net40-Full\Ninject.Extensions.Wcf.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -52,6 +58,7 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="packages.config" />
     <None Include="Service References\INEService\configuration91.svcinfo" />
     <None Include="Service References\INEService\configuration.svcinfo" />
     <None Include="Service References\INEService\INEProvider.INEService.Category.datasource">
@@ -88,6 +95,7 @@
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
+    <Content Include="Global.asax" />
     <Content Include="INEStatisticsProvider.svc" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
@@ -98,12 +106,18 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DI\WCFNinjectModule.cs" />
     <Compile Include="Extensions\INE2Provider\DimensionFilterExtension.cs" />
     <Compile Include="Extensions\INE2Provider\IndicatorValueExtension.cs" />
     <Compile Include="Extensions\INE2Provider\CategoryExtension.cs" />
     <Compile Include="Extensions\INE2Provider\DimensionExtension.cs" />
     <Compile Include="Extensions\INE2Provider\MetadataExtensions.cs" />
     <Compile Include="Extensions\Provider2INE\DimensionFilterExtension.cs" />
+    <Compile Include="factory\IStatisticsClientProxyFactory.cs" />
+    <Compile Include="factory\StatisticsClientProxyFactory.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
     <Compile Include="Helpers\INEServiceHepers.cs" />
     <Compile Include="INEStatisticsProvider.svc.cs">
       <DependentUpon>INEStatisticsProvider.svc</DependentUpon>

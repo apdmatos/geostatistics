@@ -11,15 +11,23 @@ using INEProvider.Extensions.INE2Provider;
 using INEProvider.Extensions.Provider2INE;
 using INEProvider.ServiceConfig;
 using ProviderDataContracts.Metadata.Provider_Interfaces;
+using INEProvider.factory;
 
 namespace INEProvider
 {
     public class INEStatisticsProvider : IStatisticsProvider
     {
+        private IStatisticsClientProxyFactory _proxyFactory;
+
+        public INEStatisticsProvider(IStatisticsClientProxyFactory proxyFactory) 
+        {
+            _proxyFactory = proxyFactory;
+        }
+
         public IndicatorMetadata GetMetadata(string indicatorId)
         {
             IndicatorMetadata metadata = null;
-            using (INEProvider.INEService.StatisticsClient service = new INEService.StatisticsClient()) 
+            using (INEProvider.INEService.StatisticsClient service = _proxyFactory.CreateStatisticsClient()) 
             {
                 metadata = service.GetMetadata(indicatorId, true, Configuration.LANGUAGE).ToIndicatorMetadata(indicatorId);
             }
@@ -31,7 +39,7 @@ namespace INEProvider
         {
             IEnumerable<IndicatorValue> values = null;
 
-            using (INEProvider.INEService.StatisticsClient service = new INEService.StatisticsClient())
+            using (INEProvider.INEService.StatisticsClient service = _proxyFactory.CreateStatisticsClient())
             {
                 List<INEService.DimensionFilter> ineFilter = filters.ToDimensionFilterEnumerable().ToList();
                 INEService.IndicatorValues ineValues = service.GetValues(indicatorId, 
