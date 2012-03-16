@@ -11,45 +11,32 @@ using INEProvider.Extensions.INE2Provider;
 using INEProvider.Extensions.Provider2INE;
 using INEProvider.ServiceConfig;
 using ProviderDataContracts.Metadata.Provider_Interfaces;
-using INEProvider.factory;
+using INEProvider.request;
 
 namespace INEProvider
 {
     public class INEStatisticsProvider : IStatisticsProvider
     {
-        private IStatisticsClientProxyFactory _proxyFactory;
+        private IINERequesterWrapper _requester;
 
-        public INEStatisticsProvider(IStatisticsClientProxyFactory proxyFactory) 
+        public INEStatisticsProvider(IINERequesterWrapper requester) 
         {
-            _proxyFactory = proxyFactory;
+            _requester = requester;
         }
 
         public IndicatorMetadata GetMetadata(string indicatorId)
         {
-            IndicatorMetadata metadata = null;
-            using (INEProvider.INEService.StatisticsClient service = _proxyFactory.CreateStatisticsClient()) 
-            {
-                metadata = service.GetMetadata(indicatorId, true, Configuration.LANGUAGE).ToIndicatorMetadata(indicatorId);
-            }
-
-            return metadata;
+            return _requester.GetMetadata(indicatorId, true, Configuration.LANGUAGE).ToIndicatorMetadata(indicatorId);
         }
 
         public IEnumerable<IndicatorValue> GetValues(string indicatorId, IEnumerable<DimensionFilter> filters)
         {
-            IEnumerable<IndicatorValue> values = null;
+            List<INEService.DimensionFilter> ineFilter = filters.ToDimensionFilterEnumerable().ToList();
+            INEService.IndicatorValues ineValues = _requester.GetValues(indicatorId, 
+                    ineFilter, INEService.ValuesReturnType.OnlyValues,
+                    Configuration.LANGUAGE, 1, Configuration.MAX_RECORDS_PER_PAGE);
 
-            using (INEProvider.INEService.StatisticsClient service = _proxyFactory.CreateStatisticsClient())
-            {
-                List<INEService.DimensionFilter> ineFilter = filters.ToDimensionFilterEnumerable().ToList();
-                INEService.IndicatorValues ineValues = service.GetValues(indicatorId, 
-                        ineFilter, INEService.ValuesReturnType.OnlyValues,
-                        Configuration.LANGUAGE, 1, Configuration.MAX_RECORDS_PER_PAGE);
-
-                values = ineValues.IndicatorValueList.ToIndicatorValueEnumerable();
-            }
-
-            return values;
-        }
+            return ineValues.IndicatorValueList.ToIndicatorValueEnumerable();
+       }
     }
 }

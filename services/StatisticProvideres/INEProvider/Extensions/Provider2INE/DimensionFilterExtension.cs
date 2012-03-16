@@ -12,8 +12,9 @@ namespace INEProvider.Extensions.Provider2INE
         public static IEnumerable<DimensionFilter> ToDimensionFilterEnumerable(
             this IEnumerable<ProviderDataContracts.Filters.DimensionFilter> filter)
         {
-            foreach (var f in filter)
-                yield return f.ToDimensionFilter();
+            if(filter != null)
+                foreach (var f in filter)
+                    yield return f.ToDimensionFilter();
 
             yield break;
         }

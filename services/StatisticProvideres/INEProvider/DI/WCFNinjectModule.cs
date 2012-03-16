@@ -5,7 +5,7 @@ using System.Web;
 using Ninject.Modules;
 using INEProvider.INEService;
 using Ninject;
-using INEProvider.factory;
+using INEProvider.request;
 
 namespace INEProvider.DI
 {
@@ -16,7 +16,7 @@ namespace INEProvider.DI
             //Injects the constructors of all DI-ed objects
             Bind<StatisticsClient>().ToSelf();
             Bind<IKernel>().ToConstant(Kernel);
-            Bind<IStatisticsClientProxyFactory>().To<StatisticsClientProxyFactory>();
+            Bind<IINERequesterWrapper>().To<INERequestWrapper>();
         }
     }
 }

@@ -35,7 +35,13 @@ namespace StatisticsProxyImpl
             
             using (IStatisticsRequestStrategy request = _factory.GetStatisticRequestStrategy(indicator.Provider.ServiceURL, _configurationKey)) 
             {
-                return request.GetMetadata(indicator.SourceID);
+                IndicatorMetadata metadata = request.GetMetadata(indicator.SourceID);
+                metadata.ID = indicator.ID.ToString();
+                metadata.SourceID = indicator.Provider.ID;
+                metadata.SourceName = indicator.Provider.Name;
+                metadata.SourceNameAbbr = indicator.Provider.NameAbbr;
+
+                return metadata;
             }
         }
 

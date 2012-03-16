@@ -57,6 +57,9 @@ namespace INEProvider.Extensions.INE2Provider
 
                 GeoAttributeHierarchy attribute = new GeoAttributeHierarchy
                 {
+
+                    //TODO: descobrir quais sao os codigo dos elementos agregadores das hierarquias!
+
                     ID = level.ToString(),
                     //ID = "PT",
                     Name = INEServiceHepers.GetGeographicLevelName(level),

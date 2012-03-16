@@ -113,8 +113,8 @@
     <Compile Include="Extensions\INE2Provider\DimensionExtension.cs" />
     <Compile Include="Extensions\INE2Provider\MetadataExtensions.cs" />
     <Compile Include="Extensions\Provider2INE\DimensionFilterExtension.cs" />
-    <Compile Include="factory\IStatisticsClientProxyFactory.cs" />
-    <Compile Include="factory\StatisticsClientProxyFactory.cs" />
+    <Compile Include="request\IINERequesterWrapper.cs" />
+    <Compile Include="request\INERequesterWrapper.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
