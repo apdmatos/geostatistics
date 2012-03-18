@@ -46,6 +46,7 @@
     <Compile Include="Metadata\DimensionAttribute.cs" />
     <Compile Include="Metadata\Dimension.cs" />
     <Compile Include="Metadata\DimensionType.cs" />
+    <Compile Include="Metadata\GeoAttributeConfiguration.cs" />
     <Compile Include="Metadata\HierarchyAttribute.cs" />
     <Compile Include="Metadata\IndicatorMetadata.cs" />
     <Compile Include="Metadata\GeoAttributeHierarchy.cs" />

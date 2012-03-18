@@ -52,7 +52,7 @@ namespace RestService.Test
         [TestMethod()]
         public void ParseDimensionFilterTest()
         {
-            URLParameterDefaultImpl target = new URLParameterDefaultImpl(); // TODO: Initialize to an appropriate value
+            URLParameterDefaultImpl target = new URLParameterDefaultImpl(); 
             string dimensionFilter = "1,1,2,3";
             DimensionFilter expected = new DimensionFilter
             {

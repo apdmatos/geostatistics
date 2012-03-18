@@ -53,33 +53,15 @@ namespace INEProvider.Test
                 NameAbbr = "D1",
                 DimensionType = DimensionType.Geographic,
                 Attributes = new List<DimensionAttribute> {
-                    new GeoAttributeHierarchy
-                    {
-                        ID = "NUTS1",
-                        Level = 2,
-                        Name = "NUTS 1",
-                        GeoHierachyConfiguration = new GeoAttributeHierarchy
-                        {
-                            ID = "NUTS2",
-                            Name = "NUTS 2",
-                            Level = 3,
-                            GeoHierachyConfiguration = new GeoAttributeHierarchy
-                            {
-                                ID = "NUTS3",
-                                Name = "NUTS 3",
-                                Level = 4,
-                                GeoHierachyConfiguration = new GeoAttributeHierarchy
-                                {
-                                    ID = "Municipality",
-                                    Name = "Concelhos",
-                                    Level = 5,
-                                    GeoHierachyConfiguration = new GeoAttributeHierarchy { 
-                                        ID = "Parish",
-                                        Name = "Freguesias",
-                                        Level = 6
-                                    }
-                                }
-                            }
+                    new GeoAttributeHierarchy {
+                        ID = "PT",
+                        Name = "Portugal",
+                        Configuration = new List<GeoAttributeConfiguration>{
+                            new GeoAttributeConfiguration { ID = "NUTS1", Level = 2, Name = "NUTS 1" },
+                            new GeoAttributeConfiguration { ID = "NUTS2", Level = 3, Name = "NUTS 2" },
+                            new GeoAttributeConfiguration { ID = "NUTS3", Level = 4, Name = "NUTS 3" },
+                            new GeoAttributeConfiguration { ID = "Municipality", Level = 5, Name = "Concelhos" },
+                            new GeoAttributeConfiguration { ID = "Parish", Level = 6, Name = "Freguesias" }
                         }
                     }
                 }

@@ -34,11 +34,10 @@ namespace FakeStatisticsProvider
                     Attributes = new List<DimensionAttribute> {
                         new GeoAttributeHierarchy {
                             ID = "PT",
-                            Level = 1,
-                            Name = "Distritos",
-                            GeoHierachyConfiguration = new GeoAttributeHierarchy {
-                                Level = 2,
-                                Name = "Municípios"
+                            Name = "Portugal",
+                            Configuration = new List<GeoAttributeConfiguration>{
+                                new GeoAttributeConfiguration{ ID = "District", Level= 1, Name= "Distritos" },
+                                new GeoAttributeConfiguration{ ID = "Municipality", Level= 1, Name= "Municipios" }
                             }
                         }
                     }

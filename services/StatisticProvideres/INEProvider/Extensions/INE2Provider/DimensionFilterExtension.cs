@@ -8,14 +8,21 @@ namespace INEProvider.Extensions.INE2Provider
 {
     static class DimensionFilterExtension
     {
-        public static IEnumerable<DimensionFilter> ToDimensionFilterEnumerable(this IEnumerable<INEService.DimensionFilter> filter)
+        public static List<DimensionFilter> ToDimensionFilterEnumerable(this IEnumerable<INEService.DimensionFilter> filter)
         {
-            foreach (var f in filter)
-            {
-                yield return f.ToDimensionFilter();
-            }
+            //foreach (var f in filter)
+            //{
+            //    yield return f.ToDimensionFilter();
+            //}
 
-            yield break;
+            //yield break;
+
+            List<DimensionFilter> filters = new List<DimensionFilter>();
+            if (filter != null)
+                foreach (var f in filter)
+                    filters.Add(f.ToDimensionFilter());
+
+            return filters;
         }
 
         public static DimensionFilter ToDimensionFilter(this INEService.DimensionFilter filter) 

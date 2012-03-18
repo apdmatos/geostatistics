@@ -36,7 +36,7 @@ namespace INEProvider
                     ineFilter, INEService.ValuesReturnType.OnlyValues,
                     Configuration.LANGUAGE, 1, Configuration.MAX_RECORDS_PER_PAGE);
 
-            return ineValues.IndicatorValueList.ToIndicatorValueEnumerable();
+            return ineValues.IndicatorValueList.ToIndicatorValueEnumerable().ToList();
        }
     }
 }

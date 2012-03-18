@@ -22,10 +22,11 @@ namespace INEProvider.Extensions.Provider2INE
         public static DimensionFilter ToDimensionFilter(this ProviderDataContracts.Filters.DimensionFilter filter)
         {
             ArrayOfDimensionCode codes = new ArrayOfDimensionCode();
-            foreach (var attribute in filter.AttributeIDs)
-            {
-                codes.Add(attribute);
-            }
+            if(filter.AttributeIDs != null)
+                foreach (var attribute in filter.AttributeIDs)
+                {
+                    codes.Add(attribute);
+                }
 
             return new DimensionFilter { 
                 Codes = codes,

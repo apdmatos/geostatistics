@@ -50,28 +50,25 @@ namespace INEProvider.Extensions.INE2Provider
             List<DimensionAttribute> attributes = new List<DimensionAttribute>();
 
             // build geoAttribute configuration
-            GeoAttributeHierarchy lastAttribute = null;
-            for (int i = ineDimension.LowestClassificationLevel; i >= 2; --i)
+            List<GeoAttributeConfiguration> configuration = new List<GeoAttributeConfiguration>();
+            for (int i = 2; i <= ineDimension.LowestClassificationLevel; ++i)
 			{
                 GeographicLevels level = (GeographicLevels)i;
 
-                GeoAttributeHierarchy attribute = new GeoAttributeHierarchy
-                {
-
-                    //TODO: descobrir quais sao os codigo dos elementos agregadores das hierarquias!
-
+                configuration.Add(new GeoAttributeConfiguration {
                     ID = level.ToString(),
-                    //ID = "PT",
                     Name = INEServiceHepers.GetGeographicLevelName(level),
                     Level = (int)level
-                };
+                });
 
-                attribute.GeoHierachyConfiguration = lastAttribute;
-                lastAttribute = attribute;
 			}
 
             // add attribute
-            d.AddAttribute(lastAttribute);
+            d.AddAttribute(new GeoAttributeHierarchy { 
+                ID = "PT",
+                Name = "Portugal",
+                Configuration = configuration
+            });
             return d;
         }
 

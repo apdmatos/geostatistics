@@ -67,11 +67,10 @@ namespace RestService.Test
                     Attributes = new List<DimensionAttribute> {
                         new GeoAttributeHierarchy {
                             ID = "PT",
-                            Level = 1,
-                            Name = "Distritos",
-                            GeoHierachyConfiguration = new GeoAttributeHierarchy {
-                                Level = 2,
-                                Name = "Municípios"
+                            Name = "Portugal",
+                            Configuration = new List<GeoAttributeConfiguration>{
+                                new GeoAttributeConfiguration { ID = "Districts", Level = 1, Name = "Distritos" },
+                                new GeoAttributeConfiguration { ID = "Municipalities", Level = 2, Name = "Municipios" }
                             }
                         }
                     }

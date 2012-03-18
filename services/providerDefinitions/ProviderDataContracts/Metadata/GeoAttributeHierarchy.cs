@@ -9,18 +9,15 @@ namespace ProviderDataContracts.Metadata
     [DataContract]
     public class GeoAttributeHierarchy : HierarchyAttribute
     {
-        [DataMember(EmitDefaultValue=false)] public int Level { get; set; }
-
-        [DataMember(EmitDefaultValue=false)] public GeoAttributeHierarchy GeoHierachyConfiguration { get; set; }
+        [DataMember(EmitDefaultValue = false)] public IEnumerable<GeoAttributeConfiguration> Configuration { get; set; }
 
         public override bool Equals(object obj)
         {
             var attr = obj as GeoAttributeHierarchy;
             if (attr == null) return false;
 
-            return base.Equals(obj) && 
-                Level == attr.Level &&
-                GeoAttributeHierarchy.Equals(GeoHierachyConfiguration, attr.GeoHierachyConfiguration);
+            return base.Equals(obj) &&
+                (Configuration == null && attr.Configuration == null || Enumerable.SequenceEqual<GeoAttributeConfiguration>(Configuration, attr.Configuration));
         }
 
         public override int GetHashCode()

@@ -109,9 +109,11 @@ namespace INEProvider.Test
                         NameAbbr = "DG",
                         Attributes = new List<DimensionAttribute> {
                             new GeoAttributeHierarchy { 
-                                ID = "NUTS1",
-                                Level = 2,
-                                Name = "NUTS 1"
+                                ID = "PT",
+                                Name = "Portugal",
+                                Configuration = new List<GeoAttributeConfiguration>{
+                                    new GeoAttributeConfiguration { ID = "NUTS1", Level = 2, Name = "NUTS 1" }
+                                }
                             }
                         }
                     }
