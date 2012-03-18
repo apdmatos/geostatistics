@@ -108,7 +108,7 @@ Statistics.Model.IndicatorMetadata.FromObject = function(obj){
 	}
 	
 	return new Statistics.Model.IndicatorMetadata(
-	~	obj.id, 
+		obj.id, 
 		obj.sourceid,
 		obj.name, 
 		dimensions, 

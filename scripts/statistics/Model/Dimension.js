@@ -70,7 +70,7 @@ Statistics.Model.Dimension = Statistics.Class({
 		
 		for(var i = 0, attribute; attribute = this.attributes[i]; ++i) {
 			
-			if(attribute.id = attributeId)
+			if(attribute.id == attributeId)
 				return attribute;
 				
 			if(attribute instanceof Statistics.Model.HierarchyAttribute)

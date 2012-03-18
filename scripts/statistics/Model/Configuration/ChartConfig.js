@@ -19,7 +19,6 @@ Statistics.Model.Configuration.ChartConfig = Statistics.Class(Statistics.Model.C
 	/**
 	 * @constructor
 	 * @param {Statistics.DimensionSelector} dimensionSelector
-	 * @param {Statistics.Model.IndicatorMetadata} metadata
 	 * @param {Statistics.Model.Configuration.DimensionConfig} dimensionConfig
 	 * @param {Object} options
 	 */

@@ -66,7 +66,7 @@ Statistics.Representation = Statistics.Class({
 	 * abstract method. Renders the control and requests for data
 	 */
 	renderData: function() {
-		this.control.setMetadata(this.configuration.metadata);
+		this.control.setMetadata(this.configuration.getMetadata());
 		this.control.setLoadingData();
 	}
 });

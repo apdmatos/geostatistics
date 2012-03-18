@@ -49,6 +49,7 @@ namespace StatisticsProxyImpl
         public DataSerie GetDataSerie(int sourceid, int indicatorid, DimensionFilter axisDimension, IEnumerable<DimensionFilter> selectedDimensions) 
         {
             Indicator indicator = _indicatorRepository.GetIndicatorById(sourceid, indicatorid);
+            if (indicator == null) return new DataSerie();
 
             //join filters
             List<DimensionFilter> filters = JoinFilters(selectedDimensions, axisDimension);

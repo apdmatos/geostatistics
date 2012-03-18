@@ -1,5 +1,6 @@
 [Oo]bj/
 [Bb]in/
+[Dd]ebug/
 TestResults/
 *.sln.cache
 *.user

@@ -7,9 +7,9 @@ Statistics.DimensionSelector.DefaultDimensionSelector = Statistics.Class(Statist
 	/**
 	 * @public
 	 * @function
-	 * @param {Array<Statistics.Model.Dimension>} dimensions
+	 * @param {Statistics.Model.Dimension[]} dimensions
 	 * 
-	 * @returns Array<Statistics.Model.Dimension> the selected dimensions
+	 * @returns Statistics.Model.Dimension[] the selected dimensions
 	 */
 	getSelectedDimensions: function(dimensions) {
 				
@@ -28,7 +28,7 @@ Statistics.DimensionSelector.DefaultDimensionSelector = Statistics.Class(Statist
 	/**
 	 * @public
 	 * @function
-	 * @param {Array<Statistics.Model.Dimension>} dimensions
+	 * @param {Statistics.Model.Dimension[]} dimensions
 	 * 
 	 * @returns Statistics.Model.Dimension
 	 *  returns the selected dimension
