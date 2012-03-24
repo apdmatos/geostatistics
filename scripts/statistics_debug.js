@@ -58,11 +58,17 @@
     };
 	
 	var jsFiles = [
+	
+		// Extenal
 		"lib/jQuery/jquery-1.7.1.js",
 		"lib/jqplot/jquery.jqplot.min.js",
 		"lib/jqplot/jqplot.barRenderer.min.js",
 		"lib/jqplot/jqplot.pieRenderer.min.js",
 		"lib/jqplot/jqplot.donutRenderer.min.js",
+		"lib/pivotTable/data_vortex.js",
+		"lib/pivotTable/pivot_table.js",
+		
+		// Internal
 		"statistics/BaseTypes/Class.js",
 		"statistics/Events.js",
 		"statistics/DimensionsSelector/DimensionSelector.js",
@@ -95,7 +101,9 @@
 	];
 	
 	var cssFiles = [
+		// External
 		"lib/jqplot/jquery.jqplot.min.css",
+		"lib/pivotTable/pivot_table.css"
 	];
 	
 	var isIE = (navigator.appName=="Microsoft Internet Explorer");

@@ -40,7 +40,7 @@ Statistics.Model.IndicatorMetadata = Statistics.Class(Statistics.Model.Attribute
 	
 	/**
 	 * @public
-	 * @property {Array<Statistics.Model.Dimension>}
+	 * @property {Statistics.Model.Dimension[]}
 	 * The indicator availlable dimensions
 	 */
 	dimensions: null,

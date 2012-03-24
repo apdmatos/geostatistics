@@ -7,7 +7,26 @@
 			#chartHolder{
 				height: 250px;
 				width: 200px;
+				border: solid 1px;
 			}
+			
+			#pivottableHolder {
+				width: 500px;
+				height: 250px;
+				border: solid 1px;
+			}
+			.left {
+				border: solid 1px;
+				height: 500px;
+				width: 469px;
+				float: left;
+				
+			}
+			.right {
+				
+				margin-left: 480px;
+			}
+			
 		</style>
 		
 		<script type="text/javascript" src="../scripts/statistics_debug.js"></script>
@@ -41,6 +60,12 @@
 	</head>
 	<body>
 		<h1>Densidade populacional (N.º/ km²)</h1>
-		<div id="chartHolder"></div>
+		<div class='left'>
+			
+		</div>
+		<div class='right'>
+			<div id="chartHolder"></div>
+			<div id="pivottableHolder"></div>
+		</div>
 	</body>
 </html>

@@ -1,7 +1,7 @@
 
 
 
-Statistics.Representation.Chart = Statistics.Class(Statistics.Representation, {
+Statistics.Representation.PivotTable = Statistics.Class(Statistics.Representation, {
 	
 	/**
 	 * @private
@@ -9,22 +9,6 @@ Statistics.Representation.Chart = Statistics.Class(Statistics.Representation, {
 	 * Represents the request in progress
 	 */
 	requestObj: null,
-	
-	/**
-	 * @constructor
-	 * @param {Statistics.Model.ChartConfig} configuration
-	 * @param {Statistics.Repository} repository
-	 * @param {Statistics.Control.Chart} control - The view/control to represent this controller/representation
-	 */
-	_init: function(configuration, repository, control) {
-		Statistics.Representation.prototype._init.apply(
-			this, 
-			[ 
-			  	configuration, 
-			  	repository, 
-			  	control
-			 ]);
-	},
 	
 	/**
 	 * @protected
@@ -36,12 +20,10 @@ Statistics.Representation.Chart = Statistics.Class(Statistics.Representation, {
 		if(this.requestObj) this.requestObj.cancelRequest();
 		
 		var metadata = this.configuration.getMetadata();
-		
 		this.requestObj = 
 			this.repository.getChartDataSerie(
 				metadata.sourceid, 
-				metadata.id, 
-				this.configuration.getSelectedDimensions()[0],
+				metadata.id,
 				this.configuration.getDimensionsConfig().getSelectedDimensions(),
 				{
 					successCallback: jQuery.proxy(this._complete, this),
@@ -57,7 +39,7 @@ Statistics.Representation.Chart = Statistics.Class(Statistics.Representation, {
 	 * Callback function. Called when the server responds with chart data
 	 */
 	_complete: function(data){
-		
+
 		this.control.setData(data);
 		this.control.show();
 	},
@@ -72,4 +54,5 @@ Statistics.Representation.Chart = Statistics.Class(Statistics.Representation, {
 		/*TODO: Do something... Cannot get data from the server*/
 		alert('Ups... Erro!');
 	}
+	
 });

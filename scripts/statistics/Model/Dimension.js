@@ -25,7 +25,7 @@ Statistics.Model.Dimension = Statistics.Class({
 	
 	/**
 	 * @public
-	 * @property {Array<Statistics.Model.Attribute>} 
+	 * @property {Statistics.Model.Attribute[]} 
 	 * Attributes the dimension attributes
 	 */
 	attributes: null,

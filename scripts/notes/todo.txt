@@ -5,17 +5,12 @@
    interessados da alteração do modelo.
    
    
- - Introduzir a ideia de configuração
-	 - Devem continuar a ser os charts que têm o eixo default seleccionado! 
+[D]- Introduzir a ideia de configuração
+	[D] - Devem continuar a ser os charts que têm o eixo default seleccionado! 
 	 	Deverá existir uma configuração por chart. Ou poderá ser partilhada! 
   
-  	 - Cada controller(representation) deverá ter a sua configuração.
-  	 	 - Dimensoes selecionadas e eixo selecionado para representar gráficos.
-  	 	 
-  	 - Controladores (representações) disponibilizam um método para obter a configuração. 
-  	 	Indicator.js afeta a configuração default. Indicando dimensões selecionadas e eixo 
-  	 	selecionado para obter valores.
-  	 	
+  	[D] - Cada controller(representation) deverá ter a sua configuração.
+  	[D] 	 - Dimensoes selecionadas e eixo selecionado para representar gráficos.
   	 	
  - Alterar namespaces: 
  	Representation -> Controller
@@ -23,3 +18,17 @@
  	
  - Na configuração, expor na interface métodos para adicionar dimensões e atributos.
  	Clonar dimensões dos metadados, para as várias configurações.
+ 	
+
+
+
+Apontamentos:
+-- Criar objetos especificos passando parametros à base... 
+//
+//function foo(a, b){
+//	
+//	base.apply(this, [a]);
+//}
+//
+//foot.prototype = new base();
+ 	

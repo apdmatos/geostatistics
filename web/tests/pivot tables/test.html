@@ -1,0 +1,111 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<title>Example - Tabela pivot</title>
+		<style type="text/css">
+			
+		</style>
+		<script type="text/javascript" src="data_vortex.js"></script>
+    	<script type="text/javascript" src="pivot_table.js"></script>
+    	<link rel="stylesheet" type="text/css" href="pivot_table.css" />
+		<script type="text/javascript">
+			
+			
+			function getData(){
+				
+				var metricAccounts = new Metric("Densidade populacional", Datatype.NUMBER);
+				
+				// dimensoes
+				var axisYear = new Axis("Ano");
+			  	var axisGender = new Axis("Sexo");
+			  	var axisGeographic = new Axis("Geografia");
+				
+				// Year attributes
+				var attrYear2001 = axisYear.makeNewBucket("2001");
+				var attrYear2002 = axisYear.makeNewBucket("2002");
+				var attrYear2003 = axisYear.makeNewBucket("2003");
+				var attrYearTotal = axisYear.makeNewBucket("Total");
+				
+				// Gender attributes
+				var attrGenderMale = axisGender.makeNewBucket("Masculino");
+				var attrGenderFemale = axisGender.makeNewBucket("Feminino");
+				var attrGenderTotal = axisGender.makeNewBucket("Total");
+				
+				// Geographic attributes
+				var attrGeoLisboa = axisGeographic.makeNewBucket("Lisboa");
+				
+				
+				
+				var dataVortex = new DataVortex([axisYear, axisGender, axisGeographic]);
+				dataVortex.metricList.push(metricAccounts);
+				
+				// --------------
+				// Year2001
+				// --------------
+				dataVortex.setValue(metricAccounts,  61.46, [attrYear2001, attrGenderMale, attrGeoLisboa])
+				dataVortex.setValue(metricAccounts, 250.00, [attrYear2001, attrGenderFemale, attrGeoLisboa])
+				dataVortex.setValue(metricAccounts, 311.46, [attrYear2001, attrGenderTotal, attrGeoLisboa])
+				
+				// --------------
+				// Year2002
+				// --------------
+				dataVortex.setValue(metricAccounts,  64.46, [attrYear2002, attrGenderMale, attrGeoLisboa])
+				dataVortex.setValue(metricAccounts, 10.00,  [attrYear2002, attrGenderFemale, attrGeoLisboa])
+				dataVortex.setValue(metricAccounts, 74.46,  [attrYear2002, attrGenderTotal, attrGeoLisboa])
+				
+				// --------------
+				// Year2003
+				// --------------
+				dataVortex.setValue(metricAccounts,  64.46, [attrYear2003, attrGenderMale, attrGeoLisboa])
+				dataVortex.setValue(metricAccounts,  10.00, [attrYear2003, attrGenderFemale, attrGeoLisboa])
+				dataVortex.setValue(metricAccounts,  74.46, [attrYear2003, attrGenderTotal, attrGeoLisboa])
+				
+				// --------------
+				// YearTotal
+				// --------------
+				dataVortex.setValue(metricAccounts,  190.38,  [attrYearTotal, attrGenderMale, attrGeoLisboa])
+				dataVortex.setValue(metricAccounts,  270.00,  [attrYearTotal, attrGenderFemale, attrGeoLisboa])
+				dataVortex.setValue(metricAccounts,  74.46,  [attrYearTotal, attrGenderTotal, attrGeoLisboa])
+				
+				return dataVortex;
+			}
+			
+			var data = null,
+				pivot = null;
+				
+			window.onload = function() {
+				data = getData();
+  				pivot  = new PivotTable("Densidade populacional", "res", data, [data.axisList[2], data.axisList[0]], [data.axisList[1]]);
+				
+				pivot.display();
+			}
+		    
+			var layoutModule = 0;
+			function changeLayout(){
+				
+				var layouts = {
+					
+					0: {
+						rows: [data.axisList[2]],
+						columns:[data.axisList[0], data.axisList[1]] 
+					},
+					
+					1: {
+						rows: [data.axisList[0]],
+						columns:[data.axisList[2], data.axisList[1]] 
+					}
+				} 
+				
+				layoutModule = ++layoutModule % 2;
+				pivot.display(layouts[layoutModule].rows, layouts[layoutModule].columns);
+			}
+				
+		</script>
+	</head>
+	<body>
+		<div id="res"></div>
+		<br /><br /><br /><br /><br />
+		<input type="button" onclick="changeLayout();" value="Change layout" />
+	</body>
+</html>

@@ -6,7 +6,7 @@ Statistics.Serializer.DimensionSerializer = Statistics.Class(Statistics.Serializ
 	 * Serializes a dimension to request the server
 	 * @public
 	 * @function
-	 * @param {Dimension} dimension
+	 * @param {Statistics.Model.Dimension} dimension
 	 * @returns {string} the serialized dimension
 	 */
 	serializeDimension: function(dimension){ 
@@ -21,7 +21,7 @@ Statistics.Serializer.DimensionSerializer = Statistics.Class(Statistics.Serializ
 	 * Serializes a dimension array to request the server
 	 * @public
 	 * @function
-	 * @param {Dimension[]} dimension
+	 * @param {Statistics.Model.Dimension[]} dimension
 	 * @returns {string} the serialized dimension array
 	 */
 	serializeDimensionsArray: function(dimensions) { 
