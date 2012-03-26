@@ -30,20 +30,21 @@ Statistics.Repository.StatisticsRepositoryImpl = Statistics.Class(Statistics.Rep
 		request = new Statistics.Repository.Request(xhr);
 		return request;
 	},
-	
+
 	/**
 	 * @public
 	 * @function
 	 * @param {String} sourceId
 	 * @param {String} indicatorId
-	 * @param {Object} axisDimension
-	 * @param {Object} selectedDimensions
+	 * @param {Statistics.Model.Dimension[]} filterDimensions
+	 * @param {Statistics.Model.Dimension[]} projectedDimensions
 	 * @param {Object} callbacks
 	 * 	- successCallback {Function}
 	 *  - failCallback {Function}
+	 *  
+	 * @returns {Statistics.Repository.Request}
 	 */
-	getChartDataSerie: function(sourceId, indicatorId, axisDimension, selectedDimensions, callbacks) {
-		
+	getIndicatorValues: function(sourceId, indicatorId, filterDimensions, projectedDimensions, callbacks){
 		var request = null;
 		
 		//TODO: register and call the fail callback!
@@ -52,8 +53,8 @@ Statistics.Repository.StatisticsRepositoryImpl = Statistics.Class(Statistics.Rep
 			{
 				sourceid: sourceId, 
 				indicatorid: indicatorId,
-				axisDimension: this.serializer.serializeDimension(axisDimension),
-				selectedDimensions: this.serializer.serializeDimensionsArray(selectedDimensions)
+				filterDimensions: this.serializer.serializeDimensionsArray(filterDimensions),
+				projectedDimensions: this.serializer.serializeDimensionsArray(projectedDimensions)
 			}, 
 			jQuery.proxy(function(data) {
 				if(request.isCanceled()) return;
@@ -64,7 +65,7 @@ Statistics.Repository.StatisticsRepositoryImpl = Statistics.Class(Statistics.Rep
 			}, this));
 			
 		request = new Statistics.Repository.Request(xhr);
-		return request;
-
+		return request;			
 	}
+
 });

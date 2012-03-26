@@ -1,7 +1,7 @@
 
 
 
-Statistics.Model.Configuration = Statistics.Class({
+Statistics.Model.DimensionConfiguration = Statistics.Class({
 	
 	/**
 	 * @constant

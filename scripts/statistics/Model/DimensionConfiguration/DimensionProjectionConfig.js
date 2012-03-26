@@ -1,6 +1,6 @@
 
 
-Statistics.Model.Configuration.ChartConfig = Statistics.Class(Statistics.Model.Configuration, {
+Statistics.Model.DimensionConfiguration.DimensionProjectionConfig = Statistics.Class(Statistics.Model.DimensionConfiguration, {
 	
 	/**
 	 * @constant

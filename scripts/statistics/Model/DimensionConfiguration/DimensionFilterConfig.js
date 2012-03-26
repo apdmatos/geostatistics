@@ -1,6 +1,6 @@
 
 
-Statistics.Model.Configuration.DimensionConfig = Statistics.Class(Statistics.Model.Configuration, {
+Statistics.Model.DimensionConfiguration.DimensionFilterConfig = Statistics.Class(Statistics.Model.DimensionConfiguration, {
 	
 	/**
 	 * @constant

@@ -1,10 +1,6 @@
 
 Statistics.Repository.IndicatorRepositoryMock = Statistics.Class(Statistics.Repository, {
 	
-//	_init: function(configuration, objectFactories) {
-//		Statistics.Repository.prototype._init.apply(this, arguments);
-//	},
-	
 	/**
 	 * @public
 	 * @function
@@ -94,62 +90,18 @@ Statistics.Repository.IndicatorRepositoryMock = Statistics.Class(Statistics.Repo
 	 * @function
 	 * @param {String} sourceId
 	 * @param {String} indicatorId
-	 * @param {Object} axisDimensions
-	 * @param {Object} selectedDimensions
+	 * @param {Statistics.Model.Dimension[]} filterDimensions
+	 * @param {Statistics.Model.Dimension[]} projectedDimensions
 	 * @param {Object} callbacks
 	 * 	- successCallback {Function}
 	 *  - failCallback {Function}
+	 *  
+	 * @returns {Statistics.Repository.Request}
 	 */
-	getChartDataSerie: function(sourceId, indicatorId, axisDimensions, selectedDimensions, callbacks) {
-		
-		var request = new Statistics.Repository.Request(
-			{
-				abort: function() { }
-			});
-		
-		window.setTimeout(jQuery.proxy(function(){
-			
-			if(request.isCanceled()) return;
-			
-			var data = [
-				{
-					value: 10,
-					label: 'label 1'
-				},
-				{
-					value: 15,
-					label: 'label 2'
-				},
-				{
-					value: 5,
-					label: 'label 3'
-				},
-				{
-					value: 20,
-					label: 'label 4'
-				},
-				{
-					value: 22,
-					label: 'label 5'
-				},
-				{
-					value: 2,
-					label: 'label 6'
-				},
-				{
-					value: 7,
-					label: 'label 7'
-				},
-			];
-			
-			for(var i = 0, currdata; currdata = data[i]; i++){
-				data[i] = this.objectFactories.newChartData(currdata);
-			}
-			
-			callbacks.successCallback(data);
-			
-		}, this), 1000);
-		
-		return request;
+	getIndicatorValues: function(sourceId, indicatorId, filterDimensions, projectedDimensions, callbacks){
+		//TODO: definir objecto mock
+		return null;
 	}
+
+
 });

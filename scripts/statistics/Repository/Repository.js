@@ -51,20 +51,22 @@ Statistics.Repository = Statistics.Class({
 	getIndicatorMetadata: function(sourceId, indicatorId, callbacks){
 		/*should be implemented by each request specific implementation*/	
 	},
-	
+
 	/**
 	 * @public
 	 * @function
 	 * @param {String} sourceId
 	 * @param {String} indicatorId
-	 * @param {Object} selectedDimensions
+	 * @param {Statistics.Model.Dimension[]} filterDimensions
+	 * @param {Statistics.Model.Dimension[]} projectedDimensions
 	 * @param {Object} callbacks
 	 * 	- successCallback {Function}
 	 *  - failCallback {Function}
 	 *  
 	 * @returns {Statistics.Repository.Request}
 	 */
-	getChartDataSerie: function(sourceId, indicatorId, axisDimensions, selectedDimensions, callbacks){
+	getIndicatorValues: function(sourceId, indicatorId, filterDimensions, projectedDimensions, callbacks){
 		/*should be implemented by each request specific implementation*/	
 	}
+
 });

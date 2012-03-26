@@ -19,7 +19,7 @@ Statistics.Repository.EndpointConfiguration = {
 	 */
 	operations: {
 		metadata: 'Metadata',
-		dataSerie: 'DataSerie'
+		values: 'Values'
 	},
 	
 	/**
@@ -36,8 +36,8 @@ Statistics.Repository.EndpointConfiguration = {
 	 * @function
 	 * @returns {String} returns the endpoint to give dataserie.
 	 */
-	getDataSerieEndpoint: function(){
-		return this._getOperationURL('dataSerie');
+	getValuesEndpoint: function(){
+		return this._getOperationURL('values');
 	},
 	
 	/**

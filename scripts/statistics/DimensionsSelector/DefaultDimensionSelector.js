@@ -11,7 +11,7 @@ Statistics.DimensionSelector.DefaultDimensionSelector = Statistics.Class(Statist
 	 * 
 	 * @returns Statistics.Model.Dimension[] the selected dimensions
 	 */
-	getSelectedDimensions: function(dimensions) {
+	getFilterDimensions: function(dimensions) {
 				
 		var selectedDimensions = [];
 		for(var i = 0, dimension; dimension = dimensions[i]; i++) {
@@ -30,21 +30,13 @@ Statistics.DimensionSelector.DefaultDimensionSelector = Statistics.Class(Statist
 	 * @function
 	 * @param {Statistics.Model.Dimension[]} dimensions
 	 * 
-	 * @returns Statistics.Model.Dimension
+	 * @returns Statistics.Model.Dimension[]
 	 *  returns the selected dimension
 	 */
-	getAxisSelectedDimensions: function(dimensions) {
-		
+	getProjectedDimensions: function(dimensions) {
+
 		var newDimension = dimensions[0].clone();
-		
-		var attributes = dimensions[0].attributes;
-		for (var i = 0, attribute; (attribute = attributes[i]) && i < 2; i++) {
-						
-			newDimension.addAttribute(attribute);
-					
-		}
-		
-		return newDimension;
+		return [newDimension];
 	}
 	
 	

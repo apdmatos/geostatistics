@@ -9,7 +9,7 @@ Statistics.DimensionSelector = Statistics.Class({
 	 * 
 	 * @returns Array<Statistics.Model.Dimension> the selected dimensions
 	 */
-	getSelectedDimensions: function(dimensions) {
+	getFilterDimensions: function(dimensions) {
 		/*Must be implemented by each class*/
 	},
 	
@@ -18,10 +18,10 @@ Statistics.DimensionSelector = Statistics.Class({
 	 * @function
 	 * @param {Array<Statistics.Model.Dimension>} dimensions
 	 * 
-	 * @returns Statistics.Model.Dimension
+	 * @returns Statistics.Model.Dimension[]
 	 *  returns the selected dimension
 	 */
-	getAxisSelectedDimensions: function(dimensions) {
+	getProjectedDimensions: function(dimensions) {
 		/*Must be implemented by each class*/
 	}
 	
