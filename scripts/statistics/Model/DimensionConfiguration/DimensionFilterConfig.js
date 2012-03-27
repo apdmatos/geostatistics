@@ -1,30 +1,22 @@
 
-
 Statistics.Model.DimensionConfiguration.DimensionFilterConfig = Statistics.Class(Statistics.Model.DimensionConfiguration, {
-	
-	/**
-	 * @constant
-	 * @property {String[]}
-	 * Describes the supported event types
-	 */
-	EVENT_TYPES: ['config::dimensionsChanged'],
 	
 	/**
 	 * @protected
 	 * @abstract
 	 * @function
+	 * @param {Boolean} [silent=false] optional property to silent the event
 	 * selects the default dimensions
 	 */
-	selectDefaultDimensions: function(){ 
+	selectDefaultDimensions: function(silent){ 
 		
-		if(!this.selectedDimensions) {
+		if(!this.dimensions) {
 		
-			this.selectedDimensions = 
-				this.dimensionSelector.getSelectedDimensions(this.metadata.dimensions);
+			this.dimensions = 
+				this.dimensionSelector.getFilterDimensions(this.metadata.dimensions);
 			
 			//fire event
-			this.events.trigger('config::dimensionsSelected', [this.selectedDimensions]);	
+			if(!silent) this.filteredDimensionsChanged();	
 		}
 	}
-	
 });

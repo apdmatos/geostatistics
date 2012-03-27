@@ -1,6 +1,4 @@
 
-
-
 Statistics.Model.DimensionConfiguration = Statistics.Class({
 	
 	/**
@@ -8,14 +6,14 @@ Statistics.Model.DimensionConfiguration = Statistics.Class({
 	 * @property {String[]}
 	 * Describes the supported event types
 	 */
-	EVENT_TYPES: ['config::settedMetadata', 'config::dimensionsSelected'],
+	EVENT_TYPES: ['config::settedMetadata', 'config::filteredDimensionsSelected'],
 	
 	/**
 	 * @protected
 	 * @property {Statistics.Model.Dimension[]}
 	 * The selected dimensions
 	 */
-	selectedDimensions: null,
+	dimensions: null,
 	
 	/**
 	 * @public
@@ -82,7 +80,7 @@ Statistics.Model.DimensionConfiguration = Statistics.Class({
 	 * returns the current selected dimensions
 	 */
 	getSelectedDimensions: function() {
-		return this.selectedDimensions;
+		return this.dimensions;
 	},
 	
 	/**
@@ -106,11 +104,73 @@ Statistics.Model.DimensionConfiguration = Statistics.Class({
 	},
 	
 	/**
+	 * @public
+	 * @function
+	 * @param {String} dimensionId - The dimension Id to return
+	 * 
+	 * @returns {Statistics.Model.Dimension}
+	 */
+	getDimensionById: function(dimensionId){
+		for(var i = 0, d; d = this.dimensions; ++i)
+			if(d == dimensionId) return d;
+			
+		return null;
+	},
+	
+	/**
+	 * @public
+	 * @function
+	 * @param {Statistics.Model.Dimension[]} dimensions
+	 * @returns {Boolean} returns true if the dimensions parameter is a subset of selected dimensions
+	 */
+	contains: function(dimensions){
+		for(var i = 0, d; d = dimension[i]; ++i)
+			if(!jQuery.inArray(d, this.dimensions)) return false;
+		
+		return true;	
+	},
+	
+	/**
+	 * @public
+	 * @function
+	 * This function will fire the event that notifies a change to filtered dimensions
+	 */
+	filteredDimensionsChanged: function(){
+		this.events.trigger('config::filteredDimensionsChanged', [this]);
+	},
+	
+/**********************************************
+ * 
+ * @protected methods
+ */	
+ 
+ 	/**
 	 * @protected
 	 * @abstract
 	 * @function
+	 * @param {Boolean} [silent=false] optional property to silent the event
 	 * selects the default dimensions
 	 */
-	selectDefaultDimensions: function(){ /*should be redifined by each subclass*/ }
+	selectDefaultDimensions: function(silent){ /*should be redifined by each subclass*/ },
+	
+	/**
+	 * @protected
+	 * @function
+	 * @param {Statistics.Model.Dimension} dimension - The dimension to configure
+	 */
+	_addDimension: function(dimension){
+		this.dimensions.push(dimension);
+	},
+	
+	/**
+	 * @protected
+	 * @function
+	 * @param {Statistics.Model.Dimension} dimension - The dimension to remove
+	 */
+	_removeDimension: function(dimension){
+		this.dimensions = jQuery.grep(this.dimensions, function(d){
+			return d.id != dimension.id;
+		});
+	}
 	
 });
