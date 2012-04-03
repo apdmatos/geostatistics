@@ -40,7 +40,11 @@ Statistics.Controller = Statistics.Class({
 		// Register some events to configuration
 		this.configuration.events.bind (
 				'config::dimensionsSelected', 
-				jQuery.proxy(this.renderData, this));
+				jQuery.proxy(this.onRenderData, this));
+				
+		this.configuration.events.bind (
+				'config::settedMetadata', 
+				jQuery.proxy(this.onMetadata, this));
 	},
 	
 	/**
@@ -53,38 +57,29 @@ Statistics.Controller = Statistics.Class({
 	},
 	
 	/**
-	 * @public
+	 * abstract method. Renders the control and requests for data
+	 * @protected
 	 * @function
-	 * @param {Statistics.Model.IndicatorMetadata} metadata 
+	 * @retutns {Boolean} returns true, if there's filters to request data. False otherwise
 	 */
-	setMetadata: function(metadata) {
-		this.configuration.setMetadata(metadata);
+	onRenderData: function() {
+		
+		var hasFilters = this.configuration.hasFilters();
+
+		if(hasFilters) this.control.setLoadingData();
+		else this.control.setNoFilters();
+
+		this.control.show();
+		
+		return hasFilters;
 	},
-	
+
 	/**
 	 * @protected
 	 * @function
-	 * abstract method. Renders the control and requests for data
-	 */
-	renderData: function() {
+	 * abstract method. Called when metadata is available.
+	 */	
+	onMetadata: function(){
 		this.control.setMetadata(this.configuration.getMetadata());
-		this.control.setLoadingData();
-		
-		if(this.requestObj) this.requestObj.cancelRequest();
-		
-		var metadata = this.configuration.getMetadata();
-		this.requestObj = 
-			this.repository.getChartDataSerie(
-				metadata.sourceid, 
-				metadata.id, 
-				this.configuration.getSelectedDimensions()[0],
-				this.configuration.getDimensionsConfig().getSelectedDimensions(),
-				{
-					successCallback: jQuery.proxy(this._complete, this),
-					errorCallback: jQuery.proxy(this._error, this)
-				}
-			);
 	}
-	
-	
 });

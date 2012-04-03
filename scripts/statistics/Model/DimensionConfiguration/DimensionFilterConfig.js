@@ -1,5 +1,6 @@
 
-Statistics.Model.DimensionConfiguration.DimensionFilterConfig = Statistics.Class(Statistics.Model.DimensionConfiguration, {
+Statistics.Model.DimensionConfiguration.DimensionFilterConfig = 
+	Statistics.Class(Statistics.Model.DimensionConfiguration, {
 	
 	/**
 	 * @protected
@@ -10,13 +11,12 @@ Statistics.Model.DimensionConfiguration.DimensionFilterConfig = Statistics.Class
 	 */
 	selectDefaultDimensions: function(silent){ 
 		
-		if(!this.dimensions) {
+		if(this.dimensionSelector) {
 		
-			this.dimensions = 
-				this.dimensionSelector.getFilterDimensions(this.metadata.dimensions);
-			
-			//fire event
-			if(!silent) this.filteredDimensionsChanged();	
+			this.dimensionSelector.filterDimensions(this.dimensions);	
 		}
+		
+		//fire event
+		if(!silent) this.filteredDimensionsChanged();
 	}
 });

@@ -39,6 +39,13 @@ Statistics.Model.Dimension = Statistics.Class({
 	serverContextData: null,
 	
 	/**
+	 * @public
+	 * @property {Boolean}
+	 * The server indicates if this dimension should be projected by default
+	 */
+	projectedByDefault: false,
+	
+	/**
 	 * @constructor
 	 */
 	_init: function(name, id, type, attributes){
@@ -57,6 +64,18 @@ Statistics.Model.Dimension = Statistics.Class({
 	 */
 	addAttribute: function(attribute){
 		this.attributes.push(attribute);
+	},
+
+	/**
+	 * Adds a set of attributes
+	 * 
+	 * @public
+	 * @function
+	 * @param {Statistics,Model.Attribute[]} attributes 
+	 */
+	addAttributes: function(attributes){
+		for(var i = 0, attr; attr = attributes[i]; ++i)
+			this.addAttribute(attr);
 	},
 	
 	/**
@@ -97,8 +116,9 @@ Statistics.Model.Dimension = Statistics.Class({
 		
 		var attributes = [];
 		if(cloneAttributes){
-			//TODO: Should be implemented
-			throw "Not implemented yet!!!";
+			for(var i = 0, attr; attr = this.attributs[i]; ++i) {
+				attributes.push(attr.clone());
+			}
 		}
 		
 		return new Statistics.Model.Dimension(this.name, this.id, this.type, attributes);
@@ -149,7 +169,7 @@ Statistics.Model.Dimension.FromObject = function(obj){
 					Statistics.Model.DimensionType[obj.type] : 
 					Statistics.Model.DimensionType.Other;
 	
-	return new Statistics.Model.Dimension(obj.name, obj.id, obj.type, attributes); 
+	return new Statistics.Model.Dimension(obj.name, obj.id, obj.type, attributes, obj.projectedByDefault); 
 	
 };
 

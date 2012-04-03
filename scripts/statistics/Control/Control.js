@@ -72,6 +72,15 @@ Statistics.Control = Statistics.Class({
 	/**
 	 * @public
 	 * @function
+	 * puts a message on the screen, indicating that there's no filters selected
+	 */
+	setNoFilters: function(){
+		/*MUST BE IMPLEMENTED!!!*/
+	},
+	
+	/**
+	 * @public
+	 * @function
 	 * @param {Statistics.Model.Data} data
 	 * Sets the data to be represented
 	 */

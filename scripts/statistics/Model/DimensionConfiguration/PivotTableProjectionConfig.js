@@ -36,7 +36,6 @@ Statistics.DimensionConfiguration.PivotTableProjectionConfig =
 		var base = Statistics.Model.DimensionConfiguration.DimensionProjectionConfig;
 		base.prototype.selectDefaultDimensions.apply(this, arguments);
 		
-		
 		this.rows = [];
 		this.columns = [];
 		

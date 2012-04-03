@@ -1,28 +1,69 @@
 
-
+//TODO: this class should be changed to select the server hints
+//			selectedByDefault
+//			projectedByDefault
 
 Statistics.DimensionSelector.DefaultDimensionSelector = Statistics.Class(Statistics.DimensionSelector, {
 	
+	/**
+	 * @private
+	 * @property {Object<Statistics.Model.DimensionType, Statistics.DimensionSelector.Position>}
+	 * Contains the default positioning for dimensions in pivot table
+	 */
+	defaultPositioning: null,
+		
+	/**
+	 * @private
+	 * @property {Statistics.Model.IndicatorMetadata}
+	 * Contains the original metadata
+	 */
+	metadata: null,
+
+	/**
+	 * @constructor
+	 * @param {Statistics.Model.DimensionType[]} rows
+	 * @param {Statistics.Model.DimensionType[]} columns
+	 */
+	_init: function(positioning) {
+		
+		this.defaultPositioning = jQuery.extend( 
+			{
+				Geographic: Statistics.DimensionSelector.Position.Rows,
+				Temporal: Statistics.DimensionSelector.Position.Columns,
+				Other: Statistics.DimensionSelector.Position.Columns
+			}, positioning);
+	},
 	
 	/**
 	 * @public
 	 * @function
-	 * @param {Statistics.Model.Dimension[]} dimensions
 	 * 
-	 * @returns Statistics.Model.Dimension[] the selected dimensions
+	 * @param {Statistics.Model.IndicatorMetadata} metadata
 	 */
-	getFilterDimensions: function(dimensions) {
-				
-		var selectedDimensions = [];
-		for(var i = 0, dimension; dimension = dimensions[i]; i++) {
-			
-			var newDimension = dimension.clone();
-			newDimension.addAttribute(dimension.attributes[0]);
-			
-			selectedDimensions.push(newDimension);
+	setMetadata: function(metadata) { 
+		if(this.metadata && 
+			this.metadata.id == metadata.id && this.metadata.sourceid == metadata.sourceid)
+		{
+			return;
 		}
 		
-		return selectedDimensions;
+		this.metadata = metadata;
+	},
+
+	/**
+	 * @public
+	 * @function
+	 * @param {Statistics.Model.Dimension} dimensions
+	 */
+	filterDimensions: function(dimensions) {
+		for(var i = 0, d; d = dimensions[i]; ++i)
+		{
+			var attrs = [];
+			var attributes = this.metadata.getDimensionById(d.id).attributes;
+			
+			this.flatHierarchyAttributes(arr, attributes);
+			d.addAttributes(attrs);
+		}
 	},
 	
 	/**
@@ -35,9 +76,44 @@ Statistics.DimensionSelector.DefaultDimensionSelector = Statistics.Class(Statist
 	 */
 	getProjectedDimensions: function(dimensions) {
 
-		var newDimension = dimensions[0].clone();
-		return [newDimension];
-	}
+		return [dimensions[0], dimensions[1]];
+	},
 	
+	/**
+	 * @public
+	 * @function
+	 * @param {Statistics.Model.Dimension} dimension
+	 * @returns {Statistics.DimensionSelector.Position} - Indicating the default position for dimension
+	 */
+	getProjectionDimensionPosition: function(dimension){
+		
+		return this.defaultPositioning[dimension.type];
+		
+	},
+	
+/***********************************
+ * Private methods
+ */
+	
+	/**
+	 * Copies attributes from Dimensions metadata, to a flat array.
+	 * 
+	 * @private
+	 * @function
+	 * @param {Statistics.Model.Attribute[]} arr - The result array
+	 * @param {Statistics.Model.Attribute[]} attributes - The attributes to copy
+	 */
+	flatHierarchyAttributes: function(arr, attributes) {
+		
+		if(!attributes) return;
+		
+		for(var i = 0, attr; attr = attributes[i]; ++i) {
+			
+			arr.push(attr);
+			if(attr instanceof Statistics.Model.HierarchyAttribute) 
+				this.getHierarchyAttributesChilds(arr, attr.childAttributes);
+				
+		}
+	}
 	
 });

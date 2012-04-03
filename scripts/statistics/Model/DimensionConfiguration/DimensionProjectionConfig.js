@@ -1,6 +1,7 @@
 
 
-Statistics.Model.DimensionConfiguration.DimensionProjectionConfig = Statistics.Class(Statistics.Model.DimensionConfiguration, {
+Statistics.Model.DimensionConfiguration.DimensionProjectionConfig = 
+	Statistics.Class(Statistics.Model.DimensionConfiguration, {
 	
 	/**
 	 * @constant
@@ -46,8 +47,11 @@ Statistics.Model.DimensionConfiguration.DimensionProjectionConfig = Statistics.C
 	 *  2. select default dimensions
 	 */
 	setMetadata: function(metadata) { 
+		this.metadata = metadata;
 		this.dimensionsFilterConfig.setMetadata(metadata, true);
-		Statistics.Model.Configuration.prototype.setMetadata.apply(this, arguments);
+		this.events.trigger('config::settedMetadata', [this, metadata]);
+		this.selectDefaultDimensions();
+//		Statistics.Model.Configuration.prototype.setMetadata.apply(this, arguments);
 	},
 	
 	/**
@@ -60,40 +64,22 @@ Statistics.Model.DimensionConfiguration.DimensionProjectionConfig = Statistics.C
 	getDimensionsFilterConfig: function(){
 		return this.dimensionsFilterConfig;
 	},
-	
-	/**
-	 * @override
-	 * @protected
-	 * @function
-	 * selects the default dimensions. 
-	 * For chart dimension, the selectedDimensions array, only contains one position.
-	 */
-	selectDefaultDimensions: function(){ 
-		this.dimensions = 
-			this.dimensionSelector.getProjectedDimensions(this.metadata.dimensions);
-		
-		for(var i = 0, d; d = this.dimensions[i]; ++i)
-			this.dimensionsFilterConfig._removeDimension(d);
-		
-		this.filteredDimensionsChanged();
-	},
 
 	/**
 	 * @public
 	 * @function
 	 * @param {Statistics.Model.Dimension[]} dimensions
 	 */
-	projectDimensions: function(dimensions) {
+	setProjectedDimensions: function(dimensions) {
 		
 		var i, d;
 		for(i = 0, d; d = this.dimensions[i]; ++i)
 			this.dimensionsFilterConfig._addDimension(d);
 			
-		for(i = 0, d; d = this.dimensions[i]; ++i)
+		for(i = 0, d; d = dimensions[i]; ++i)
 			this.dimensionsFilterConfig._removeDimension(d);
 			
 		this.dimensions = dimensions;
-		
 		this.events.trigger('config::projectedDimensionsChanged', [this.dimensions]);
 	},
 	
@@ -108,5 +94,31 @@ Statistics.Model.DimensionConfiguration.DimensionProjectionConfig = Statistics.C
 	getDimensionById: function(dimensionId){
 		var d = Statistics.Model.Configuration.prototype.getDimensionById.apply(this, arguments);
 		return d ? d : this.dimensionsFilterConfig.getDimensionById(dimensionId);
+	},
+		
+/**********************************************
+ * 
+ * @protected methods
+ */	
+ 	
+	/**
+	 * @override
+	 * @protected
+	 * @function
+	 * selects the default dimensions. 
+	 * For chart dimension, the selectedDimensions array, only contains one position.
+	 */
+	selectDefaultDimensions: function(){
+		
+		if(this.dimensionSelector)
+			this.dimensions = 
+				this.dimensionSelector.getProjectedDimensions(this.dimensionsFilterConfig.dimensions);
+
+
+		for(var i = 0, d; d = this.dimensions[i]; ++i)
+			this.dimensionsFilterConfig._removeDimension(d);
+		
+		this.filteredDimensionsChanged();
 	}
+
 });

@@ -17,8 +17,24 @@ Statistics.Model.HierarchyAttribute = Statistics.Class(Statistics.Model.Attribut
 	 * @param {Array<Statistics.Model.Attribute>} childAttributes
 	 */
 	_init: function(id, name, childAttributes){
-		Statistics.Model.Attribute.prototype._init.apply(this, id, name);
+		Statistics.Model.Attribute.prototype._init.apply(this, [id, name]);
 		this.childAttributes = childAttributes ? childAttributes : [];
+	},
+	
+	/**
+	 * Returns a new instance of Statistics.Model.Attribute
+	 * @override
+	 * @public
+	 * @function
+	 * @returns {Statistics.Model.Attribute}
+	 */
+	clone: function(){
+		var childs = [];
+		for(var i = 0, child; child = this.childAttributes[i]; ++i){
+			childs.push(child.clone());
+		}
+		
+		return new Statistics.Model.HierarchyAttribute(this.name, this.id, childs);
 	},
 	
 	/**

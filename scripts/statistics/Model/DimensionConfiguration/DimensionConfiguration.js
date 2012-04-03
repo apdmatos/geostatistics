@@ -6,7 +6,9 @@ Statistics.Model.DimensionConfiguration = Statistics.Class({
 	 * @property {String[]}
 	 * Describes the supported event types
 	 */
-	EVENT_TYPES: ['config::settedMetadata', 'config::filteredDimensionsSelected'],
+	EVENT_TYPES: [
+		'config::settedMetadata',  
+		'config::filteredDimensionsSelected'],
 	
 	/**
 	 * @protected
@@ -49,7 +51,10 @@ Statistics.Model.DimensionConfiguration = Statistics.Class({
 		this.events = events ? events : new Statistics.Events(this);
 		
 		this.dimensionSelector = dimensionSelector;
-		if(this.metadata) this.selectDefaultDimensions();
+		if(this.metadata) {
+			this.setMetadata(this.metadata);
+			//this.selectDefaultDimensions();
+		}
 	},
 	
 	/**
@@ -68,19 +73,8 @@ Statistics.Model.DimensionConfiguration = Statistics.Class({
 	 * 
 	 * Returns the metadata
 	 */
-	getMetadata: function(){
+	getMetadata: function() {
 		return this.metadata;
-	},
-	
-	/**
-	 * @public
-	 * @function
-	 * @reurns {Statistics.Model.Dimension[]}
-	 * 
-	 * returns the current selected dimensions
-	 */
-	getSelectedDimensions: function() {
-		return this.dimensions;
 	},
 	
 	/**
@@ -100,7 +94,25 @@ Statistics.Model.DimensionConfiguration = Statistics.Class({
 		if(!silent) 
 			this.events.trigger('config::settedMetadata', [this, metadata]);
 		
-		this.selectDefaultDimensions();
+		// copy dimensions
+		for(var i = 0, d; d = metadata.dimensions[i]; ++i)
+			this.dimensions.push(d.clone());
+		
+		if(this.dimensionSelector)
+			this.dimensionSelector.setMetadata(metadata);
+		
+		this.selectDefaultDimensions(silent);
+	},
+	
+	/**
+	 * @public
+	 * @function
+	 * @reurns {Statistics.Model.Dimension[]}
+	 * 
+	 * returns the current selected dimensions
+	 */
+	getSelectedDimensions: function() {
+		return this.dimensions;
 	},
 	
 	/**
@@ -120,14 +132,35 @@ Statistics.Model.DimensionConfiguration = Statistics.Class({
 	/**
 	 * @public
 	 * @function
+	 * @returns {Boolean}
+	 * 
+	 * Returns true if there are any active filters. False otherwise
+	 */
+	hasActiveFilters: function() {
+		
+		if(!this.dimensions) return false;
+		
+		for(var i = 0, d; d = this.dimensions[i]; ++i)
+			if(d.attributes.length > 0) return true;
+			
+		return false;
+	},
+	
+	/**
+	 * Checks if this configuration contains all the dimensions parameter. 
+	 * Returns true if they are contained 
+	 * 
+	 * @public
+	 * @function
 	 * @param {Statistics.Model.Dimension[]} dimensions
-	 * @returns {Boolean} returns true if the dimensions parameter is a subset of selected dimensions
+	 * @returns {Boolean}
 	 */
 	contains: function(dimensions){
-		for(var i = 0, d; d = dimension[i]; ++i)
-			if(!jQuery.inArray(d, this.dimensions)) return false;
 		
-		return true;	
+		for(var i = 0, d; d = dimensions[i]; ++i)
+			if(jQuery.contains(this.dimensions, d)) return true;
+			
+		return false;
 	},
 	
 	/**

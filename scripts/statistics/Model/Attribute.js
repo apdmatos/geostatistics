@@ -16,12 +16,20 @@ Statistics.Model.Attribute = Statistics.Class({
 	name: null,
 	
 	/**
+	 * @public
+	 * @property {Boolean}
+	 * The server will set this to true, if this attribute will be selected by default
+	 */
+	selectedByDefault: false,
+	
+	/**
 	 * @constructor
 	 * @param {String} name - The attribute name
 	 */
-	_init: function(name, id){
+	_init: function(name, id, selectedByDefault){
 		this.name = name;
 		this.id = id;
+		this.selectedByDefault = selectedByDefault;
 	},
 	
 	/**
@@ -33,6 +41,16 @@ Statistics.Model.Attribute = Statistics.Class({
 	copy: function(attribute) {
 		this.id = attribute.id;
 		this.name = attribute.name;
+	},
+	
+	/**
+	 * Returns a new instance of Statistics.Model.Attribute
+	 * @public
+	 * @function
+	 * @returns {Statistics.Model.Attribute}
+	 */
+	clone: function(){
+		return new Statistics.Model.Attribute(this.id, this.name, this.selectedByDefault);
 	}
 	
 });
@@ -46,7 +64,7 @@ Statistics.Model.Attribute = Statistics.Class({
  */
 Statistics.Model.Attribute.FromObject = function(obj) {
 	
-	return new Statistics.Model.Attribute(obj.name, obj.id);
+	return new Statistics.Model.Attribute(obj.id, obj.name, obj.selectedByDefault);
 	
 };
 
