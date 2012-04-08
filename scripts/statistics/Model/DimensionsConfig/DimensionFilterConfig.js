@@ -1,6 +1,6 @@
 
-Statistics.Model.DimensionConfiguration.DimensionFilterConfig = 
-	Statistics.Class(Statistics.Model.DimensionConfiguration, {
+Statistics.Model.DimensionConfig.DimensionFilterConfig = 
+	Statistics.Class(Statistics.Model.DimensionConfig, {
 	
 	/**
 	 * @protected
@@ -12,7 +12,6 @@ Statistics.Model.DimensionConfiguration.DimensionFilterConfig =
 	selectDefaultDimensions: function(silent){ 
 		
 		if(this.dimensionSelector) {
-		
 			this.dimensionSelector.filterDimensions(this.dimensions);	
 		}
 		

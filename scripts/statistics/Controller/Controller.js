@@ -18,33 +18,31 @@ Statistics.Controller = Statistics.Class({
 	
 	/**
 	 * @protected
-	 * @property {Statistics.Control}
+	 * @property {Statistics.View}
 	 * A control/view to represent this representation
 	 */
-	control: null,
+	view: null,
 	
 	/**
 	 * @constructor
 	 * @param {Statistics.Model.Configuration} configuration
 	 * @param {Statistics.Repository} repository
-	 * @param {Statistics.Control} control - The view/control to represent this controller/representation
+	 * @param {Statistics.View} control - The view/control to represent this controller/representation
 	 */
-	_init: function(configuration, repository, control) {
+	_init: function(configuration, repository, view) {
 		this.configuration = configuration;
 		this.repository = repository;
-		this.control = control
+		this.view = view
+		
+		this.view.setConfiguration(configuration);
 		
 		// Check if the configuration has the metadata
 		if(this.configuration.getSelectedDimensions()) this.renderData();
 		
 		// Register some events to configuration
 		this.configuration.events.bind (
-				'config::dimensionsSelected', 
+				'config::filteredDimensionsChanged', 
 				jQuery.proxy(this.onRenderData, this));
-				
-		this.configuration.events.bind (
-				'config::settedMetadata', 
-				jQuery.proxy(this.onMetadata, this));
 	},
 	
 	/**
@@ -64,22 +62,14 @@ Statistics.Controller = Statistics.Class({
 	 */
 	onRenderData: function() {
 		
-		var hasFilters = this.configuration.hasFilters();
+		var hasFilters = this.configuration.hasActiveFilters();
 
-		if(hasFilters) this.control.setLoadingData();
-		else this.control.setNoFilters();
+		if(hasFilters) this.view.setLoadingData();
+		else this.view.setNoFilters();
 
-		this.control.show();
+		this.view.show();
 		
 		return hasFilters;
-	},
-
-	/**
-	 * @protected
-	 * @function
-	 * abstract method. Called when metadata is available.
-	 */	
-	onMetadata: function(){
-		this.control.setMetadata(this.configuration.getMetadata());
 	}
+
 });

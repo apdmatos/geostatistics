@@ -1,7 +1,7 @@
 
 
-Statistics.DimensionConfiguration.PivotTableProjectionConfig = 
-	Statistics.Class(Statistics.Model.DimensionConfiguration.DimensionProjectionConfig, {
+Statistics.Model.DimensionConfig.PivotTableProjectionConfig = 
+	Statistics.Class(Statistics.Model.DimensionConfig.DimensionProjectionConfig, {
 	
 	/**
 	 * @constant
@@ -11,14 +11,14 @@ Statistics.DimensionConfiguration.PivotTableProjectionConfig =
 	EVENT_TYPES: ['config::pivotConfigurationChanges'],
 	
 	/**
-	 * @private
+	 * @public
 	 * @property {Statistics.Model.Dimension[]}
 	 * Contains the dimensions to be displayed on rows
 	 */
 	rows: null,
 
 	/**
-	 * @private
+	 * @public
 	 * @property {Statistics.Model.Dimension[]}
 	 * Contains the dimensions to be displayed on columns
 	 */	
@@ -33,7 +33,7 @@ Statistics.DimensionConfiguration.PivotTableProjectionConfig =
 	 */
 	selectDefaultDimensions: function() { 
 		
-		var base = Statistics.Model.DimensionConfiguration.DimensionProjectionConfig;
+		var base =Statistics.Model.DimensionConfig.DimensionProjectionConfig; 
 		base.prototype.selectDefaultDimensions.apply(this, arguments);
 		
 		this.rows = [];

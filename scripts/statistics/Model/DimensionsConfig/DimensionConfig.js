@@ -1,5 +1,5 @@
 
-Statistics.Model.DimensionConfiguration = Statistics.Class({
+Statistics.Model.DimensionConfig = Statistics.Class({
 	
 	/**
 	 * @constant
@@ -8,7 +8,7 @@ Statistics.Model.DimensionConfiguration = Statistics.Class({
 	 */
 	EVENT_TYPES: [
 		'config::settedMetadata',  
-		'config::filteredDimensionsSelected'],
+		'config::filteredDimensionsChanged'],
 	
 	/**
 	 * @protected
@@ -41,20 +41,11 @@ Statistics.Model.DimensionConfiguration = Statistics.Class({
 	 * @constructor
 	 * @param {Statistics.DimensionSelector} dimensionSelector - Dimension selector, to select the first dimensions
 	 * @param {Statistics.Events} [events] this is optional. If not passed, a new one will be instanciated
-	 * @param {Object} options
-	 * 	- metadata {Statistics.Model.IndicatorMetadata}
-	 *  - selectedDimensions {Statistics.Model.Dimensions[]}
 	 */
-	_init: function(dimensionSelector, events, options) { 
-		jQuery.extend(this, options);
-		
+	_init: function(dimensionSelector, events) { 
 		this.events = events ? events : new Statistics.Events(this);
 		
 		this.dimensionSelector = dimensionSelector;
-		if(this.metadata) {
-			this.setMetadata(this.metadata);
-			//this.selectDefaultDimensions();
-		}
 	},
 	
 	/**
@@ -94,6 +85,7 @@ Statistics.Model.DimensionConfiguration = Statistics.Class({
 		if(!silent) 
 			this.events.trigger('config::settedMetadata', [this, metadata]);
 		
+		this.dimensions = [];
 		// copy dimensions
 		for(var i = 0, d; d = metadata.dimensions[i]; ++i)
 			this.dimensions.push(d.clone());
@@ -123,8 +115,8 @@ Statistics.Model.DimensionConfiguration = Statistics.Class({
 	 * @returns {Statistics.Model.Dimension}
 	 */
 	getDimensionById: function(dimensionId){
-		for(var i = 0, d; d = this.dimensions; ++i)
-			if(d == dimensionId) return d;
+		for(var i = 0, d; d = this.dimensions[i]; ++i)
+			if(d.id == dimensionId) return d;
 			
 		return null;
 	},

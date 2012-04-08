@@ -1,6 +1,6 @@
 
 
-Statistics.Control = Statistics.Class({
+Statistics.View = Statistics.Class({
 	
 	/**
 	 * @public
@@ -9,19 +9,12 @@ Statistics.Control = Statistics.Class({
 	 */
 	div: null,
 	
-//	/**
-//	 * @public
-//	 * @property {String} title
-//	 * The indicator name to display on control
-//	 */
-//	title: null,
-	
 	/**
 	 * @public
-	 * @property {Statistics.Model.IndicatorMetadata}
+	 * @property {Statistics.Model.DimensionConfig}
 	 * The metadata to represent
 	 */
-	metadata: null,
+	configuration: null,
 	
 	/**
 	 * @protected
@@ -33,31 +26,19 @@ Statistics.Control = Statistics.Class({
 	/**
 	 * @constructor
 	 * @param {jQueryElement} div - The div element to render the control to
-	 * @param {String} [options] - Some optional parameters to override in this instance
-	 * 	- title {String}
 	 */
-	_init: function(div, options){
-		jQuery.extend(this, options);
+	_init: function(div){
 		
 		this.div = div;
 	},
 	
-//	/**
-//	 * @public
-//	 * @function
-//	 * @param {String} title - The indicator title to display
-//	 */
-//	setTitle: function(title){
-//		this.title = title;
-//	},
-	
 	/**
 	 * @public
 	 * @function
-	 * @param {Statistics.Model.IndicatorMetadata} metadata
+	 * @param {Statistics.Model.DimensionConfig} configuration
 	 */
-	setMetadata: function(metadata){
-		this.metadata = metadata;
+	setConfiguration: function(configuration){
+		this.configuration = configuration;
 	},
 	
 	/**
@@ -81,7 +62,7 @@ Statistics.Control = Statistics.Class({
 	/**
 	 * @public
 	 * @function
-	 * @param {Statistics.Model.Data} data
+	 * @param {Statistics.Model.Values.IndicatorValuesResult} data
 	 * Sets the data to be represented
 	 */
 	setData: function(data){

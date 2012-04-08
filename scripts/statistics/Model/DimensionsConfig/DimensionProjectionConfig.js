@@ -1,7 +1,7 @@
 
 
-Statistics.Model.DimensionConfiguration.DimensionProjectionConfig = 
-	Statistics.Class(Statistics.Model.DimensionConfiguration, {
+Statistics.Model.DimensionConfig.DimensionProjectionConfig = 
+	Statistics.Class(Statistics.Model.DimensionConfig, {
 	
 	/**
 	 * @constant
@@ -21,15 +21,13 @@ Statistics.Model.DimensionConfiguration.DimensionProjectionConfig =
 	 * @constructor
 	 * @param {Statistics.DimensionSelector} dimensionSelector
 	 * @param {Statistics.Model.Configuration.DimensionConfig} dimensionsFilterConfig
-	 * @param {Object} options
 	 */
-	_init: function(dimensionSelector, dimensionsFilterConfig, options) { 
-		Statistics.Model.Configuration.prototype._init.apply(
+	_init: function(dimensionSelector, dimensionsFilterConfig) { 
+		Statistics.Model.DimensionConfig.prototype._init.apply(
 			this, 
 			[
 				dimensionSelector,
-				dimensionsFilterConfig.events,
-				options
+				dimensionsFilterConfig.events
 			]);
 		
 		this.dimensionsFilter = dimensionsFilterConfig;
@@ -48,7 +46,7 @@ Statistics.Model.DimensionConfiguration.DimensionProjectionConfig =
 	 */
 	setMetadata: function(metadata) { 
 		this.metadata = metadata;
-		this.dimensionsFilterConfig.setMetadata(metadata, true);
+		this.dimensionsFilter.setMetadata(metadata, true);
 		this.events.trigger('config::settedMetadata', [this, metadata]);
 		this.selectDefaultDimensions();
 //		Statistics.Model.Configuration.prototype.setMetadata.apply(this, arguments);
@@ -62,7 +60,7 @@ Statistics.Model.DimensionConfiguration.DimensionProjectionConfig =
 	 * returns the configuration for dimensions
 	 */
 	getDimensionsFilterConfig: function(){
-		return this.dimensionsFilterConfig;
+		return this.dimensionsFilter;
 	},
 
 	/**
@@ -74,10 +72,10 @@ Statistics.Model.DimensionConfiguration.DimensionProjectionConfig =
 		
 		var i, d;
 		for(i = 0, d; d = this.dimensions[i]; ++i)
-			this.dimensionsFilterConfig._addDimension(d);
+			this.dimensionsFilter._addDimension(d);
 			
 		for(i = 0, d; d = dimensions[i]; ++i)
-			this.dimensionsFilterConfig._removeDimension(d);
+			this.dimensionsFilter._removeDimension(d);
 			
 		this.dimensions = dimensions;
 		this.events.trigger('config::projectedDimensionsChanged', [this.dimensions]);
@@ -92,8 +90,8 @@ Statistics.Model.DimensionConfiguration.DimensionProjectionConfig =
 	 * @returns {Statistics.Model.Dimension}
 	 */
 	getDimensionById: function(dimensionId){
-		var d = Statistics.Model.Configuration.prototype.getDimensionById.apply(this, arguments);
-		return d ? d : this.dimensionsFilterConfig.getDimensionById(dimensionId);
+		var d = Statistics.Model.DimensionConfig.prototype.getDimensionById.apply(this, arguments);
+		return d ? d : this.dimensionsFilter.getDimensionById(dimensionId);
 	},
 		
 /**********************************************
@@ -112,11 +110,11 @@ Statistics.Model.DimensionConfiguration.DimensionProjectionConfig =
 		
 		if(this.dimensionSelector)
 			this.dimensions = 
-				this.dimensionSelector.getProjectedDimensions(this.dimensionsFilterConfig.dimensions);
+				this.dimensionSelector.getProjectedDimensions(this.dimensionsFilter.dimensions);
 
 
 		for(var i = 0, d; d = this.dimensions[i]; ++i)
-			this.dimensionsFilterConfig._removeDimension(d);
+			this.dimensionsFilter._removeDimension(d);
 		
 		this.filteredDimensionsChanged();
 	}

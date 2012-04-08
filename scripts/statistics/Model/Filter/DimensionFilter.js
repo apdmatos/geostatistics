@@ -1,6 +1,6 @@
 
-
-Statistics.Model.RepresentationData.DimensionFilter = Statistics.Class({
+Statistics.Model.Filter = {};
+Statistics.Model.Filter.DimensionFilter = Statistics.Class({
 	
 	/**
 	 * @public
@@ -26,7 +26,7 @@ Statistics.Model.RepresentationData.DimensionFilter = Statistics.Class({
 });
 
 
-Statistics.Model.RepresentationData.DimensionFilter.FromObject = function(obj){
+Statistics.Model.Filter.DimensionFilter.FromObject = function(obj){
 	
-	return new Statistics.Model.RepresentationData.DimensionFilter(obj.dimensionId, obj.attributes);
+	return new Statistics.Model.Filter.DimensionFilter(obj.dimensionId, obj.attributes);
 }

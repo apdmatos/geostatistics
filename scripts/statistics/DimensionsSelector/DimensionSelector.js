@@ -1,10 +1,5 @@
 
 
-Statistics.DimensionSelector.Position = {
-	Rows: 1,
-	Columns: 2
-}
-
 Statistics.DimensionSelector = Statistics.Class({
 	
 	/**
@@ -43,8 +38,14 @@ Statistics.DimensionSelector = Statistics.Class({
 	 * 
 	 * @returns {Statistics.DimensionSelector.Position} - Indicating the default position for dimension
 	 */
-	getProjectionDimensionPosition: function(){
+	getProjectionDimensionPosition: function(dimension){
 		/*Must be implemented by each class*/
 	}
 	
 });
+
+
+Statistics.DimensionSelector.Position = {
+	Rows: 1,
+	Columns: 2
+};

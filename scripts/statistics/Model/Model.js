@@ -5,4 +5,8 @@
 */
 
 
-Statistics.Model = {};
+Statistics.Model = {
+	
+	Values: {}
+	
+};

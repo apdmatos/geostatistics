@@ -1,7 +1,7 @@
 
 
 
-Statistics.Control.Chart = Statistics.Class(Statistics.Control, {
+Statistics.View.ChartView = Statistics.Class(Statistics.View, {
 	
 	/**
 	 * @private
@@ -23,7 +23,7 @@ Statistics.Control.Chart = Statistics.Class(Statistics.Control, {
 	 * @param {Object} [plotOptions]
 	 */
 	_init: function(div, plotOptions){
-		Statistics.Control.prototype._init.apply(this, arguments);
+		Statistics.View.prototype._init.apply(this, [div]);
 		
 		this.plotOptions = 
 			jQuery.extend(true, {
@@ -51,7 +51,7 @@ Statistics.Control.Chart = Statistics.Class(Statistics.Control, {
 	/**
 	 * @public
 	 * @function
-	 * @param {Statistics.Model.RepresentationData.DataSerie} data
+	 * @param {Statistics.Model.Values.IndicatorValuesResult} data
 	 * Sets the data to be represented
 	 */
 	setData: function(data){
@@ -64,38 +64,19 @@ Statistics.Control.Chart = Statistics.Class(Statistics.Control, {
 			this.plot.redraw();
 		}
 	},
-	
+
+/**********************************************************************************
+ * ********************************************************************************
+ * Private methods
+ **********************************************************************************
+ **********************************************************************************/
+
 	/**
 	 * @private
-	 * @param {Statistics.Model.RepresentationData.ChartData} data
+	 * @param {Statistics.Model.Values.IndicatorValuesResult} data
 	 * 	The data to display on chart
 	 */
 	_createPlot: function(data){
-		
-//		var data = [['Verwerkende FruedenStunde Companaziert Eine industrie', 9],
-//							['Primaire producent', 7], ['Out of home', 6], 
-//							['Groothandel', 5], ['Consument', 3],  
-//							['Grondstof', 4], ['Retail', 8],
-//							['Bewerkende industrie', 2]];
-//				jQuery.jqplot.config.enablePlugins = true;
-//				plot1 = jQuery.jqplot('chartdiv', 
-//					[data], 
-//					{
-//						title: ' ', 
-//						seriesDefaults: {
-//				    		shadow: true, 
-//				    		renderer: jQuery.jqplot.PieRenderer, 
-//				    		rendererOptions: { padding: 2, sliceMargin: 2, showDataLabels: false } 
-//				  		}, 
-//						legend: { 
-//							show:true, 
-//							placement: 'outside',
-//							rendererOptions: {
-//		                          numberRows: 2
-//		                     },
-//							location: 'e' 
-//						}
-//					});
 
 		return jQuery.jqplot(this.div, [this._convertChartData2Plot(data)], this.plotOptions);
 	},
@@ -106,24 +87,32 @@ Statistics.Control.Chart = Statistics.Class(Statistics.Control, {
 	 * @param {Statistics.Model.RepresentationData.DataSerie} data
 	 */
 	_convertChartData2Plot: function(data) {
-		
+
 //		var converted = [];
-//		for(var i = 0, d; d = data[i]; i++)
-//			converted.push([d.label, d.value]);
+//		for(var i = 0, seriesValue; seriesValue = data.values[i]; ++i) {
+//			
+//			var axisDimension = seriesValue.axisDimension;
+//			var dimension = this.metadata.getDimensionById(axisDimension.dimensionId);	
+//			var attribute = dimension.getAttributeById(axisDimension.attributeIds[0]);
+//			
+//			converted.push([attribute.name, seriesValue.value]);
+//		}
 //		
 //		return converted;
 
+
+
 		var converted = [];
-		for(var i = 0, seriesValue; seriesValue = data.values[i]; ++i) {
-			
-			var axisDimension = seriesValue.axisDimension;
-			var dimension = this.metadata.getDimensionById(axisDimension.dimensionId);	
+		for (var i = 0, seriesValue; seriesValue = data.values[i]; ++i) {
+		
+			var axisDimension = seriesValue.projectedDimensions[0];
+			var dimension = this.configuration.getDimensionById(axisDimension.dimensionId);
 			var attribute = dimension.getAttributeById(axisDimension.attributeIds[0]);
-			
+		
 			converted.push([attribute.name, seriesValue.value]);
 		}
 		
 		return converted;
-	},
+	}
 	
 });

@@ -1,5 +1,5 @@
 
-Statistics.Model.RepresentationData.IndicatorValue = Statistics.Class({
+Statistics.Model.Values.IndicatorValue = Statistics.Class({
 	
 	/**
 	 * @public
@@ -28,8 +28,8 @@ Statistics.Model.RepresentationData.IndicatorValue = Statistics.Class({
 	 */
 	_init: function(filteredDimensions, projectedDimensions, value) { 
 		
-		this.filteredDimensions = selectedDimensions;
-		this.projectedDimensions = axisDimension;
+		this.filteredDimensions = filteredDimensions;
+		this.projectedDimensions = projectedDimensions;
 		this.value = value;
 	}
 	
@@ -37,17 +37,17 @@ Statistics.Model.RepresentationData.IndicatorValue = Statistics.Class({
 
 
 
-Statistics.Model.RepresentationData.IndicatorValue.FromObject = function(obj) {
+Statistics.Model.Values.IndicatorValue.FromObject = function(obj) {
 	
 	var filteredDimensions = [];
 	for(var i = 0, filter; filter = obj.filteredDimensions[i]; ++i){
-		dimensions.push(Statistics.Model.RepresentationData.DimensionFilter.FromObject(filter));
+		filteredDimensions.push(Statistics.Model.Filter.DimensionFilter.FromObject(filter));
 	}
 	
 	var projectedDimensions = [];
-	for(var j = 0, proj; proj = obj.filteredDimensions[j]; ++j){
-		dimensions.push(Statistics.Model.RepresentationData.DimensionFilter.FromObject(proj));
+	for(var j = 0, proj; proj = obj.projectedDimensions[j]; ++j){
+		projectedDimensions.push(Statistics.Model.Filter.DimensionFilter.FromObject(proj));
 	}
 	
-	return new Statistics.Model.RepresentationData.DataSerieValue(filteredDimensions, projectedDimensions, obj.value);
+	return new Statistics.Model.Values.IndicatorValue(filteredDimensions, projectedDimensions, obj.value);
 }

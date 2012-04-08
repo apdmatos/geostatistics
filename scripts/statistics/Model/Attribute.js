@@ -26,9 +26,9 @@ Statistics.Model.Attribute = Statistics.Class({
 	 * @constructor
 	 * @param {String} name - The attribute name
 	 */
-	_init: function(name, id, selectedByDefault){
-		this.name = name;
+	_init: function(id, name, selectedByDefault){
 		this.id = id;
+		this.name = name;
 		this.selectedByDefault = selectedByDefault;
 	},
 	

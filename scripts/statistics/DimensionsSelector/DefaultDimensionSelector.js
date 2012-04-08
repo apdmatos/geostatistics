@@ -18,20 +18,29 @@ Statistics.DimensionSelector.DefaultDimensionSelector = Statistics.Class(Statist
 	 * Contains the original metadata
 	 */
 	metadata: null,
+	
+	/**
+	 * @private
+	 * @property {Integer}
+	 * The maximum projected dimensions. For chart, this value should be 1.
+	 */
+	maximumProjectedDimensions: null,
 
 	/**
 	 * @constructor
-	 * @param {Statistics.Model.DimensionType[]} rows
-	 * @param {Statistics.Model.DimensionType[]} columns
+	 * @param {Object<Statistics.Model.DimensionType, Statistics.DimensionSelector.Position>} positioning
+	 * @param {Integer} maximunProjectedDimensions
 	 */
-	_init: function(positioning) {
+	_init: function(maximunProjectedDimensions, positioning) {
 		
 		this.defaultPositioning = jQuery.extend( 
 			{
-				Geographic: Statistics.DimensionSelector.Position.Rows,
-				Temporal: Statistics.DimensionSelector.Position.Columns,
-				Other: Statistics.DimensionSelector.Position.Columns
+				/*Geographic*/	0: Statistics.DimensionSelector.Position.Rows,
+				/*Temporal*/	1: Statistics.DimensionSelector.Position.Columns,
+				/*Other*/		2: Statistics.DimensionSelector.Position.Columns
 			}, positioning);
+			
+		this.maximumProjectedDimensions = maximunProjectedDimensions;
 	},
 	
 	/**
@@ -61,7 +70,7 @@ Statistics.DimensionSelector.DefaultDimensionSelector = Statistics.Class(Statist
 			var attrs = [];
 			var attributes = this.metadata.getDimensionById(d.id).attributes;
 			
-			this.flatHierarchyAttributes(arr, attributes);
+			this.flatHierarchyAttributes(attrs, attributes);
 			d.addAttributes(attrs);
 		}
 	},
@@ -75,7 +84,7 @@ Statistics.DimensionSelector.DefaultDimensionSelector = Statistics.Class(Statist
 	 *  returns the selected dimension
 	 */
 	getProjectedDimensions: function(dimensions) {
-
+		if(!this.maximunProjectedDimensions) return [dimensions[0]];
 		return [dimensions[0], dimensions[1]];
 	},
 	
@@ -91,9 +100,11 @@ Statistics.DimensionSelector.DefaultDimensionSelector = Statistics.Class(Statist
 		
 	},
 	
-/***********************************
+/**********************************************************************************
+ * ********************************************************************************
  * Private methods
- */
+ **********************************************************************************
+ **********************************************************************************/
 	
 	/**
 	 * Copies attributes from Dimensions metadata, to a flat array.

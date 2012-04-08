@@ -16,4 +16,4 @@ Statistics.i18n = function (key) {
  * @property {String} currentLang 
  * Represents the current language to read the resources and fill the user interface.
  */
-GIS.i18n.currentLang = 'pt';
+Statistics.i18n.currentLang = 'pt';

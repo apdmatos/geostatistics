@@ -46,31 +46,32 @@ Statistics.Repository.IndicatorRepositoryMock = Statistics.Class(Statistics.Repo
 					},
 					{
 						id: '2',
-						name: 'Ano',
+						name: 'Geografia',
 						type: Statistics.Model.DimensionType.Geographic,
 						attributes: [ 
 							{
-								id: '1',
-								name: 'Distrito',
+								id: 'PT',
+								name: 'Portugal',
 								childAttributes: [
 									{
 										id: '1',
-										name: 'Lisboa'
+										name: 'Lisboa',
+										childAttributes: [
+											{
+												id: '11',
+												name: 'Loures'
+											}
+										]
 									},
 									{
 										id: '2',
 										name: 'Porto'
 									},
 									{
-										id: '2',
+										id: '3',
 										name: 'Setubal'
 									}
 								]
-							},
-							{
-								id: '2',
-								name: 'Concelhos',
-								childAttributes: []
 							}
 						]
 					}
@@ -99,8 +100,57 @@ Statistics.Repository.IndicatorRepositoryMock = Statistics.Class(Statistics.Repo
 	 * @returns {Statistics.Repository.Request}
 	 */
 	getIndicatorValues: function(sourceId, indicatorId, filterDimensions, projectedDimensions, callbacks){
-		//TODO: definir objecto mock
-		return null;
+		var request = new Statistics.Repository.Request(
+			{
+				abort: function() { }
+			});
+			
+		window.setTimeout(jQuery.proxy(function() {
+			
+			if(request.isCanceled()) return;
+			
+			var obj = {
+				location: null,
+				values: [
+					{
+						value: 1,
+						projectedDimensions: [
+							{
+								dimensionId: 1,
+								attributes: [1]
+							}
+						],
+						filteredDimensions: [
+							{
+								dimensionId: 2,
+								attributes: ['PT']
+							}
+						]
+					},
+					{
+						value: 2,
+						projectedDimensions: [
+							{
+								dimensionId: 1,
+								attributes: [2]
+							}
+						],
+						filteredDimensions: [
+							{
+								dimensionId: 2,
+								attributes: ['PT']
+							}
+						]
+					}					
+				]
+			};
+			
+			var metadata = this.objectFactories.newIndicatorValuesResult(obj);
+			callbacks.successCallback(metadata);
+			
+		}, this), 1000);
+		
+		return request;
 	}
 
 

@@ -17,9 +17,9 @@
 				var metricAccounts = new Metric("Densidade populacional", Datatype.NUMBER);
 				
 				// dimensoes
-				var axisYear = new Axis("Ano");
-			  	var axisGender = new Axis("Sexo");
-			  	var axisGeographic = new Axis("Geografia");
+				/*var */axisYear = new Axis("Ano");
+//			  	var axisGender = new Axis("Sexo");
+//			  	var axisGeographic = new Axis("Geografia");
 				
 				// Year attributes
 				var attrYear2001 = axisYear.makeNewBucket("2001");
@@ -27,46 +27,46 @@
 				var attrYear2003 = axisYear.makeNewBucket("2003");
 				var attrYearTotal = axisYear.makeNewBucket("Total");
 				
-				// Gender attributes
-				var attrGenderMale = axisGender.makeNewBucket("Masculino");
-				var attrGenderFemale = axisGender.makeNewBucket("Feminino");
-				var attrGenderTotal = axisGender.makeNewBucket("Total");
+//				// Gender attributes
+//				var attrGenderMale = axisGender.makeNewBucket("Masculino");
+//				var attrGenderFemale = axisGender.makeNewBucket("Feminino");
+//				var attrGenderTotal = axisGender.makeNewBucket("Total");
+//				
+//				// Geographic attributes
+//				var attrGeoLisboa = axisGeographic.makeNewBucket("Lisboa");
 				
-				// Geographic attributes
-				var attrGeoLisboa = axisGeographic.makeNewBucket("Lisboa");
 				
 				
-				
-				var dataVortex = new DataVortex([axisYear, axisGender, axisGeographic]);
+				var dataVortex = new DataVortex([axisYear/*, axisGender, axisGeographic*/]);
 				dataVortex.metricList.push(metricAccounts);
 				
 				// --------------
 				// Year2001
 				// --------------
-				dataVortex.setValue(metricAccounts,  61.46, [attrYear2001, attrGenderMale, attrGeoLisboa])
-				dataVortex.setValue(metricAccounts, 250.00, [attrYear2001, attrGenderFemale, attrGeoLisboa])
-				dataVortex.setValue(metricAccounts, 311.46, [attrYear2001, attrGenderTotal, attrGeoLisboa])
+				dataVortex.setValue(metricAccounts,  61.46, [attrYear2001/*, attrGenderMale, attrGeoLisboa*/])
+//				dataVortex.setValue(metricAccounts, 250.00, [attrYear2001, attrGenderFemale, attrGeoLisboa])
+//				dataVortex.setValue(metricAccounts, 311.46, [attrYear2001, attrGenderTotal, attrGeoLisboa])
 				
 				// --------------
 				// Year2002
 				// --------------
-				dataVortex.setValue(metricAccounts,  64.46, [attrYear2002, attrGenderMale, attrGeoLisboa])
-				dataVortex.setValue(metricAccounts, 10.00,  [attrYear2002, attrGenderFemale, attrGeoLisboa])
-				dataVortex.setValue(metricAccounts, 74.46,  [attrYear2002, attrGenderTotal, attrGeoLisboa])
+				dataVortex.setValue(metricAccounts,  64.46, [attrYear2002/*, attrGenderMale, attrGeoLisboa*/])
+//				dataVortex.setValue(metricAccounts, 10.00,  [attrYear2002, attrGenderFemale, attrGeoLisboa])
+//				dataVortex.setValue(metricAccounts, 74.46,  [attrYear2002, attrGenderTotal, attrGeoLisboa])
 				
 				// --------------
 				// Year2003
 				// --------------
-				dataVortex.setValue(metricAccounts,  64.46, [attrYear2003, attrGenderMale, attrGeoLisboa])
-				dataVortex.setValue(metricAccounts,  10.00, [attrYear2003, attrGenderFemale, attrGeoLisboa])
-				dataVortex.setValue(metricAccounts,  74.46, [attrYear2003, attrGenderTotal, attrGeoLisboa])
+				dataVortex.setValue(metricAccounts,  64.46, [attrYear2003/*, attrGenderMale, attrGeoLisboa*/])
+//				dataVortex.setValue(metricAccounts,  10.00, [attrYear2003, attrGenderFemale, attrGeoLisboa])
+//				dataVortex.setValue(metricAccounts,  74.46, [attrYear2003, attrGenderTotal, attrGeoLisboa])
 				
 				// --------------
 				// YearTotal
 				// --------------
-				dataVortex.setValue(metricAccounts,  190.38,  [attrYearTotal, attrGenderMale, attrGeoLisboa])
-				dataVortex.setValue(metricAccounts,  270.00,  [attrYearTotal, attrGenderFemale, attrGeoLisboa])
-				dataVortex.setValue(metricAccounts,  74.46,  [attrYearTotal, attrGenderTotal, attrGeoLisboa])
+				dataVortex.setValue(metricAccounts,  190.38,  [attrYearTotal/*, attrGenderMale, attrGeoLisboa*/])
+//				dataVortex.setValue(metricAccounts,  270.00,  [attrYearTotal, attrGenderFemale, attrGeoLisboa])
+//				dataVortex.setValue(metricAccounts,  74.46,  [attrYearTotal, attrGenderTotal, attrGeoLisboa])
 				
 				return dataVortex;
 			}
@@ -76,7 +76,8 @@
 				
 			window.onload = function() {
 				data = getData();
-  				pivot  = new PivotTable("Densidade populacional", "res", data, [data.axisList[2], data.axisList[0]], [data.axisList[1]]);
+  				//pivot  = new PivotTable("Densidade populacional", "res", data, [data.axisList[2], data.axisList[0]], [data.axisList[1]]);
+				pivot  = new PivotTable("Densidade populacional", "res", data, [axisYear], []);
 				
 				pivot.display();
 			}

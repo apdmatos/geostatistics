@@ -1,0 +1,46 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<title>Third Example</title>
+		<style>
+			#chartHolder{
+				height: 250px;
+				width: 200px;
+			}
+		</style>
+		
+		<script type="text/javascript" src="../../scripts/statistics_debug.js"></script>
+		<script type="text/javascript">
+			
+			var repository = 
+					new Statistics.Repository.IndicatorRepositoryMock(
+						Statistics.Repository.EndpointConfiguration, 
+						new Statistics.Serializer.DimensionSerializer(),
+						{
+							newIndicatorMetadata: Statistics.Model.IndicatorMetadata.FromObject,
+							newIndicatorValuesResult: Statistics.Model.Values.IndicatorValuesResult.FromObject
+						});
+			
+			var dimensionSelector = new Statistics.DimensionSelector.DefaultDimensionSelector();
+			var config = new Statistics.Model.DimensionConfig.DimensionProjectionConfig (
+				dimensionSelector,
+				new Statistics.Model.DimensionConfig.DimensionFilterConfig(dimensionSelector)
+			);
+			
+			var controller = 
+					new Statistics.Controller.ProjectionController (
+						config,
+						repository,
+						new Statistics.View.ChartView('chartHolder')
+					);
+			
+			var indicator = new Statistics.Indicator(1, 1, repository, [config]);			
+			
+		</script>
+	</head>
+	<body>
+		<h1>Gráfico</h1>
+		<div id="chartHolder"></div>
+	</body>
+</html>
