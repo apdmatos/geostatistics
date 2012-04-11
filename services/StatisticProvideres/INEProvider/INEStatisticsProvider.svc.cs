@@ -43,35 +43,35 @@ namespace INEProvider
         public IEnumerable<IndicatorValue> GetValues(string indicatorId, IEnumerable<DimensionFilter> filters, IEnumerable<DimensionFilter> projected)
         {
             //Join filters
-            List<INEService.DimensionFilter> ineFilters = JoinFilters(filters, projected).ToDimensionFilterEnumerable().ToList();
-            
+            IEnumerable<DimensionFilter> joinedFilters = projected != null ? filters.Union(projected) : filters;
+
             INEService.IndicatorValues ineValues = _requester.GetValues(
                     indicatorId,
-                    ineFilters, 
+                    joinedFilters.ToDimensionFilterEnumerable().ToList(), 
                     INEService.ValuesReturnType.OnlyValues,
                     Configuration.LANGUAGE, 
                     1, 
                     Configuration.MAX_RECORDS_PER_PAGE);
 
             // Aggregate values by projected filters
+            if (projected == null) ;
 
-
-            return null;
+            return ineValues.IndicatorValueList.ToIndicatorValueEnumerable().ToList();
         }
 
 
-        private List<DimensionFilter> JoinFilters(IEnumerable<DimensionFilter> filters, IEnumerable<DimensionFilter> projected)
-        {
-            List<DimensionFilter> joined = new List<DimensionFilter>(filters);
-            foreach (var filter in filters)
-            {
-                var dimension = projected.Where(d => d.DimensionID == filter.DimensionID).FirstOrDefault();
-                if (dimension != null) {
-                    filter.AttributeIDs = filter.AttributeIDs.Concat(dimension.AttributeIDs).Distinct();
-                }
-            }
+        //private List<DimensionFilter> JoinFilters(IEnumerable<DimensionFilter> filters, IEnumerable<DimensionFilter> projected)
+        //{
+            //List<DimensionFilter> joined = new List<DimensionFilter>(filters);
+            //foreach (var filter in filters)
+            //{
+            //    var dimension = projected.Where(d => d.DimensionID == filter.DimensionID).FirstOrDefault();
+            //    if (dimension != null) {
+            //        filter.AttributeIDs = filter.AttributeIDs.Concat(dimension.AttributeIDs).Distinct();
+            //    }
+            //}
 
-            return joined;
-        }        
+            //return joined;
+        //}        
     }
 }
