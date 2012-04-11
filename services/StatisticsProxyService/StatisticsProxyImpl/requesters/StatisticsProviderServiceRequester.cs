@@ -24,9 +24,9 @@ namespace StatisticsProxyImpl.requesters
             return GetChannel().GetMetadata(indicatorId);
         }
 
-        public IEnumerable<IndicatorValue> GetValues(string indicatorId, IEnumerable<DimensionFilter> filters)
+        public IEnumerable<IndicatorValue> GetValues(string indicatorId, IEnumerable<DimensionFilter> filters, IEnumerable<DimensionFilter> projected)
         {
-            return GetChannel().GetValues(indicatorId, filters);
+            return GetChannel().GetValues(indicatorId, filters, projected);
         }
 
         public void Dispose()

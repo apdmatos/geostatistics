@@ -32,12 +32,12 @@ namespace RestService
             return service.GetMetadata(sourceid, indicatorid);
         }
 
-        public DataSerie GetDataSerie(int sourceid, int indicatorid, string axisDimension, string selectedDimensions)
+        public IndicatorValues GetIndicatorValues(int sourceid, int indicatorid, string filterDimensions, string projectedDimensions)
         {
-            DimensionFilter axis = parser.ParseDimensionFilter(axisDimension);
-            IEnumerable<DimensionFilter> selected = parser.ParseDimensionFilterList(selectedDimensions);
+            IEnumerable<DimensionFilter> filters = filterDimensions != null ? parser.ParseDimensionFilterList(filterDimensions) : null;
+            IEnumerable<DimensionFilter> projected = projectedDimensions != null ? parser.ParseDimensionFilterList(projectedDimensions) : null;
 
-            return service.GetDataSerie(sourceid, indicatorid, axis, selected);
+            return service.GetIndicatorValues(sourceid, indicatorid, filters, projected);
         }
     }
 }

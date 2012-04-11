@@ -25,10 +25,10 @@ namespace StatisticsProxyImpl.requesters
             return _requester.GetMetadata(indicatorId);
         }
 
-        public IEnumerable<IndicatorValue> GetValues(string indicatorId, IEnumerable<DimensionFilter> filters)
+        public IEnumerable<IndicatorValue> GetValues(string indicatorId, IEnumerable<DimensionFilter> filters, IEnumerable<DimensionFilter> projected)
         {
             //TODO: Check first on cache
-            return _requester.GetValues(indicatorId, filters);
+            return _requester.GetValues(indicatorId, filters, projected);
         }
 
         public void Dispose()

@@ -16,6 +16,6 @@ namespace ProviderDataContracts.Metadata.Provider_Interfaces
         IndicatorMetadata GetMetadata(string indicatorId);
 
         [OperationContract]
-        IEnumerable<IndicatorValue> GetValues(string indicatorId, IEnumerable<DimensionFilter> filters);
+        IEnumerable<IndicatorValue> GetValues(string indicatorId, IEnumerable<DimensionFilter> filters, IEnumerable<DimensionFilter> projected);
     }
 }

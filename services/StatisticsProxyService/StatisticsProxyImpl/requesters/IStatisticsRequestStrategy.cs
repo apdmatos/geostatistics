@@ -9,6 +9,6 @@ namespace StatisticsProxyImpl.requesters
     public interface IStatisticsRequestStrategy : IDisposable
     {
         IndicatorMetadata GetMetadata(string indicatorId);
-        IEnumerable<IndicatorValue> GetValues(string indicatorId, IEnumerable<DimensionFilter> filters);
+        IEnumerable<IndicatorValue> GetValues(string indicatorId, IEnumerable<DimensionFilter> filters, IEnumerable<DimensionFilter> projected);
     }
 }

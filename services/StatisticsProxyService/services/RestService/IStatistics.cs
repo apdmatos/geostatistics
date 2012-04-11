@@ -21,8 +21,8 @@ namespace RestService
 
         [OperationContract]
         [WebGet(
-            UriTemplate = "DataSerie?sourceid={sourceid}&indicatorid={indicatorid}&axisDimension={axisDimension}&selectedDimensions={selectedDimensions}", 
+            UriTemplate = "GetIndicatorValues?sourceid={sourceid}&indicatorid={indicatorid}&filterDimensions={filterDimensions}&projectedDimensions={projectedDimensions}",
             ResponseFormat = WebMessageFormat.Json)]
-        DataSerie GetDataSerie(int sourceid, int indicatorid, string axisDimension, string selectedDimensions);
+        IndicatorValues GetIndicatorValues(int sourceid, int indicatorid, string filterDimensions, string projectedDimensions);
     }
 }

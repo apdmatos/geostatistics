@@ -35,6 +35,8 @@ namespace RestService.parameters_parser
         /// <returns></returns>
         public DimensionFilter ParseDimensionFilter(string dimensionFilter)
         {
+            if (dimensionFilter == null) return null;
+
             string[] filter = dimensionFilter.Split(',');
 
             return new DimensionFilter { 

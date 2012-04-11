@@ -15,6 +15,6 @@ namespace StatisticsProxyServiceDefenitions.interfaces
         IndicatorMetadata GetMetadata(int sourceid, int indicatorid);
 
         [OperationContract]
-        DataSerie GetDataSerie(int sourceid, int indicatorid, DimensionFilter axisDimension, IEnumerable<DimensionFilter> selectedDimensions);
+        IndicatorValues GetIndicatorValues(int sourceid, int indicatorid, IEnumerable<DimensionFilter> filterDimensions, IEnumerable<DimensionFilter> projectedDimensions);
     }
 }
