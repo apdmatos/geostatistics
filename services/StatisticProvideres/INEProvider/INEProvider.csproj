@@ -58,6 +58,7 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Aggregator\aggregator_doc.txt" />
     <Content Include="packages.config" />
     <None Include="Service References\INEService\configuration91.svcinfo" />
     <None Include="Service References\INEService\configuration.svcinfo" />
@@ -106,6 +107,7 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Aggregator\IAggregator.cs" />
     <Compile Include="DI\WCFNinjectModule.cs" />
     <Compile Include="Extensions\INE2Provider\DimensionFilterExtension.cs" />
     <Compile Include="Extensions\INE2Provider\IndicatorValueExtension.cs" />
@@ -113,6 +115,7 @@
     <Compile Include="Extensions\INE2Provider\DimensionExtension.cs" />
     <Compile Include="Extensions\INE2Provider\MetadataExtensions.cs" />
     <Compile Include="Extensions\Provider2INE\DimensionFilterExtension.cs" />
+    <Compile Include="Aggregator\DefaultAggregatorImpl.cs" />
     <Compile Include="request\IINERequesterWrapper.cs" />
     <Compile Include="request\INERequesterWrapper.cs" />
     <Compile Include="Global.asax.cs">

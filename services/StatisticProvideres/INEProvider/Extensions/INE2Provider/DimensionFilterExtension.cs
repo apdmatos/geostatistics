@@ -10,13 +10,6 @@ namespace INEProvider.Extensions.INE2Provider
     {
         public static List<DimensionFilter> ToDimensionFilterEnumerable(this IEnumerable<INEService.DimensionFilter> filter)
         {
-            //foreach (var f in filter)
-            //{
-            //    yield return f.ToDimensionFilter();
-            //}
-
-            //yield break;
-
             List<DimensionFilter> filters = new List<DimensionFilter>();
             if (filter != null)
                 foreach (var f in filter)
