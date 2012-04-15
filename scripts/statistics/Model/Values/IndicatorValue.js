@@ -40,12 +40,12 @@ Statistics.Model.Values.IndicatorValue = Statistics.Class({
 Statistics.Model.Values.IndicatorValue.FromObject = function(obj) {
 	
 	var filteredDimensions = [];
-	for(var i = 0, filter; filter = obj.filteredDimensions[i]; ++i){
+	for(var i = 0, filter; filter = obj.filters[i]; ++i){
 		filteredDimensions.push(Statistics.Model.Filter.DimensionFilter.FromObject(filter));
 	}
 	
 	var projectedDimensions = [];
-	for(var j = 0, proj; proj = obj.projectedDimensions[j]; ++j){
+	for(var j = 0, proj; proj = obj.projected[j]; ++j){
 		projectedDimensions.push(Statistics.Model.Filter.DimensionFilter.FromObject(proj));
 	}
 	

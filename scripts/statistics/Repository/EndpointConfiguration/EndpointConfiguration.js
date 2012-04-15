@@ -19,7 +19,7 @@ Statistics.Repository.EndpointConfiguration = {
 	 */
 	operations: {
 		metadata: 'Metadata',
-		values: 'Values'
+		values: 'GetIndicatorValues'
 	},
 	
 	/**

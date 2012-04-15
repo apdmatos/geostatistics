@@ -49,7 +49,7 @@ Statistics.Repository.StatisticsRepositoryImpl = Statistics.Class(Statistics.Rep
 		
 		//TODO: register and call the fail callback!
 		var xhr = jQuery.getJSON(
-			this.config.getDataSerieEndpoint() + "?callback=?", 
+			this.config.getValuesEndpoint() + "?callback=?", 
 			{
 				sourceid: sourceId, 
 				indicatorid: indicatorId,
@@ -59,7 +59,7 @@ Statistics.Repository.StatisticsRepositoryImpl = Statistics.Class(Statistics.Rep
 			jQuery.proxy(function(data) {
 				if(request.isCanceled()) return;
 				
-				var dataSerie = this.objectFactories.newDataSerie(data);
+				var dataSerie = this.objectFactories.newIndicatorValuesResult(data);
 				callbacks.successCallback(dataSerie);
 				
 			}, this));

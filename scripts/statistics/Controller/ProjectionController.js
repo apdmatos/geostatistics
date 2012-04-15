@@ -27,8 +27,8 @@ Statistics.Controller.ProjectionController = Statistics.Class(Statistics.Control
 			this.repository.getIndicatorValues(
 				metadata.sourceid, 
 				metadata.id, 
-				this.configuration.getSelectedDimensions(),
 				this.configuration.getDimensionsFilterConfig().getSelectedDimensions(),
+				this.configuration.getSelectedDimensions(),
 				{
 					successCallback: jQuery.proxy(this._complete, this),
 					errorCallback: jQuery.proxy(this._error, this)
