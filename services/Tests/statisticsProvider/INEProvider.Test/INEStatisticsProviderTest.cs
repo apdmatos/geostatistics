@@ -10,6 +10,7 @@ using Moq;
 using INEProvider.INEService;
 using System.Linq;
 using INEProvider.request;
+using INEProvider.Aggregator;
 
 namespace INEProvider.Test
 {
@@ -44,7 +45,7 @@ namespace INEProvider.Test
         [TestMethod()]
         public void INEStatisticsProviderConstructorTest()
         {
-            INEStatisticsProvider target = new INEStatisticsProvider(null);
+            INEStatisticsProvider target = new INEStatisticsProvider(null, null);
             Assert.IsNotNull(target);
         }
 
@@ -84,7 +85,7 @@ namespace INEProvider.Test
             ineMock.Setup(m => m.GetMetadata(It.IsAny<string>(), It.IsAny<bool>(), It.IsAny<string>())).Returns(ineMetadata);
 
 
-            INEStatisticsProvider target = new INEStatisticsProvider(ineMock.Object);
+            INEStatisticsProvider target = new INEStatisticsProvider(ineMock.Object, null);
             string indicatorId = "1";
             IndicatorMetadata expected = new IndicatorMetadata
             {
@@ -147,7 +148,6 @@ namespace INEProvider.Test
                     }
                 }
             };
-
             Mock<IINERequesterWrapper> ineMock = new Mock<IINERequesterWrapper>();
             ineMock.Setup(m => m.GetValues(
                 It.IsAny<string>(),
@@ -157,7 +157,23 @@ namespace INEProvider.Test
                 It.IsAny<int>(),
                 It.IsAny<int>())).Returns(ineValues);
 
-            INEStatisticsProvider target = new INEStatisticsProvider(ineMock.Object);
+
+            IEnumerable<ProviderDataContracts.Values.IndicatorValue> aggregatorValues = new ProviderDataContracts.Values.IndicatorValue[] { 
+                new ProviderDataContracts.Values.IndicatorValue { 
+                    Value = 1,
+                    Filters = new List<ProviderDataContracts.Filters.DimensionFilter> { 
+                        new ProviderDataContracts.Filters.DimensionFilter { DimensionID = "1", AttributeIDs = new List<string> { "S7A2010" } },
+                        new ProviderDataContracts.Filters.DimensionFilter { DimensionID = "2", AttributeIDs = new List<string> { "1" } }
+                    }
+                }
+            };
+            Mock<IAggregator> agregatorMock = new Mock<IAggregator>();
+            agregatorMock.Setup(m => m.AggregateValues(
+                It.IsAny<IEnumerable<INEService.IndicatorValue>>(),
+                It.IsAny<IEnumerable<ProviderDataContracts.Filters.DimensionFilter>>())).Returns(aggregatorValues);
+
+
+            INEStatisticsProvider target = new INEStatisticsProvider(ineMock.Object, agregatorMock.Object);
             string indicatorId = "1";
             IEnumerable<ProviderDataContracts.Filters.DimensionFilter> filters = null;
             IEnumerable<ProviderDataContracts.Values.IndicatorValue> expected = new List<ProviderDataContracts.Values.IndicatorValue> {
@@ -170,7 +186,7 @@ namespace INEProvider.Test
                     }
                 }
             };
-            IEnumerable<ProviderDataContracts.Values.IndicatorValue> actual = target.GetValues(indicatorId, filters);
+            IEnumerable<ProviderDataContracts.Values.IndicatorValue> actual = target.GetValues(indicatorId, null, null);
             Assert.IsTrue(Enumerable.SequenceEqual<ProviderDataContracts.Values.IndicatorValue>(expected, actual));
         }
     }

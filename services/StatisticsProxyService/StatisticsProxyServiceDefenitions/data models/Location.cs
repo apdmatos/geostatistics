@@ -9,11 +9,8 @@ namespace StatisticsProxyServiceDefenitions.data_models
     [DataContract]
     public class Location
     {
-        [DataMember(EmitDefaultValue = false)]
-        public double Latitude { get; set; }
-
-        [DataMember(EmitDefaultValue = false)]
-        public double Longitude { get; set; }
+        [DataMember(EmitDefaultValue = false)] public double Latitude { get; set; }
+        [DataMember(EmitDefaultValue = false)] public double Longitude { get; set; }
 
         public override bool Equals(object obj)
         {

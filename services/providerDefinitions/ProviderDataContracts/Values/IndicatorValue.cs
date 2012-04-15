@@ -10,9 +10,9 @@ namespace ProviderDataContracts.Values
     [DataContract]
     public class IndicatorValue
     {
-        [DataMember(EmitDefaultValue=false)] public double Value { get; set; }
-        [DataMember(EmitDefaultValue=false)] public IEnumerable<DimensionFilter> Filters { get; set; }
-        [DataMember(EmitDefaultValue = false)] public IEnumerable<DimensionFilter> Projected { get; set; }
+        [DataMember(EmitDefaultValue=false, Name="value")] public double Value { get; set; }
+        [DataMember(EmitDefaultValue = false, Name = "filters")] public IEnumerable<DimensionFilter> Filters { get; set; }
+        [DataMember(EmitDefaultValue = false, Name = "projected")] public IEnumerable<DimensionFilter> Projected { get; set; }
 
         public override bool Equals(object obj)
         {

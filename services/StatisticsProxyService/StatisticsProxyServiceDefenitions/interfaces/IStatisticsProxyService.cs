@@ -9,6 +9,7 @@ using ProviderDataContracts.Filters;
 
 namespace StatisticsProxyServiceDefenitions.interfaces
 {
+    [ServiceContract]
     public interface IStatisticsProxyService
     {
         [OperationContract]

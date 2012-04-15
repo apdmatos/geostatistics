@@ -32,17 +32,6 @@ namespace INEProvider
             return _requester.GetMetadata(indicatorId, true, Configuration.LANGUAGE).ToIndicatorMetadata(indicatorId);
         }
 
-       // public IEnumerable<IndicatorValue> GetValues(string indicatorId, IEnumerable<DimensionFilter> filters)
-       // {
-       //     List<INEService.DimensionFilter> ineFilter = filters.ToDimensionFilterEnumerable().ToList();
-       //     INEService.IndicatorValues ineValues = _requester.GetValues(indicatorId, 
-       //             ineFilter, INEService.ValuesReturnType.OnlyValues,
-       //             Configuration.LANGUAGE, 1, Configuration.MAX_RECORDS_PER_PAGE);
-
-       //     return ineValues.IndicatorValueList.ToIndicatorValueEnumerable().ToList();
-       //}
-
-
         public IEnumerable<IndicatorValue> GetValues(string indicatorId, IEnumerable<DimensionFilter> filters, IEnumerable<DimensionFilter> projected)
         {
             //Join filters
@@ -59,21 +48,6 @@ namespace INEProvider
             // Aggregate values by projected filters
             if (projected != null) return _aggregator.AggregateValues(ineValues.IndicatorValueList, projected);
             return ineValues.IndicatorValueList.ToIndicatorValueEnumerable().ToList();
-        }
-
-
-        //private List<DimensionFilter> JoinFilters(IEnumerable<DimensionFilter> filters, IEnumerable<DimensionFilter> projected)
-        //{
-            //List<DimensionFilter> joined = new List<DimensionFilter>(filters);
-            //foreach (var filter in filters)
-            //{
-            //    var dimension = projected.Where(d => d.DimensionID == filter.DimensionID).FirstOrDefault();
-            //    if (dimension != null) {
-            //        filter.AttributeIDs = filter.AttributeIDs.Concat(dimension.AttributeIDs).Distinct();
-            //    }
-            //}
-
-            //return joined;
-        //}        
+        }       
     }
 }

@@ -26,7 +26,7 @@ namespace RestService.Test
 
         private TestContext testContextInstance;
         private static IndicatorMetadata metadata;
-        private static IEnumerable<DataSerieValues> values;
+        private static IEnumerable<IndicatorValue> values;
         private static IStatisticsProxyService serviceImplementation;
 
         /// <summary>
@@ -105,35 +105,37 @@ namespace RestService.Test
                 Dimensions = dimensions
             };
 
-            values = new DataSerieValues[] {
-                new DataSerieValues { 
-                    Value = 2, 
-                    AxisDimension = new DimensionFilter { DimensionID = "3", AttributeIDs = new string[] { "M" } },
-                    SelectedDimensions = new DimensionFilter[] {
+            values = new IndicatorValue[] {
+                new IndicatorValue { 
+                    Value = 2,
+                    Projected = new DimensionFilter [] {  
+                        new DimensionFilter { DimensionID = "3", AttributeIDs=new string[]{ "M" } }
+                    },
+                    Filters = new DimensionFilter[] {
                         new DimensionFilter{ DimensionID = "1", AttributeIDs = new List<string>{ "2010", "2011" } },
-                        new DimensionFilter{ DimensionID = "2", AttributeIDs = new List<string>{ "PT" } },
-                        new DimensionFilter{ DimensionID = "3", AttributeIDs = new List<string>{ "M" } },
+                        new DimensionFilter{ DimensionID = "2", AttributeIDs = new List<string>{ "PT" } }
                     }
                 },
-                new DataSerieValues { 
+                new IndicatorValue { 
                     Value = 4, 
-                    AxisDimension = new DimensionFilter { DimensionID = "3", AttributeIDs = new string[] { "F" } },
-                    SelectedDimensions = new DimensionFilter[] {
+                    Projected = new DimensionFilter[] {
+                        new DimensionFilter { DimensionID = "3", AttributeIDs = new string[] { "F" } }
+                    },
+                    Filters = new DimensionFilter[] {
                         new DimensionFilter{ DimensionID = "1", AttributeIDs = new List<string>{ "2010", "2011" } },
-                        new DimensionFilter{ DimensionID = "2", AttributeIDs = new List<string>{ "PT" } },
-                        new DimensionFilter{ DimensionID = "3", AttributeIDs = new List<string>{ "F" } },
+                        new DimensionFilter{ DimensionID = "2", AttributeIDs = new List<string>{ "PT" } }
                     }
                 }
             };
 
             var mock = new Mock<IStatisticsProxyService>();
             mock.Setup(m => m.GetMetadata(It.IsAny<int>(), It.IsAny<int>())).Returns(metadata);
-            mock.Setup(m => m.GetDataSerie(
+            mock.Setup(m => m.GetIndicatorValues(
                 It.IsAny<int>(),
                 It.IsAny<int>(),
-                It.IsAny<DimensionFilter>(),
+                It.IsAny<IEnumerable<DimensionFilter>>(),
                 It.IsAny<IEnumerable<DimensionFilter>>())
-            ).Returns(new DataSerie { Values = values });
+            ).Returns(new IndicatorValues { Values = values });
 
             serviceImplementation = mock.Object;
         }
@@ -167,8 +169,8 @@ namespace RestService.Test
             int indicatorid = 1;
             string axisDimension = "1,1,2";
             string selectedDimensions = "1,1,2#2,1,2";
-            DataSerie expected = new DataSerie { Values = values };
-            DataSerie actual = target.GetDataSerie(sourceid, indicatorid, axisDimension, selectedDimensions);
+            IndicatorValues expected = new IndicatorValues { Values = values };
+            IndicatorValues actual = target.GetIndicatorValues(sourceid, indicatorid, axisDimension, selectedDimensions);
             Assert.AreEqual(expected, actual);
 
             mock.Verify(m => m.ParseDimensionFilterList(selectedDimensions));

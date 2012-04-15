@@ -116,45 +116,32 @@ namespace StatisticsProxyImpl.Tests
                 Dimensions = dimensions
             };
 
-            values = new List<IndicatorValue>
-            {
-                new IndicatorValue { 
-                    Value = 1, 
-                    Filters = new List<DimensionFilter> { 
-                        new DimensionFilter{ DimensionID = "1", AttributeIDs = new List<string>{ "2010" } },
-                        new DimensionFilter{ DimensionID = "2", AttributeIDs = new List<string>{ "PT" } },
-                        new DimensionFilter{ DimensionID = "3", AttributeIDs = new List<string>{ "M" } },
-                    }
-                },
-                new IndicatorValue { 
-                    Value = 1, 
-                    Filters = new List<DimensionFilter> { 
-                        new DimensionFilter{ DimensionID = "1", AttributeIDs = new List<string>{ "2011" } },
-                        new DimensionFilter{ DimensionID = "2", AttributeIDs = new List<string>{ "PT" } },
-                        new DimensionFilter{ DimensionID = "3", AttributeIDs = new List<string>{ "M" } },
-                    }
-                },
+            values = new IndicatorValue[] {
                 new IndicatorValue { 
                     Value = 2, 
-                    Filters = new List<DimensionFilter> { 
-                        new DimensionFilter{ DimensionID = "1", AttributeIDs = new List<string>{ "2010" } },
-                        new DimensionFilter{ DimensionID = "2", AttributeIDs = new List<string>{ "PT" } },
-                        new DimensionFilter{ DimensionID = "3", AttributeIDs = new List<string>{ "F" } },
+                    Projected = new DimensionFilter[] {
+                        new DimensionFilter { DimensionID = "3", AttributeIDs = new string[] { "M" } }
+                    },
+                    Filters = new DimensionFilter[] {
+                        new DimensionFilter{ DimensionID = "1", AttributeIDs = new List<string>{ "2010", "2011" } },
+                        new DimensionFilter{ DimensionID = "2", AttributeIDs = new List<string>{ "PT" } }
                     }
                 },
                 new IndicatorValue { 
-                    Value = 2, 
-                    Filters = new List<DimensionFilter> { 
-                        new DimensionFilter{ DimensionID = "1", AttributeIDs = new List<string>{ "2011" } },
-                        new DimensionFilter{ DimensionID = "2", AttributeIDs = new List<string>{ "PT" } },
-                        new DimensionFilter{ DimensionID = "3", AttributeIDs = new List<string>{ "F" } },
+                    Value = 4, 
+                    Projected = new DimensionFilter[] {
+                        new DimensionFilter { DimensionID = "3", AttributeIDs = new string[] { "F" } }
+                    },
+                    Filters = new DimensionFilter[] {
+                        new DimensionFilter{ DimensionID = "1", AttributeIDs = new List<string>{ "2010", "2011" } },
+                        new DimensionFilter{ DimensionID = "2", AttributeIDs = new List<string>{ "PT" } }
                     }
                 }
             };
 
             var requesterMock = new Mock<IStatisticsRequestStrategy>();
             requesterMock.Setup(m => m.GetMetadata(It.IsAny<string>())).Returns(metadata);
-            requesterMock.Setup(m => m.GetValues(It.IsAny<string>(), It.IsAny<IEnumerable<DimensionFilter>>())).Returns(values);
+            requesterMock.Setup(m => m.GetValues(It.IsAny<string>(), It.IsAny<IEnumerable<DimensionFilter>>(), It.IsAny<IEnumerable<DimensionFilter>>())).Returns(values);
 
             return requesterMock;
         }
@@ -205,44 +192,45 @@ namespace StatisticsProxyImpl.Tests
         ///A test for GetDataSerie
         ///</summary>
         [TestMethod()]
-        public void GetDataSerieTest()
+        public void GetDataProjectedBySpecifiedDimensionTest()
         {
             DefaultStatisticsProxyImpl target = new DefaultStatisticsProxyImpl(configKey, indicatorRepository, factory);
             int sourceid = 1;
             int indicatorid = 1;
-            DimensionFilter axisDimension = new DimensionFilter 
+            IEnumerable<DimensionFilter> projectedDimensions = new DimensionFilter[]
             { 
-                AttributeIDs = new string[]{ "M", "F" },
-                DimensionID = "3"
+                new DimensionFilter{ DimensionID = "3", AttributeIDs = new string[]{ "M", "F" } }
             };
-            IEnumerable<DimensionFilter> selectedDimensions = new DimensionFilter[]
+            IEnumerable<DimensionFilter> filterDimensions = new DimensionFilter[]
             { 
                 new DimensionFilter{ DimensionID = "1", AttributeIDs = new string[]{ "2010", "2011" } },
                 new DimensionFilter{ DimensionID = "2", AttributeIDs = new string[]{ "PT" } }
             };
 
-            IEnumerable<DataSerieValues> expectedValues = new DataSerieValues[] {
-                new DataSerieValues { 
+            IEnumerable<IndicatorValue> expectedValues = new IndicatorValue[] {
+                new IndicatorValue { 
                     Value = 2, 
-                    AxisDimension = new DimensionFilter { DimensionID = "3", AttributeIDs = new string[] { "M" } },
-                    SelectedDimensions = new DimensionFilter[] {
+                    Projected = new DimensionFilter[] {
+                        new DimensionFilter { DimensionID = "3", AttributeIDs = new string[] { "M" } }
+                    },
+                    Filters = new DimensionFilter[] {
                         new DimensionFilter{ DimensionID = "1", AttributeIDs = new List<string>{ "2010", "2011" } },
-                        new DimensionFilter{ DimensionID = "2", AttributeIDs = new List<string>{ "PT" } },
-                        new DimensionFilter{ DimensionID = "3", AttributeIDs = new List<string>{ "M" } },
+                        new DimensionFilter{ DimensionID = "2", AttributeIDs = new List<string>{ "PT" } }
                     }
                 },
-                new DataSerieValues { 
+                new IndicatorValue { 
                     Value = 4, 
-                    AxisDimension = new DimensionFilter { DimensionID = "3", AttributeIDs = new string[] { "F" } },
-                    SelectedDimensions = new DimensionFilter[] {
+                    Projected = new DimensionFilter[] {
+                        new DimensionFilter { DimensionID = "3", AttributeIDs = new string[] { "F" } }
+                    },
+                    Filters = new DimensionFilter[] {
                         new DimensionFilter{ DimensionID = "1", AttributeIDs = new List<string>{ "2010", "2011" } },
-                        new DimensionFilter{ DimensionID = "2", AttributeIDs = new List<string>{ "PT" } },
-                        new DimensionFilter{ DimensionID = "3", AttributeIDs = new List<string>{ "F" } },
+                        new DimensionFilter{ DimensionID = "2", AttributeIDs = new List<string>{ "PT" } }
                     }
                 }
             };
-            DataSerie actual = target.GetDataSerie(sourceid, indicatorid, axisDimension, selectedDimensions);
-            Assert.IsTrue(Enumerable.SequenceEqual<DataSerieValues>(expectedValues, actual.Values));
+            IndicatorValues actual = target.GetIndicatorValues(sourceid, indicatorid, filterDimensions, projectedDimensions);
+            Assert.IsTrue(Enumerable.SequenceEqual<IndicatorValue>(expectedValues, actual.Values));
         }
 
         /// <summary>
@@ -259,126 +247,126 @@ namespace StatisticsProxyImpl.Tests
             Assert.AreEqual(expected, actual);
         }
 
-        /// <summary>
-        ///A test for AddSelectedDimensions
-        ///</summary>
-        [TestMethod()]
-        [DeploymentItem("StatisticsProxyImpl.dll")]
-        public void AddSelectedDimensionsTest()
-        {
-            //DefaultStatisticsProxyImpl proxy = new DefaultStatisticsProxyImpl(configKey, indicatorRepository, factory);
-            //PrivateObject param0 = new PrivateObject(proxy);
-            //DefaultStatisticsProxyImpl_Accessor target = new DefaultStatisticsProxyImpl_Accessor(param0);
-            //Dictionary<string, Dictionary<string, DefaultStatisticsProxyImpl_Accessor.DimensionAttributesHelper>> selectedDimensionsHelper = new Dictionary<string, Dictionary<string, DefaultStatisticsProxyImpl_Accessor.DimensionAttributesHelper>>();
-            //DimensionFilter axisDimension = new DimensionFilter
-            //{
-            //    AttributeIDs = new List<string> { "1" },
-            //    DimensionID = "1"
-            //};
+        ///// <summary>
+        /////A test for AddSelectedDimensions
+        /////</summary>
+        //[TestMethod()]
+        //[DeploymentItem("StatisticsProxyImpl.dll")]
+        //public void AddSelectedDimensionsTest()
+        //{
+        //    //DefaultStatisticsProxyImpl proxy = new DefaultStatisticsProxyImpl(configKey, indicatorRepository, factory);
+        //    //PrivateObject param0 = new PrivateObject(proxy);
+        //    //DefaultStatisticsProxyImpl_Accessor target = new DefaultStatisticsProxyImpl_Accessor(param0);
+        //    //Dictionary<string, Dictionary<string, DefaultStatisticsProxyImpl_Accessor.DimensionAttributesHelper>> selectedDimensionsHelper = new Dictionary<string, Dictionary<string, DefaultStatisticsProxyImpl_Accessor.DimensionAttributesHelper>>();
+        //    //DimensionFilter axisDimension = new DimensionFilter
+        //    //{
+        //    //    AttributeIDs = new List<string> { "1" },
+        //    //    DimensionID = "1"
+        //    //};
 
-            //var filters = new List<DimensionFilter>{ 
-            //    new DimensionFilter { AttributeIDs = new List<string>{ "1" }, DimensionID = "1" },
-            //    new DimensionFilter { AttributeIDs = new List<string>{ "1" }, DimensionID = "2" },
-            //    new DimensionFilter { AttributeIDs = new List<string>{ "1" }, DimensionID = "3" }
-            //};
+        //    //var filters = new List<DimensionFilter>{ 
+        //    //    new DimensionFilter { AttributeIDs = new List<string>{ "1" }, DimensionID = "1" },
+        //    //    new DimensionFilter { AttributeIDs = new List<string>{ "1" }, DimensionID = "2" },
+        //    //    new DimensionFilter { AttributeIDs = new List<string>{ "1" }, DimensionID = "3" }
+        //    //};
 
-            //target.AddSelectedDimensions(selectedDimensionsHelper, axisDimension, filters);
+        //    //target.AddSelectedDimensions(selectedDimensionsHelper, axisDimension, filters);
 
-            //IEnumerable<DimensionFilter> expectedValues = new List<DimensionFilter>{ 
-            //    new DimensionFilter { AttributeIDs = new List<string>{ "1" }, DimensionID = "1" },
-            //    new DimensionFilter { AttributeIDs = new List<string>{ "1" }, DimensionID = "2" },
-            //    new DimensionFilter { AttributeIDs = new List<string>{ "1" }, DimensionID = "3" }
-            //}; ;
+        //    //IEnumerable<DimensionFilter> expectedValues = new List<DimensionFilter>{ 
+        //    //    new DimensionFilter { AttributeIDs = new List<string>{ "1" }, DimensionID = "1" },
+        //    //    new DimensionFilter { AttributeIDs = new List<string>{ "1" }, DimensionID = "2" },
+        //    //    new DimensionFilter { AttributeIDs = new List<string>{ "1" }, DimensionID = "3" }
+        //    //}; ;
 
-            //Assert.IsTrue(Enumerable.SequenceEqual<DimensionFilter>(expectedValues, filters));
-            //Assert.Equals(selectedDimensionsHelper.Keys.Count(), 1);
-            //Assert.Equals(selectedDimensionsHelper["1"].Keys.Count(), 3);
-            //Assert.Equals(selectedDimensionsHelper["1"]["1"].AttributesEnumerable.Count(), 1);
+        //    //Assert.IsTrue(Enumerable.SequenceEqual<DimensionFilter>(expectedValues, filters));
+        //    //Assert.Equals(selectedDimensionsHelper.Keys.Count(), 1);
+        //    //Assert.Equals(selectedDimensionsHelper["1"].Keys.Count(), 3);
+        //    //Assert.Equals(selectedDimensionsHelper["1"]["1"].AttributesEnumerable.Count(), 1);
 
-            Assert.Inconclusive("TODO: Implement code to verify target");
-        }
+        //    Assert.Inconclusive("TODO: Implement code to verify target");
+        //}
 
-        /// <summary>
-        ///A test for JoinFilters
-        ///</summary>
-        [TestMethod()]
-        [DeploymentItem("StatisticsProxyImpl.dll")]
-        public void JoinFiltersTest()
-        {
-            DefaultStatisticsProxyImpl proxy = new DefaultStatisticsProxyImpl(configKey, indicatorRepository, factory);
-            PrivateObject param0 = new PrivateObject(proxy);
-            DefaultStatisticsProxyImpl_Accessor target = new DefaultStatisticsProxyImpl_Accessor(param0);
+        ///// <summary>
+        /////A test for JoinFilters
+        /////</summary>
+        //[TestMethod()]
+        //[DeploymentItem("StatisticsProxyImpl.dll")]
+        //public void JoinFiltersTest()
+        //{
+        //    DefaultStatisticsProxyImpl proxy = new DefaultStatisticsProxyImpl(configKey, indicatorRepository, factory);
+        //    PrivateObject param0 = new PrivateObject(proxy);
+        //    DefaultStatisticsProxyImpl_Accessor target = new DefaultStatisticsProxyImpl_Accessor(param0);
 
-            IEnumerable<DimensionFilter> selected = new DimensionFilter[]{
-                new DimensionFilter { DimensionID = "1", AttributeIDs = new string[] { "1", "2" } },
-                new DimensionFilter { DimensionID = "2", AttributeIDs = new string[] { "1", "2" } }
-            };
-            DimensionFilter axis = new DimensionFilter { DimensionID = "3", AttributeIDs = new string[] { "2", "3" } };
+        //    IEnumerable<DimensionFilter> selected = new DimensionFilter[]{
+        //        new DimensionFilter { DimensionID = "1", AttributeIDs = new string[] { "1", "2" } },
+        //        new DimensionFilter { DimensionID = "2", AttributeIDs = new string[] { "1", "2" } }
+        //    };
+        //    DimensionFilter axis = new DimensionFilter { DimensionID = "3", AttributeIDs = new string[] { "2", "3" } };
 
-            List<DimensionFilter> expected = new List<DimensionFilter>{
-                new DimensionFilter { DimensionID = "1", AttributeIDs = new string[] { "1", "2" } },
-                new DimensionFilter { DimensionID = "2", AttributeIDs = new string[] { "1", "2" } },
-                new DimensionFilter { DimensionID = "3", AttributeIDs = new string[] { "2", "3" } }
-            };
+        //    List<DimensionFilter> expected = new List<DimensionFilter>{
+        //        new DimensionFilter { DimensionID = "1", AttributeIDs = new string[] { "1", "2" } },
+        //        new DimensionFilter { DimensionID = "2", AttributeIDs = new string[] { "1", "2" } },
+        //        new DimensionFilter { DimensionID = "3", AttributeIDs = new string[] { "2", "3" } }
+        //    };
 
-            List<DimensionFilter> actual = target.JoinFilters(selected, axis);
-            Assert.IsTrue(Enumerable.SequenceEqual<DimensionFilter>(expected, actual));
-        }
+        //    List<DimensionFilter> actual = target.JoinFilters(selected, axis);
+        //    Assert.IsTrue(Enumerable.SequenceEqual<DimensionFilter>(expected, actual));
+        //}
 
-        /// <summary>
-        ///A test for JoinFilters
-        ///</summary>
-        [TestMethod()]
-        [DeploymentItem("StatisticsProxyImpl.dll")]
-        public void JoinFiltersWithAxisDimensionAtSelectedValuesTest()
-        {
-            DefaultStatisticsProxyImpl proxy = new DefaultStatisticsProxyImpl(configKey, indicatorRepository, factory);
-            PrivateObject param0 = new PrivateObject(proxy);
-            DefaultStatisticsProxyImpl_Accessor target = new DefaultStatisticsProxyImpl_Accessor(param0);
+        ///// <summary>
+        /////A test for JoinFilters
+        /////</summary>
+        //[TestMethod()]
+        //[DeploymentItem("StatisticsProxyImpl.dll")]
+        //public void JoinFiltersWithAxisDimensionAtSelectedValuesTest()
+        //{
+        //    DefaultStatisticsProxyImpl proxy = new DefaultStatisticsProxyImpl(configKey, indicatorRepository, factory);
+        //    PrivateObject param0 = new PrivateObject(proxy);
+        //    DefaultStatisticsProxyImpl_Accessor target = new DefaultStatisticsProxyImpl_Accessor(param0);
 
-            IEnumerable<DimensionFilter> selected = new DimensionFilter[]{
-                new DimensionFilter { DimensionID = "1", AttributeIDs = new string[] { "1", "2" } },
-                new DimensionFilter { DimensionID = "2", AttributeIDs = new string[] { "1", "2" } },
-                new DimensionFilter { DimensionID = "3", AttributeIDs = new string[] { "2", "3" } }
-            };
-            DimensionFilter axis = new DimensionFilter { DimensionID = "3", AttributeIDs = new string[] { "2", "3" } };
+        //    IEnumerable<DimensionFilter> selected = new DimensionFilter[]{
+        //        new DimensionFilter { DimensionID = "1", AttributeIDs = new string[] { "1", "2" } },
+        //        new DimensionFilter { DimensionID = "2", AttributeIDs = new string[] { "1", "2" } },
+        //        new DimensionFilter { DimensionID = "3", AttributeIDs = new string[] { "2", "3" } }
+        //    };
+        //    DimensionFilter axis = new DimensionFilter { DimensionID = "3", AttributeIDs = new string[] { "2", "3" } };
 
-            List<DimensionFilter> expected = new List<DimensionFilter>{
-                new DimensionFilter { DimensionID = "1", AttributeIDs = new string[] { "1", "2" } },
-                new DimensionFilter { DimensionID = "2", AttributeIDs = new string[] { "1", "2" } },
-                new DimensionFilter { DimensionID = "3", AttributeIDs = new string[] { "2", "3" } }
-            };
+        //    List<DimensionFilter> expected = new List<DimensionFilter>{
+        //        new DimensionFilter { DimensionID = "1", AttributeIDs = new string[] { "1", "2" } },
+        //        new DimensionFilter { DimensionID = "2", AttributeIDs = new string[] { "1", "2" } },
+        //        new DimensionFilter { DimensionID = "3", AttributeIDs = new string[] { "2", "3" } }
+        //    };
 
-            List<DimensionFilter> actual = target.JoinFilters(selected, axis);
-            Assert.IsTrue(Enumerable.SequenceEqual<DimensionFilter>(expected, actual));
-        }
+        //    List<DimensionFilter> actual = target.JoinFilters(selected, axis);
+        //    Assert.IsTrue(Enumerable.SequenceEqual<DimensionFilter>(expected, actual));
+        //}
 
-        /// <summary>
-        ///A test for JoinFilters
-        ///</summary>
-        [TestMethod()]
-        [DeploymentItem("StatisticsProxyImpl.dll")]
-        public void JoinFiltersWithSomeAxisDimensionAtSelectedValuesTest()
-        {
-            DefaultStatisticsProxyImpl proxy = new DefaultStatisticsProxyImpl(configKey, indicatorRepository, factory);
-            PrivateObject param0 = new PrivateObject(proxy);
-            DefaultStatisticsProxyImpl_Accessor target = new DefaultStatisticsProxyImpl_Accessor(param0);
+        ///// <summary>
+        /////A test for JoinFilters
+        /////</summary>
+        //[TestMethod()]
+        //[DeploymentItem("StatisticsProxyImpl.dll")]
+        //public void JoinFiltersWithSomeAxisDimensionAtSelectedValuesTest()
+        //{
+        //    DefaultStatisticsProxyImpl proxy = new DefaultStatisticsProxyImpl(configKey, indicatorRepository, factory);
+        //    PrivateObject param0 = new PrivateObject(proxy);
+        //    DefaultStatisticsProxyImpl_Accessor target = new DefaultStatisticsProxyImpl_Accessor(param0);
 
-            IEnumerable<DimensionFilter> selected = new DimensionFilter[]{
-                new DimensionFilter { DimensionID = "1", AttributeIDs = new string[] { "1", "2" } },
-                new DimensionFilter { DimensionID = "2", AttributeIDs = new string[] { "1", "2" } },
-                new DimensionFilter { DimensionID = "3", AttributeIDs = new string[] { "2" } }
-            };
-            DimensionFilter axis = new DimensionFilter { DimensionID = "3", AttributeIDs = new string[] { "2", "3" } };
+        //    IEnumerable<DimensionFilter> selected = new DimensionFilter[]{
+        //        new DimensionFilter { DimensionID = "1", AttributeIDs = new string[] { "1", "2" } },
+        //        new DimensionFilter { DimensionID = "2", AttributeIDs = new string[] { "1", "2" } },
+        //        new DimensionFilter { DimensionID = "3", AttributeIDs = new string[] { "2" } }
+        //    };
+        //    DimensionFilter axis = new DimensionFilter { DimensionID = "3", AttributeIDs = new string[] { "2", "3" } };
 
-            List<DimensionFilter> expected = new List<DimensionFilter>{
-                new DimensionFilter { DimensionID = "1", AttributeIDs = new string[] { "1", "2" } },
-                new DimensionFilter { DimensionID = "2", AttributeIDs = new string[] { "1", "2" } },
-                new DimensionFilter { DimensionID = "3", AttributeIDs = new string[] { "2", "3" } }
-            };
+        //    List<DimensionFilter> expected = new List<DimensionFilter>{
+        //        new DimensionFilter { DimensionID = "1", AttributeIDs = new string[] { "1", "2" } },
+        //        new DimensionFilter { DimensionID = "2", AttributeIDs = new string[] { "1", "2" } },
+        //        new DimensionFilter { DimensionID = "3", AttributeIDs = new string[] { "2", "3" } }
+        //    };
 
-            List<DimensionFilter> actual = target.JoinFilters(selected, axis);
-            Assert.IsTrue(Enumerable.SequenceEqual<DimensionFilter>(expected, actual));
-        }
+        //    List<DimensionFilter> actual = target.JoinFilters(selected, axis);
+        //    Assert.IsTrue(Enumerable.SequenceEqual<DimensionFilter>(expected, actual));
+        //}
     }
 }

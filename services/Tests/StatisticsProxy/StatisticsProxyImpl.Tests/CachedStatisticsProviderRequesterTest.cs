@@ -109,7 +109,7 @@ namespace StatisticsProxyImpl.Tests
 
             var mock = new Mock<IStatisticsRequestStrategy>();
             mock.Setup(m => m.GetMetadata(It.IsAny<string>())).Returns(metadata);
-            mock.Setup(m => m.GetValues(It.IsAny<string>(), It.IsAny<IEnumerable<DimensionFilter>>())).Returns(values);
+            mock.Setup(m => m.GetValues(It.IsAny<string>(), It.IsAny<IEnumerable<DimensionFilter>>(), It.IsAny<IEnumerable<DimensionFilter>>())).Returns(values);
 
             requester = mock.Object;
         }
@@ -123,7 +123,7 @@ namespace StatisticsProxyImpl.Tests
             CachedStatisticsProviderRequester target = new CachedStatisticsProviderRequester(requester);
             string indicatorId = "1";
             IEnumerable<DimensionFilter> filters = null;
-            IEnumerable<IndicatorValue> actual = target.GetValues(indicatorId, filters);
+            IEnumerable<IndicatorValue> actual = target.GetValues(indicatorId, filters, null);
             Assert.AreNotEqual(null, actual);
         }
 

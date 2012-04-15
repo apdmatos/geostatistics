@@ -26,7 +26,7 @@ namespace INEProvider.Aggregator
                 {
                     indicatorValues.Add(projectedDimensionsKey, new IndicatorValue
                     {
-                        Value = 0,
+                        Value = (double)value.Value,
                         Filters = filtered,
                         Projected = projected
                     });
@@ -72,7 +72,7 @@ namespace INEProvider.Aggregator
             foreach (var sourceFilter in source)
             {
                 var destFilter = dest.Where(f => f.DimensionID == sourceFilter.DimensionID).FirstOrDefault();
-                if (destFilter.AttributeIDs.ElementAt(0) != sourceFilter.AttributeIDs.ElementAt(0))
+                if (destFilter != null && destFilter.AttributeIDs.ElementAt(0) != sourceFilter.AttributeIDs.ElementAt(0))
                     destFilter.AttributeIDs = destFilter.AttributeIDs.Concat(sourceFilter.AttributeIDs).Distinct().ToList();
             }
         }

@@ -2,7 +2,7 @@
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-		<title>Third Example</title>
+		<title>Chart Example</title>
 		<style>
 			#chartHolder{
 				height: 250px;
@@ -14,7 +14,7 @@
 		<script type="text/javascript">
 			
 			var repository = 
-					new Statistics.Repository.IndicatorRepositoryMock(
+					new Statistics.Repository.StatisticsRepositoryImpl(
 						Statistics.Repository.EndpointConfiguration, 
 						new Statistics.Serializer.DimensionSerializer(),
 						{

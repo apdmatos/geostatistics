@@ -42,7 +42,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="data models\___DataSerie.cs" />
     <Compile Include="data models\IndicatorValues.cs" />
     <Compile Include="data models\Location.cs" />
     <Compile Include="interfaces\IStatisticsProxyService.cs" />

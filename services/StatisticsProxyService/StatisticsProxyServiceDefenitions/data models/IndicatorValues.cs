@@ -10,8 +10,8 @@ namespace StatisticsProxyServiceDefenitions.data_models
     [DataContract]
     public class IndicatorValues
     {
-        [DataMember] public Location Location { get; set; }
-        [DataMember] public IEnumerable<IndicatorValue> Values { get; set; }
+        [DataMember(EmitDefaultValue = false, Name="location")] public Location Location { get; set; }
+        [DataMember(EmitDefaultValue = false, Name="values")] public IEnumerable<IndicatorValue> Values { get; set; }
 
         public override bool Equals(object obj)
         {
