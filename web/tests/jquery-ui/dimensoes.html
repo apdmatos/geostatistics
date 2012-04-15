@@ -1,0 +1,87 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>Droppable - shopping cart</title>
+    </head>
+	<link href="jquery-ui-1.8.18/css/ui-lightness/jquery-ui-1.8.18.custom.css" type="text/css" rel="stylesheet" />
+	<script type="text/javascript" src="jquery-1.7.1/jquery-1.7.1.min.js"></script>
+	<script type="text/javascript" src="jquery-ui-1.8.18/js/jquery-ui-1.8.18.custom.min.js"></script>
+	<style>
+		.bag {
+			width: 400px;
+			margin-right: 10px;
+			margin-top: 10px;
+			float: left;
+		}
+
+		.bag .content {
+			overflow: auto;
+			margin-top: -23px;
+			height: 200px;
+		}
+		
+		.bag h1 {
+			margin-top: 0px;
+		}
+		
+		.clear{
+			clear: both;
+		}
+	</style>
+	<script>
+		$(function() {
+			$( ".bag li:not(.placeholder)" ).draggable({
+				appendTo: "body",
+				helper: "clone",
+				revert: "invalid"
+			});
+			$( ".bag .content" ).droppable({
+				activeClass: "ui-state-default",
+				hoverClass: "ui-state-hover",
+				drop: function( event, ui ) {
+					$( this ).find( ".placeholder" ).remove();
+					$( "<li></li>" ).text( ui.draggable.text() ).appendTo( $( this ).find( "ul" ) );
+					ui.draggable.remove();
+				}
+			}).sortable({
+				items: "li:not(.placeholder)",
+				sort: function() {
+					// gets added unintentionally by droppable interacting with sortable
+					// using connectWithSortable fixes this, but doesn't allow you to customize active/hoverClass options
+					$( this ).removeClass( "ui-state-default" );
+				}
+			});
+		});
+	</script>	
+    <body>
+        <div id="dimensions" class="bag">
+        	<h1 class="ui-widget-header">Dimensões</h1>
+        	<div class="content ui-widget-content">
+				<ul>
+	        		<li>Dimensao 1</li>
+					<li>Dimensao 2</li>
+					<li>Dimensao 3</li>
+					<li>Dimensao 4</li>
+	        	</ul>
+			</div>
+        </div>
+		<div id="columns" class="bag">
+        	<h1 class="ui-widget-header">Colunas</h1>
+			<div class="content ui-widget-content">
+				<ul>
+	        		<li class="placeholder">Drop columns here</li>
+	        	</ul>
+			</div>
+        </div>
+		<div class="clear"></div>
+		<div id="rows" class="bag">
+			<h1 class="ui-widget-header">Linhas</h1>
+			<div class="content ui-widget-content">
+	        	<ul>
+	        		<li class="placeholder">Drop columns here</li>
+	        	</ul>
+			</div>
+        </div>
+    </body>
+</html>
