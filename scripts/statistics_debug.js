@@ -61,12 +61,14 @@
 	
 		// Extenal
 		"lib/jQuery/jquery-1.7.1.js",
+		"lib/jquery-ui-1.8.18/js/jquery-ui-1.8.18.custom.min.js",
 		"lib/jqplot/jquery.jqplot.min.js",
 		"lib/jqplot/jqplot.barRenderer.min.js",
 		"lib/jqplot/jqplot.pieRenderer.min.js",
 		"lib/jqplot/jqplot.donutRenderer.min.js",
 		"lib/pivotTable/data_vortex.js",
 		"lib/pivotTable/pivot_table.js",
+		"lib/dynatree-1.2.0/src/jquery.dynatree.js",
 		
 		// Internal
 		"statistics/BaseTypes/Class.js",
@@ -87,6 +89,8 @@
 		"statistics/Model/Filter/DimensionFilter.js",
 		"statistics/Model/Values/IndicatorValue.js",
 		"statistics/Model/Values/IndicatorValuesResult.js",
+		"statistics/ConfigurationEditor/ConfigurationEditor.js",
+		"statistics/ConfigurationEditor/DimensionsConfigEditor.js",
 		"statistics/Repository/Repository.js",
 		"statistics/Repository/Request.js",
 		"statistics/Repository/IndicatorRepositoryMock.js",
@@ -107,7 +111,9 @@
 	var cssFiles = [
 		// External
 		"lib/jqplot/jquery.jqplot.min.css",
-		"lib/pivotTable/pivot_table.css"
+		"lib/pivotTable/pivot_table.css",
+		"lib/jquery-ui-1.8.18/css/ui-lightness/jquery-ui-1.8.18.custom.css",
+		"lib/dynatree-1.2.0/src/skin/ui.dynatree.css"
 	];
 	
 	var isIE = (navigator.appName=="Microsoft Internet Explorer");
