@@ -128,7 +128,7 @@
 					new Statistics.Model.DimensionConfig.DimensionFilterConfig(dimensionSelector)
 				);
 				
-				var controller = 
+				var PieController = 
 						new Statistics.Controller.ProjectionController (
 							config,
 							repository,
@@ -222,6 +222,7 @@
 						}
 					]
 				});
+				
 				$("#chart").dialog({
 					height: 500,
 					width: 400,
