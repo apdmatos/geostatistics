@@ -71,6 +71,15 @@ Statistics.Model.DimensionConfig = Statistics.Class({
 	/**
 	 * @public
 	 * @function
+	 * @returns {Boolean} returns true if the metadata is already loaded, false otherwise
+	 */
+	isMetadataLoaded: function(){
+		return !!this.metadata;
+	},
+	
+	/**
+	 * @public
+	 * @function
 	 * @param {Statistics.Model.IndicatorMetadata} metadata
 	 * @param {Boolean} [silent=false] optional property to silent the event
 	 * sets the metadata.
@@ -82,13 +91,13 @@ Statistics.Model.DimensionConfig = Statistics.Class({
 	setMetadata: function(metadata, silent) {
 		this.metadata = metadata;
 		
-		if(!silent) 
-			this.events.trigger('config::settedMetadata', [this, metadata]);
-		
 		this.dimensions = [];
 		// copy dimensions
 		for(var i = 0, d; d = metadata.dimensions[i]; ++i)
 			this.dimensions.push(d.clone());
+		
+		if(!silent) 
+			this.events.trigger('config::settedMetadata', [this, metadata]);
 		
 		if(this.dimensionSelector)
 			this.dimensionSelector.setMetadata(metadata);
@@ -150,8 +159,22 @@ Statistics.Model.DimensionConfig = Statistics.Class({
 	contains: function(dimensions){
 		
 		for(var i = 0, d; d = dimensions[i]; ++i)
-			if(jQuery.contains(this.dimensions, d)) return true;
+			if( !this.containsDimension(d) ) return false;
 			
+		return true;
+	},
+	
+	/**
+	 * Checks if this configuration contains the dimension object passed as parameter
+	 * @public
+	 * @function
+	 * @param {Statistics.Model.Dimension} dimension
+	 */
+	containsDimension: function(dimension){
+		
+		for(var i = 0, d; d = this.dimensions[i]; ++i)
+			if(d == dimension) return true;
+		
 		return false;
 	},
 	

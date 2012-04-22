@@ -18,6 +18,7 @@ namespace RestService.parameters_parser
         /// <returns>A dimension filter list</returns>
         public IEnumerable<DimensionFilter> ParseDimensionFilterList(string dimensionsFilter)
         {
+            if (string.IsNullOrEmpty(dimensionsFilter)) yield break;
             string[] filters = dimensionsFilter.Split('#');
             foreach (var filter in filters)
                 yield return ParseDimensionFilter(filter);
@@ -35,7 +36,7 @@ namespace RestService.parameters_parser
         /// <returns></returns>
         public DimensionFilter ParseDimensionFilter(string dimensionFilter)
         {
-            if (dimensionFilter == null) return null;
+            if (string.IsNullOrEmpty(dimensionFilter)) return null;
 
             string[] filter = dimensionFilter.Split(',');
 

@@ -1,5 +1,5 @@
 /*****************************************************************************
- Source adapted by André Matos
+ Source adapted by Andrï¿½ Matos
   [D]- Redraws the table given a layout configuration
   - Removed buttons to change configuration. Change layout button changed by some text
  
@@ -96,7 +96,7 @@ PivotTable.prototype.display = function (rowAxes, columnAxes) {
   this.rowAxes 		= rowAxes ? rowAxes : this.rowAxes;
   this.columnAxes 	= columnAxes ? columnAxes : this.columnAxes;
 
-  var tableDiv = document.getElementById(this.divId);
+  var tableDiv = typeof(this.divId) == 'string' ? document.getElementById(this.divId) : this.divId;
   var arrayOfStrings = new Array();
   var dimensionOfPivotTable = this.dataVortex.axisList.length;
   

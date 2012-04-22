@@ -39,11 +39,12 @@ Statistics.View.ChartView = Statistics.Class(Statistics.View, {
 		  		}, 
 				legend: { 
 					show:true, 
-					placement: 'outside',
+//					placement: 'outside',
+					placement: 'inside',
 					rendererOptions: {
                           numberRows: 5
                      },
-					location: 'e' 
+					location: 's' 
 				}
 			}, plotOptions);
 	},

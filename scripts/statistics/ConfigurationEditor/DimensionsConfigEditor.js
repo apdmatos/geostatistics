@@ -4,55 +4,52 @@ Statistics.ConfigurationEditor.DimensionsConfigEditor = Statistics.Class(Statist
 	
 	/**
 	 * @private
-	 * @property
-	 * @param {Object<string, Jquery.Plugins.Dynatree>} trees
+	 * @property {Object<string, Jquery.Plugins.Dynatree>} trees
 	 */
 	trees: null,
 	
 	/**
-	 * @constructor
-	 * @param {Statistics.Model.DimensionConfig} config - The configuration to set changes on
-	 * @param {Boolean} autoApply[=false] - Applies the changes on the fly to configuration. Default is false
+	 * @private
+	 * @property {Boolean}
+	 * Internal property to indicate that the tree is being updated.
+	 * The tree change event will fire, are we should do nothing.
 	 */
-	_init: function(config, autoApply){
-		Statistics.ConfigurationEditor.prototype._init.apply(this, arguments);
-	},	
+	updatingTree: false,
 	
 	/**
 	 * Called to draw the configuration editor
 	 * 
+	 * @override
 	 * @public
 	 * @function
 	 * @param {JQueryElement} div - The element to draw the editor on
 	 */
-	draw: function(div) {
-		Statistics.ConfigurationEditor.prototype.draw.apply(this, arguments);
+	redraw: function() {
+		Statistics.ConfigurationEditor.prototype.redraw.apply(this, arguments);
 		this.trees = {};
 		
 		var metadata = this.configuration.getMetadata();
-		div.append( "<h1>" + metadata.name + "</h1>" );
+		this.div.append( "<h1>" + metadata.name + "</h1>" );
 		for(var i = 0, d; d = metadata.dimensions[i]; ++i)
 			this._drawDimension( d );
-			
-		return div;
+		
+		// register events for listening dimension selection changes, 
+		// to update the interface
+		this.configuration.events.bind(
+			'config::filteredDimensionsChanged', 
+			$.proxy(this._updateTreeState, this));
 	},
 	
 	/**
-	 * Apply changes to configuration
-	 * @public
-	 * @function
-	 */
-	applyChanges: function(){
-		alert( 'apply' );
-	},
-	
-	/**
+	 * @override
 	 * Discard the changes
 	 * @public
 	 * @function
+	 * @returns {Boolean} indicates if anything was discarded
 	 */
-	discardChanges: function(){
-		alert( 'discard' );
+	discardChanges: function() {
+		this._updateTreeState();
+		return Statistics.ConfigurationEditor.prototype.discardChanges.apply(this, arguments);
 	},
 	
 /**********************************************************************************
@@ -71,7 +68,7 @@ Statistics.ConfigurationEditor.DimensionsConfigEditor = Statistics.Class(Statist
 		
 		var treeData = [];
 		for(var i = 0, attr; attr = dimension.attributes[i]; ++i)
-			treeData.push( this._attributeToTreeData(attr) );
+			treeData.push( this._attributeToTreeData(attr, this.configuration.getDimensionById(dimension.id)) );
 		
 		this.div.append( "<h2>" + dimension.name + "</h2>" );
 		this.trees[dimension.id] = 
@@ -81,11 +78,14 @@ Statistics.ConfigurationEditor.DimensionsConfigEditor = Statistics.Class(Statist
       				selectMode: 2,
       				children: treeData,
 					autoFocus: false,
-      				onSelect: function(select, node) {
+      				onSelect: $.proxy(function(select, node) {
 						
-						alert('select');
+						if(this.updatingTree) return;
 						
-      				},
+						if(select) this.updater.addAttribute(dimension.id, node.data.statsAttr);
+						else this.updater.removeAttribute(dimension.id, node.data.statsAttr);
+						
+      				}, this),
       				onClick: function(node, event) {
         				// We should not toggle, if target was "checkbox", because this
         				// would result in double-toggle (i.e. no toggle)
@@ -107,15 +107,18 @@ Statistics.ConfigurationEditor.DimensionsConfigEditor = Statistics.Class(Statist
 	 * @private
 	 * @function
 	 * @param {Statistics.Model.Attribute} attribute
+	 * @param {Statistics.Model.Dimension} configDimension
 	 */
-	_attributeToTreeData: function(attribute){
+	_attributeToTreeData: function(attribute, configDimension){
 		
 		var isHierarchical = attribute instanceof Statistics.Model.HierarchyAttribute;
 		var treeData = {
 			title: attribute.name,
 			isFolder: isHierarchical,
 			key: attribute.id,
-			expand: false 
+			expand: false,
+			statsAttr: attribute,
+			select: !!configDimension.getAttributeById(attribute.id, true)
 		};
 		
 		// TODO: check if it should be lazy loaded
@@ -126,5 +129,26 @@ Statistics.ConfigurationEditor.DimensionsConfigEditor = Statistics.Class(Statist
 		}
 		
 		return treeData;
-	}
+	},
+	
+	/**
+	 * @private
+	 * @function
+	 * updates the tree state. Checks for new selected/unselected nodes
+	 */
+	_updateTreeState: function(){
+		
+		this.updatingTree = true;
+		for(var dimensionId in this.trees){
+			
+			var dimension = this.configuration.getDimensionById(dimensionId);
+			this.trees[dimensionId].dynatree("getRoot").visit(function(node){
+				
+				var select = !!dimension.getAttributeById(node.data.statsAttr.id, true);
+				node.select(select);
+			});
+		}
+		
+		this.updatingTree = false;
+	},
 });

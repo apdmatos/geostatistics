@@ -8,5 +8,14 @@
 
 Statistics.i18n.pt = {
 
+	// pivotTableConfigEditor.js
+	dimensions: 'Dimensões',
+	dragFiltersHere: 'Adiciona os filtros para aqui',
+	dragColumnsHere: 'Adiciona as columas aqui',
+	dragRowsHere: 'Adiciona as linhas aqui',
+	columns: 'Colunas',
+	rows: 'Linhas',
 	
+	//ChartConfigEditor.js
+	selectDimension: 'Selecione uma dimensão'
 };

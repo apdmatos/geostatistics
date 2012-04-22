@@ -4,16 +4,71 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 		<title>Pivot table Example</title>
 		<style>
+			
+			h1{
+				font-size: 17px;
+			}
+			
+			h2{
+				font-size: 15px;
+			}
+			
 			#chartHolder{
 				height: 250px;
 				width: 200px;
 			}
+			
+			.stats-pivot-bag {
+				width: 245px;
+				margin-right: 10px;
+				margin-top: 10px;
+				float: left;
+			}
+	
+			.stats-pivot-bag li {
+				text-align: center;
+				width: 100%;
+				height: 19px;
+				background: #C9C9C9;
+				margin-top: 5px;
+				line-height: 1.2em;
+			}
+			
+			.stats-pivot-bag .stats-pivot-placeholder {
+				background: none;
+			}
+			
+			.stats-pivot-bag ul {
+				list-style: none;
+				padding: 10px;
+				margin: 0px;
+			}
+	
+			.stats-pivot-bag .stats-pivot-content {
+				overflow: auto;
+				margin-top: -12px;
+				height: 132px;
+			}
+			
+			.stats-pivot-bag h1 {
+				margin-top: 0px;
+			}
+			
+			.stats-clear{
+				clear: both;
+			}
+			
 		</style>
 		
 		<script type="text/javascript" src="../../scripts/statistics_debug.js"></script>
 		<script type="text/javascript">
-			
-			var repository = 
+
+			var treeConfigEditor = null,
+				projectDimensionsConfig = null,
+				chartConfigEditor = null;
+				
+			$(document).ready(function(){
+				var repository = 
 					new Statistics.Repository.StatisticsRepositoryImpl(
 						Statistics.Repository.EndpointConfiguration, 
 						new Statistics.Serializer.DimensionSerializer(),
@@ -22,29 +77,45 @@
 							newIndicatorValuesResult: Statistics.Model.Values.IndicatorValuesResult.FromObject
 						});
 			
-			var dimensionSelector = new Statistics.DimensionSelector.DefaultDimensionSelector();
-			var config = new Statistics.Model.DimensionConfig.PivotTableProjectionConfig (
-				dimensionSelector,
-				new Statistics.Model.DimensionConfig.DimensionFilterConfig(dimensionSelector)
-			);
-			
-			var controller = 
-					new Statistics.Controller.ProjectionController (
-						config,
-						repository,
-						new Statistics.View.PivotTableView('pivotTable')
-					);
-			
-			var indicator = new Statistics.Indicator(1, 1, repository, [config]);			
-			
-			
-			// Test
-			var configEditor = new Statistics.ConfigurationEditor.DimensionsConfigEditor(config);
-			window.setTimeout(function(){
-
-				configEditor.draw( $('#tree') );
+				var dimensionSelector = new Statistics.DimensionSelector.DefaultDimensionSelector();
+				var config = new Statistics.Model.DimensionConfig.PivotTableProjectionConfig (
+					dimensionSelector,
+					new Statistics.Model.DimensionConfig.DimensionFilterConfig(dimensionSelector)
+				);
 				
-			}, 2000);
+				var controller = 
+						new Statistics.Controller.ProjectionController (
+							config,
+							repository,
+							new Statistics.View.PivotTableView('pivotTable')
+						);
+				
+				var indicator = new Statistics.Indicator(1, 1, repository, [config]);			
+				
+				
+				// Test
+				treeConfigEditor = new Statistics.ConfigurationEditor.DimensionsConfigEditor(config, new Statistics.ConfigurationEditor.DimensionFilterUpdater(config));
+				projectDimensionsConfig = new Statistics.ConfigurationEditor.PivotTableConfigEditor(config, new Statistics.ConfigurationEditor.PivotTableProjectorUpdater(config));
+				chartConfigEditor = new Statistics.ConfigurationEditor.ChartConfigEditor(config, new Statistics.ConfigurationEditor.DimensionProjectorUpdater(config));
+
+				treeConfigEditor.draw( $('#tree') );
+				projectDimensionsConfig.draw( $('#dimensionsConfig') );
+				chartConfigEditor.draw( $('#chartConfig') );
+				
+			});
+			
+			
+			function ok(){
+				
+				treeConfigEditor.applyChanges();
+				projectDimensionsConfig.applyChanges();
+				chartConfigEditor.applyChanges();
+			}
+			function cancel(){
+				treeConfigEditor.discardChanges();
+				projectDimensionsConfig.discardChanges();
+				chartConfigEditor.discardChanges();
+			}
 			
 		</script>
 	</head>
@@ -52,5 +123,12 @@
 		<h1>PivotTable</h1>
 		<div id="pivotTable"></div>
 		<div id="tree"></div>
+		<div id="dimensionsConfig"></div>
+		<div class='stats-clear'></div>
+		<div id="chartConfig"></div>
+		<div>
+			<input type="button" value="OK" onclick="ok();" />
+			<input type="button" value="Cancelar" onclick="cancel();" />
+		</div>
 	</body>
 </html>

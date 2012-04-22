@@ -18,6 +18,13 @@ Statistics.Model.Dimension = Statistics.Class({
 	
 	/**
 	 * @public
+	 * @property {String} nameAbbr
+	 * The dimensions name abbreviated
+	 */
+	nameAbbr: null,
+	
+	/**
+	 * @public
 	 * @property {Statistics.Model.DimensionType} type
 	 * The dimension type
 	 */
@@ -48,9 +55,10 @@ Statistics.Model.Dimension = Statistics.Class({
 	/**
 	 * @constructor
 	 */
-	_init: function(name, id, type, attributes){
+	_init: function(name, nameAbbr, id, type, attributes){
 		
 		this.name = name;
+		this.nameAbbr = nameAbbr;
 		this.id = id;
 		this.type = type;
 		this.attributes = attributes ? attributes : [];
@@ -65,6 +73,24 @@ Statistics.Model.Dimension = Statistics.Class({
 	addAttribute: function(attribute){
 		this.attributes.push(attribute);
 	},
+	
+	/**
+	 * @public
+	 * @function
+	 * @param {Statistics,Model.Attribute} attribute
+	 * @param {Boolean} onlyRootAttributes
+	 * 
+	 */
+	removeAttribute: function(attribute, onlyRootAttributes){
+		
+		this.attributes = jQuery.grep(this.attributes, function(attr) {
+			
+			if(!onlyRootAttributes && attr instanceof Statistics.Model.HierarchyAttribute)
+				attr.removeAttribute(attribute);
+			
+			return attr.id != attribute.id;
+      	});
+	},	
 
 	/**
 	 * Adds a set of attributes
@@ -82,17 +108,18 @@ Statistics.Model.Dimension = Statistics.Class({
 	 * @public
 	 * @function
 	 * @param {string} attributeId - the attributeid to return
+	 * @param {Boolean} onlyRootAttributes
 	 * @returns {Statistics.Model.Attribute} returns the attribute with the id. 
 	 * If the attributeid, does not exist, returns null
 	 */
-	getAttributeById: function(attributeId){
+	getAttributeById: function(attributeId, onlyRootAtributes){
 		
 		for(var i = 0, attribute; attribute = this.attributes[i]; ++i) {
 			
 			if(attribute.id == attributeId)
 				return attribute;
 				
-			if(attribute instanceof Statistics.Model.HierarchyAttribute)
+			if(!onlyRootAtributes && attribute instanceof Statistics.Model.HierarchyAttribute)
 			{
 				var attr = attribute.getAttributeById(attributeId);
 				if(attr) return attr;
@@ -121,7 +148,7 @@ Statistics.Model.Dimension = Statistics.Class({
 			}
 		}
 		
-		return new Statistics.Model.Dimension(this.name, this.id, this.type, attributes);
+		return new Statistics.Model.Dimension(this.name, this.nameAbbr, this.id, this.type, attributes);
 	},
 	
 	/**
@@ -134,6 +161,7 @@ Statistics.Model.Dimension = Statistics.Class({
 		
 		this.id = dimension.id;
 		this.name = dimension.name;
+		this.nameAbbr = dimension.nameAbbr;
 		this.type = dimension.type;
 		
 		if(copyAttributes) this.attributes = dimension.attributes;
@@ -169,7 +197,7 @@ Statistics.Model.Dimension.FromObject = function(obj){
 					Statistics.Model.DimensionType[obj.type] : 
 					Statistics.Model.DimensionType.Other;
 	
-	return new Statistics.Model.Dimension(obj.name, obj.id, obj.type, attributes, obj.projectedByDefault); 
+	return new Statistics.Model.Dimension(obj.name, obj.nameAbbr, obj.id, obj.type, attributes, obj.projectedByDefault); 
 	
 };
 

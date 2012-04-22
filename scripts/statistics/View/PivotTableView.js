@@ -44,10 +44,11 @@ Statistics.View.PivotTableView = Statistics.Class(Statistics.View, {
 		
 		this._fillData(data, vortex, metric);
 		
+		var element = typeof(this.div) == 'string' ? this.div : $(this.div)[0]
 		var display = this._getDisplayConfiguration();
 		this.pivotTable = new PivotTable(
 			"", 
-			this.div, 
+			element, 
 			vortex, 
 			display[0],		// rows
 			display[1]);	// columns

@@ -88,7 +88,7 @@ Statistics.Indicator = Statistics.Class({
 	 */
 	_loadMetadata: function() {
 		
-		if(!repository)
+		if(!this.repository)
 			throw "Cannot request for indicator metadata, with no repository";
 		
 		if(this.request) this.request.cancelRequest();

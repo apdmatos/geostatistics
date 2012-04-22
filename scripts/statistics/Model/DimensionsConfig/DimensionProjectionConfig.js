@@ -46,6 +46,7 @@ Statistics.Model.DimensionConfig.DimensionProjectionConfig =
 	 */
 	setMetadata: function(metadata) { 
 		this.metadata = metadata;
+		this.dimensions = [];
 		this.dimensionsFilter.setMetadata(metadata, true);
 		this.events.trigger('config::settedMetadata', [this, metadata]);
 		this.selectDefaultDimensions();
@@ -106,7 +107,7 @@ Statistics.Model.DimensionConfig.DimensionProjectionConfig =
 	 * selects the default dimensions. 
 	 * For chart dimension, the selectedDimensions array, only contains one position.
 	 */
-	selectDefaultDimensions: function(){
+	selectDefaultDimensions: function(silent){
 		
 		if(this.dimensionSelector)
 			this.dimensions = 
@@ -116,7 +117,9 @@ Statistics.Model.DimensionConfig.DimensionProjectionConfig =
 		for(var i = 0, d; d = this.dimensions[i]; ++i)
 			this.dimensionsFilter._removeDimension(d);
 		
-		this.filteredDimensionsChanged();
+//		this.filteredDimensionsChanged();
+		if (!silent)
+			this.events.trigger('config::projectedDimensionsChanged', [this.dimensions]);
 	}
 
 });

@@ -34,7 +34,7 @@ Statistics.Model.DimensionConfig.PivotTableProjectionConfig =
 	selectDefaultDimensions: function() { 
 		
 		var base =Statistics.Model.DimensionConfig.DimensionProjectionConfig; 
-		base.prototype.selectDefaultDimensions.apply(this, arguments);
+		base.prototype.selectDefaultDimensions.apply(this, [true]);
 		
 		this.rows = [];
 		this.columns = [];
@@ -46,6 +46,8 @@ Statistics.Model.DimensionConfig.PivotTableProjectionConfig =
 			if(position === Statistics.DimensionSelector.Position.Rows) this.rows.push(d);
 			else this.columns.push(d);
 		}
+		
+		this.events.trigger('config::projectedDimensionsChanged', [this.dimensions]);
 	},
 	
 	/**
@@ -58,13 +60,13 @@ Statistics.Model.DimensionConfig.PivotTableProjectionConfig =
 	 */
 	setDisplay: function(rows, columns){ 
 	
-		var projectedDimensions = rows.concat(columns);
-		if(!this.contains(projectedDimensions))
-			this.projectDimensions(projectedDimensions);
-		else
-			this.events.trigger('config::pivotConfigurationChanges', [this]);
-				
 		this.rows = rows;
 		this.columns = columns;
+	
+		var projectedDimensions = rows.concat(columns);
+		if(projectedDimensions.length != this.dimensions.length || !this.contains(projectedDimensions))
+			this.setProjectedDimensions(projectedDimensions);
+		else
+			this.events.trigger('config::pivotConfigurationChanges', [this]);
 	}
 });

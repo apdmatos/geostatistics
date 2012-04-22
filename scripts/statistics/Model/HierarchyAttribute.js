@@ -45,6 +45,24 @@ Statistics.Model.HierarchyAttribute = Statistics.Class(Statistics.Model.Attribut
 	addAttribute: function(attribute){
 		this.childAttributes = attribute;
 	},
+
+	/**
+	 * @public
+	 * @function
+	 * @param {Statistics,Model.Attribute} attribute
+	 * @param {Boolean} onlyRootAttributes
+	 * 
+	 */
+	removeAttribute: function(attribute, onlyRootAttributes){
+		
+		this.childAttributes = jQuery.grep(this.childAttributes, function(attr) {
+			
+			if(!onlyRootAttributes && attr instanceof Statistics.Model.HierarchyAttribute)
+				attr.removeAttribute(attribute);
+			
+			return attr.id != attribute.id;
+      	});
+	},
 	
 	/**
 	 * @public

@@ -1,0 +1,281 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<title>Densidade populacional</title>
+		<script type="text/javascript" src="../../scripts/statistics_debug.js"></script>
+		<style>
+			
+			h1{
+				font-size: 17px;
+			}
+			
+			h2{
+				font-size: 15px;
+			}
+			
+			#chartHolder{
+				height: 250px;
+				width: 200px;
+			}
+			
+			.stats-pivot-bag {
+				width: 245px;
+				margin-right: 10px;
+				margin-top: 10px;
+				float: left;
+			}
+	
+			.stats-pivot-bag li {
+				text-align: center;
+				width: 100%;
+				height: 19px;
+				background: #C9C9C9;
+				margin-top: 5px;
+				line-height: 1.3em;
+				font-size: 13px;
+			}
+			
+			.stats-pivot-bag .stats-pivot-placeholder {
+				background: none;
+			}
+			
+			.stats-pivot-bag ul {
+				list-style: none;
+				padding: 10px;
+				margin: 0px;
+			}
+	
+			.stats-pivot-bag .stats-pivot-content {
+				overflow: auto;
+				margin-top: -12px;
+				height: 132px;
+			}
+			
+			.stats-pivot-bag h1 {
+				margin-top: 0px;
+			}
+			
+			.stats-clear{
+				clear: both;
+			}
+			
+		</style>
+		<script type='text/javascript'>
+			
+			var repository = 
+					new Statistics.Repository.StatisticsRepositoryImpl(
+						Statistics.Repository.EndpointConfiguration, 
+						new Statistics.Serializer.DimensionSerializer(),
+						{
+							newIndicatorMetadata: Statistics.Model.IndicatorMetadata.FromObject,
+							newIndicatorValuesResult: Statistics.Model.Values.IndicatorValuesResult.FromObject
+						});
+			
+			function createDialogForConfiguration(tabsSelector, dialogSelector, configByTab){
+				
+				tabsSelector.tabs();
+				dialogSelector.dialog({
+					height: 'auto',
+					width: 'auto',
+					maxHeight: 500,
+					maxWidth: 600,
+					autoOpen: false,
+					modal: true,
+					position: 'top',
+					open: function(){
+						
+						$(configByTab).each(function(idx, configTab){
+							if(!configTab.config.isDrawn())
+								configTab.config.draw(configTab.tab);
+						});
+					},
+					close: function(){
+						$(configByTab).each(function(idx, configTab){
+							configTab.config.discardChanges();
+						});
+					},
+					buttons: [
+						{
+							text: "Ok",
+							click: function() {
+								
+								$(configByTab).each(function(idx, configTab){
+									configTab.config.applyChanges();
+								});
+
+								dialogSelector.dialog('close');
+							}
+						},
+						{
+							text: "Cancelar",
+							click: function(){
+								$(configByTab).each(function(idx, configTab){
+									configTab.config.discardChanges();
+								});
+								dialogSelector.dialog('close');
+							}
+						}
+					]
+				});
+			}
+			
+			function createChartAnalysis() {
+				
+				var dimensionSelector = new Statistics.DimensionSelector.DefaultDimensionSelector();
+				var config = new Statistics.Model.DimensionConfig.PivotTableProjectionConfig (
+					dimensionSelector,
+					new Statistics.Model.DimensionConfig.DimensionFilterConfig(dimensionSelector)
+				);
+				
+				var controller = 
+						new Statistics.Controller.ProjectionController (
+							config,
+							repository,
+							new Statistics.View.ChartView('chart')
+						);
+				
+				var treeConfigEditor = new Statistics.ConfigurationEditor.DimensionsConfigEditor(config, new Statistics.ConfigurationEditor.DimensionFilterUpdater(config));
+				var chartConfigEditor = new Statistics.ConfigurationEditor.ChartConfigEditor(config, new Statistics.ConfigurationEditor.DimensionProjectorUpdater(config));
+
+				
+				
+				createDialogForConfiguration(
+					$('#chartConfig'), 
+					$('#chartConfigDialog'),
+					[
+						{
+							tab: $('#chart-tabs-1'),
+							config: treeConfigEditor
+						},
+						{
+							tab: $('#chart-tabs-2'),
+							config: chartConfigEditor
+						}
+					]);
+				
+				return config;
+			}
+			
+			function createPivotTableAnalysis() {
+				
+				var dimensionSelector = new Statistics.DimensionSelector.DefaultDimensionSelector();
+				var config = new Statistics.Model.DimensionConfig.PivotTableProjectionConfig (
+					dimensionSelector,
+					new Statistics.Model.DimensionConfig.DimensionFilterConfig(dimensionSelector)
+				);
+				
+				var controller = 
+						new Statistics.Controller.ProjectionController (
+							config,
+							repository,
+							new Statistics.View.PivotTableView('pivotTable')
+						);
+				
+				
+				var treeConfigEditor = new Statistics.ConfigurationEditor.DimensionsConfigEditor(config, new Statistics.ConfigurationEditor.DimensionFilterUpdater(config));
+				var projectDimensionsConfig = new Statistics.ConfigurationEditor.PivotTableConfigEditor(config, new Statistics.ConfigurationEditor.PivotTableProjectorUpdater(config));
+				
+				createDialogForConfiguration(
+					$('#pivotTableConfig'), 
+					$('#pivotTableConfigDialog'),
+					[
+						{
+							tab: $('#pivot-tabs-1'),
+							config: treeConfigEditor
+						},
+						{
+							tab: $('#pivot-tabs-2'),
+							config: projectDimensionsConfig
+						}
+					]);
+				
+				
+				return config;
+			}
+			
+			$(document).ready(function(){
+				
+				var chartConfig = createChartAnalysis();
+				var pivotTableConfig = createPivotTableAnalysis();
+				var indicator = 
+					new Statistics.Indicator(
+						1, 
+						1, 
+						repository, 
+						[chartConfig, pivotTableConfig]);			
+				
+				
+				$("#pivotTable").dialog({
+					height: 'auto',
+					width: 'auto',
+					minWidth: 300,
+					minHeight: 300,
+					position: 'center',
+					buttons: [
+						{
+							text: 'Opções',
+							'class': 'config',
+							click: function(){
+								$('#pivotTableConfigDialog').dialog('open');
+							}
+						}
+					]
+				});
+				$("#chart").dialog({
+					height: 500,
+					width: 400,
+					minWidth: 300,
+					minHeight: 300,
+					position: 'left',
+					buttons: [
+						{
+							text: 'Opções',
+							'class': 'config',
+							click: function(){
+								$('#chartConfigDialog').dialog('open');
+							}
+						}
+					],
+				});
+				
+//				$('.ui-dialog-buttonpane')
+//					.find('button.config')
+//				    .removeClass('ui-button-text-only')
+//				    .addClass('ui-button-text-icon')
+//				    .prepend('<span class="ui-icon ui-icon-gear"></span>');
+
+				
+			});
+
+		</script>
+	</head>
+	<body>
+		
+		<div id="pivotTable"></div>
+		<div id="chart"></div>		
+		
+		<div id='chartConfigDialog' class='hide'>
+			<div id="chartConfig">
+				<ul>
+					<li><a href="#chart-tabs-1">Dimensoes</a></li>
+					<li><a href="#chart-tabs-2">Projetar</a></li>
+				</ul>
+				<div id="chart-tabs-1"></div>
+				<div id="chart-tabs-2"></div>
+			</div>
+		</div>
+		
+		<div id='pivotTableConfigDialog' class='hide'>
+			<div id="pivotTableConfig">
+				<ul>
+					<li><a href="#pivot-tabs-1">Dimensões</a></li>
+					<li><a href="#pivot-tabs-2">Formato da tabela</a></li>
+				</ul>
+				<div id="pivot-tabs-1"></div>
+				<div id="pivot-tabs-2"></div>
+			</div>
+		</div>
+		
+	</body>
+</html>

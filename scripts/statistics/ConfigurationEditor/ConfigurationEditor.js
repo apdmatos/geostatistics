@@ -3,11 +3,25 @@
 Statistics.ConfigurationEditor = Statistics.Class({
 	
 	/**
+	 * @private
+	 * @property {Statistics.ConfigurationEditor.DimensionUpdater}
+	 * Updates the configuration object
+	 */
+	updater: null,
+	
+	/**
 	 * The div containing the generated html
 	 * @protected
 	 * @property {JqueryElement}
 	 */
 	div: null,
+	
+	/**
+	 * Indicates if the configurationEditor is already drawn or being drawn
+	 * @private
+	 * @property {Boolean} 
+	 */
+	drawn: false,
 	
 	/**
 	 * @protected
@@ -16,32 +30,50 @@ Statistics.ConfigurationEditor = Statistics.Class({
 	configuration: null,
 	
 	/**
-	 * @protected
-	 * @property {Boolean}
-	 * Applies the changes on the fly to configuration. Default is false
-	 */
-	autoApply: false,
-	
-	/**
 	 * @constructor
 	 * @param {Statistics.Model.DimensionConfig} config - The configuration to set changes on
-	 * @param {Boolean} autoApply[=false] - Applies the changes on the fly to configuration. Default is false
+	 * @param {Statistics.ConfigurationEditor.DimensionUpdater} updater - An object to propagate the changes to configuration.
 	 */
-	_init: function(config, autoApply){
+	_init: function(config, updater){
 		this.configuration = config;
-		this.autoApply = autoApply;
+		this.updater = updater;
 	},
 	
 	/**
 	 * Called to draw the configuration editor
 	 * 
+	 * @abstract
 	 * @public
 	 * @function
 	 * @param {JQueryElement} div - The element to draw the editor on
 	 */
-	draw: function(div){
+	draw: function(div) {
 		this.div = div;
-		// implement on concret classes
+		this.drawn = true;
+		if (this.configuration.isMetadataLoaded()) 
+			this.redraw();
+		else {
+			//TODO: show loader
+			this.configuration.events.bind('config::settedMetadata', $.proxy(this.redraw, this));
+		}
+	},
+	
+	/**
+	 * @public
+	 * @function
+	 * @returns {Boolean} returns true if the editor is drawn or being drawn, false otherwise.
+	 */
+	isDrawn: function(){
+		return this.drawn;
+	},
+	
+	/**
+	 * @public
+	 * @function
+	 * @returns {Boolean} Returns true if it auto applies choosen options, false otherwise.
+	 */
+	autoApplies: function(){
+		return this.updater.autoUpdates();
 	},
 	
 	/**
@@ -50,16 +82,31 @@ Statistics.ConfigurationEditor = Statistics.Class({
 	 * @function
 	 */
 	applyChanges: function(){
-		// implement on concret classes
+		this.updater.applyConfiguration();
 	},
 	
 	/**
 	 * Discard the changes
 	 * @public
 	 * @function
+	 * @returns {Boolean} indicates if anything was discarded
 	 */
 	discardChanges: function(){
-		// implement on concret classes
-	}
+		return this.updater.discardConfiguration();
+	},
+
+/**********************************************************************************
+ * ********************************************************************************
+ * Protected methods
+ **********************************************************************************
+ **********************************************************************************/
 	
+	/**
+	 * @protected
+	 * @function
+	 * Redraws the configuration
+	 */
+	redraw: function() {
+		// should be implemented by each subclass
+	}
 });

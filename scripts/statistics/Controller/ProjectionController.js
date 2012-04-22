@@ -10,6 +10,21 @@ Statistics.Controller.ProjectionController = Statistics.Class(Statistics.Control
 	requestObj: null,
 	
 	/**
+	 * @constructor
+	 * @param {Statistics.Model.Configuration} configuration
+	 * @param {Statistics.Repository} repository
+	 * @param {Statistics.View} control - The view/control to represent this controller/representation
+	 */
+	_init: function(configuration, repository, view) {
+		Statistics.Controller.prototype._init.apply(this, arguments);
+		
+		// Register some events to configuration
+		this.configuration.events.bind (
+				'config::projectedDimensionsChanged', 
+				jQuery.proxy(this.onRenderData, this));
+	},	
+	
+	/**
 	 * abstract method. Renders the control and requests for data
 	 * @protected
 	 * @function
