@@ -2,8 +2,14 @@
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-		<title>JQPlot</title>
-		<script type="text/javascript" src="../../scripts/statistics_debug.js"></script>
+		<title>JQPlot - piechart</title>
+
+		<!--[if lt IE 9]><script type="text/javascript" src="jqplot/excanvas.min.js"></script><![endif]-->
+		<script language="javascript" type="text/javascript" src="jqplot/jquery-1.7.1.min.js"></script>
+		<script language="javascript" type="text/javascript" src="jqplot/jquery.jqplot.min.js"></script>
+		<script language="javascript" type="text/javascript" src="jqplot/jqplot.pieRenderer.min.js"></script>
+		<script language="javascript" type="text/javascript" src="jqplot/jqplot.barRenderer.min.js"></script>
+		<link rel="stylesheet" type="text/css" href="jqplot/jquery.jqplot.min.css" />
 		<script type="text/javascript">
 			
 			var plot;
@@ -119,7 +125,7 @@
 			  	];
 				
 				plot1.series[0].data = data;
-				plot1.repaint();
+				plot1.redraw();
 			}
 				
 		</script>

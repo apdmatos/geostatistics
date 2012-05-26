@@ -66,10 +66,13 @@
 		"lib/jqplot/jqplot.barRenderer.min.js",
 		"lib/jqplot/jqplot.pieRenderer.min.js",
 		"lib/jqplot/jqplot.donutRenderer.min.js",
+		"lib/jqplot/jqplot.categoryAxisRenderer.min.js",
+		"lib/jqplot/jqplot.highlighter.min.js",
+		"lib/jqplot/jqplot.pointLabels.min.js",
 		"lib/pivotTable/data_vortex.js",
 		"lib/pivotTable/pivot_table.js",
 		"lib/dynatree-1.2.0/src/jquery.dynatree.js",
-		
+
 		// Internal
 		"statistics/BaseTypes/Class.js",
 		"statistics/Events.js",
@@ -106,6 +109,7 @@
 		"statistics/Controller/ProjectionController.js",
 		"statistics/View/View.js",
 		"statistics/View/ChartView.js",
+		"statistics/View/BarChartView.js",
 		"statistics/View/PivotTableView.js",
 		"statistics/Serializer/Serializer.js",
 		"statistics/Serializer/DimensionSerializer.js",
