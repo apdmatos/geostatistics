@@ -8,3 +8,4 @@ TestResults/
 /scripts/.project
 /web/.project
 *.dbmdl
+.temp_*
