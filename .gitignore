@@ -7,3 +7,4 @@ TestResults/
 *.suo
 /scripts/.project
 /web/.project
+*.dbmdl
