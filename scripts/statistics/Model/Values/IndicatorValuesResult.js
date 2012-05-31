@@ -23,6 +23,15 @@ Statistics.Model.Values.IndicatorValuesResult = Statistics.Class({
 	 */
 	_init: function(values, location) { 
 		this.values = values;
+	},
+	
+	getValuesByAttributeId: function(dimensionId, attributeId) {
+		var arr = [];
+		for(var i = 0, value; value = this.values[i]; ++i)
+			if(value.contains(dimensionId, attributeId))
+				arr.push(value);
+				
+		return arr;
 	}
 	
 });

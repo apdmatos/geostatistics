@@ -31,6 +31,23 @@ Statistics.Model.Values.IndicatorValue = Statistics.Class({
 		this.filteredDimensions = filteredDimensions;
 		this.projectedDimensions = projectedDimensions;
 		this.value = value;
+	},
+	
+	containsAttributeId: function(dimensionId, attributeId){
+		
+		function compareDimensions(filterArr) {
+			var i, j, d, attrId;
+			for(i = 0; d = filterArr[i]; ++i) {
+				if(d.dimensionId == dimensionId){
+					for(j = 0; attrId = filterArr[i][j]; ++j)
+						if(attrId == attributeId) return true;
+				}
+			}
+			
+			return false;
+		}
+		
+		return compareDimensions(this.projectedDimensions) || compareDimensions(this.filteredDimensions);
 	}
 	
 });

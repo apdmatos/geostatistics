@@ -17,5 +17,8 @@ Statistics.i18n.pt = {
 	rows: 'Linhas',
 	
 	//ChartConfigEditor.js
-	selectDimension: 'Selecione uma dimensão'
+	selectDimension: 'Selecione uma dimensão',
+	
+	//ChartView
+	others: 'Outros'
 };

@@ -75,6 +75,7 @@
 
 		// Internal
 		"statistics/BaseTypes/Class.js",
+		"statistics/BaseTypes/Object.js",
 		"statistics/Events.js",
 		"statistics/DimensionsSelector/DimensionSelector.js",
 		"statistics/DimensionsSelector/DefaultDimensionSelector.js",
@@ -109,6 +110,7 @@
 		"statistics/Controller/ProjectionController.js",
 		"statistics/View/View.js",
 		"statistics/View/ChartView.js",
+		"statistics/View/PieChartView.js",
 		"statistics/View/BarChartView.js",
 		"statistics/View/PivotTableView.js",
 		"statistics/Serializer/Serializer.js",

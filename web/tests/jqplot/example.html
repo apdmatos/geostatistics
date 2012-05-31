@@ -24,34 +24,70 @@
 
   
   <script type="text/javascript">
+
 	$(document).ready(function(){
-        var s1 = [2, 6, 7, 10];
-        var ticks = ['a', 'b', 'c', 'd'];
         
-        plot1 = $.jqplot('chart1', [s1], {
+		var s1 = [	['a', 9], ['b', 7], ['c', 6] ];	
+		var s2 = [	['a', 6], ['c', 2], ['b', 4] ]; 					
+		var s3 = [	['c', 5], ['a', 4], ['b', 5] ]; 
+		
+        plot1 = $.jqplot('chart1', [s1, s2, s3], {
             seriesDefaults:{
                 renderer:$.jqplot.BarRenderer,
                 pointLabels: { show: true }
             },
+			series:[
+				{label:'Serie 1'},
+			    {label:'Serie 2'},
+			    {label:'Serie 3'}
+			],
+			legend: {
+			            show: true,
+			            placement: 'outsideGrid'
+			        },
             axes: {
                 xaxis: {
-                    renderer: $.jqplot.CategoryAxisRenderer,
-                    ticks: ticks
+                    renderer: $.jqplot.CategoryAxisRenderer
                 }
             },
             highlighter: { show: false }
         });
-    
-        $('#chart1').bind('jqplotDataClick', 
-            function (ev, seriesIndex, pointIndex, data) {
-                $('#info1').html('series: '+seriesIndex+', point: '+pointIndex+', data: '+data);
-            }
-        );
+
+    });
+	
+	$(document).ready(function(){
+        
+		var s1 = [	['a', 9], ['b', 7], ['c', 6] ];	
+		var s2 = [	['d', 6], ['e', 4], ['f', 2] ]; 					
+		var s3 = [	['i', 4], ['h', 5], ['g', 5] ]; 
+		
+        plot2 = $.jqplot('chart2', [s1, s2, s3], {
+            seriesDefaults:{
+                renderer:$.jqplot.BarRenderer,
+                pointLabels: { show: true }
+            },
+			series:[
+				{label:'Serie 1'},
+			    {label:'Serie 2'},
+			    {label:'Serie 3'}
+			],
+			legend: {
+			            show: true,
+			            placement: 'outsideGrid'
+			        },
+            axes: {
+                xaxis: {
+                    renderer: $.jqplot.CategoryAxisRenderer
+                }
+            },
+            highlighter: { show: false }
+    	});
 	});
-    </script>
+	</script>
     
   </head>
   <body>
-	<div id="chart1" style="margin-top:20px; margin-left:20px; width:300px; height:300px;"></div>
+	<div id="chart1" style="width:500px; height:300px;"></div>
+	<div id="chart2" style="width:500px; height:300px;"></div>
   </body>
 </html>

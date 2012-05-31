@@ -1,6 +1,7 @@
 
 
-Statistics.ConfigurationEditor.ChartConfigEditor = Statistics.Class(Statistics.ConfigurationEditor, {
+Statistics.ConfigurationEditor.ChartConfigEditor = 
+	Statistics.Class(Statistics.ConfigurationEditor, {
 	
 	/**
 	 * @override
