@@ -34,20 +34,46 @@ Statistics.Model.Values.IndicatorValue = Statistics.Class({
 	},
 	
 	containsAttributeId: function(dimensionId, attributeId){
-		
+		var self = this;
 		function compareDimensions(filterArr) {
-			var i, j, d, attrId;
-			for(i = 0; d = filterArr[i]; ++i) {
-				if(d.dimensionId == dimensionId){
-					for(j = 0; attrId = filterArr[i][j]; ++j)
-						if(attrId == attributeId) return true;
-				}
-			}
-			
+			var d = self.getDimensionFilterById(dimensionId);
+			for(var j = 0; attrId = d.attributeIds[j]; ++j)
+				if(attrId == attributeId) return true;
+				
 			return false;
 		}
 		
 		return compareDimensions(this.projectedDimensions) || compareDimensions(this.filteredDimensions);
+	},
+	
+	/**
+	 * @public
+	 * @param {String} dimensionId
+	 * @returns {DimensionFilter}
+	 */
+	getDimensionFilterById: function(dimensionId){
+		
+		return this._getFilterById(this.projectedDimensions, dimensionId) || this._getFilterById(this.filteredDimensions, dimensionId);
+	},
+	
+/**************************************************************************************
+ * ************************************************************************************
+ * ************** Private methods
+ * ************************************************************************************
+ */	
+ 	
+	/**
+	 * @privaye
+	 * @param {Statistics.Model.Filter.DimensionFilter} filter
+	 * @param {String} dimensionId
+	 * @returns {DimensionFilter}
+	 */
+ 	_getFilterById: function(filter, dimensionId){
+		var i, d;
+		for(i = 0; d = filter[i]; ++i)
+			if(d.dimensionId == dimensionId) return d;
+		
+		return false;
 	}
 	
 });

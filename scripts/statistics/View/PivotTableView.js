@@ -35,7 +35,7 @@ Statistics.View.PivotTableView = Statistics.Class(Statistics.View, {
 	 * Sets the data to be represented
 	 */
 	setData: function(data){
-		
+		Statistics.View.prototype.setData(this, arguments);
 		var axis = this._createAxis();
 		var metric = new Metric("", Datatype.NUMBER);
 		

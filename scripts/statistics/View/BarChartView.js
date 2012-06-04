@@ -1,6 +1,6 @@
 
 
-Statistics.View.ChartView = Statistics.Class(Statistics.ChartView, {
+Statistics.View.BarChartView = Statistics.Class(Statistics.View.ChartView, {
 	
 	/**
 	 * @constructor 
@@ -23,8 +23,24 @@ Statistics.View.ChartView = Statistics.Class(Statistics.ChartView, {
             	highlighter: { show: false }
         	}, plotOptions);
 		
-		Statistics.ChartView.prototype._init.apply(this, [div, opts]);
+		Statistics.View.ChartView.prototype._init.apply(this, [div, opts]);
 	},
+	
+	/**
+	 * @public
+	 * @function
+	 * @param {Statistics.Model.DimensionConfig.PivotTableProjectionConfig} configuration
+	 */
+	setConfiguration: function(configuration){
+		Statistics.View.ChartView.prototype.setConfiguration.apply(this, arguments);
+		
+		this.configuration.events.bind(
+			'config::seriesDimensionChanged', 
+			jQuery.proxy(function(){
+				if(this.currentData)
+					this.setData(this.currentData);
+			}, this));
+	},	
 	
 /**********************************************************************************
  * ********************************************************************************
@@ -38,15 +54,25 @@ Statistics.View.ChartView = Statistics.Class(Statistics.ChartView, {
 	 * @protected
 	 * @return String[]
 	 */
-	_getChartSeries: function(){
+	_getChartSeries: function() {
 		var seriesRet = [];
 		
-		var serie = this.configuration.getSeriesDimension();
-		if(!serie) return null;
+		var serie;
+		if(this.configuration.getSeriesDimension)
+			serie = this.configuration.getSeriesDimension();
+		
+		if (!serie) {
+			this.plotOptions.legend = undefined;
+			return undefined;
+		}else 
+			this.plotOptions.legend = {
+				show: true,
+		        placement: 'outsideGrid'
+		    };
 		
 		for(var i= 0, attribute; attribute = serie.attributes[i]; ++i)
-			seriesRet.push( {label: attribute} );
-				
+			seriesRet.push( {label: attribute.name} );
+			
 		return seriesRet;
 
 	},
@@ -59,27 +85,10 @@ Statistics.View.ChartView = Statistics.Class(Statistics.ChartView, {
 	 */
 	_convertChartData2Plot: function(data) {
 
-		var seriesObj = {};
-
-		for (var i = 0, value; value = data.values[i]; ++i) {
-
-			var axisDimension = value.projectedDimensions[0];
-			var dimension = this.configuration.getDimensionById(axisDimension.dimensionId);
-			var attribute = dimension.getAttributeById(axisDimension.attributeIds[0]);
+		if(!this.configuration.getSeriesDimension || !this.configuration.getSeriesDimension())
+			return this._getFlatValues(data);
 			
-			var currSerie = this._getSerieAttribute(value);
-			seriesObj[currSerie].push( [attribute.name, value.value] );
-		}
-		
-		var series = this.configuration.getSeriesDimension();
-		var arr = [];
-		if(series){
-			for(var j = 0, attr; attr = series.attributes[j]; ++j)
-				arr.push ( seriesObj[attr.id] )
-		}else 
-			arr = Statistics.Object.toArray(seriesObj);
-		
-		return arr;
+		return this._getGroupedValues(data);
 	},
 
 /**********************************************************************************
@@ -87,6 +96,55 @@ Statistics.View.ChartView = Statistics.Class(Statistics.ChartView, {
  * Private methods
  **********************************************************************************
  **********************************************************************************/
+	
+	 /**
+	  * @private
+	  * @function
+	  * Convert values without grouping 
+	  * @param {Statistics.Model.Values.IndicatorValue} data
+	  */
+	_getFlatValues: function(data){
+		
+		var result = [];
+		for (var i = 0, value; value = data.values[i]; ++i) {
+
+			var convertedValue = this._convertIndicatorValue(value);
+			result.push( convertedValue );
+		}
+		
+		return [result];
+	},
+	
+	/**
+	 * Group values into series
+	 * @private
+	 * @function
+	 * @param {Statistics.Model.Values.IndicatorValue} data
+	 */
+	_getGroupedValues: function(data){
+		
+		var seriesObj = {};
+		
+		for (var i = 0, value; value = data.values[i]; ++i) {
+
+			var axisDimension = this.configuration.getAxisDimension();
+			var filterDimension = value.getDimensionFilterById(axisDimension.id);
+			var attribute = axisDimension.getAttributeById(filterDimension.attributeIds[0]);
+		
+			var convertedValue = [attribute.name, value.value];
+			
+			var currSerie = this._getSerieAttribute(value);
+			if(!seriesObj[currSerie])seriesObj[currSerie] = [];
+			seriesObj[currSerie].push( convertedValue );
+		}
+		
+		var series = this.configuration.getSeriesDimension();
+		var arr = [];
+		for(var j = 0, attr; attr = series.attributes[j]; ++j)
+			arr.push ( seriesObj[attr.id] )
+		
+		return arr;
+	},
 	
 	/**
 	 * Returns the serie attribute for this value
@@ -96,12 +154,14 @@ Statistics.View.ChartView = Statistics.Class(Statistics.ChartView, {
 	 * @returns {String}
 	 */
 	_getSerieAttribute: function(value){
-		
+
 		var serie = this.configuration.getSeriesDimension();
-		for(var i = 0, attr; attr = serie.attributes[i]; ++i)
-			if(value.containsAttributeId(serie.id, attr.id)) 
+		
+		for (var i = 0, attr; attr = serie.attributes[i]; ++i) 
+			if (value.containsAttributeId(serie.id, attr.id)) 
 				return attr.id;
 		
 		return 'default';
+
 	}
 });

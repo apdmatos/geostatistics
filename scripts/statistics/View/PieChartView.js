@@ -1,5 +1,5 @@
 
-Statistics.View.PieChartView = Statistics.Class(Statistics.ChartView, {
+Statistics.View.PieChartView = Statistics.Class(Statistics.View.ChartView, {
 	
 	/**
 	 * @constructor 
@@ -30,7 +30,7 @@ Statistics.View.PieChartView = Statistics.Class(Statistics.ChartView, {
 				}
 			}, plotOptions);
 		
-		Statistics.ChartView.prototype._init.apply(this, [div, opts]);
+		Statistics.View.ChartView.prototype._init.apply(this, [div, opts]);
 	},
 
 /**********************************************************************************
@@ -48,12 +48,7 @@ Statistics.View.PieChartView = Statistics.Class(Statistics.ChartView, {
 	_convertChartData2Plot: function(data) {
 		var converted = [];
 		for (var i = 0, seriesValue; seriesValue = data.values[i]; ++i) {
-		
-			var axisDimension = seriesValue.projectedDimensions[0];
-			var dimension = this.configuration.getDimensionById(axisDimension.dimensionId);
-			var attribute = dimension.getAttributeById(axisDimension.attributeIds[0]);
-		
-			converted.push([attribute.name, seriesValue.value]);
+			converted.push( this._convertIndicatorValue(seriesValue) );
 		}
 		
 		return [converted];

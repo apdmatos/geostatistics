@@ -83,6 +83,36 @@
             highlighter: { show: false }
     	});
 	});
+	
+	$(document).ready(function(){
+        
+		var s1 = [	['a', 9], ['b', 7], ['c', 6] ];	
+		var s2 = [	['d', 6], ['e', 4], ['f', 2] ]; 					
+		var s3 = [	['i', 4], ['h', 5], ['g', 5] ]; 
+		
+        plot2 = $.jqplot('chart2', [s1, s2, s3], {
+            seriesDefaults:{
+                renderer:$.jqplot.BarRenderer,
+                pointLabels: { show: true }
+            },
+			series:[
+				{label:'Serie 1'},
+			    {label:'Serie 2'},
+			    {label:'Serie 3'}
+			],
+			legend: {
+			            show: true,
+			            placement: 'outsideGrid'
+			        },
+            axes: {
+                xaxis: {
+                    renderer: $.jqplot.CategoryAxisRenderer
+                }
+            },
+            highlighter: { show: false }
+    	});
+	});
+	
 	</script>
     
   </head>

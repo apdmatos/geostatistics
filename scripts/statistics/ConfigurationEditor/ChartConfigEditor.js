@@ -4,6 +4,13 @@ Statistics.ConfigurationEditor.ChartConfigEditor =
 	Statistics.Class(Statistics.ConfigurationEditor, {
 	
 	/**
+	 * @private
+	 * @property {JQueryElement}
+	 * Contains the element to choose the dimension axis from
+	 */
+	dimensionSelect: null,
+	
+	/**
 	 * @override
 	 * Called to draw the configuration editor
 	 * 
@@ -15,17 +22,18 @@ Statistics.ConfigurationEditor.ChartConfigEditor =
 		Statistics.ConfigurationEditor.prototype.redraw.apply(this, arguments);
 		
 		var self = this;
-		var select = 
+		this.dimensionSelect = 
 			$("<select class='stats-dim-select'>"
 				+ "<option class='stats-dim-dummy' value='none'>" + Statistics.i18n('selectDimension') + "</option>" 
 			+ "</select>").appendTo(this.div);
 		
+		
 		var metadata = this.configuration.getMetadata();
 		for(var i = 0, d; d = metadata.dimensions[i]; ++i)
-			select.append("<option class='stats-dim' value='" + d.id + "'>" + d.nameAbbr + "</option>");
+			this.dimensionSelect.append("<option class='stats-dim' value='" + d.id + "'>" + d.nameAbbr + "</option>");
 		
-		select.change(function(){
-			if(!$(this).hasClass('.stats-dim-dummy')){
+		this.dimensionSelect.change(function(){
+			if(!$(this).hasClass('.stats-dim-dummy')) {
 				
 				var d = self.configuration.getDimensionById($(this).val())
 				self.updater.setProjectedDimensions( [d] );
@@ -70,7 +78,8 @@ Statistics.ConfigurationEditor.ChartConfigEditor =
 		var dimensions = this.configuration.getSelectedDimensions();
 		var value = 'none';
 		if(dimensions.length > 0) value = dimensions[0].id;
-		this.div.find('select').val( value );
+		//this.div.find('select').val( value );
+		this.dimensionSelect.val( value );
 	}
 
 });

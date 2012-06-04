@@ -35,6 +35,7 @@ Statistics.View.ChartView = Statistics.Class(Statistics.View, {
 	 * Sets the data to be represented
 	 */
 	setData: function(data){
+		Statistics.View.prototype.setData.apply(this, arguments);
 		
 		if(this.plot) this.plot.destroy();
 		this.plot = this._createPlot(data);
@@ -53,7 +54,7 @@ Statistics.View.ChartView = Statistics.Class(Statistics.View, {
 	 * 	The data to display on chart
 	 */
 	_createPlot: function(data){
-		this.plotOptions.series = this._getChartSeries(); 		
+		this.plotOptions.series = this._getChartSeries();
 		return jQuery.jqplot(this.div, this._convertChartData2Plot(data), this.plotOptions);
 	},
 	
@@ -64,7 +65,7 @@ Statistics.View.ChartView = Statistics.Class(Statistics.View, {
 	 */
 	_getChartSeries: function(){
 		//should be redifined in each class
-		return null;
+		return undefined;
 	},
 	
 	/**
@@ -76,6 +77,21 @@ Statistics.View.ChartView = Statistics.Class(Statistics.View, {
 	_convertChartData2Plot: function(data) {
 		//should be redifined in each class
 		return null;
+	},
+	
+	/**
+	 * Given a value returns its chart model representation
+	 * @protected
+	 * @function
+	 * @param {Statistics.Model.Value.IndicatorValue} value
+	 */
+	_convertIndicatorValue: function(value) {
+
+		var axisDimension = value.projectedDimensions[0];
+		var dimension = this.configuration.getDimensionById(axisDimension.dimensionId);
+		var attribute = dimension.getAttributeById(axisDimension.attributeIds[0]);
+	
+		return [attribute.name, value.value];
 	}
 	
 });

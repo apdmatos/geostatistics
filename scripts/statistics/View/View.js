@@ -24,6 +24,12 @@ Statistics.View = Statistics.Class({
 	_controlContent: null,
 	
 	/**
+	 * @protected
+	 * @property {Statistics.Model.Values.IndicatorValueResult}
+	 */
+	currentData: null,	
+	
+	/**
 	 * @constructor
 	 * @param {jQueryElement} div - The div element to render the control to
 	 */
@@ -46,7 +52,8 @@ Statistics.View = Statistics.Class({
 	 * @function
 	 * puts a loading message on the div
 	 */
-	setLoadingData: function(){
+	setLoadingData: function() {
+		this.currentData = null;
 		/*MUST BE IMPLEMENTED!!!*/
 	},
 	
@@ -66,6 +73,7 @@ Statistics.View = Statistics.Class({
 	 * Sets the data to be represented
 	 */
 	setData: function(data){
+		this.currentData = data;
 		// this method should be redefined by each specific class
 	},
 	

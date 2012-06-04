@@ -6,6 +6,13 @@
 		<script type="text/javascript" src="../../scripts/statistics_debug.js"></script>
 		<style>
 			
+			.stats-series-action {
+				font-size: 12px;
+				position: absolute;
+				right: 0;
+				bottom: 0;
+			}
+			
 			.hide {
 				display: none;
 			}
@@ -123,7 +130,7 @@
 				});
 			}
 			
-			function createChartAnalysis() {
+			function createPieChartAnalysis() {
 				
 				var dimensionSelector = new Statistics.DimensionSelector.DefaultDimensionSelector();
 				var config = new Statistics.Model.DimensionConfig.DimensionProjectionConfig (
@@ -135,7 +142,7 @@
 						new Statistics.Controller.ProjectionController (
 							config,
 							repository,
-							new Statistics.View.PieChartView('chart')
+							new Statistics.View.PieChartView('pieChart')
 						);
 				
 				var treeConfigEditor = new Statistics.ConfigurationEditor.DimensionsConfigEditor(config, new Statistics.ConfigurationEditor.DimensionFilterUpdater(config));
@@ -144,15 +151,50 @@
 				
 				
 				createDialogForConfiguration(
-					$('#chartConfig'), 
-					$('#chartConfigDialog'),
+					$('#pieChartConfig'), 
+					$('#pieChartConfigDialog'),
 					[
 						{
-							tab: $('#chart-tabs-1'),
+							tab: $('#pie-chart-tabs-1'),
 							config: treeConfigEditor
 						},
 						{
-							tab: $('#chart-tabs-2'),
+							tab: $('#pie-chart-tabs-2'),
+							config: chartConfigEditor
+						}
+					]);
+				
+				return config;
+			}
+			
+			function createBarChartAnalysis() {
+				
+				var dimensionSelector = new Statistics.DimensionSelector.DefaultDimensionSelector();
+				var config = new Statistics.Model.DimensionConfig.ChartSeriesConfig (
+					dimensionSelector,
+					new Statistics.Model.DimensionConfig.DimensionFilterConfig(dimensionSelector)
+				);
+				
+				var BarController = 
+						new Statistics.Controller.ProjectionController (
+							config,
+							repository,
+							new Statistics.View.BarChartView('barChart')
+						);
+				
+				var treeConfigEditor = new Statistics.ConfigurationEditor.DimensionsConfigEditor(config, new Statistics.ConfigurationEditor.DimensionFilterUpdater(config));
+				var chartConfigEditor = new Statistics.ConfigurationEditor.SeriesConfigEditor(config, new Statistics.ConfigurationEditor.SerieDimensionUpdater(config));
+
+				createDialogForConfiguration(
+					$('#barChartConfig'), 
+					$('#barChartConfigDialog'),
+					[
+						{
+							tab: $('#bar-chart-tabs-1'),
+							config: treeConfigEditor
+						},
+						{
+							tab: $('#bar-chart-tabs-2'),
 							config: chartConfigEditor
 						}
 					]);
@@ -199,15 +241,49 @@
 			
 			$(document).ready(function(){
 				
-				var chartConfig = createChartAnalysis();
+				var pieChartConfig = createPieChartAnalysis();
+				var barChartConfig = createBarChartAnalysis();
 				var pivotTableConfig = createPivotTableAnalysis();
 				var indicator = 
 					new Statistics.Indicator(
 						1, 
 						1, 
 						repository, 
-						[chartConfig, pivotTableConfig]);			
+						[pieChartConfig, barChartConfig, pivotTableConfig]);			
 				
+				$("#pieChart").dialog({
+					height: 500,
+					width: 400,
+					minWidth: 300,
+					minHeight: 300,
+					position: 'left',
+					buttons: [
+						{
+							text: 'Opções',
+							'class': 'config',
+							click: function(){
+								$('#pieChartConfigDialog').dialog('open');
+							}
+						}
+					],
+				});
+				
+				$("#barChart").dialog({
+					height: 500,
+					width: 600,
+					minWidth: 300,
+					minHeight: 300,
+					position: 'top',
+					buttons: [
+						{
+							text: 'Opções',
+							'class': 'config',
+							click: function(){
+								$('#barChartConfigDialog').dialog('open');
+							}
+						}
+					],
+				});
 				
 				$("#pivotTable").dialog({
 					height: 'auto',
@@ -226,28 +302,6 @@
 					]
 				});
 				
-				$("#chart").dialog({
-					height: 500,
-					width: 400,
-					minWidth: 300,
-					minHeight: 300,
-					position: 'left',
-					buttons: [
-						{
-							text: 'Opções',
-							'class': 'config',
-							click: function(){
-								$('#chartConfigDialog').dialog('open');
-							}
-						}
-					],
-				});
-				
-//				$('.ui-dialog-buttonpane')
-//					.find('button.config')
-//				    .removeClass('ui-button-text-only')
-//				    .addClass('ui-button-text-icon')
-//				    .prepend('<span class="ui-icon ui-icon-gear"></span>');
 			});
 
 		</script>
@@ -255,18 +309,30 @@
 	<body>
 		
 		<div id="pivotTable"></div>
-		<div id="chart"></div>		
+		<div id="pieChart"></div>
+		<div id="barChart"></div>		
 		
-		<div id='chartConfigDialog' class='hide'>
-			<div id="chartConfig">
+		<div id='pieChartConfigDialog' class='hide'>
+			<div id="pieChartConfig">
 				<ul>
-					<li><a href="#chart-tabs-1">Dimensoes</a></li>
-					<li><a href="#chart-tabs-2">Projetar</a></li>
+					<li><a href="#pie-chart-tabs-1">Dimensoes</a></li>
+					<li><a href="#pie-chart-tabs-2">Projetar</a></li>
 				</ul>
-				<div id="chart-tabs-1"></div>
-				<div id="chart-tabs-2"></div>
+				<div id="pie-chart-tabs-1"></div>
+				<div id="pie-chart-tabs-2"></div>
 			</div>
 		</div>
+		
+		<div id='barChartConfigDialog' class='hide'>
+			<div id="barChartConfig">
+				<ul>
+					<li><a href="#bar-chart-tabs-1">Dimensoes</a></li>
+					<li><a href="#bar-chart-tabs-2">Projetar</a></li>
+				</ul>
+				<div id="bar-chart-tabs-1"></div>
+				<div id="bar-chart-tabs-2"></div>
+			</div>
+		</div>		
 		
 		<div id='pivotTableConfigDialog' class='hide'>
 			<div id="pivotTableConfig">
