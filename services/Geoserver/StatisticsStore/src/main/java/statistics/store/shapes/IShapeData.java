@@ -9,11 +9,15 @@ import org.opengis.feature.simple.SimpleFeature;
  */
 public interface IShapeData {
 
+    String getFeatureId();
+
     Geometry getFeatureGeometry();
 
     String getShapeId();
 
+    String getShapeParentId();
+
     String getShapeName();
 
-    SimpleFeature getSimpleFeature();
+//    SimpleFeature getSimpleFeature();
 }

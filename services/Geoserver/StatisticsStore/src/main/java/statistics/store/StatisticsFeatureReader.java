@@ -2,9 +2,13 @@ package statistics.store;
 
 import java.io.IOException;
 import java.util.NoSuchElementException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.geotools.data.FeatureReader;
+import org.geotools.data.store.ContentEntry;
 import org.opengis.feature.simple.SimpleFeature;
 import org.opengis.feature.simple.SimpleFeatureType;
+import statistics.store.shapes.IShapeReader;
 
 /**
  *
@@ -12,24 +16,36 @@ import org.opengis.feature.simple.SimpleFeatureType;
  */
 public class StatisticsFeatureReader implements FeatureReader<SimpleFeatureType, SimpleFeature> {
 
+    private ContentEntry _entry;
+    private IShapeReader _shapes;
+    private FeatureBuilder _featureBuilder;
+
+    public StatisticsFeatureReader(ContentEntry entry, IShapeReader shapes, FeatureBuilder featureBuilder){
+        this._entry = entry;
+        this._shapes = shapes;
+        _featureBuilder = featureBuilder;
+    }
+
     @Override
     public SimpleFeatureType getFeatureType() {
-        throw new UnsupportedOperationException("Not supported yet.");
+
+        return _featureBuilder.getFeatureType(  );
     }
 
     @Override
     public SimpleFeature next() throws IOException, IllegalArgumentException, NoSuchElementException {
-        throw new UnsupportedOperationException("Not supported yet.");
+        //return _shapes.next().getSimpleFeature();
+
+        return _featureBuilder.buildFeature(_shapes.next());
     }
 
     @Override
     public boolean hasNext() throws IOException {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return _shapes.hasNext();
     }
 
     @Override
     public void close() throws IOException {
-        throw new UnsupportedOperationException("Not supported yet.");
+        _shapes.dispose();
     }
-
 }

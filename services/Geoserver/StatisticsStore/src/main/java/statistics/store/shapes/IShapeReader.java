@@ -1,5 +1,8 @@
 package statistics.store.shapes;
 
+import org.geotools.geometry.jts.ReferencedEnvelope;
+
+
 /**
  *
  * @author Andre Matos

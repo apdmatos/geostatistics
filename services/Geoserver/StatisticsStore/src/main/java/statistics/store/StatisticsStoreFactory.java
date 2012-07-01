@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.Collections;
 import java.util.Map;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.geotools.data.DataStore;
@@ -59,13 +60,33 @@ public class StatisticsStoreFactory implements DataStoreFactorySpi {
      */
     @Override
     public boolean canProcess(Map<String, Serializable> params) {
+        if(params != null){
+
+            Logger.getLogger(StatisticsStoreFactory.class.getName()).log(
+                    Level.INFO,
+                    "StatisticsStoreFactory.canProcess... Logging parameters"
+                    );
+
+            Set<String> keys = params.keySet();
+            for (String key : keys) {
+                Logger.getLogger(StatisticsStoreFactory.class.getName()).log(
+                        Level.INFO,
+                        key);
+            }
+        }else{
+            Logger.getLogger(StatisticsStoreFactory.class.getName()).log(
+                    Level.INFO,
+                    "StatisticsStoreFactory.canProcess... params = null"
+                    );
+        }
+
 
         String url = null;
         try {
             url = (String) STATISTICS_URL.lookUp(params);
             
         } catch (IOException ex) {
-            Logger.getLogger(StatisticsStoreFactory.class.getName()).log(Level.SEVERE, null, ex);
+            /*Logger.getLogger(StatisticsStoreFactory.class.getName()).log(Level.SEVERE, null, ex);*/
         }
         return url != null;
     }

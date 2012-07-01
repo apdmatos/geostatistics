@@ -9,3 +9,4 @@ TestResults/
 /web/.project
 *.dbmdl
 .tmp_*
+*.class

@@ -1,19 +1,21 @@
-package statistics.store.shapes;
+package statistics.store.shapes.shapefile;
 
 import org.geotools.data.simple.SimpleFeatureCollection;
 import org.geotools.data.simple.SimpleFeatureIterator;
 import org.opengis.feature.simple.SimpleFeature;
+import statistics.store.shapes.IShapeData;
+import statistics.store.shapes.IShapeReader;
 
 /**
  *
  * @author Andre Matos
  */
-public class ShapeReader implements IShapeReader {
+public class ShapefileReader implements IShapeReader {
 
     private final SimpleFeatureCollection _collection;
     private SimpleFeatureIterator _iterator;
 
-    public ShapeReader(SimpleFeatureCollection collection){
+    public ShapefileReader(SimpleFeatureCollection collection){
         _collection = collection;
         if(_collection != null)
             _iterator = collection.features();
