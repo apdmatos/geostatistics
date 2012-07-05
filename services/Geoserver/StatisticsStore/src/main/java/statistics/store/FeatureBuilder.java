@@ -16,7 +16,16 @@ import statistics.store.shapes.IShapeData;
  */
 public class FeatureBuilder {
 
-    public static String SRS = "EPSG:4326";
+    public static String SRS                    = "EPSG:4326";
+    public static String SHAPE_PROPERTY         = "shape";
+    public static String NAME_PROPERTY          = "name";
+    public static String ID_PROPERTY            = "id";
+    public static String DIMENSIONS_PROPERTY    = "dimensions";
+    public static String INDICATORID_PROPERTY   = "indicatorId";
+    public static String SOURCEID_PROPERTY   = "indicatorId";
+    public static String SHAPELEVEL_PROPERTY    = "shapeLevel";
+    public static String VALUE_PROPERTY         = "value";
+
 
     private Name featureSchemaName;
     private SimpleFeatureType featureType;
@@ -33,14 +42,15 @@ public class FeatureBuilder {
             builder.setName( featureSchemaName );
 
             builder.setSRS( SRS );
-            builder.add( "shape",           MultiPolygon.class );
-            builder.add( "name",           MultiPolygon.class );
-            builder.add( "id",              String.class );
-            //builder.add( "parentid",        String.class );
-            builder.add( "dimensions",      String.class );
-            builder.add( "indicatorId",     String.class );
-            builder.add( "sourceId",        String.class );
-            builder.add( "shapeLevel",      String.class );
+            builder.add( SHAPELEVEL_PROPERTY,      MultiPolygon.class );
+            builder.add( NAME_PROPERTY,            String.class );
+            builder.add( ID_PROPERTY,              String.class );
+            //builder.add( "parentid",              String.class );
+            builder.add( DIMENSIONS_PROPERTY,      String.class );
+            builder.add( INDICATORID_PROPERTY,     String.class );
+            builder.add( SOURCEID_PROPERTY,        String.class );
+            builder.add( SHAPELEVEL_PROPERTY,      String.class );
+            builder.add( VALUE_PROPERTY,           Double.class );
 
             // build the type (it is immutable and cannot be modified)
             featureType = builder.buildFeatureType();
@@ -60,6 +70,7 @@ public class FeatureBuilder {
         featureBuilder.add( "" ); //TODO: must be defined
         featureBuilder.add( "" ); //TODO: must be defined
         featureBuilder.add( "" ); //TODO: must be defined
+        featureBuilder.add( 0 ); //TODO: must be defined
 
         return featureBuilder.buildFeature( shape.getFeatureId() );
     }

@@ -1,17 +1,13 @@
 package statistics.store;
 
-import com.vividsolutions.jts.geom.Geometry;
 import java.io.IOException;
 import org.geotools.data.FeatureReader;
 import org.geotools.data.Query;
-import org.geotools.data.simple.SimpleFeatureSource;
 import org.geotools.data.store.ContentEntry;
 import org.geotools.data.store.ContentFeatureSource;
-import org.geotools.feature.simple.SimpleFeatureTypeBuilder;
 import org.geotools.geometry.jts.ReferencedEnvelope;
 import org.opengis.feature.simple.SimpleFeature;
 import org.opengis.feature.simple.SimpleFeatureType;
-import org.opengis.filter.spatial.BBOX;
 import statistics.factory.StatisticsFactory;
 import statistics.model.shape.ShapeConfiguration;
 import statistics.queryparser.StatisticsQueryParser;
@@ -35,7 +31,7 @@ public class StatisticsFeatureSource extends ContentFeatureSource {
     @Override
     protected ReferencedEnvelope getBoundsInternal(Query query) throws IOException {
 
-        StatisticsQueryParser parser = new StatisticsQueryParser(query);
+        StatisticsQueryParser parser = new StatisticsQueryParser( query, buildFeatureType() );
         return getShapeRepository(parser).getBounds(
                 parser.getSourceId(),
                 parser.getIndicatorId(),
@@ -48,7 +44,7 @@ public class StatisticsFeatureSource extends ContentFeatureSource {
     @Override
     protected int getCountInternal(Query query) throws IOException {
 
-        StatisticsQueryParser parser = new StatisticsQueryParser(query);
+        StatisticsQueryParser parser = new StatisticsQueryParser( query, buildFeatureType() );
         return getShapeRepository(parser).countShapes(
                 parser.getSourceId(),
                 parser.getIndicatorId(),
@@ -61,7 +57,7 @@ public class StatisticsFeatureSource extends ContentFeatureSource {
     @Override
     protected FeatureReader<SimpleFeatureType, SimpleFeature> getReaderInternal(Query query) throws IOException {
 
-        StatisticsQueryParser parser = new StatisticsQueryParser(query);
+        StatisticsQueryParser parser = new StatisticsQueryParser( query, buildFeatureType() );
         IShapeReader shapes = getShapeRepository(parser).getShapes(
                 parser.getSourceId(),
                 parser.getIndicatorId(),

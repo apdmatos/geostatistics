@@ -1,11 +1,14 @@
 package statistics.config;
 
+import java.io.DataInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -21,20 +24,43 @@ public class Config {
     public static String SHAPEFILE_ID_ATTR;
     public static String SHAPEFILE_PARENT_ID_ATTR;
 
-//    // temporary. Should be obtained by the config service
-//    public static HashMap<String, String> SHAPEFILE_LEVELS;
-
 
     static {
         Properties prop = new Properties();
-    	try {
+    	/*try {*/
             //load a properties file
             String pathPropertiesFile = "/config.properties";
-            InputStream stream = pathPropertiesFile.getClass().getResourceAsStream(pathPropertiesFile);
-            prop.load(stream);
+            InputStream stream = null;
 
-            SHAPEFILE_ID_ATTR = prop.getProperty("statistics.shapefile.nameAttr");
-            SHAPEFILE_NAME_ATTR = prop.getProperty("statistics.shapefile.idAttr");
+            try {
+                stream = new Config().getClass().getResourceAsStream(pathPropertiesFile);
+            }catch(Exception e){
+                Logger.getLogger(Config.class.getName()).log(Level.SEVERE,
+                        "Error getting resource stream",
+                        e);
+                e.printStackTrace();
+            }
+
+            DataInputStream dis = new DataInputStream(stream);
+            String line;
+            try {
+                line = dis.readLine();
+                Logger.getLogger(Config.class.getName()).log(Level.INFO, line);
+            } catch (IOException ex) {
+                Logger.getLogger(Config.class.getName()).log(Level.SEVERE, "Cannot read line", ex);
+            }
+
+            try {
+                prop.load(stream);
+            }catch(Exception e){
+                Logger.getLogger(Config.class.getName()).log(Level.SEVERE,
+                        "Error loading properties file",
+                        e);
+                e.printStackTrace();
+            }
+
+            SHAPEFILE_ID_ATTR = prop.getProperty("statistics.shapefile.idAttr");
+            SHAPEFILE_NAME_ATTR = prop.getProperty("statistics.shapefile.nameAttr");
             SHAPEFILE_PARENT_ID_ATTR = prop.getProperty("statistics.shapefile.parentIdAttr");
 
 //            STATISTICS_SERVICE = prop.getProperty("statistics.service");
@@ -48,8 +74,8 @@ public class Config {
 //                SHAPEFILE_LEVELS.put(level, levelPath);
 //            }
 
-    	} catch (IOException ex) {
+    	/*} catch (IOException ex) {
             ex.printStackTrace();
-        }   
+        }   */
     }
 }
