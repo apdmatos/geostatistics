@@ -113,7 +113,7 @@ Statistics.Model.HierarchyAttribute.FromObject = function(obj) {
 		}
 	}
 	
-	return new Statistics.Model.Attribute(obj.id, obj.name, childAttributes);
+	return new Statistics.Model.HierarchyAttribute(obj.id, obj.name, childAttributes);
 	
 };
 

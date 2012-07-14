@@ -122,7 +122,7 @@ Statistics.DimensionSelector.DefaultDimensionSelector = Statistics.Class(Statist
 			
 			arr.push(attr);
 			if(attr instanceof Statistics.Model.HierarchyAttribute) 
-				this.getHierarchyAttributesChilds(arr, attr.childAttributes);
+				this.flatHierarchyAttributes(arr, attr.childAttributes);
 				
 		}
 	}

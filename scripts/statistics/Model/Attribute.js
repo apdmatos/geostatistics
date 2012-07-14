@@ -16,20 +16,12 @@ Statistics.Model.Attribute = Statistics.Class({
 	name: null,
 	
 	/**
-	 * @public
-	 * @property {Boolean}
-	 * The server will set this to true, if this attribute will be selected by default
-	 */
-	selectedByDefault: false,
-	
-	/**
 	 * @constructor
 	 * @param {String} name - The attribute name
 	 */
-	_init: function(id, name, selectedByDefault){
+	_init: function(id, name){
 		this.id = id;
 		this.name = name;
-		this.selectedByDefault = selectedByDefault;
 	},
 	
 	/**

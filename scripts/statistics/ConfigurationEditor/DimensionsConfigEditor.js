@@ -124,8 +124,8 @@ Statistics.ConfigurationEditor.DimensionsConfigEditor = Statistics.Class(Statist
 		// TODO: check if it should be lazy loaded
 		if( isHierarchical ) {
 			treeData.children = [];
-			for(var i = 0, attr; attr = attribute.childAttributes; ++i)
-				treeData.children.push( this._attributeToTreeData(attr) );
+			for(var i = 0, attr; attr = attribute.childAttributes[i]; ++i)
+				treeData.children.push( this._attributeToTreeData(attr, configDimension) );
 		}
 		
 		return treeData;
