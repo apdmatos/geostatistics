@@ -66,7 +66,7 @@ public class StatisticsFeatureSource extends ContentFeatureSource {
                 parser.getShapeIds()
         );
         
-        return new StatisticsFeatureReader(entry, shapes, _featureBuilder);
+        return new StatisticsFeatureReader(entry, shapes, _featureBuilder, parser);
     }
 
     @Override

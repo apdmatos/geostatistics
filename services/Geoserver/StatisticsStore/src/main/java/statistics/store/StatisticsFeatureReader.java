@@ -8,6 +8,8 @@ import org.geotools.data.FeatureReader;
 import org.geotools.data.store.ContentEntry;
 import org.opengis.feature.simple.SimpleFeature;
 import org.opengis.feature.simple.SimpleFeatureType;
+import statistics.queryparser.StatisticsQueryParser;
+import statistics.queryparser.StatisticsRequestParameters;
 import statistics.store.shapes.IShapeReader;
 
 /**
@@ -19,11 +21,18 @@ public class StatisticsFeatureReader implements FeatureReader<SimpleFeatureType,
     private ContentEntry _entry;
     private IShapeReader _shapes;
     private FeatureBuilder _featureBuilder;
+    private StatisticsQueryParser query;
 
-    public StatisticsFeatureReader(ContentEntry entry, IShapeReader shapes, FeatureBuilder featureBuilder){
-        this._entry = entry;
-        this._shapes = shapes;
-        _featureBuilder = featureBuilder;
+    public StatisticsFeatureReader(
+            ContentEntry entry,
+            IShapeReader shapes,
+            FeatureBuilder featureBuilder,
+            StatisticsQueryParser query)
+    {
+        this._entry             = entry;
+        this._shapes            = shapes;
+        this._featureBuilder    = featureBuilder;
+        this.query              = query;
     }
 
     @Override
@@ -36,7 +45,7 @@ public class StatisticsFeatureReader implements FeatureReader<SimpleFeatureType,
     public SimpleFeature next() throws IOException, IllegalArgumentException, NoSuchElementException {
         //return _shapes.next().getSimpleFeature();
 
-        return _featureBuilder.buildFeature(_shapes.next());
+        return _featureBuilder.buildFeature(query.getParameters(), _shapes.next());
     }
 
     @Override

@@ -1,16 +1,22 @@
 package statistics.queryparser;
 
 import java.util.HashMap;
+import java.util.Hashtable;
+import java.util.List;
 import java.util.Map;
 import org.geotools.data.Query;
 import org.geotools.filter.visitor.DefaultFilterVisitor;
 import org.opengis.feature.type.AttributeDescriptor;
 import org.opengis.feature.type.FeatureType;
+import org.opengis.filter.Filter;
 import org.opengis.filter.PropertyIsEqualTo;
 import org.opengis.filter.expression.Literal;
 import org.opengis.filter.expression.PropertyName;
 import org.opengis.filter.spatial.BBOX;
 import org.opengis.filter.expression.Expression;
+import statistics.model.indicator.Dimension;
+import statistics.model.indicator.DimensionAttribute;
+import statistics.model.indicator.IndicatorMetadata;
 import statistics.store.FeatureBuilder;
 
 /**
@@ -19,18 +25,20 @@ import statistics.store.FeatureBuilder;
  */
 public class StatisticsQueryParser {
 
-    public static String SOURCE_ID = "sourceId";
-    public static String INDICATOR_ID = "indicatorId";
-    public static String DIMENSIONS = "dimensions";
-
     private Query query;
-    private QueryVisitor visitor;
     private final FeatureType featureType;
-
-    private BBOX bbox;
-    private Map<String, Object> queryMap;
+    private StatisticsRequestParameters requestedParameters;
+    private IndicatorMetadata indicator;
 
     private class QueryVisitor extends DefaultFilterVisitor {
+
+        private BBOX bbox;
+        private Map<String, Object> queryMap;
+
+
+        public QueryVisitor() {
+            queryMap = new Hashtable<String, Object>();
+        }
 
         @Override
         public Object visit(BBOX filter, Object data) {
@@ -41,7 +49,7 @@ public class StatisticsQueryParser {
 
         @Override
         public Object visit(PropertyIsEqualTo filter, Object data) {
-            Object obj = super.visit(filter, data);
+           // Object obj = super.visit(filter, data);
             Expression left = filter.getExpression1();
             Expression right = filter.getExpression2();
             
@@ -54,83 +62,95 @@ public class StatisticsQueryParser {
                 }
             }
 
-            return obj;
+            return null;
         }
 
         @Override
-        public Object visit(Literal expression, Object data) {
-            Object obj = super.visit(expression, data);
-            if(data != null && data instanceof String){
+        public Object visit( Literal expression, Object data ) {
+            
 
+            if(data != null && data instanceof String) {
+                
                 queryMap.put((String)data, expression.getValue());
-
             }
 
-            return obj;
+            return null;
         }
-
     }
 
     public StatisticsQueryParser(Query query, FeatureType featureType) {
         this.query = query;
         this.featureType = featureType;
-        this.queryMap = new HashMap<String, Object>();
     }
 
     public String getSourceId() {
         
-        parseQuery();
-
-        //return "1";
-        if(queryMap.containsKey(FeatureBuilder.SOURCEID_PROPERTY))
-            return (String)queryMap.get(FeatureBuilder.SOURCEID_PROPERTY);
-
-        return null;
+        return getParameters().sourceId;
     }
 
     public String getIndicatorId() {
         
-        parseQuery();
-
-        //return "1";
-        if(queryMap.containsKey(FeatureBuilder.INDICATORID_PROPERTY))
-            return (String)queryMap.get(FeatureBuilder.INDICATORID_PROPERTY);
-
-        return null;
+        return getParameters().indicatorId;
     }
 
     public String getShapeLevel() {
 
-        parseQuery();
-
-        return "Municipality";
+        return parseParameters().getGeographicDimension().shapeLevel;
     }
 
-    public String[] getShapeIds() {
+    public List<DimensionAttribute> getShapeIds() {
 
-        parseQuery();
-
-        return null;
+        return parseParameters().getGeographicDimension().dimensionAttributes;
     }
 
-    public String getDimensions() {
+    public List<Dimension> getDimensions() {
+        return parseParameters().dimensions;
+    }
 
-        parseQuery();
+    public IndicatorMetadata getIndicatorMetadata() {
 
-        return null;
+        return parseParameters();
     }
 
     public BBOX getBoundingBox() {
-
-        parseQuery();
-
-        return bbox;
+        
+        return getParameters().bbox;
     }
 
-    private void parseQuery() {
-        if(visitor == null) {
-            visitor = new QueryVisitor();
-            query.getFilter().accept(visitor, null);
+
+    public StatisticsRequestParameters getParameters() {
+
+        if(requestedParameters == null) {
+
+            QueryVisitor visitor = new QueryVisitor();
+            Filter filter = query.getFilter();
+            if(filter != null)
+                filter.accept(visitor, null);
+
+            requestedParameters = new StatisticsRequestParameters(
+                        visitor.bbox,
+                        visitor.queryMap.containsKey(FeatureBuilder.DIMENSIONS_PROPERTY)    ? (String) visitor.queryMap.get(FeatureBuilder.DIMENSIONS_PROPERTY)     : null,
+                        visitor.queryMap.containsKey(FeatureBuilder.INDICATORID_PROPERTY)   ? (String) visitor.queryMap.get(FeatureBuilder.INDICATORID_PROPERTY)    : null,
+                        visitor.queryMap.containsKey(FeatureBuilder.SOURCEID_PROPERTY)      ? (String) visitor.queryMap.get(FeatureBuilder.SOURCEID_PROPERTY)       : null
+                    );
+
         }
+
+        return requestedParameters;
+    }
+
+    private IndicatorMetadata parseParameters() {
+
+        if(indicator == null) {
+
+            StatisticsRequestParameters request = getParameters();
+
+
+
+
+        }
+
+
+        return null;
     }
 }
