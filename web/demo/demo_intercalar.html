@@ -1,0 +1,433 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<title>Densidade populacional</title>
+		<script type="text/javascript" src="../../scripts/statistics_debug.js"></script>
+		<script type="text/javascript" src="http://js.sapo.pt/Bundles/SAPOMapsAPIFull.js"></script>
+		<script type="text/javascript" src="http://js.sapo.pt/Bundles/SAPOMapsStatisticsModule.js"></script>
+		<style>
+			
+			.stats-series-action {
+				font-size: 12px;
+				position: absolute;
+				right: 0;
+				bottom: 0;
+			}
+			
+			.hide {
+				display: none;
+			}
+			
+			h1{
+				font-size: 17px;
+			}
+			
+			h2{
+				font-size: 15px;
+			}
+			
+			#chartHolder{
+				height: 250px;
+				width: 200px;
+			}
+			
+			.stats-pivot-bag {
+				width: 245px;
+				margin-right: 10px;
+				margin-top: 10px;
+				float: left;
+			}
+	
+			.stats-pivot-bag li {
+				text-align: center;
+				width: 100%;
+				height: 19px;
+				background: #C9C9C9;
+				margin-top: 5px;
+				line-height: 1.3em;
+				font-size: 13px;
+			}
+			
+			.stats-pivot-bag .stats-pivot-placeholder {
+				background: none;
+			}
+			
+			.stats-pivot-bag ul {
+				list-style: none;
+				padding: 10px;
+				margin: 0px;
+			}
+	
+			.stats-pivot-bag .stats-pivot-content {
+				overflow: auto;
+				margin-top: -12px;
+				height: 132px;
+			}
+			
+			.stats-pivot-bag h1 {
+				margin-top: 0px;
+			}
+			
+			.stats-clear{
+				clear: both;
+			}
+			
+		</style>
+		<script type='text/javascript'>
+			
+			var repository = 
+					new Statistics.Repository.StatisticsRepositoryImpl(
+						Statistics.Repository.EndpointConfiguration, 
+						new Statistics.Serializer.DimensionSerializer(),
+						{
+							newIndicatorMetadata: Statistics.Model.IndicatorMetadata.FromObject,
+							newIndicatorValuesResult: Statistics.Model.Values.IndicatorValuesResult.FromObject
+						});
+			
+			function createDialogForConfiguration(tabsSelector, dialogSelector, configByTab){
+				
+				tabsSelector.tabs();
+				dialogSelector.dialog({
+					height: 'auto',
+					width: 'auto',
+					maxHeight: 500,
+					maxWidth: 600,
+					autoOpen: false,
+					modal: true,
+					position: 'top',
+					open: function(){
+						$(configByTab).each(function(idx, configTab){
+							if(!configTab.config.isDrawn())
+								configTab.config.draw(configTab.tab);
+						});
+					},
+					close: function(){
+						$(configByTab).each(function(idx, configTab){
+							configTab.config.discardChanges();
+						});
+					},
+					buttons: [
+						{
+							text: "Ok",
+							click: function() {
+								
+								$(configByTab).each(function(idx, configTab){
+									configTab.config.applyChanges();
+								});
+
+								dialogSelector.dialog('close');
+							}
+						},
+						{
+							text: "Cancelar",
+							click: function(){
+								$(configByTab).each(function(idx, configTab){
+									configTab.config.discardChanges();
+								});
+								dialogSelector.dialog('close');
+							}
+						}
+					]
+				});
+			}
+			
+			function createPieChartAnalysis() {
+				
+				var dimensionSelector = new Statistics.DimensionSelector.DefaultDimensionSelector();
+				var config = new Statistics.Model.DimensionConfig.DimensionProjectionConfig (
+					dimensionSelector,
+					new Statistics.Model.DimensionConfig.DimensionFilterConfig(dimensionSelector)
+				);
+				
+				var PieController = 
+						new Statistics.Controller.ProjectionController (
+							config,
+							repository,
+							new Statistics.View.PieChartView('pieChart')
+						);
+				
+				var treeConfigEditor = new Statistics.ConfigurationEditor.DimensionsConfigEditor(config, new Statistics.ConfigurationEditor.DimensionFilterUpdater(config));
+				var chartConfigEditor = new Statistics.ConfigurationEditor.ChartConfigEditor(config, new Statistics.ConfigurationEditor.DimensionProjectorUpdater(config));
+
+				
+				
+				createDialogForConfiguration(
+					$('#pieChartConfig'), 
+					$('#pieChartConfigDialog'),
+					[
+						{
+							tab: $('#pie-chart-tabs-1'),
+							config: treeConfigEditor
+						},
+						{
+							tab: $('#pie-chart-tabs-2'),
+							config: chartConfigEditor
+						}
+					]);
+				
+				return config;
+			}
+			
+			function createBarChartAnalysis() {
+				
+				var dimensionSelector = new Statistics.DimensionSelector.DefaultDimensionSelector();
+				var config = new Statistics.Model.DimensionConfig.ChartSeriesConfig (
+					dimensionSelector,
+					new Statistics.Model.DimensionConfig.DimensionFilterConfig(dimensionSelector)
+				);
+				
+				var BarController = 
+						new Statistics.Controller.ProjectionController (
+							config,
+							repository,
+							new Statistics.View.BarChartView('barChart')
+						);
+				
+				var treeConfigEditor = new Statistics.ConfigurationEditor.DimensionsConfigEditor(config, new Statistics.ConfigurationEditor.DimensionFilterUpdater(config));
+				var chartConfigEditor = new Statistics.ConfigurationEditor.SeriesConfigEditor(config, new Statistics.ConfigurationEditor.SerieDimensionUpdater(config));
+
+				createDialogForConfiguration(
+					$('#barChartConfig'), 
+					$('#barChartConfigDialog'),
+					[
+						{
+							tab: $('#bar-chart-tabs-1'),
+							config: treeConfigEditor
+						},
+						{
+							tab: $('#bar-chart-tabs-2'),
+							config: chartConfigEditor
+						}
+					]);
+				
+				return config;
+			}
+			
+			function createPivotTableAnalysis() {
+				
+				var dimensionSelector = new Statistics.DimensionSelector.DefaultDimensionSelector();
+				var config = new Statistics.Model.DimensionConfig.PivotTableProjectionConfig (
+					dimensionSelector,
+					new Statistics.Model.DimensionConfig.DimensionFilterConfig(dimensionSelector)
+				);
+				
+				var controller = 
+						new Statistics.Controller.ProjectionController (
+							config,
+							repository,
+							new Statistics.View.PivotTableView('pivotTable')
+						);
+				
+				
+				var treeConfigEditor = new Statistics.ConfigurationEditor.DimensionsConfigEditor(config, new Statistics.ConfigurationEditor.DimensionFilterUpdater(config));
+				var projectDimensionsConfig = new Statistics.ConfigurationEditor.PivotTableConfigEditor(config, new Statistics.ConfigurationEditor.PivotTableProjectorUpdater(config));
+				
+				createDialogForConfiguration(
+					$('#pivotTableConfig'), 
+					$('#pivotTableConfigDialog'),
+					[
+						{
+							tab: $('#pivot-tabs-1'),
+							config: treeConfigEditor
+						},
+						{
+							tab: $('#pivot-tabs-2'),
+							config: projectDimensionsConfig
+						}
+					]);
+				
+				
+				return config;
+			}
+			
+			function createMapAnalysis(){
+				
+				var map = new SAPO.Maps.Map('mapa', {zoomLevel: 6});
+				var control = map.getControlsByClass('SAPO.Maps.Control.PermanentLink');
+				map.removeControl(control[0]);
+				var osm = new OpenLayers.Layer.OSM()
+				map.addLayer(osm);
+				map.setBaseLayer(osm);
+				
+				var statisticExplorer = new SAPO.Maps.Statistics(
+									map, 
+									null, 
+									null, 
+									{
+										showChangeIndicartorLinkCallback: {
+											scope: this,
+											callback: this.openModalBox
+										},
+										legendDiv: null,
+										showConfigTerritoryDiv: false,
+										showTemporalDimensionOnPieCharts: true
+									});
+				
+				statisticExplorer.addIndicator(
+					SAPO.Maps.Statistics.Config.currentProvider.endpoint, 
+					"0006097", 
+					{
+						selectedDimensions: [
+							{
+								type: 'Year',
+								id: 'S7A2009',
+								order: 1
+							},
+							{
+								type: 'Geo',
+								id: 'NUTS3',
+								order: 2,
+								territoryView: 'NUTS3'
+							},
+							{
+								type: 'Other',
+								id: 'T',
+								order: 3
+							},
+							{
+								type: 'Other',
+								id: 'APU',
+								order: 4
+							}],
+						layerOpacity: 100
+					});
+			}
+			
+			$(document).ready(function(){
+				
+				var pieChartConfig = createPieChartAnalysis();
+				var barChartConfig = createBarChartAnalysis();
+				var pivotTableConfig = createPivotTableAnalysis();
+				var mapa = createMapAnalysis();
+				
+				
+				var indicator1 = 
+					new Statistics.Indicator(
+						2, 
+						1, 
+						repository, 
+						[pieChartConfig, pivotTableConfig]);
+				
+				var indicator2 = 
+					new Statistics.Indicator(
+						3, 
+						1, 
+						repository, 
+						[barChartConfig]);			
+				
+				$("#pieChart").dialog({
+					height: 500,
+					width: 400,
+					minWidth: 300,
+					minHeight: 300,
+					position: 'left',
+					title: 'Ganho médio mensal',
+					buttons: [
+						{
+							text: 'Opções',
+							'class': 'config',
+							click: function(){
+								$('#pieChartConfigDialog').dialog('open');
+							}
+						}
+					],
+				});
+				
+				$("#barChart").dialog({
+					height: 500,
+					width: 600,
+					minWidth: 300,
+					minHeight: 300,
+					position: 'top',
+					title: 'População presente por local de residência',
+					buttons: [
+						{
+							text: 'Opções',
+							'class': 'config',
+							click: function(){
+								$('#barChartConfigDialog').dialog('open');
+							}
+						}
+					],
+				});
+				
+				$("#pivotTable").dialog({
+					height: 'auto',
+					width: 'auto',
+					minWidth: 300,
+					minHeight: 300,
+					position: 'center',
+					title: 'Ganho médio mensal',
+					buttons: [
+						{
+							text: 'Opções',
+							'class': 'config',
+							click: function(){
+								$('#pivotTableConfigDialog').dialog('open');
+							}
+						}
+					]
+				});
+				
+				$("#mapa").dialog({
+					height: 500,
+					width: 400,
+//					minWidth: 300,
+//					minHeight: 300,
+					position: 'center',
+					title: 'Ganho médio mensal',
+					buttons: [
+						{
+							text: 'Opções',
+							'class': 'config'
+						}
+					]
+				});
+				
+			});
+
+		</script>
+	</head>
+	<body>
+		
+		<div id="pivotTable"></div>
+		<div id="pieChart"></div>
+		<div id="barChart"></div>		
+		<div id="mapa" style="width:400px;height:400px;"></div>
+		
+		<div id='pieChartConfigDialog' class='hide'>
+			<div id="pieChartConfig">
+				<ul>
+					<li><a href="#pie-chart-tabs-1">Dimensoes</a></li>
+					<li><a href="#pie-chart-tabs-2">Projetar</a></li>
+				</ul>
+				<div id="pie-chart-tabs-1"></div>
+				<div id="pie-chart-tabs-2"></div>
+			</div>
+		</div>
+		
+		<div id='barChartConfigDialog' class='hide'>
+			<div id="barChartConfig">
+				<ul>
+					<li><a href="#bar-chart-tabs-1">Dimensoes</a></li>
+					<li><a href="#bar-chart-tabs-2">Projetar</a></li>
+				</ul>
+				<div id="bar-chart-tabs-1"></div>
+				<div id="bar-chart-tabs-2"></div>
+			</div>
+		</div>		
+		
+		<div id='pivotTableConfigDialog' class='hide'>
+			<div id="pivotTableConfig">
+				<ul>
+					<li><a href="#pivot-tabs-1">Dimensões</a></li>
+					<li><a href="#pivot-tabs-2">Formato da tabela</a></li>
+				</ul>
+				<div id="pivot-tabs-1"></div>
+				<div id="pivot-tabs-2"></div>
+			</div>
+		</div>
+		
+	</body>
+</html>

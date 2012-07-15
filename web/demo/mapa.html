@@ -1,0 +1,67 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<title>Densidade populacional</title>
+		<script type="text/javascript" src="http://js.sapo.pt/Bundles/SAPOMapsAPIFull.js"></script>
+		<script type="text/javascript" src="http://js.sapo.pt/Bundles/SAPOMapsStatisticsModule.js"></script>
+		<script type='text/javascript'>
+			
+			window.onload = function(){
+				
+				var map = new SAPO.Maps.Map('mapa', {zoomLevel: 6});
+				var control = map.getControlsByClass('SAPO.Maps.Control.PermanentLink');
+				map.removeControl(control[0]);
+				var osm = new OpenLayers.Layer.OSM()
+				map.addLayer(osm);
+				map.setBaseLayer(osm);
+				
+				var statisticExplorer = new SAPO.Maps.Statistics(
+									map, 
+									null, 
+									null, 
+									{
+										showChangeIndicartorLinkCallback: {
+											scope: this,
+											callback: this.openModalBox
+										},
+										legendDiv: null,
+										showConfigTerritoryDiv: false,
+										showTemporalDimensionOnPieCharts: true
+									});
+				
+				statisticExplorer.addIndicator(
+					SAPO.Maps.Statistics.Config.currentProvider.endpoint, 
+					"0001608",		// Proveitos e ganhos das empresas 
+					{
+						selectedDimensions: [
+							{
+								type: 'Year',
+								id: 'S7A2007',
+								order: 1
+							},
+							{
+								type: 'Geo',
+								id: 'NUTS3',
+								order: 2,
+								territoryView: 'NUTS3'
+							},
+							{
+								type: 'Other',
+								id: '45211',
+								order: 3
+							}],
+						layerOpacity: 100
+					});
+			}
+			
+			
+			
+		</script>
+	</head>
+	<body>
+		
+		<div id="mapa" style="width:600px;height:700px;"></div>
+		
+	</body>
+</html>
