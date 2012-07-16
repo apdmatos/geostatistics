@@ -92,9 +92,13 @@
       <Project>{FA988183-6BBE-43E4-A80E-5E7CE137257E}</Project>
       <Name>DependencyInjection</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\StatisticsProxyService\services\RestService\RestService.csproj">
-      <Project>{371CA5EB-5B4F-4073-903E-CE1D9160F3A6}</Project>
-      <Name>RestService</Name>
+    <ProjectReference Include="..\..\..\StatisticsProxyService\services\StatisticsServices\StatisticsServices.csproj">
+      <Project>{5ABA97AA-BD17-4117-BD08-CD5F417E4005}</Project>
+      <Name>StatisticsServices</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\StatisticsProxyService\StatisticsProxyImpl\StatisticsProxyImpl.csproj">
+      <Project>{2894F794-8DA3-4580-A6A1-FC30F855E9C7}</Project>
+      <Name>StatisticsProxyImpl</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\StatisticsProxyService\StatisticsProxyServiceDefenitions\StatisticsProxyServiceDefenitions.csproj">
       <Project>{414F67CD-3270-4C30-924E-A4AD5B8A2361}</Project>

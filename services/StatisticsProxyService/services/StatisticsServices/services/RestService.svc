@@ -1,0 +1,6 @@
+﻿<%@ ServiceHost 
+    Language="C#" 
+    Debug="true" 
+    Service="StatisticsServices.RestService.Statistics" 
+    CodeBehind="StatisticsServices.RestService.Statistics.cs"
+    Factory="Ninject.Extensions.Wcf.NinjectServiceHostFactory"  %>

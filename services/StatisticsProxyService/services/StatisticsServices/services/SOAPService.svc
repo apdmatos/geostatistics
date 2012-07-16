@@ -1,0 +1,6 @@
+﻿<%@ ServiceHost 
+    Language="C#" 
+    Debug="true" 
+    Service="StatisticsProxyImpl.DefaultStatisticsProxyImpl" 
+    CodeBehind="StatisticsProxyImpl.DefaultStatisticsProxyImpl.cs"
+    Factory="Ninject.Extensions.Wcf.NinjectServiceHostFactory"  %>

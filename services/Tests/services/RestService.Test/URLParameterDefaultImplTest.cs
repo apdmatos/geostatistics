@@ -1,10 +1,10 @@
-﻿using RestService.parameters_parser;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting.Web;
 using ProviderDataContracts.Filters;
 using System.Collections.Generic;
 using System.Linq;
+using StatisticsServices.RestService.parameters_parser;
 
 namespace RestService.Test
 {

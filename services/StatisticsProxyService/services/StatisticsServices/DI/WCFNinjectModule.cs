@@ -1,6 +1,6 @@
-﻿using RestService.parameters_parser;
-using DependencyInjection;
+﻿using DependencyInjection;
 using StatisticsProxyServiceDefenitions.interfaces;
+using StatisticsServices.RestService.parameters_parser;
 
 namespace RestService.DI
 {

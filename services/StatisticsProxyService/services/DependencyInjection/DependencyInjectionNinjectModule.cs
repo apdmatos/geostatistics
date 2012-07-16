@@ -29,6 +29,10 @@ namespace DependencyInjection
                 ConfigurationManager.ConnectionStrings[_databaseConfigKey].ProviderName);
 
             //Injects the constructors of all DI-ed objects
+            Bind<DefaultStatisticsProxyImpl>()
+                .ToSelf()
+                .WithConstructorArgument("configKey", _endpointConfigKey);
+            
             Bind<IStatisticsProxyService>()
                 .To<DefaultStatisticsProxyImpl>()
                 .WithConstructorArgument("configKey", _endpointConfigKey);

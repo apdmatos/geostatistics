@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using ProviderDataContracts.Filters;
 
-namespace RestService.parameters_parser
+namespace StatisticsServices.RestService.parameters_parser
 {
     class URLParameterDefaultImpl : IURLParametersParser
     {

@@ -8,7 +8,7 @@ using ProviderDataContracts.Metadata;
 using System.ServiceModel.Web;
 using StatisticsProxyServiceDefenitions.data_models;
 
-namespace RestService
+namespace StatisticsServices.RestService
 {
     [ServiceContract]
     public interface IStatistics

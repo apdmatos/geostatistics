@@ -2,7 +2,6 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting.Web;
-using RestService.parameters_parser;
 using StatisticsProxyServiceDefenitions.interfaces;
 using StatisticsProxyServiceDefenitions.data_models;
 using ProviderDataContracts.Metadata;
@@ -10,6 +9,8 @@ using System.Collections.Generic;
 using Moq;
 using ProviderDataContracts.Filters;
 using ProviderDataContracts.Values;
+using StatisticsServices.RestService.parameters_parser;
+using StatisticsServices.RestService;
 
 namespace RestService.Test
 {
@@ -174,7 +175,7 @@ namespace RestService.Test
             Assert.AreEqual(expected, actual);
 
             mock.Verify(m => m.ParseDimensionFilterList(selectedDimensions));
-            mock.Verify(m => m.ParseDimensionFilter(axisDimension));
+            mock.Verify(m => m.ParseDimensionFilterList(axisDimension));
         }
 
         /// <summary>

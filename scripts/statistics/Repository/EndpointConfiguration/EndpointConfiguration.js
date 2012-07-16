@@ -7,7 +7,7 @@ Statistics.Repository.EndpointConfiguration = {
 	 * @property {String}
 	 * Contains the server endpoint
 	 */
-	serviceURL: 'http://localhost:36590/Statistics.svc/',
+	serviceURL: 'http://localhost:30355/services/RestService.svc',
 	
 	/**
 	 * @public
