@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -39,7 +40,7 @@ public class ShapefileRepository implements IShapeRepository {
     }
 
     @Override
-    public IShapeReader getShapes(String sourceId, String indicatorId, String shapeLevel, BBOX bbox, String[] shapeIds) {
+    public IShapeReader getShapes(String sourceId, String indicatorId, String shapeLevel, BBOX bbox, List<String> shapeIds) {
 
         String bboxStr = bbox != null ? bbox.toString() : "";
         Logger.getLogger(ShapefileRepository.class.getName()).log (
@@ -70,7 +71,7 @@ public class ShapefileRepository implements IShapeRepository {
     }
 
     @Override
-    public int countShapes(String sourceId, String indicatorId, String shapeLevel, BBOX bbox, String[] shapeIds) {
+    public int countShapes(String sourceId, String indicatorId, String shapeLevel, BBOX bbox, List<String> shapeIds) {
 
         String bboxStr = bbox != null ? bbox.toString() : "";
         Logger.getLogger(ShapefileRepository.class.getName()).log (
@@ -102,7 +103,7 @@ public class ShapefileRepository implements IShapeRepository {
     }
 
     @Override
-    public ReferencedEnvelope getBounds(String sourceId, String indicatorId, String shapeLevel, BBOX bbox, String[] shapeIds) {
+    public ReferencedEnvelope getBounds(String sourceId, String indicatorId, String shapeLevel, BBOX bbox, List<String> shapeIds) {
 
         String bboxStr = bbox != null ? bbox.toString() : "";
         Logger.getLogger(ShapefileRepository.class.getName()).log (
@@ -184,7 +185,7 @@ public class ShapefileRepository implements IShapeRepository {
         return (ShapefileDataStore) DataStoreFinder.getDataStore(params);
     }
 
-    private Filter getShapefileFilter(BBOX bbox, String[] shapeIds) {
+    private Filter getShapefileFilter(BBOX bbox, List<String> shapeIds) {
 
         Filter bboxFilter = Filter.INCLUDE;
         if(bbox != null)
@@ -210,7 +211,7 @@ public class ShapefileRepository implements IShapeRepository {
         return bboxFilter;
     }
 
-    private static String composeCQLFilter(String[] ids) {
+    private static String composeCQLFilter(List<String> ids) {
 
         // TODO: implement the filter
         return null;

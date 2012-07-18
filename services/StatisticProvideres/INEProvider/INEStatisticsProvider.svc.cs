@@ -13,6 +13,7 @@ using INEProvider.ServiceConfig;
 using ProviderDataContracts.Metadata.Provider_Interfaces;
 using INEProvider.request;
 using INEProvider.Aggregator;
+using INEProvider.Helpers;
 
 namespace INEProvider
 {
@@ -48,6 +49,49 @@ namespace INEProvider
             // Aggregate values by projected filters
             if (projected != null) return _aggregator.AggregateValues(ineValues.IndicatorValueList, projected);
             return ineValues.IndicatorValueList.ToIndicatorValueEnumerable().ToList();
-        }       
+        }
+
+
+        public IndicatorValueRange GetIndicatorValuesRange(string indicatorId, IEnumerable<DimensionFilter> filters, IEnumerable<DimensionFilter> projected, string geographicLevel)
+        {
+            //Join filters
+            IEnumerable<DimensionFilter> joinedFilters = projected != null ? filters.Union(projected) : filters;
+            List<INEService.DimensionFilter> dFilters = joinedFilters.ToDimensionFilterEnumerable().ToList();
+
+            // add level
+            INEServiceHepers.SetGeographicLevel(dFilters.Where(d => d.Order == Configuration.GEO_DIMENSION_ORDER).First(), geographicLevel);
+
+            INEService.IndicatorValues ineValues = _requester.GetValues(
+                    indicatorId,
+                    dFilters,
+                    INEService.ValuesReturnType.OnlyValues,
+                    Configuration.LANGUAGE,
+                    1,
+                    Configuration.MAX_RECORDS_PER_PAGE);
+
+            // Aggregate values by projected filters
+            IEnumerable<IndicatorValue> values = null;
+            if (projected != null) values =  _aggregator.AggregateValues(ineValues.IndicatorValueList, projected);
+            else values = ineValues.IndicatorValueList.ToIndicatorValueEnumerable().ToList();
+
+            if (values == null) return null;
+
+            IndicatorValue max = null, min = null;
+            foreach (var value in values)
+            {
+                if (max == null || value.Value > max.Value)
+                    max = value;
+
+                if (min == null || value.Value < min.Value)
+                    min = value;
+            }
+
+            return new IndicatorValueRange
+            {
+                Maximum = max,
+                Minimum = min
+            };
+
+        }
     }
 }

@@ -1,6 +1,6 @@
 package statistics.queryparser;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
@@ -15,7 +15,7 @@ import org.opengis.filter.expression.PropertyName;
 import org.opengis.filter.spatial.BBOX;
 import org.opengis.filter.expression.Expression;
 import statistics.model.indicator.Dimension;
-import statistics.model.indicator.DimensionAttribute;
+import statistics.model.indicator.GeographicDimension;
 import statistics.model.indicator.IndicatorMetadata;
 import statistics.store.FeatureBuilder;
 
@@ -98,7 +98,7 @@ public class StatisticsQueryParser {
         return parseParameters().getGeographicDimension().shapeLevel;
     }
 
-    public List<DimensionAttribute> getShapeIds() {
+    public List<String> getShapeIds() {
 
         return parseParameters().getGeographicDimension().dimensionAttributes;
     }
@@ -144,13 +144,72 @@ public class StatisticsQueryParser {
         if(indicator == null) {
 
             StatisticsRequestParameters request = getParameters();
-
-
-
-
+            indicator = new IndicatorMetadata(
+                            request.sourceId,
+                            request.indicatorId,
+                            parseDimensions(request.dimensions)
+                        );
         }
 
 
-        return null;
+        return indicator;
+    }
+
+    /**
+     * Parses the dimensions into an object structure
+     * @param dimensions
+     *
+     * The dimension parameter is in the following format:
+     *      1,1,2,3,4#2,1,2,3,4
+     *      dimensionId1,dimensionAttr1,dimensionAttr2#dimensionId2-geoLevel,dimensionAttr1,dimensionAttr2
+     * @return List<Dimension>
+     */
+    private List<Dimension> parseDimensions(String dimensions){
+        
+        if(dimensions == null) return null;
+        List<Dimension> dimensionsList = new ArrayList<Dimension>();
+
+        String[] splitedDimensions = dimensions.split("#");
+        for (String d : splitedDimensions) 
+            dimensionsList.add(parseDimension(d));
+
+        return dimensionsList;
+    }
+
+    /**
+     * Parses a dimension into object structure
+     * @param dimension
+     *
+     * The dimension parameter is in the following format:
+     *      1,1,2,3,4
+     *      1-District,1,2,3
+     *      
+     *      dimensionId1,dimensionAttr1,dimensionAttr2
+     *      dimensionId2-geoLevel,dimensionAttr1,dimensionAttr2
+     * 
+     * @return Dimension
+     */
+    private Dimension parseDimension(String dimension){
+
+        Dimension d = null;
+        if(dimension == null) return d;
+
+        String[] dSplited = dimension.split(",");
+        String[] dimensionId = dSplited[0].split("-");
+
+        // Check if the current dimension is a geographic dimension.
+        // If it is, build a geographic type
+        boolean isGeoDimension = dimensionId.length == 2;
+        if(isGeoDimension)
+            d = new GeographicDimension(dimensionId[0], dimensionId[1]);
+        else d = new Dimension(dimensionId[0]);
+
+        // Add dimension attributes
+        for (int i = 1; i < dSplited.length; i++) {
+            d.addAttribute(dSplited[i]);
+        }
+
+
+        return d;
     }
 }

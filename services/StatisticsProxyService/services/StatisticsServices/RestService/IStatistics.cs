@@ -7,6 +7,7 @@ using System.Text;
 using ProviderDataContracts.Metadata;
 using System.ServiceModel.Web;
 using StatisticsProxyServiceDefenitions.data_models;
+using ProviderDataContracts.Values;
 
 namespace StatisticsServices.RestService
 {
@@ -24,5 +25,11 @@ namespace StatisticsServices.RestService
             UriTemplate = "GetIndicatorValues?sourceid={sourceid}&indicatorid={indicatorid}&filterDimensions={filterDimensions}&projectedDimensions={projectedDimensions}",
             ResponseFormat = WebMessageFormat.Json)]
         IndicatorValues GetIndicatorValues(int sourceid, int indicatorid, string filterDimensions, string projectedDimensions);
+
+        [OperationContract]
+        [WebGet(
+            UriTemplate = "GetIndicatorRange?sourceid={sourceid}&indicatorid={indicatorid}&filterDimensions={filterDimensions}&projectedDimensions={projectedDimensions}&shapeLevel={shapeLevel}",
+            ResponseFormat = WebMessageFormat.Json)]
+        IndicatorValueRange GetIndicatorValuesRange(int sourceid, int indicatorid, string filterDimensions, string projectedDimensions, string shapeLevel);
     }
 }

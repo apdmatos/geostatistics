@@ -33,5 +33,14 @@ namespace StatisticsServices.RestService
 
             return service.GetIndicatorValues(sourceid, indicatorid, filters, projected);
         }
+
+
+        public ProviderDataContracts.Values.IndicatorValueRange GetIndicatorValuesRange(int sourceid, int indicatorid, string filterDimensions, string projectedDimensions, string shapeLevel)
+        {
+            IEnumerable<DimensionFilter> filters = filterDimensions != null ? parser.ParseDimensionFilterList(filterDimensions) : null;
+            IEnumerable<DimensionFilter> projected = projectedDimensions != null ? parser.ParseDimensionFilterList(projectedDimensions) : null;
+
+            return service.GetIndicatorValuesRange(sourceid, indicatorid, filters, projected, shapeLevel);
+        }
     }
 }

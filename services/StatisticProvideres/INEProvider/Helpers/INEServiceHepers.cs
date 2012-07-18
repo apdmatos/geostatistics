@@ -21,5 +21,12 @@ namespace INEProvider.Helpers
 
             return null;
         }
+
+        public static void SetGeographicLevel(INEService.DimensionFilter geoDimensionFilter, String geolevel)
+        {
+            GeographicLevels level = (GeographicLevels)Enum.Parse(typeof(GeographicLevels), geolevel, true);
+            geoDimensionFilter.AllFromLevel = (int)level;
+            geoDimensionFilter.Codes = null;
+        }
     }
 }

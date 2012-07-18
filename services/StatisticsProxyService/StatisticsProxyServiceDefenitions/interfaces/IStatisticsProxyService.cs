@@ -6,6 +6,7 @@ using System.ServiceModel;
 using StatisticsProxyServiceDefenitions.data_models;
 using ProviderDataContracts.Metadata;
 using ProviderDataContracts.Filters;
+using ProviderDataContracts.Values;
 
 namespace StatisticsProxyServiceDefenitions.interfaces
 {
@@ -17,5 +18,8 @@ namespace StatisticsProxyServiceDefenitions.interfaces
 
         [OperationContract]
         IndicatorValues GetIndicatorValues(int sourceid, int indicatorid, IEnumerable<DimensionFilter> filterDimensions, IEnumerable<DimensionFilter> projectedDimensions);
+
+        [OperationContract]
+        IndicatorValueRange GetIndicatorValuesRange(int sourceid, int indicatorid, IEnumerable<DimensionFilter> filterDimensions, IEnumerable<DimensionFilter> projectedDimensions, String shapeLevel);
     }
 }

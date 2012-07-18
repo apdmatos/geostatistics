@@ -1,12 +1,14 @@
 package statistics.utis;
 
+import java.util.List;
+
 /**
  *
  * @author Andre Matos
  */
 public class StringUtils {
 
-    public static String join(String[] input, String delimiter) {
+    public static String join(List<String> input, String delimiter) {
         
         StringBuilder sb = new StringBuilder();
         if(input != null) {

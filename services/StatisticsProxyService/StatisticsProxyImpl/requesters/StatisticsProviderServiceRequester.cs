@@ -29,6 +29,11 @@ namespace StatisticsProxyImpl.requesters
             return GetChannel().GetValues(indicatorId, filters, projected);
         }
 
+        public IndicatorValueRange GetValuesRange(string indicatorId, IEnumerable<DimensionFilter> filters, IEnumerable<DimensionFilter> projected, string shapeLevel)
+        {
+            return GetChannel().GetIndicatorValuesRange(indicatorId, filters, projected, shapeLevel);
+        }
+
         public void Dispose()
         {
             if (_channel != null) _channel.Close();

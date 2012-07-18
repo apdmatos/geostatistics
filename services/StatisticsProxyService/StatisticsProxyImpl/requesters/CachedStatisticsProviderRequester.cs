@@ -31,6 +31,12 @@ namespace StatisticsProxyImpl.requesters
             return _requester.GetValues(indicatorId, filters, projected);
         }
 
+        public IndicatorValueRange GetValuesRange(string indicatorId, IEnumerable<DimensionFilter> filters, IEnumerable<DimensionFilter> projected, string shapeLevel)
+        {
+            //TODO: Check first on cache
+            return _requester.GetValuesRange(indicatorId, filters, projected, shapeLevel);
+        }
+
         public void Dispose()
         {
             _requester.Dispose();
