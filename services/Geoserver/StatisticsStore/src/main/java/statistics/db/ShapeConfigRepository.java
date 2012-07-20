@@ -16,7 +16,7 @@ public class ShapeConfigRepository implements IShapeConfigRepository {
 
     public ShapeConfigRepository(){}
 
-    public ShapeConfiguration getShapeConfiguration(String sourceId, String indicatorId, String geoLevel) {
+    public ShapeConfiguration getShapeConfiguration(int sourceId, int indicatorId, String geoLevel) {
 
         List<ShapeLevel> levels = new ArrayList<ShapeLevel>();
         levels.add(new ShapefileLevel("NUTS1", "NUTS1\\nuts1.shp"));

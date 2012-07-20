@@ -8,7 +8,14 @@
   <name>StatisticsStore</name>
   <url>http://maven.apache.org</url>
     <build>
-        <plugins>
+      <resources>
+        <resource>
+          <targetPath>META-INF</targetPath>
+          <directory>src</directory>
+          <includes/>
+        </resource>
+      </resources>
+      <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -18,6 +25,40 @@
                     <target>1.6</target>
                 </configuration>
             </plugin>
+          <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>jaxws-maven-plugin</artifactId>
+            <version>1.10</version>
+            <executions>
+               <execution>
+                  <goals>
+                     <goal>wsimport</goal>
+                  </goals>
+                  <configuration>
+                     <wsdlFiles>
+                        <wsdlFile>localhost_30355/services/SOAPService.svc.wsdl</wsdlFile>
+                     </wsdlFiles>
+                     <staleFile>${project.build.directory}/jaxws/stale/SOAPService.svc.stale</staleFile>
+                  </configuration>
+                  <id>wsimport-generate-SOAPService.svc</id>
+                  <phase>generate-sources</phase>
+               </execution>
+            </executions>
+            <dependencies>
+              <dependency>
+                <groupId>javax.xml</groupId>
+                <artifactId>webservices-api</artifactId>
+                <version>1.4</version>
+              </dependency>
+            </dependencies>
+            <configuration>
+              <sourceDestDir>${project.build.directory}/generated-sources/jaxws-wsimport</sourceDestDir>
+              <xnocompile>true</xnocompile>
+              <verbose>true</verbose>
+              <extension>true</extension>
+              <catalog>${basedir}/src/jax-ws-catalog.xml</catalog>
+            </configuration>
+          </plugin>
         </plugins>
     </build>
     <properties>
@@ -72,6 +113,12 @@
             <artifactId>commons-io</artifactId>
             <version>1.3.2</version>
         </dependency>
+    <dependency>
+      <groupId>com.sun.xml.ws</groupId>
+      <artifactId>webservices-rt</artifactId>
+      <version>1.4</version>
+      <scope>provided</scope>
+    </dependency>
   </dependencies>
     <repositories>
         <repository>
@@ -86,4 +133,12 @@
         </repository>
     </repositories>
 </project>
+
+
+
+
+
+
+
+
 

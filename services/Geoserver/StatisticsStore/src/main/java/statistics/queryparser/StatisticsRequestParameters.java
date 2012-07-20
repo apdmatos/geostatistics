@@ -9,11 +9,11 @@ import org.opengis.filter.spatial.BBOX;
 public class StatisticsRequestParameters {
 
     public String dimensions;
-    public String indicatorId;
-    public String sourceId;
+    public int indicatorId;
+    public int sourceId;
     public BBOX bbox;
 
-    StatisticsRequestParameters(BBOX bbox, String dimensions, String indicatorId, String sourceId) {
+    StatisticsRequestParameters(BBOX bbox, String dimensions, int indicatorId, int sourceId) {
         
         this.bbox           = bbox;
         this.dimensions     = dimensions;

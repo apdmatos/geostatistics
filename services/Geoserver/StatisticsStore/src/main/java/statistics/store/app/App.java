@@ -37,7 +37,7 @@ public class App {
 
         SimpleFeatureSource featureSource = store.getFeatureSource(typeName);
 
-        Filter filter = CQL.toFilter("sourceId='1' AND indicatorId='1'");
+        Filter filter = CQL.toFilter("sourceId=1 AND indicatorId=1");
         SimpleFeatureCollection collection = featureSource.getFeatures(filter);
 
         System.out.println("featureType.getname() = " + featureSource.getSchema().getName());

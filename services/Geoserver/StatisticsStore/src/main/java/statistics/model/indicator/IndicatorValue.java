@@ -10,7 +10,14 @@ import statistics.model.indicator.Dimension;
 public class IndicatorValue {
 
     public List<Dimension> dimensionFilter;
-    public String shapeId;
     public double value;
+
+    public IndicatorValue()  {
+    }
+
+    public IndicatorValue(List<Dimension> filters, double value) {
+        this.dimensionFilter = filters;
+        this.value = value;
+    }
 
 }

@@ -8,5 +8,5 @@ import statistics.model.shape.ShapeConfiguration;
  */
 public interface IShapeConfigRepository {
 
-    ShapeConfiguration getShapeConfiguration(String sourceId, String indicatorId, String geoLevel);
+    ShapeConfiguration getShapeConfiguration(int sourceId, int indicatorId, String geoLevel);
 }

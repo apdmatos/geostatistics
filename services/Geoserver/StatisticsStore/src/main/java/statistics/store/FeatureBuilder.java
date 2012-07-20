@@ -44,8 +44,8 @@ public class FeatureBuilder {
             builder.add( ID_PROPERTY,               String.class );
             //builder.add( "parentid",                String.class );
             builder.add( DIMENSIONS_PROPERTY,       String.class );
-            builder.add( INDICATORID_PROPERTY,      String.class );
-            builder.add( SOURCEID_PROPERTY,         String.class );
+            builder.add( INDICATORID_PROPERTY,      Integer.class );
+            builder.add( SOURCEID_PROPERTY,         Integer.class );
             builder.add( SHAPELEVEL_PROPERTY,       String.class );
             builder.add( VALUE_PROPERTY,            Double.class );
 
@@ -60,22 +60,14 @@ public class FeatureBuilder {
     public SimpleFeature buildFeature(StatisticsRequestParameters query, IShapeData shape) {
 
         String dimensions = query.dimensions != null ? query.dimensions : "";
-        String indicatorId = query.indicatorId != null ? query.indicatorId : "";
-        String sourceId = query.sourceId != null ? query.sourceId : "";
-
-
-//        String dimensions = "";
-//        String indicatorId = "1";
-//        String sourceId = "1";
-
 
         SimpleFeatureBuilder featureBuilder = new SimpleFeatureBuilder( getFeatureType() );
         featureBuilder.add( shape.getFeatureGeometry() );
         featureBuilder.add( shape.getShapeName() );
         featureBuilder.add( shape.getShapeId() );
         featureBuilder.add( dimensions  ); //TODO: must be defined   // dimensions
-        featureBuilder.add( indicatorId ); //TODO: must be defined  // indicatorid
-        featureBuilder.add( sourceId ); //TODO: must be defined  //sourceid
+        featureBuilder.add( query.indicatorId ); //TODO: must be defined  // indicatorid
+        featureBuilder.add( query.sourceId ); //TODO: must be defined  //sourceid
         featureBuilder.add( "" ); //TODO: must be defined   // shapelevel
         featureBuilder.add( 0 ); //TODO: must be defined    // value
 

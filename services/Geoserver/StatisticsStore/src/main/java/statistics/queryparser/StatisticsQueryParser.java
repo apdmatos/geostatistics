@@ -16,7 +16,7 @@ import org.opengis.filter.spatial.BBOX;
 import org.opengis.filter.expression.Expression;
 import statistics.model.indicator.Dimension;
 import statistics.model.indicator.GeographicDimension;
-import statistics.model.indicator.IndicatorMetadata;
+import statistics.model.indicator.Metadata;
 import statistics.store.FeatureBuilder;
 
 /**
@@ -28,7 +28,7 @@ public class StatisticsQueryParser {
     private Query query;
     private final FeatureType featureType;
     private StatisticsRequestParameters requestedParameters;
-    private IndicatorMetadata indicator;
+    private Metadata indicator;
 
     private class QueryVisitor extends DefaultFilterVisitor {
 
@@ -83,12 +83,12 @@ public class StatisticsQueryParser {
         this.featureType = featureType;
     }
 
-    public String getSourceId() {
+    public int getSourceId() {
         
         return getParameters().sourceId;
     }
 
-    public String getIndicatorId() {
+    public int getIndicatorId() {
         
         return getParameters().indicatorId;
     }
@@ -107,7 +107,7 @@ public class StatisticsQueryParser {
         return parseParameters().dimensions;
     }
 
-    public IndicatorMetadata getIndicatorMetadata() {
+    public Metadata getIndicatorMetadata() {
 
         return parseParameters();
     }
@@ -129,9 +129,9 @@ public class StatisticsQueryParser {
 
             requestedParameters = new StatisticsRequestParameters(
                         visitor.bbox,
-                        visitor.queryMap.containsKey(FeatureBuilder.DIMENSIONS_PROPERTY)    ? (String) visitor.queryMap.get(FeatureBuilder.DIMENSIONS_PROPERTY)     : null,
-                        visitor.queryMap.containsKey(FeatureBuilder.INDICATORID_PROPERTY)   ? (String) visitor.queryMap.get(FeatureBuilder.INDICATORID_PROPERTY)    : null,
-                        visitor.queryMap.containsKey(FeatureBuilder.SOURCEID_PROPERTY)      ? (String) visitor.queryMap.get(FeatureBuilder.SOURCEID_PROPERTY)       : null
+                        visitor.queryMap.containsKey(FeatureBuilder.DIMENSIONS_PROPERTY)    ? (String) visitor.queryMap.get(FeatureBuilder.DIMENSIONS_PROPERTY)                     : null,
+                        visitor.queryMap.containsKey(FeatureBuilder.INDICATORID_PROPERTY)   ? Integer.parseInt((String) visitor.queryMap.get(FeatureBuilder.INDICATORID_PROPERTY))  : -1,
+                        visitor.queryMap.containsKey(FeatureBuilder.SOURCEID_PROPERTY)      ? Integer.parseInt((String)visitor.queryMap.get(FeatureBuilder.SOURCEID_PROPERTY))      : -1
                     );
 
         }
@@ -139,12 +139,12 @@ public class StatisticsQueryParser {
         return requestedParameters;
     }
 
-    private IndicatorMetadata parseParameters() {
+    private Metadata parseParameters() {
 
         if(indicator == null) {
 
             StatisticsRequestParameters request = getParameters();
-            indicator = new IndicatorMetadata(
+            indicator = new Metadata(
                             request.sourceId,
                             request.indicatorId,
                             parseDimensions(request.dimensions)

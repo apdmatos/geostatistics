@@ -40,7 +40,7 @@ public class ShapefileRepository implements IShapeRepository {
     }
 
     @Override
-    public IShapeReader getShapes(String sourceId, String indicatorId, String shapeLevel, BBOX bbox, List<String> shapeIds) {
+    public IShapeReader getShapes(int sourceId, int indicatorId, String shapeLevel, BBOX bbox, List<String> shapeIds) {
 
         String bboxStr = bbox != null ? bbox.toString() : "";
         Logger.getLogger(ShapefileRepository.class.getName()).log (
@@ -71,7 +71,7 @@ public class ShapefileRepository implements IShapeRepository {
     }
 
     @Override
-    public int countShapes(String sourceId, String indicatorId, String shapeLevel, BBOX bbox, List<String> shapeIds) {
+    public int countShapes(int sourceId, int indicatorId, String shapeLevel, BBOX bbox, List<String> shapeIds) {
 
         String bboxStr = bbox != null ? bbox.toString() : "";
         Logger.getLogger(ShapefileRepository.class.getName()).log (
@@ -103,7 +103,7 @@ public class ShapefileRepository implements IShapeRepository {
     }
 
     @Override
-    public ReferencedEnvelope getBounds(String sourceId, String indicatorId, String shapeLevel, BBOX bbox, List<String> shapeIds) {
+    public ReferencedEnvelope getBounds(int sourceId, int indicatorId, String shapeLevel, BBOX bbox, List<String> shapeIds) {
 
         String bboxStr = bbox != null ? bbox.toString() : "";
         Logger.getLogger(ShapefileRepository.class.getName()).log (

@@ -11,14 +11,14 @@ import org.opengis.filter.spatial.BBOX;
 public interface IShapeRepository {
 
     IShapeReader getShapes( 
-            String sourceId, String indicatorId,
+            int sourceId, int indicatorId,
             String shapeLevel, BBOX bbox, List<String> shapeIds);
 
     int countShapes( 
-            String sourceId, String indicatorId,
+            int sourceId, int indicatorId,
             String shapeLevel, BBOX bbox, List<String> shapeIds);
 
     ReferencedEnvelope getBounds( 
-            String sourceId, String indicatorId,
+            int sourceId, int indicatorId,
             String shapeLevel, BBOX bbox, List<String> shapeIds);
 }
