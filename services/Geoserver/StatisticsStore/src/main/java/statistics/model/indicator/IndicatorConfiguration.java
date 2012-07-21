@@ -7,13 +7,13 @@ import java.util.List;
  *
  * @author Andre Matos
  */
-public class Metadata {
+public class IndicatorConfiguration {
 
     public int indicatorId;
     public int sourceId;
     public List<Dimension> dimensions;
 
-    public Metadata(int indicatorId, int sourceId, List<Dimension> dimensions) {
+    public IndicatorConfiguration(int indicatorId, int sourceId, List<Dimension> dimensions) {
 
         this.indicatorId =indicatorId;
         this.sourceId = sourceId;

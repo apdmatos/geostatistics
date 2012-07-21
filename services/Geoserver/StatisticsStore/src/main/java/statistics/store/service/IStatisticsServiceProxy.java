@@ -1,7 +1,7 @@
 package statistics.store.service;
 
 import java.util.List;
-import statistics.model.indicator.Metadata;
+import statistics.model.indicator.IndicatorConfiguration;
 import statistics.model.indicator.IndicatorValue;
 import statistics.model.indicator.IndicatorRange;
 
@@ -11,11 +11,7 @@ import statistics.model.indicator.IndicatorRange;
  */
 public interface IStatisticsServiceProxy {
 
-//    void setIndicatorMetadata(Metadata metadata);
-//
-//    void setShapeFilters(List<String> shapeIds);
-
-    void requestIndicatorValues(Metadata metadata, List<String> shapeIds);
+    void requestIndicatorValues(IndicatorConfiguration config, List<String> shapeIds);
 
     IndicatorValue getIndicatorValue(String shapeId);
 

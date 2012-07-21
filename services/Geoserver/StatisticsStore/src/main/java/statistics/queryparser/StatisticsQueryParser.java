@@ -16,7 +16,7 @@ import org.opengis.filter.spatial.BBOX;
 import org.opengis.filter.expression.Expression;
 import statistics.model.indicator.Dimension;
 import statistics.model.indicator.GeographicDimension;
-import statistics.model.indicator.Metadata;
+import statistics.model.indicator.IndicatorConfiguration;
 import statistics.store.FeatureBuilder;
 
 /**
@@ -28,7 +28,7 @@ public class StatisticsQueryParser {
     private Query query;
     private final FeatureType featureType;
     private StatisticsRequestParameters requestedParameters;
-    private Metadata indicator;
+    private IndicatorConfiguration indicator;
 
     private class QueryVisitor extends DefaultFilterVisitor {
 
@@ -107,7 +107,7 @@ public class StatisticsQueryParser {
         return parseParameters().dimensions;
     }
 
-    public Metadata getIndicatorMetadata() {
+    public IndicatorConfiguration getIndicatorConfiguration() {
 
         return parseParameters();
     }
@@ -139,12 +139,12 @@ public class StatisticsQueryParser {
         return requestedParameters;
     }
 
-    private Metadata parseParameters() {
+    private IndicatorConfiguration parseParameters() {
 
         if(indicator == null) {
 
             StatisticsRequestParameters request = getParameters();
-            indicator = new Metadata(
+            indicator = new IndicatorConfiguration(
                             request.sourceId,
                             request.indicatorId,
                             parseDimensions(request.dimensions)

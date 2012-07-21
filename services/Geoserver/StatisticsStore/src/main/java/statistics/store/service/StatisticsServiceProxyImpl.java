@@ -14,7 +14,7 @@ import org.tempuri.DefaultStatisticsProxyImpl;
 import org.tempuri.IStatisticsProxyService;
 import statistics.model.indicator.Dimension;
 import statistics.model.indicator.GeographicDimension;
-import statistics.model.indicator.Metadata;
+import statistics.model.indicator.IndicatorConfiguration;
 import statistics.model.indicator.IndicatorValue;
 import statistics.model.indicator.IndicatorRange;
 import statistics.store.service.extensions.ArrayOfDimensionFilterExtension;
@@ -31,7 +31,7 @@ public class StatisticsServiceProxyImpl implements IStatisticsServiceProxy {
     protected static final QName qname = new QName("http://tempuri.org/", "DefaultStatisticsProxyImpl");
     protected final ThreadPoolExecutor _threadPool;
 
-    protected volatile Metadata _metadata;
+    protected volatile IndicatorConfiguration _config;
     protected volatile List<String> _shapeIds;
     protected volatile URL _serviceURL;
 
@@ -53,8 +53,8 @@ public class StatisticsServiceProxyImpl implements IStatisticsServiceProxy {
         public void run() {
             IStatisticsProxyService service = getProxyInstance();
             indicatorValuesResponse = service.getIndicatorValues(
-                                            _metadata.sourceId,
-                                            _metadata.indicatorId,
+                                            _config.sourceId,
+                                            _config.indicatorId,
                                             getFilterDimensions(),
                                             getProjectedDimensions()
                                       );
@@ -68,8 +68,8 @@ public class StatisticsServiceProxyImpl implements IStatisticsServiceProxy {
 
             IStatisticsProxyService service = getProxyInstance();
             indicatorValueRange = service.getIndicatorValuesRange(
-                                        _metadata.sourceId,
-                                        _metadata.indicatorId,
+                                        _config.sourceId,
+                                        _config.indicatorId,
                                         getFilterDimensions(),
                                         getProjectedDimensions(),
                                         getShapeLevel()
@@ -89,7 +89,7 @@ public class StatisticsServiceProxyImpl implements IStatisticsServiceProxy {
     private ArrayOfDimensionFilter getFilterDimensions() {
 
         ArrayOfDimensionFilterExtension dimensionFilter = new ArrayOfDimensionFilterExtension();
-        for (Dimension dimension : _metadata.dimensions)
+        for (Dimension dimension : _config.dimensions)
             if(! (dimension instanceof GeographicDimension))
                 dimensionFilter.addDimension(dimension);
 
@@ -98,7 +98,7 @@ public class StatisticsServiceProxyImpl implements IStatisticsServiceProxy {
 
     private ArrayOfDimensionFilter getProjectedDimensions() {
         
-        GeographicDimension dimension = _metadata.getGeographicDimension();
+        GeographicDimension dimension = _config.getGeographicDimension();
         ArrayOfDimensionFilterExtension dimensionFilter = new ArrayOfDimensionFilterExtension();
         dimensionFilter.addDimension(dimension.id, _shapeIds);
 
@@ -106,7 +106,7 @@ public class StatisticsServiceProxyImpl implements IStatisticsServiceProxy {
     }
 
     private String getShapeLevel() {
-        return _metadata.getGeographicDimension().shapeLevel;
+        return _config.getGeographicDimension().shapeLevel;
     }
 
     public StatisticsServiceProxyImpl(String serviceURL, ThreadPoolExecutor threadpool) 
@@ -120,17 +120,17 @@ public class StatisticsServiceProxyImpl implements IStatisticsServiceProxy {
 
     public StatisticsServiceProxyImpl(
             String serviceURL, ThreadPoolExecutor threadpool,
-            Metadata metadata, List<String> shapeIds) throws MalformedURLException {
+            IndicatorConfiguration configuration, List<String> shapeIds) throws MalformedURLException {
 
         this(serviceURL, threadpool);
-        requestIndicatorValues(metadata, shapeIds);
+        requestIndicatorValues(configuration, shapeIds);
     }
 
     @Override
-    public void requestIndicatorValues(Metadata metadata, List<String> shapeIds) throws IllegalArgumentException {
+    public void requestIndicatorValues(IndicatorConfiguration config, List<String> shapeIds) throws IllegalArgumentException {
 
-        if(_metadata == null && _shapeIds == null){
-            _metadata = metadata;
+        if(_config == null && _shapeIds == null){
+            _config = config;
             _shapeIds = shapeIds;
 
             if(_shapeIds == null || _shapeIds.size() == 0) {
@@ -162,7 +162,7 @@ public class StatisticsServiceProxyImpl implements IStatisticsServiceProxy {
 
         List<statistics.model.indicator.IndicatorValue> values = ArrayOfIndicatorValueExtension.getIndicatorValues (
                 indicatorValuesResponse.getValues().getValue(),
-                _metadata.getGeographicDimension().id,
+                _config.getGeographicDimension().id,
                 shapeId);
         
         if(values == null || values.size() == 0) return null;
