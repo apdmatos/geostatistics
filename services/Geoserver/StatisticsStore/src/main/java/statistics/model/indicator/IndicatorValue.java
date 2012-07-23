@@ -1,7 +1,6 @@
 package statistics.model.indicator;
 
 import java.util.List;
-import statistics.model.indicator.Dimension;
 
 /**
  *

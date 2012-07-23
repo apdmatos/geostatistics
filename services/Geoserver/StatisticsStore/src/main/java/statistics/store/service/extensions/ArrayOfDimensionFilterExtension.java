@@ -1,6 +1,5 @@
 package statistics.store.service.extensions;
 
-import com.microsoft.schemas._2003._10.serialization.arrays.ArrayOfstring;
 import java.util.ArrayList;
 import java.util.List;
 import org.datacontract.schemas._2004._07.providerdatacontracts.ArrayOfDimensionFilter;

@@ -1,15 +1,16 @@
 package statistics.store;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.geotools.data.FeatureReader;
 import org.geotools.data.store.ContentEntry;
 import org.opengis.feature.simple.SimpleFeature;
 import org.opengis.feature.simple.SimpleFeatureType;
-import statistics.queryparser.StatisticsQueryParser;
-import statistics.queryparser.StatisticsRequestParameters;
+import statistics.model.indicator.IndicatorValue;
+import statistics.store.feature.builders.FeatureBuilder;
+import statistics.store.service.IStatisticsServiceProxy;
+import statistics.store.shapes.IShapeData;
 import statistics.store.shapes.IShapeReader;
 
 /**
@@ -20,37 +21,54 @@ public class StatisticsFeatureReader implements FeatureReader<SimpleFeatureType,
 
     private ContentEntry _entry;
     private IShapeReader _shapes;
+    private SimpleFeatureType _featureType;
     private FeatureBuilder _featureBuilder;
-    private StatisticsQueryParser query;
+    private IStatisticsServiceProxy _proxy;
+    
+    private IShapeData _currentShape;
+    private List<IndicatorValue> _currentValues;
 
     public StatisticsFeatureReader(
             ContentEntry entry,
             IShapeReader shapes,
-            FeatureBuilder featureBuilder,
-            StatisticsQueryParser query)
+            SimpleFeatureType featureType,
+            FeatureBuilder builder,
+            IStatisticsServiceProxy statisticsProxy)
     {
         this._entry             = entry;
         this._shapes            = shapes;
-        this._featureBuilder    = featureBuilder;
-        this.query              = query;
+        this._featureType       = featureType;
+        this._featureBuilder    = builder;
+        this._proxy             = statisticsProxy;
     }
 
     @Override
     public SimpleFeatureType getFeatureType() {
 
-        return _featureBuilder.getFeatureType(  );
+        return _featureType;
     }
 
     @Override
-    public SimpleFeature next() throws IOException, IllegalArgumentException, NoSuchElementException {
-        //return _shapes.next().getSimpleFeature();
-
-        return _featureBuilder.buildFeature(query.getParameters(), _shapes.next());
+    public SimpleFeature next() throws IOException, IllegalArgumentException, NoSuchElementException
+    {
+        return _featureBuilder.buildFeature(_currentShape, _currentValues);
     }
 
     @Override
     public boolean hasNext() throws IOException {
-        return _shapes.hasNext();
+
+        while(_shapes.hasNext()) {
+            IShapeData data = _shapes.next();
+            List<IndicatorValue> values = _proxy.getIndicatorValue(data.getShapeId());
+            if(values != null && values.size() > 0) {
+                _currentShape = data;
+                _currentValues = values;
+
+                return true;
+            }
+        }
+
+        return false;
     }
 
     @Override

@@ -1,6 +1,8 @@
 package statistics.store;
 
+import statistics.store.feature.FeatureSchemaBuilder;
 import java.io.IOException;
+import java.util.List;
 import org.geotools.data.FeatureReader;
 import org.geotools.data.Query;
 import org.geotools.data.store.ContentEntry;
@@ -11,6 +13,8 @@ import org.opengis.feature.simple.SimpleFeatureType;
 import statistics.factory.StatisticsFactory;
 import statistics.model.shape.ShapeConfiguration;
 import statistics.queryparser.StatisticsQueryParser;
+import statistics.store.feature.builders.FeatureBuilder;
+import statistics.store.service.IStatisticsServiceProxy;
 import statistics.store.shapes.IShapeConfigRepository;
 import statistics.store.shapes.IShapeReader;
 import statistics.store.shapes.IShapeRepository;
@@ -21,11 +25,13 @@ import statistics.store.shapes.IShapeRepository;
  */
 public class StatisticsFeatureSource extends ContentFeatureSource {
 
-    private FeatureBuilder _featureBuilder;
+    private FeatureSchemaBuilder _featureBuilder;
+    private String _serviceURL;
 
-    public StatisticsFeatureSource(ContentEntry entry, Query query) {
+    public StatisticsFeatureSource(String serviceURL, ContentEntry entry, Query query) {
         super(entry, query);
-        _featureBuilder = new FeatureBuilder(entry.getName());
+        _featureBuilder = new FeatureSchemaBuilder(entry.getName());
+        _serviceURL = serviceURL;
     }
 
     @Override
@@ -58,15 +64,27 @@ public class StatisticsFeatureSource extends ContentFeatureSource {
     protected FeatureReader<SimpleFeatureType, SimpleFeature> getReaderInternal(Query query) throws IOException {
 
         StatisticsQueryParser parser = new StatisticsQueryParser( query, buildFeatureType() );
-        IShapeReader shapes = getShapeRepository(parser).getShapes(
+        IShapeRepository shapeRepo = getShapeRepository(parser);
+        IShapeReader shapes = shapeRepo.getShapes(
                 parser.getSourceId(),
                 parser.getIndicatorId(),
                 parser.getShapeLevel(),
                 parser.getBoundingBox(),
                 parser.getShapeIds()
         );
-        
-        return new StatisticsFeatureReader(entry, shapes, _featureBuilder, parser);
+
+        List<String> shapeIds = shapeRepo.getShapeIds (
+                parser.getSourceId(),
+                parser.getIndicatorId(),
+                parser.getShapeLevel(),
+                parser.getBoundingBox(),
+                parser.getShapeIds()
+        );
+
+        IStatisticsServiceProxy proxy = StatisticsFactory.getProxyService(_serviceURL, parser.getIndicatorConfiguration(), shapeIds);
+        FeatureBuilder builder = StatisticsFactory.getFeatureBuilder(schema, proxy.getIndicatorRange(), parser.getParameters());
+
+        return new StatisticsFeatureReader(entry, shapes, schema, builder, proxy);
     }
 
     @Override

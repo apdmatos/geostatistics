@@ -13,7 +13,7 @@ public interface IStatisticsServiceProxy {
 
     void requestIndicatorValues(IndicatorConfiguration config, List<String> shapeIds);
 
-    IndicatorValue getIndicatorValue(String shapeId);
+    List<IndicatorValue> getIndicatorValue(String shapeId);
 
     IndicatorRange getIndicatorRange();
 }

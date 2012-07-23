@@ -3,6 +3,7 @@ package statistics.store.shapes.shapefile;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,7 +24,7 @@ import org.opengis.filter.spatial.BBOX;
 import statistics.model.shape.file.ShapefileConfiguration;
 import statistics.store.shapes.IShapeReader;
 import statistics.store.shapes.IShapeRepository;
-import statistics.utis.StringUtils;
+import statistics.utils.StringUtils;
 
 /**
  *
@@ -132,6 +133,24 @@ public class ShapefileRepository implements IShapeRepository {
         }
 
         return null;
+    }
+
+    @Override
+    public List<String> getShapeIds(int sourceId, int indicatorId, String shapeLevel, BBOX bbox, List<String> shapeIds) {
+
+        List<String> ids = new ArrayList<String>();
+
+        IShapeReader reader = null;
+        try {
+            reader = getShapes(sourceId, indicatorId, shapeLevel, bbox, shapeIds);
+            while(reader.hasNext()) {
+                ids.add(reader.next().getShapeId());
+            }
+        } finally {
+            if(reader != null) reader.dispose();
+        }
+
+        return ids;
     }
 
     private SimpleFeatureSource getFeatureSource(String shapeLevel){

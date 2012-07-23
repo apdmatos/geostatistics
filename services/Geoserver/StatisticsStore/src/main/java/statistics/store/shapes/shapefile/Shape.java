@@ -41,9 +41,4 @@ public class Shape implements IShapeData {
     public String getShapeParentId(){
         return (String) feature.getAttribute(Config.SHAPEFILE_PARENT_ID_ATTR);
     }
-
-//    @Override
-//    public SimpleFeature getSimpleFeature() {
-//
-//    }
 }

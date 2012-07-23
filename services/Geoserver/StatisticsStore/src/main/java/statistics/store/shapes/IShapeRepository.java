@@ -21,4 +21,8 @@ public interface IShapeRepository {
     ReferencedEnvelope getBounds( 
             int sourceId, int indicatorId,
             String shapeLevel, BBOX bbox, List<String> shapeIds);
+
+    List<String> getShapeIds(
+            int sourceId, int indicatorId,
+            String shapeLevel, BBOX bbox, List<String> shapeIds);
 }

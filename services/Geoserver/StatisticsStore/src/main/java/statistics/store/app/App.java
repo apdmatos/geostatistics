@@ -26,7 +26,7 @@ public class App {
     public static void main(String[] args) throws IOException, CQLException{
 
         Map<String, Serializable> params = new HashMap<String, Serializable>();
-        params.put("ServiceURL", "http://localhost:36590/Statistics.svc");
+        params.put("ServiceURL", "http://localhost:30355/services/SOAPService.svc");
         DataStore store = DataStoreFinder.getDataStore(params);
 
         String[] typeNames = store.getTypeNames();
@@ -37,7 +37,11 @@ public class App {
 
         SimpleFeatureSource featureSource = store.getFeatureSource(typeName);
 
-        Filter filter = CQL.toFilter("sourceId=1 AND indicatorId=1");
+        Filter filter = CQL.toFilter(
+                "sourceId=1 AND " +
+                "indicatorId=1 AND " +
+                "dimensions='1,S7A2009,S7A2008,S7A2007,S7A2006,S7A2005,S7A2004,S7A2003,S7A2002,S7A2001,S7A2000#" +
+                            "2-NUTS1'");
         SimpleFeatureCollection collection = featureSource.getFeatures(filter);
 
         System.out.println("featureType.getname() = " + featureSource.getSchema().getName());

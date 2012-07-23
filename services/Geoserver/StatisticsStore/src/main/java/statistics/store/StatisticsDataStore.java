@@ -32,7 +32,7 @@ public class StatisticsDataStore extends ContentDataStore {
 
     @Override
     protected ContentFeatureSource createFeatureSource(ContentEntry entry) throws IOException {
-        return new StatisticsFeatureSource(entry, Query.ALL);
+        return new StatisticsFeatureSource(_statisticsServiceURL, entry, Query.ALL);
     }
 
 }

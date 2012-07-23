@@ -17,7 +17,7 @@ import org.opengis.filter.expression.Expression;
 import statistics.model.indicator.Dimension;
 import statistics.model.indicator.GeographicDimension;
 import statistics.model.indicator.IndicatorConfiguration;
-import statistics.store.FeatureBuilder;
+import statistics.store.feature.FeatureSchemaBuilder;
 
 /**
  *
@@ -129,9 +129,9 @@ public class StatisticsQueryParser {
 
             requestedParameters = new StatisticsRequestParameters(
                         visitor.bbox,
-                        visitor.queryMap.containsKey(FeatureBuilder.DIMENSIONS_PROPERTY)    ? (String) visitor.queryMap.get(FeatureBuilder.DIMENSIONS_PROPERTY)                     : null,
-                        visitor.queryMap.containsKey(FeatureBuilder.INDICATORID_PROPERTY)   ? Integer.parseInt((String) visitor.queryMap.get(FeatureBuilder.INDICATORID_PROPERTY))  : -1,
-                        visitor.queryMap.containsKey(FeatureBuilder.SOURCEID_PROPERTY)      ? Integer.parseInt((String)visitor.queryMap.get(FeatureBuilder.SOURCEID_PROPERTY))      : -1
+                        visitor.queryMap.containsKey(FeatureSchemaBuilder.DIMENSIONS_PROPERTY)    ? (String) visitor.queryMap.get(FeatureSchemaBuilder.DIMENSIONS_PROPERTY)                     : null,
+                        visitor.queryMap.containsKey(FeatureSchemaBuilder.INDICATORID_PROPERTY)   ? ((Long) visitor.queryMap.get(FeatureSchemaBuilder.INDICATORID_PROPERTY)).intValue()         : -1,
+                        visitor.queryMap.containsKey(FeatureSchemaBuilder.SOURCEID_PROPERTY)      ? ((Long) visitor.queryMap.get(FeatureSchemaBuilder.SOURCEID_PROPERTY)).intValue()            : -1
                     );
 
         }

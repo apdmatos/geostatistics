@@ -148,7 +148,7 @@ public class StatisticsServiceProxyImpl implements IStatisticsServiceProxy {
     }
 
     @Override
-    public IndicatorValue getIndicatorValue(String shapeId) {
+    public List<IndicatorValue> getIndicatorValue(String shapeId) {
         try {
             valuesEvent.waitOne();
         } catch (InterruptedException ex) {
@@ -166,7 +166,7 @@ public class StatisticsServiceProxyImpl implements IStatisticsServiceProxy {
                 shapeId);
         
         if(values == null || values.size() == 0) return null;
-        return values.get(0);
+        return values;
     }
 
     @Override
