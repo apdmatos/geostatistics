@@ -82,7 +82,7 @@ public class StatisticsFeatureSource extends ContentFeatureSource {
         );
 
         IStatisticsServiceProxy proxy = StatisticsFactory.getProxyService(_serviceURL, parser.getIndicatorConfiguration(), shapeIds);
-        FeatureBuilder builder = StatisticsFactory.getFeatureBuilder(schema, proxy.getIndicatorRange(), parser.getParameters());
+        FeatureBuilder builder = StatisticsFactory.getFeatureBuilder(buildFeatureType(), proxy.getIndicatorRange(), parser.getParameters());
 
         return new StatisticsFeatureReader(entry, shapes, schema, builder, proxy);
     }

@@ -172,7 +172,7 @@ public class StatisticsServiceProxyImpl implements IStatisticsServiceProxy {
     @Override
     public IndicatorRange getIndicatorRange() {
         try {
-            valuesEvent.waitOne();
+            valuesRangeEvent.waitOne();
         } catch (InterruptedException ex) {
             Logger.getLogger(StatisticsServiceProxyImpl.class.getName()).log(Level.SEVERE, "Thread was interrupted while waiting for values", ex);
             return null;
