@@ -15,6 +15,7 @@ import statistics.model.shape.file.ShapefileConfiguration;
 import statistics.queryparser.StatisticsRequestParameters;
 import statistics.store.feature.builders.FeatureBuilder;
 import statistics.store.feature.builders.PercentageFactFeatureBuilder;
+import statistics.store.service.FakeStatisticsServeProxy;
 import statistics.store.service.IStatisticsServiceProxy;
 import statistics.store.service.StatisticsServiceProxyImpl;
 import statistics.store.shapes.IShapeConfigRepository;
@@ -43,7 +44,8 @@ public final class StatisticsFactory {
     }
 
     public static IStatisticsServiceProxy getProxyService(String serviceURL, IndicatorConfiguration config, List<String> shapeIds) throws MalformedURLException {
-        
+
+        //return new FakeStatisticsServeProxy();
         return new StatisticsServiceProxyImpl(serviceURL, getThreadPool(), config, shapeIds);
     }
 

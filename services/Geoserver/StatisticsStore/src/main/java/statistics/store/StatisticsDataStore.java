@@ -3,6 +3,8 @@ package statistics.store;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.geotools.data.Query;
 import org.geotools.data.store.ContentDataStore;
 import org.geotools.data.store.ContentEntry;
@@ -20,11 +22,22 @@ public class StatisticsDataStore extends ContentDataStore {
 
     public StatisticsDataStore(String statisticsServiceURL) {
 
+        Logger.getLogger(StatisticsDataStore.class.getName()).log (
+            Level.INFO,
+            "StatisticsDataStore ctor: " +
+                " url: " + statisticsServiceURL
+        );
+
         _statisticsServiceURL = statisticsServiceURL;
     }
 
     @Override
     protected List<Name> createTypeNames() throws IOException {
+
+        Logger.getLogger(StatisticsDataStore.class.getName()).log (
+            Level.INFO,
+            "createTypeNames"
+        );
 
         Name typeName = new NameImpl( _statisticsServiceURL );
         return Collections.singletonList(typeName);
@@ -32,6 +45,12 @@ public class StatisticsDataStore extends ContentDataStore {
 
     @Override
     protected ContentFeatureSource createFeatureSource(ContentEntry entry) throws IOException {
+
+        Logger.getLogger(StatisticsDataStore.class.getName()).log (
+            Level.INFO,
+            "createFeatureSource"
+        );
+
         return new StatisticsFeatureSource(_statisticsServiceURL, entry, Query.ALL);
     }
 

@@ -3,6 +3,8 @@ package statistics.store;
 import statistics.store.feature.FeatureSchemaBuilder;
 import java.io.IOException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.geotools.data.FeatureReader;
 import org.geotools.data.Query;
 import org.geotools.data.store.ContentEntry;
@@ -37,6 +39,11 @@ public class StatisticsFeatureSource extends ContentFeatureSource {
     @Override
     protected ReferencedEnvelope getBoundsInternal(Query query) throws IOException {
 
+        Logger.getLogger(StatisticsFeatureSource.class.getName()).log (
+            Level.INFO,
+            "getBoundsInternal"
+        );
+
         StatisticsQueryParser parser = new StatisticsQueryParser( query, buildFeatureType() );
         return getShapeRepository(parser).getBounds(
                 parser.getSourceId(),
@@ -50,6 +57,11 @@ public class StatisticsFeatureSource extends ContentFeatureSource {
     @Override
     protected int getCountInternal(Query query) throws IOException {
 
+        Logger.getLogger(StatisticsFeatureSource.class.getName()).log (
+            Level.INFO,
+            "getCountInternal"
+        );
+
         StatisticsQueryParser parser = new StatisticsQueryParser( query, buildFeatureType() );
         return getShapeRepository(parser).countShapes(
                 parser.getSourceId(),
@@ -62,6 +74,11 @@ public class StatisticsFeatureSource extends ContentFeatureSource {
 
     @Override
     protected FeatureReader<SimpleFeatureType, SimpleFeature> getReaderInternal(Query query) throws IOException {
+
+        Logger.getLogger(StatisticsFeatureSource.class.getName()).log (
+            Level.INFO,
+            "getReaderInternal"
+        );
 
         StatisticsQueryParser parser = new StatisticsQueryParser( query, buildFeatureType() );
         IShapeRepository shapeRepo = getShapeRepository(parser);
@@ -84,11 +101,17 @@ public class StatisticsFeatureSource extends ContentFeatureSource {
         IStatisticsServiceProxy proxy = StatisticsFactory.getProxyService(_serviceURL, parser.getIndicatorConfiguration(), shapeIds);
         FeatureBuilder builder = StatisticsFactory.getFeatureBuilder(buildFeatureType(), proxy.getIndicatorRange(), parser.getParameters());
 
-        return new StatisticsFeatureReader(entry, shapes, schema, builder, proxy);
+        return new StatisticsFeatureReader(entry, shapes, buildFeatureType(), builder, proxy);
     }
 
     @Override
     protected SimpleFeatureType buildFeatureType() throws IOException {
+
+        Logger.getLogger(StatisticsFeatureSource.class.getName()).log (
+            Level.INFO,
+            "getFeatureBuilderType"
+        );
+
         return _featureBuilder.getFeatureType(  );
     }
 

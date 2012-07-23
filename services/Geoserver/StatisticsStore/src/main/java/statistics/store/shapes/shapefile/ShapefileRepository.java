@@ -138,6 +138,16 @@ public class ShapefileRepository implements IShapeRepository {
     @Override
     public List<String> getShapeIds(int sourceId, int indicatorId, String shapeLevel, BBOX bbox, List<String> shapeIds) {
 
+        String bboxStr = bbox != null ? bbox.toString() : "";
+        Logger.getLogger(ShapefileRepository.class.getName()).log (
+            Level.INFO,
+            "getting shapes ids: " + sourceId +
+                " indicator: " + indicatorId +
+                " shapelevel: " + shapeLevel +
+                " bbox: " + bboxStr +
+                " shapeIds: " + StringUtils.join(shapeIds, ",")
+        );
+
         List<String> ids = new ArrayList<String>();
 
         IShapeReader reader = null;

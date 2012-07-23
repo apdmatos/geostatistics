@@ -1,6 +1,8 @@
 package statistics.store.feature.builders;
 
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.geotools.feature.simple.SimpleFeatureBuilder;
 import org.opengis.feature.simple.SimpleFeature;
 import org.opengis.feature.simple.SimpleFeatureType;
@@ -23,6 +25,11 @@ public class PercentageFactFeatureBuilder extends FeatureBuilder {
     @Override
     public SimpleFeature buildFeature(IShapeData shape, List<IndicatorValue> values) {
 
+        Logger.getLogger(PercentageFactFeatureBuilder.class.getName()).log (
+            Level.INFO,
+            "buildFeature"
+        );
+
         String dimensions = query.dimensions != null ? query.dimensions : "";
         IndicatorValue value = values.get(0);
 
@@ -36,7 +43,7 @@ public class PercentageFactFeatureBuilder extends FeatureBuilder {
         featureBuilder.add( query.indicatorId ); 
         featureBuilder.add( query.sourceId ); 
         featureBuilder.add( shapeLevel ); 
-        featureBuilder.add( value.value ); 
+        featureBuilder.add( value.value );
         featureBuilder.add( percent );
 
         return featureBuilder.buildFeature( shape.getFeatureId() );

@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.geotools.data.Query;
 import org.geotools.filter.visitor.DefaultFilterVisitor;
 import org.opengis.feature.type.AttributeDescriptor;
@@ -42,6 +44,12 @@ public class StatisticsQueryParser {
 
         @Override
         public Object visit(BBOX filter, Object data) {
+
+            Logger.getLogger(StatisticsQueryParser.class.getName()).log (
+                Level.INFO,
+                "bbox visited: " + bbox != null ? bbox.toString() : ""
+            );
+
             Object obj = super.visit(filter, data);
             bbox = filter;
             return obj;
@@ -67,7 +75,12 @@ public class StatisticsQueryParser {
 
         @Override
         public Object visit( Literal expression, Object data ) {
-            
+
+            Logger.getLogger(StatisticsQueryParser.class.getName()).log (
+                Level.INFO,
+                "property visited: " +
+                    "\n\t" + (String)data + ": " + expression.getValue()
+            );
 
             if(data != null && data instanceof String) {
                 
@@ -122,11 +135,16 @@ public class StatisticsQueryParser {
 
         if(requestedParameters == null) {
 
+            Logger.getLogger(StatisticsQueryParser.class.getName()).log (
+                Level.INFO,
+                "getParameters: converting query into object parameters"
+            );
+
             QueryVisitor visitor = new QueryVisitor();
             Filter filter = query.getFilter();
             if(filter != null)
                 filter.accept(visitor, null);
-
+            
             requestedParameters = new StatisticsRequestParameters(
                         visitor.bbox,
                         visitor.queryMap.containsKey(FeatureSchemaBuilder.DIMENSIONS_PROPERTY)    ? (String) visitor.queryMap.get(FeatureSchemaBuilder.DIMENSIONS_PROPERTY)                     : null,
@@ -134,6 +152,12 @@ public class StatisticsQueryParser {
                         visitor.queryMap.containsKey(FeatureSchemaBuilder.SOURCEID_PROPERTY)      ? ((Long) visitor.queryMap.get(FeatureSchemaBuilder.SOURCEID_PROPERTY)).intValue()            : -1
                     );
 
+//            requestedParameters = new StatisticsRequestParameters(
+//                        null,
+//                        "1,S7A2009,S7A2008,S7A2007,S7A2006,S7A2005,S7A2004,S7A2003,S7A2002,S7A2001,S7A2000#2-NUTS1",
+//                        1,
+//                        1
+//                    );
         }
 
         return requestedParameters;
@@ -142,6 +166,11 @@ public class StatisticsQueryParser {
     private IndicatorConfiguration parseParameters() {
 
         if(indicator == null) {
+
+            Logger.getLogger(StatisticsQueryParser.class.getName()).log (
+                Level.INFO,
+                "parse parameters: converting strings into objetcts"
+            );
 
             StatisticsRequestParameters request = getParameters();
             indicator = new IndicatorConfiguration(
@@ -165,7 +194,12 @@ public class StatisticsQueryParser {
      * @return List<Dimension>
      */
     private List<Dimension> parseDimensions(String dimensions){
-        
+
+        Logger.getLogger(StatisticsQueryParser.class.getName()).log (
+                Level.INFO,
+                "Parsing dimensions: " + dimensions
+            );
+
         if(dimensions == null) return null;
         List<Dimension> dimensionsList = new ArrayList<Dimension>();
 
@@ -190,6 +224,11 @@ public class StatisticsQueryParser {
      * @return Dimension
      */
     private Dimension parseDimension(String dimension){
+
+        Logger.getLogger(StatisticsQueryParser.class.getName()).log (
+                Level.INFO,
+                "Parsing dimension: " + dimension
+            );
 
         Dimension d = null;
         if(dimension == null) return d;
