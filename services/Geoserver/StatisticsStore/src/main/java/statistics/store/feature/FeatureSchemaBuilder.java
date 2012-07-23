@@ -12,7 +12,7 @@ import org.opengis.feature.type.Name;
 public class FeatureSchemaBuilder {
 
     public static String SRS                    = "EPSG:4326";
-    public static String SHAPE_PROPERTY         = "shape";
+    public static String SHAPE_PROPERTY         = "the_geom";
     public static String NAME_PROPERTY          = "name";
     public static String ID_PROPERTY            = "id";
     public static String DIMENSIONS_PROPERTY    = "dimensions";

@@ -47,12 +47,13 @@ public class StatisticsQueryParser {
 
             Logger.getLogger(StatisticsQueryParser.class.getName()).log (
                 Level.INFO,
-                "bbox visited: " + bbox != null ? bbox.toString() : ""
+                "bbox visited: " + (bbox != null ? bbox.toString() : "")
             );
 
-            Object obj = super.visit(filter, data);
+            //Object obj = super.visit(filter, data);
             bbox = filter;
-            return obj;
+            //return obj;
+            return filter;
         }
 
         @Override
@@ -144,7 +145,7 @@ public class StatisticsQueryParser {
             Filter filter = query.getFilter();
             if(filter != null)
                 filter.accept(visitor, null);
-            
+
             requestedParameters = new StatisticsRequestParameters(
                         visitor.bbox,
                         visitor.queryMap.containsKey(FeatureSchemaBuilder.DIMENSIONS_PROPERTY)    ? (String) visitor.queryMap.get(FeatureSchemaBuilder.DIMENSIONS_PROPERTY)                     : null,
