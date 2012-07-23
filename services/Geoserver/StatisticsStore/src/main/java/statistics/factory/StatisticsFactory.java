@@ -14,7 +14,7 @@ import statistics.model.shape.ShapeConfiguration;
 import statistics.model.shape.file.ShapefileConfiguration;
 import statistics.queryparser.StatisticsRequestParameters;
 import statistics.store.feature.builders.FeatureBuilder;
-import statistics.store.feature.builders.PercentageFactFeatureBuilder;
+import statistics.store.feature.builders.LinearFactFeatureBuilder;
 import statistics.store.service.FakeStatisticsServeProxy;
 import statistics.store.service.IStatisticsServiceProxy;
 import statistics.store.service.StatisticsServiceProxyImpl;
@@ -51,7 +51,7 @@ public final class StatisticsFactory {
 
     public static FeatureBuilder getFeatureBuilder(SimpleFeatureType featureType, IndicatorRange range, StatisticsRequestParameters query) {
 
-        return new PercentageFactFeatureBuilder(featureType, range, query);
+        return new LinearFactFeatureBuilder(featureType, range, query);
     }
 
     private static ThreadPoolExecutor getThreadPool() {

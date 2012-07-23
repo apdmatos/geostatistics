@@ -15,9 +15,9 @@ import statistics.store.shapes.IShapeData;
  *
  * @author Andre Matos
  */
-public class PercentageFactFeatureBuilder extends FeatureBuilder {
+public class LinearFactFeatureBuilder extends FeatureBuilder {
 
-    public PercentageFactFeatureBuilder(
+    public LinearFactFeatureBuilder(
             SimpleFeatureType featureType, IndicatorRange range, StatisticsRequestParameters query) {
         super(featureType, range, query);
     }
@@ -25,7 +25,7 @@ public class PercentageFactFeatureBuilder extends FeatureBuilder {
     @Override
     public SimpleFeature buildFeature(IShapeData shape, List<IndicatorValue> values) {
 
-        Logger.getLogger(PercentageFactFeatureBuilder.class.getName()).log (
+        Logger.getLogger(LinearFactFeatureBuilder.class.getName()).log (
             Level.INFO,
             "buildFeature"
         );
