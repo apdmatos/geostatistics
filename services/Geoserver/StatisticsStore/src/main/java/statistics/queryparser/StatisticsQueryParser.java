@@ -77,14 +77,15 @@ public class StatisticsQueryParser {
         @Override
         public Object visit( Literal expression, Object data ) {
 
-            Logger.getLogger(StatisticsQueryParser.class.getName()).log (
-                Level.INFO,
-                "property visited: " +
-                    "\n\t" + (String)data + ": " + expression.getValue()
-            );
 
             if(data != null && data instanceof String) {
                 
+                Logger.getLogger(StatisticsQueryParser.class.getName()).log (
+                    Level.INFO,
+                    "property visited: " +
+                        "\n\t" + (String)data + ": " + expression.getValue()
+                );
+
                 queryMap.put((String)data, expression.getValue());
             }
 
