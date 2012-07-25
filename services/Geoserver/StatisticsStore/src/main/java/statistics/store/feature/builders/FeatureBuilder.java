@@ -3,7 +3,7 @@ package statistics.store.feature.builders;
 import java.util.List;
 import org.opengis.feature.simple.SimpleFeature;
 import org.opengis.feature.simple.SimpleFeatureType;
-import statistics.model.indicator.IndicatorRange;
+import statistics.model.indicator.IndicatorRangeFuture;
 import statistics.model.indicator.IndicatorValue;
 import statistics.queryparser.StatisticsRequestParameters;
 import statistics.store.shapes.IShapeData;
@@ -14,7 +14,7 @@ import statistics.store.shapes.IShapeData;
  */
 public abstract class FeatureBuilder  {
 
-    protected IndicatorRange range;
+    protected IndicatorRangeFuture range;
     protected SimpleFeatureType featureType;
     protected StatisticsRequestParameters query;
     protected String shapeLevel;
@@ -23,10 +23,11 @@ public abstract class FeatureBuilder  {
         this.featureType = featureType;
     }
 
-    public FeatureBuilder(SimpleFeatureType featureType, IndicatorRange range, StatisticsRequestParameters query) {
-        this.featureType = featureType;
-        this.range = range;
-        this.query = query;
+    public FeatureBuilder(SimpleFeatureType featureType, IndicatorRangeFuture range, StatisticsRequestParameters query, String shapeLevel) {
+        this.featureType    = featureType;
+        this.range          = range;
+        this.query          = query;
+        this.shapeLevel     = shapeLevel;
     }
 
     public void setFeatureType(SimpleFeatureType featureType) {
@@ -37,11 +38,11 @@ public abstract class FeatureBuilder  {
         return featureType;
     }
 
-    public void setIndicatorRange(IndicatorRange range) {
+    public void setIndicatorRange(IndicatorRangeFuture range) {
         this.range = range;
     }
 
-    public IndicatorRange getIndicatorRange() {
+    public IndicatorRangeFuture getIndicatorRange() {
         return range;
     }
 

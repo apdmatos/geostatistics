@@ -2,8 +2,8 @@ package statistics.store.service;
 
 import java.util.List;
 import statistics.model.indicator.IndicatorConfiguration;
-import statistics.model.indicator.IndicatorValue;
-import statistics.model.indicator.IndicatorRange;
+import statistics.model.indicator.IndicatorRangeFuture;
+import statistics.model.indicator.IndicatorValuesFuture;
 
 /**
  *
@@ -11,9 +11,7 @@ import statistics.model.indicator.IndicatorRange;
  */
 public interface IStatisticsServiceProxy {
 
-    void requestIndicatorValues(IndicatorConfiguration config, List<String> shapeIds);
+    IndicatorValuesFuture getIndicatorValues(IndicatorConfiguration config, List<String> shapeIds);
 
-    List<IndicatorValue> getIndicatorValue(String shapeId);
-
-    IndicatorRange getIndicatorRange();
+    IndicatorRangeFuture getIndicatorRange(IndicatorConfiguration config, List<String> shapeIds);
 }

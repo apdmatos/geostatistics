@@ -38,11 +38,11 @@ public class App {
         SimpleFeatureSource featureSource = store.getFeatureSource(typeName);
 
         Filter filter = CQL.toFilter(
-                "BBOX(SHAPE, -25.576171875,28.5205078125,-3.076171875,51.0205078125) AND " +
+                "BBOX(the_geom, -25.576171875,28.5205078125,-3.076171875,51.0205078125) AND " +
                 "sourceId=1 AND " +
                 "indicatorId=1 AND " +
-                "dimensions='1,S7A2009,S7A2008,S7A2007,S7A2006,S7A2005,S7A2004,S7A2003,S7A2002,S7A2001,S7A2000#" +
-                            "2-NUTS1'");
+                "filterdimensions='1,S7A2009,S7A2008,S7A2007,S7A2006,S7A2005,S7A2004,S7A2003,S7A2002,S7A2001,S7A2000' AND " +
+                "projecteddimensions='2-Municipality'");
         SimpleFeatureCollection collection = featureSource.getFeatures(filter);
 
         System.out.println("featureType.getname() = " + featureSource.getSchema().getName());

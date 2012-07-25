@@ -5,9 +5,11 @@ import java.util.List;
 import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import statistics.model.indicator.Dimension;
 import statistics.model.indicator.IndicatorConfiguration;
-import statistics.model.indicator.IndicatorRange;
+import statistics.model.indicator.IndicatorRangeFuture;
 import statistics.model.indicator.IndicatorValue;
+import statistics.model.indicator.IndicatorValuesFuture;
 
 /**
  *
@@ -20,27 +22,19 @@ public class FakeStatisticsServeProxy implements IStatisticsServiceProxy {
     private Random r = new Random();
 
     @Override
-    public void requestIndicatorValues(IndicatorConfiguration config, List<String> shapeIds) {
-        
+    public IndicatorValuesFuture getIndicatorValues(IndicatorConfiguration config, List<String> shapeIds) {
+        return new IndicatorValuesFuture() {
+            @Override
+            public List<IndicatorValue> getIndicatorValues(List<Dimension> projected, String shapeId) {
+                List<IndicatorValue> lst = new ArrayList<IndicatorValue>();
+                lst.add(new IndicatorValue(null, projected, getValue()));
+                return lst;
+            }
+        };
     }
 
     @Override
-    public List<IndicatorValue> getIndicatorValue(String shapeId) {
-
-        Logger.getLogger(FakeStatisticsServeProxy.class.getName()).log (
-            Level.INFO,
-            "getIndicatorValue \tshapeid: " + shapeId
-        );
-
-
-        List<IndicatorValue> lst = new ArrayList<IndicatorValue>();
-        lst.add(new IndicatorValue(null, getValue()));
-
-        return lst;
-    }
-
-    @Override
-    public IndicatorRange getIndicatorRange() {
+    public IndicatorRangeFuture getIndicatorRange(IndicatorConfiguration config, List<String> shapeIds) {
 
         Logger.getLogger(FakeStatisticsServeProxy.class.getName()).log (
             Level.INFO,
@@ -50,10 +44,10 @@ public class FakeStatisticsServeProxy implements IStatisticsServiceProxy {
             System.out.println(ste + "\n");
         }
 
-        IndicatorValue maximun = new IndicatorValue(null, max);
-        IndicatorValue minimun = new IndicatorValue(null, min);
+        IndicatorValue maximun = new IndicatorValue(null, null, max);
+        IndicatorValue minimun = new IndicatorValue(null, null, min);
 
-        return new IndicatorRange(maximun, minimun);
+        return new IndicatorRangeFuture(maximun, minimun);
 
     }
 

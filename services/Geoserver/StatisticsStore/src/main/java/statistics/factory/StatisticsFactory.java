@@ -7,16 +7,17 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import org.opengis.feature.simple.SimpleFeatureType;
+import statistics.cache.InProcessCache;
 import statistics.db.ShapeConfigRepository;
 import statistics.model.indicator.IndicatorConfiguration;
-import statistics.model.indicator.IndicatorRange;
+import statistics.model.indicator.IndicatorRangeFuture;
 import statistics.model.shape.ShapeConfiguration;
 import statistics.model.shape.file.ShapefileConfiguration;
 import statistics.queryparser.StatisticsRequestParameters;
 import statistics.store.feature.builders.FeatureBuilder;
 import statistics.store.feature.builders.LinearFactFeatureBuilder;
-import statistics.store.service.FakeStatisticsServeProxy;
 import statistics.store.service.IStatisticsServiceProxy;
+import statistics.store.service.StatisticsServiceProxyCache;
 import statistics.store.service.StatisticsServiceProxyImpl;
 import statistics.store.shapes.IShapeConfigRepository;
 import statistics.store.shapes.IShapeRepository;
@@ -36,22 +37,22 @@ public final class StatisticsFactory {
             return new ShapefileRepository((ShapefileConfiguration)shapeConfig);
 
         return null;
-
     }
 
     public static IShapeConfigRepository getShapeConfigRepository() {
         return new ShapeConfigRepository();
     }
 
-    public static IStatisticsServiceProxy getProxyService(String serviceURL, IndicatorConfiguration config, List<String> shapeIds) throws MalformedURLException {
+    public static IStatisticsServiceProxy getProxyService(String serviceURL) throws MalformedURLException {
 
         //return new FakeStatisticsServeProxy();
-        return new StatisticsServiceProxyImpl(serviceURL, getThreadPool(), config, shapeIds);
+        StatisticsServiceProxyImpl proxy = new StatisticsServiceProxyImpl(serviceURL, getThreadPool());
+        return new StatisticsServiceProxyCache(proxy, new InProcessCache());
     }
 
-    public static FeatureBuilder getFeatureBuilder(SimpleFeatureType featureType, IndicatorRange range, StatisticsRequestParameters query) {
+    public static FeatureBuilder getFeatureBuilder(SimpleFeatureType featureType, IndicatorRangeFuture range, StatisticsRequestParameters query, String shapeLevel) {
 
-        return new LinearFactFeatureBuilder(featureType, range, query);
+        return new LinearFactFeatureBuilder(featureType, range, query, shapeLevel);
     }
 
     private static ThreadPoolExecutor getThreadPool() {

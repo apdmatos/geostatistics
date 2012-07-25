@@ -10,26 +10,29 @@ import org.opengis.filter.spatial.BBOX;
  */
 public class StatisticsRequestParameters {
 
-    public String dimensions;
+    public String filterDimensions;
+    public String projectedDimensions;
     public int indicatorId;
     public int sourceId;
     public BBOX bbox;
 
-    StatisticsRequestParameters(BBOX bbox, String dimensions, int indicatorId, int sourceId) {
+    StatisticsRequestParameters(BBOX bbox, String filterDimensions, String projectedDimensions, int indicatorId, int sourceId) {
 
         Logger.getLogger(StatisticsRequestParameters.class.getName()).log (
             Level.INFO,
             "StatisticsRequestParameters ctor \nParameters" +
                 "\n\tbbox " + (bbox != null ? bbox.toString() : "") +
-                "\n\tdimensions " + (dimensions != null ? dimensions : "") +
+                "\n\tfilterDimensions " + (filterDimensions != null ? filterDimensions : "") +
+                "\n\tprojectedDimensions " + (projectedDimensions != null ? projectedDimensions : "") +
                 "\n\tindicatorId " + indicatorId +
                 "\n\tsourceId " + sourceId
         );
 
-        this.bbox           = bbox;
-        this.dimensions     = dimensions;
-        this.indicatorId    = indicatorId;
-        this.sourceId       = sourceId;
+        this.bbox                   = bbox;
+        this.filterDimensions       = filterDimensions;
+        this.projectedDimensions    = projectedDimensions;
+        this.indicatorId            = indicatorId;
+        this.sourceId               = sourceId;
     }
     
 

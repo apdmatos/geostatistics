@@ -118,9 +118,17 @@ public class StatisticsQueryParser {
         return parseParameters().getGeographicDimension().dimensionAttributes;
     }
 
-    public List<Dimension> getDimensions() {
-        return parseParameters().dimensions;
-    }
+//    public List<Dimension> getDimensions() {
+//        return parseParameters().dimensions;
+//    }
+
+//    public List<Dimension> getFilterDimensions() {
+//        return parseParameters().filter;
+//    }
+//
+//    public List<Dimension> getProjectedDimensions() {
+//        return parseParameters().projected;
+//    }
 
     public IndicatorConfiguration getIndicatorConfiguration() {
 
@@ -149,14 +157,16 @@ public class StatisticsQueryParser {
 
             requestedParameters = new StatisticsRequestParameters(
                         visitor.bbox,
-                        visitor.queryMap.containsKey(FeatureSchemaBuilder.DIMENSIONS_PROPERTY)    ? (String) visitor.queryMap.get(FeatureSchemaBuilder.DIMENSIONS_PROPERTY)                     : null,
-                        visitor.queryMap.containsKey(FeatureSchemaBuilder.INDICATORID_PROPERTY)   ? ((Long) visitor.queryMap.get(FeatureSchemaBuilder.INDICATORID_PROPERTY)).intValue()         : -1,
-                        visitor.queryMap.containsKey(FeatureSchemaBuilder.SOURCEID_PROPERTY)      ? ((Long) visitor.queryMap.get(FeatureSchemaBuilder.SOURCEID_PROPERTY)).intValue()            : -1
+                        visitor.queryMap.containsKey(FeatureSchemaBuilder.FILTER_DIMENSIONS_PROPERTY)       ? (String) visitor.queryMap.get(FeatureSchemaBuilder.FILTER_DIMENSIONS_PROPERTY)            : null,
+                        visitor.queryMap.containsKey(FeatureSchemaBuilder.PROJECTED_DIMENSIONS_PROPERTY)    ? (String) visitor.queryMap.get(FeatureSchemaBuilder.PROJECTED_DIMENSIONS_PROPERTY)         : null,
+                        visitor.queryMap.containsKey(FeatureSchemaBuilder.INDICATORID_PROPERTY)             ? ((Long) visitor.queryMap.get(FeatureSchemaBuilder.INDICATORID_PROPERTY)).intValue()       : -1,
+                        visitor.queryMap.containsKey(FeatureSchemaBuilder.SOURCEID_PROPERTY)                ? ((Long) visitor.queryMap.get(FeatureSchemaBuilder.SOURCEID_PROPERTY)).intValue()          : -1
                     );
 
 //            requestedParameters = new StatisticsRequestParameters(
 //                        null,
-//                        "1,S7A2009,S7A2008,S7A2007,S7A2006,S7A2005,S7A2004,S7A2003,S7A2002,S7A2001,S7A2000#2-NUTS1",
+//                        "1,S7A2009,S7A2008,S7A2007,S7A2006,S7A2005,S7A2004,S7A2003,S7A2002,S7A2001,S7A2000",
+//                        "2-NUTS1",
 //                        1,
 //                        1
 //                    );
@@ -178,7 +188,8 @@ public class StatisticsQueryParser {
             indicator = new IndicatorConfiguration(
                             request.sourceId,
                             request.indicatorId,
-                            parseDimensions(request.dimensions)
+                            parseDimensions(request.filterDimensions),
+                            parseDimensions(request.projectedDimensions)
                         );
         }
 
@@ -195,7 +206,7 @@ public class StatisticsQueryParser {
      *      dimensionId1,dimensionAttr1,dimensionAttr2#dimensionId2-geoLevel,dimensionAttr1,dimensionAttr2
      * @return List<Dimension>
      */
-    private List<Dimension> parseDimensions(String dimensions){
+    private List<Dimension> parseDimensions(String dimensions) {
 
         Logger.getLogger(StatisticsQueryParser.class.getName()).log (
                 Level.INFO,

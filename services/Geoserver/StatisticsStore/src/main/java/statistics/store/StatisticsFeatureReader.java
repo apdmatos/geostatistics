@@ -9,7 +9,10 @@ import org.geotools.data.FeatureReader;
 import org.geotools.data.store.ContentEntry;
 import org.opengis.feature.simple.SimpleFeature;
 import org.opengis.feature.simple.SimpleFeatureType;
+import statistics.model.indicator.IndicatorConfiguration;
+import statistics.model.indicator.IndicatorRangeFuture;
 import statistics.model.indicator.IndicatorValue;
+import statistics.model.indicator.IndicatorValuesFuture;
 import statistics.store.feature.builders.FeatureBuilder;
 import statistics.store.service.IStatisticsServiceProxy;
 import statistics.store.shapes.IShapeData;
@@ -25,7 +28,8 @@ public class StatisticsFeatureReader implements FeatureReader<SimpleFeatureType,
     private IShapeReader _shapes;
     private SimpleFeatureType _featureType;
     private FeatureBuilder _featureBuilder;
-    private IStatisticsServiceProxy _proxy;
+    private IndicatorValuesFuture _indicatorValues;
+    private IndicatorConfiguration _config;
     
     private IShapeData _currentShape;
     private List<IndicatorValue> _currentValues;
@@ -35,13 +39,15 @@ public class StatisticsFeatureReader implements FeatureReader<SimpleFeatureType,
             IShapeReader shapes,
             SimpleFeatureType featureType,
             FeatureBuilder builder,
-            IStatisticsServiceProxy statisticsProxy)
+            IndicatorConfiguration config,
+            IndicatorValuesFuture indicatorValues)
     {
         this._entry             = entry;
         this._shapes            = shapes;
         this._featureType       = featureType;
         this._featureBuilder    = builder;
-        this._proxy             = statisticsProxy;
+        this._config            = config;
+        this._indicatorValues   = indicatorValues;
     }
 
     @Override
@@ -75,7 +81,8 @@ public class StatisticsFeatureReader implements FeatureReader<SimpleFeatureType,
         while(_shapes.hasNext()) {
             
             IShapeData data = _shapes.next();
-            List<IndicatorValue> values = _proxy.getIndicatorValue(data.getShapeId());
+            //List<IndicatorValue> values = _proxy.getIndicatorValue(data.getShapeId());
+            List<IndicatorValue> values = _indicatorValues.getIndicatorValues(_config.projected, data.getShapeId());
 
             Logger.getLogger(StatisticsFeatureReader.class.getName()).log (
                 Level.INFO,

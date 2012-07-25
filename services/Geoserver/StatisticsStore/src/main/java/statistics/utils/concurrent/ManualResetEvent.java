@@ -39,4 +39,8 @@ public class ManualResetEvent {
     public void reset() {//close stop
         open = false;
     }
+
+    public boolean isOpened () {
+        return open;
+    }
 }

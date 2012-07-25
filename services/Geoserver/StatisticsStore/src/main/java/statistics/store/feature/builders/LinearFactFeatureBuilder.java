@@ -6,7 +6,7 @@ import java.util.logging.Logger;
 import org.geotools.feature.simple.SimpleFeatureBuilder;
 import org.opengis.feature.simple.SimpleFeature;
 import org.opengis.feature.simple.SimpleFeatureType;
-import statistics.model.indicator.IndicatorRange;
+import statistics.model.indicator.IndicatorRangeFuture;
 import statistics.model.indicator.IndicatorValue;
 import statistics.queryparser.StatisticsRequestParameters;
 import statistics.store.shapes.IShapeData;
@@ -18,8 +18,8 @@ import statistics.store.shapes.IShapeData;
 public class LinearFactFeatureBuilder extends FeatureBuilder {
 
     public LinearFactFeatureBuilder(
-            SimpleFeatureType featureType, IndicatorRange range, StatisticsRequestParameters query) {
-        super(featureType, range, query);
+            SimpleFeatureType featureType, IndicatorRangeFuture range, StatisticsRequestParameters query, String shapeLevel) {
+        super(featureType, range, query, shapeLevel);
     }
 
     @Override
@@ -30,16 +30,18 @@ public class LinearFactFeatureBuilder extends FeatureBuilder {
             "buildFeature"
         );
 
-        String dimensions = query.dimensions != null ? query.dimensions : "";
+        String filterDimensions = query.filterDimensions != null ? query.filterDimensions : "";
+        String projectedDimensions = query.projectedDimensions != null ? query.projectedDimensions : "";
         IndicatorValue value = values.get(0);
 
-        double percent = value.value / (range.max.value - range.min.value);
+        double percent = value.value / (range.getMaxValue().value - range.getMinValue().value);
 
         SimpleFeatureBuilder featureBuilder = new SimpleFeatureBuilder( featureType );
         featureBuilder.add( shape.getFeatureGeometry() );
         featureBuilder.add( shape.getShapeName() );
         featureBuilder.add( shape.getShapeId() );
-        featureBuilder.add( dimensions  ); 
+        featureBuilder.add( filterDimensions  );
+        featureBuilder.add( projectedDimensions  );
         featureBuilder.add( query.indicatorId ); 
         featureBuilder.add( query.sourceId ); 
         featureBuilder.add( shapeLevel ); 

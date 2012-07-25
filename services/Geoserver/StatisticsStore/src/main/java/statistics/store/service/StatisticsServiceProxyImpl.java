@@ -2,10 +2,9 @@ package statistics.store.service;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ThreadPoolExecutor;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.xml.namespace.QName;
 import org.datacontract.schemas._2004._07.providerdatacontracts.ArrayOfDimensionFilter;
 import org.datacontract.schemas._2004._07.providerdatacontracts.IndicatorValueRange;
@@ -15,12 +14,12 @@ import org.tempuri.IStatisticsProxyService;
 import statistics.model.indicator.Dimension;
 import statistics.model.indicator.GeographicDimension;
 import statistics.model.indicator.IndicatorConfiguration;
+import statistics.model.indicator.IndicatorRangeFuture;
 import statistics.model.indicator.IndicatorValue;
-import statistics.model.indicator.IndicatorRange;
+import statistics.model.indicator.IndicatorValuesFuture;
 import statistics.store.service.extensions.ArrayOfDimensionFilterExtension;
 import statistics.store.service.extensions.ArrayOfIndicatorValueExtension;
-import statistics.store.service.extensions.IndicatorValueRangeExtension;
-import statistics.utils.concurrent.ManualResetEvent;
+import statistics.store.service.extensions.IndicatorValueExtension;
 
 /**
  *
@@ -31,50 +30,68 @@ public class StatisticsServiceProxyImpl implements IStatisticsServiceProxy {
     protected static final QName qname = new QName("http://tempuri.org/", "DefaultStatisticsProxyImpl");
     protected final ThreadPoolExecutor _threadPool;
 
-    protected volatile IndicatorConfiguration _config;
-    protected volatile List<String> _shapeIds;
+    private volatile DefaultStatisticsProxyImpl proxy;
     protected volatile URL _serviceURL;
 
-    // service responses
-    private volatile IndicatorValues indicatorValuesResponse;
-    private volatile IndicatorValueRange indicatorValueRange;
-    private volatile DefaultStatisticsProxyImpl proxy;
-
-    // service requesters
-    private RequestValues valuesRequester;
-    private RequestValuesRange valuesRangeRequester;
-
-    // response lockers
-    private volatile ManualResetEvent valuesEvent = new ManualResetEvent(false);
-    private volatile ManualResetEvent valuesRangeEvent = new ManualResetEvent(false);
-
     private class RequestValues implements Runnable {
+
+        IndicatorValuesFuture values;
+        IndicatorConfiguration _config;
+        List<String> _shapeIds;
+
+        private RequestValues(IndicatorValuesFuture values, IndicatorConfiguration config, List<String> shapeIds) {
+            this.values     = values;
+            this._config    = config;
+            this._shapeIds  = shapeIds;
+        }
+
         @Override
         public void run() {
             IStatisticsProxyService service = getProxyInstance();
-            indicatorValuesResponse = service.getIndicatorValues(
-                                            _config.sourceId,
-                                            _config.indicatorId,
-                                            getFilterDimensions(),
-                                            getProjectedDimensions()
-                                      );
-            valuesEvent.set();
+            IndicatorValues indicatorValuesResponse = service.getIndicatorValues(
+                _config.sourceId,
+                _config.indicatorId,
+                convertDimensions(_config.filter, _shapeIds),
+                convertDimensions(_config.projected, _shapeIds)
+            );
+
+            List<IndicatorValue> convertedValues = null;
+            if(!indicatorValuesResponse.getValues().isNil())
+                convertedValues = ArrayOfIndicatorValueExtension.toIndicatorValueList(indicatorValuesResponse.getValues().getValue());
+            else
+                convertedValues = new ArrayList<IndicatorValue>();
+
+            values.addValues(convertedValues);
         }
     }
-    
+
     private class RequestValuesRange implements Runnable {
+
+        IndicatorRangeFuture range;
+        IndicatorConfiguration _config;
+        List<String> _shapeIds;
+
+        private RequestValuesRange(IndicatorRangeFuture range, IndicatorConfiguration config, List<String> shapeIds) {
+            this.range      = range;
+            this._config    = config;
+            this._shapeIds  = shapeIds;
+        }
+
         @Override
         public void run() {
 
             IStatisticsProxyService service = getProxyInstance();
-            indicatorValueRange = service.getIndicatorValuesRange(
-                                        _config.sourceId,
-                                        _config.indicatorId,
-                                        getFilterDimensions(),
-                                        getProjectedDimensions(),
-                                        getShapeLevel()
-                                   );
-            valuesRangeEvent.set();
+            IndicatorValueRange indicatorValueRange = service.getIndicatorValuesRange(
+                _config.sourceId,
+                _config.indicatorId,
+                convertDimensions(_config.filter, this._shapeIds),
+                convertDimensions(_config.projected, this._shapeIds),
+                getShapeLevel(_config)
+            );
+
+            IndicatorValue max = IndicatorValueExtension.toIndicatorValue(indicatorValueRange.getMaximum().getValue());
+            IndicatorValue min = IndicatorValueExtension.toIndicatorValue(indicatorValueRange.getMinimum().getValue());
+            range.setRange(max, min);
         }
     }
 
@@ -82,105 +99,52 @@ public class StatisticsServiceProxyImpl implements IStatisticsServiceProxy {
         // configure the endpoint
         if(proxy == null)
             proxy = new DefaultStatisticsProxyImpl(_serviceURL, qname);
-        
+
         return proxy.getBasicHttpBindingIStatisticsProxyService();
     }
 
-    private ArrayOfDimensionFilter getFilterDimensions() {
+    private ArrayOfDimensionFilter convertDimensions(List<Dimension> dimensions, List<String> shapeIds) {
 
         ArrayOfDimensionFilterExtension dimensionFilter = new ArrayOfDimensionFilterExtension();
-        for (Dimension dimension : _config.dimensions)
-            if(! (dimension instanceof GeographicDimension))
-                dimensionFilter.addDimension(dimension);
-
-        return dimensionFilter;
-    }
-
-    private ArrayOfDimensionFilter getProjectedDimensions() {
-        
-        GeographicDimension dimension = _config.getGeographicDimension();
-        ArrayOfDimensionFilterExtension dimensionFilter = new ArrayOfDimensionFilterExtension();
-        dimensionFilter.addDimension(dimension.id, _shapeIds);
-
-        return dimensionFilter;
-    }
-
-    private String getShapeLevel() {
-        return _config.getGeographicDimension().shapeLevel;
-    }
-
-    public StatisticsServiceProxyImpl(String serviceURL, ThreadPoolExecutor threadpool) 
-            throws MalformedURLException {
-        
-        _threadPool = threadpool;
-        _serviceURL = new URL(serviceURL);
-        valuesRequester = new RequestValues();
-        valuesRangeRequester = new RequestValuesRange();
-    }
-
-    public StatisticsServiceProxyImpl(
-            String serviceURL, ThreadPoolExecutor threadpool,
-            IndicatorConfiguration configuration, List<String> shapeIds) throws MalformedURLException {
-
-        this(serviceURL, threadpool);
-        requestIndicatorValues(configuration, shapeIds);
-    }
-
-    @Override
-    public void requestIndicatorValues(IndicatorConfiguration config, List<String> shapeIds) throws IllegalArgumentException {
-
-        if(_config == null && _shapeIds == null){
-            _config = config;
-            _shapeIds = shapeIds;
-
-            if(_shapeIds == null || _shapeIds.size() == 0) {
-                valuesRangeEvent.set();
-                valuesEvent.set();
-            } else {
-                valuesRangeEvent.reset();
-                valuesEvent.reset();
-
-                _threadPool.execute(valuesRequester);
-                _threadPool.execute(valuesRangeRequester);
-            }
-        }else
-            throw new IllegalArgumentException("This class has been initialized");
-    }
-
-    @Override
-    public List<IndicatorValue> getIndicatorValue(String shapeId) {
-        try {
-            valuesEvent.waitOne();
-        } catch (InterruptedException ex) {
-            Logger.getLogger(StatisticsServiceProxyImpl.class.getName()).log(Level.SEVERE, "Thread was interrupted while waiting for values", ex);
-            return null;
+        for (Dimension dimension : dimensions) {
+            if(dimension instanceof GeographicDimension)
+                dimensionFilter.addDimension(dimension.id, shapeIds);
+            else dimensionFilter.addDimension(dimension);
         }
 
-        if(indicatorValuesResponse == null || indicatorValuesResponse.getValues().getValue() == null)
-            return null;
+        return dimensionFilter;
+    }
+
+    private String getShapeLevel(IndicatorConfiguration config) {
+        return config.getGeographicDimension().shapeLevel;
+    }
 
 
-        List<statistics.model.indicator.IndicatorValue> values = ArrayOfIndicatorValueExtension.getIndicatorValues (
-                indicatorValuesResponse.getValues().getValue(),
-                _config.getGeographicDimension().id,
-                shapeId);
-        
-        if(values == null || values.size() == 0) return null;
+    public StatisticsServiceProxyImpl(String serviceURL, ThreadPoolExecutor threadpool)
+            throws MalformedURLException {
+
+        _threadPool = threadpool;
+        _serviceURL = new URL(serviceURL);
+    }
+
+    @Override
+    public IndicatorValuesFuture getIndicatorValues(IndicatorConfiguration config, List<String> shapeIds) {
+
+        IndicatorValuesFuture values = new IndicatorValuesFuture();
+        RequestValues valuesRequester = new RequestValues(values, config, shapeIds);
+        _threadPool.execute(valuesRequester);
+
         return values;
     }
 
     @Override
-    public IndicatorRange getIndicatorRange() {
-        try {
-            valuesRangeEvent.waitOne();
-        } catch (InterruptedException ex) {
-            Logger.getLogger(StatisticsServiceProxyImpl.class.getName()).log(Level.SEVERE, "Thread was interrupted while waiting for values", ex);
-            return null;
-        }
+    public IndicatorRangeFuture getIndicatorRange(IndicatorConfiguration config, List<String> shapeIds) {
 
-        if(indicatorValueRange == null || indicatorValueRange.getMaximum() == null || indicatorValueRange.getMaximum().isNil())
-            return null;
-
-        return IndicatorValueRangeExtension.toIndicatorRange(indicatorValueRange);
+        IndicatorRangeFuture range = new IndicatorRangeFuture();
+        RequestValuesRange valuesRangeRequester = new RequestValuesRange(range, config, shapeIds);
+        _threadPool.execute(valuesRangeRequester);
+        
+        return range;
     }
+
 }

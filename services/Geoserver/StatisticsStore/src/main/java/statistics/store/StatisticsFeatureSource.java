@@ -13,6 +13,7 @@ import org.geotools.geometry.jts.ReferencedEnvelope;
 import org.opengis.feature.simple.SimpleFeature;
 import org.opengis.feature.simple.SimpleFeatureType;
 import statistics.factory.StatisticsFactory;
+import statistics.model.indicator.IndicatorRangeFuture;
 import statistics.model.shape.ShapeConfiguration;
 import statistics.queryparser.StatisticsQueryParser;
 import statistics.store.feature.builders.FeatureBuilder;
@@ -98,10 +99,16 @@ public class StatisticsFeatureSource extends ContentFeatureSource {
                 parser.getShapeIds()
         );
 
-        IStatisticsServiceProxy proxy = StatisticsFactory.getProxyService(_serviceURL, parser.getIndicatorConfiguration(), shapeIds);
-        FeatureBuilder builder = StatisticsFactory.getFeatureBuilder(buildFeatureType(), proxy.getIndicatorRange(), parser.getParameters());
+        IStatisticsServiceProxy proxy = StatisticsFactory.getProxyService(_serviceURL);
+        IndicatorRangeFuture indicatorRange = proxy.getIndicatorRange(parser.getIndicatorConfiguration(), shapeIds);
+        FeatureBuilder builder = StatisticsFactory.getFeatureBuilder (
+                buildFeatureType(), indicatorRange,
+                parser.getParameters(), parser.getShapeLevel()
+        );
 
-        return new StatisticsFeatureReader(entry, shapes, buildFeatureType(), builder, proxy);
+        return new StatisticsFeatureReader(
+                entry, shapes, buildFeatureType(), builder, parser.getIndicatorConfiguration(),
+                proxy.getIndicatorValues(parser.getIndicatorConfiguration(), shapeIds));
     }
 
     @Override

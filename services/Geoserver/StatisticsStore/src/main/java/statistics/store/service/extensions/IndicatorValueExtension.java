@@ -16,8 +16,7 @@ public class IndicatorValueExtension extends IndicatorValue {
         List<Dimension> filters = ArrayOfDimensionFilterExtension.toDimensionList(value.getFilters().getValue());
         List<Dimension> projected = ArrayOfDimensionFilterExtension.toDimensionList(value.getProjected().getValue());
 
-        filters.addAll(projected);
-        return new statistics.model.indicator.IndicatorValue(filters, val);
+        return new statistics.model.indicator.IndicatorValue(filters, projected, val);
     }
 
 
