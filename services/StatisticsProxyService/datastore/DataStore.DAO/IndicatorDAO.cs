@@ -13,6 +13,21 @@ namespace DataStore.DAO
 {
     public class IndicatorDAO : IIndicatorDAO
     {
+        public int AddIndicator(Indicator indicator)
+        {
+            return DbTemplateHelper<int>.GetValueByProcedure(
+                "config.insertindicator",
+                new DbParameterHelper[] 
+                {
+                    new DbParameterHelper(DbType.String,    "p_name",           indicator.Name),
+                    new DbParameterHelper(DbType.String,    "p_nameAbbr",       indicator.NameAbbr),
+                    new DbParameterHelper(DbType.String,    "p_sourceid",       indicator.SourceID),
+                    new DbParameterHelper(DbType.Int32,     "p_themeid",        indicator.ThemeID),
+                    new DbParameterHelper(DbType.Int32,     "p_subthemeid",     indicator.SubThemeID),
+                    new DbParameterHelper(DbType.Int32,     "p_providerid",     indicator.Provider.ID)
+                });
+        }
+
         public IEnumerable<Indicator> GetIndicatorsByProviderId(int providerId, int? page, int? recordsPerPage)
         {
             return DbTemplateHelper<Indicator>.GetListByProcedure(

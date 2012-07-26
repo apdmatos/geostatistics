@@ -66,7 +66,7 @@ CREATE TABLE config.indicator
   subtheme_id 	integer,
   
   CONSTRAINT indicator_provider_id_fk FOREIGN KEY (provider_id) REFERENCES config.provider (id),
-  CONSTRAINT indicator_subtheme_id_fk FOREIGN KEY (provider_id, theme_id, subtheme_id) REFERENCES config.subtheme (id, theme_id, provider_id)  
+  CONSTRAINT indicator_subtheme_id_fk FOREIGN KEY (provider_id, theme_id, subtheme_id) REFERENCES config.subtheme (provider_id, theme_id, id)  
 );
 
 CREATE TABLE config.configuration

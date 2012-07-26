@@ -50,8 +50,8 @@ INSERT INTO config.indicator_configuration(indicator_id, configuration_id) VALUE
 INSERT INTO config.configuration(geolevel, shapefile_id) VALUES ('NUTS3', 6);
 INSERT INTO config.indicator_configuration(indicator_id, configuration_id) VALUES(1, 3);
 
-INSERT INTO config.configuration(geolevel, shapefile_id) VALUES ('Municipalities', 2);
+INSERT INTO config.configuration(geolevel, shapefile_id) VALUES ('Municipality', 2);
 INSERT INTO config.indicator_configuration(indicator_id, configuration_id) VALUES(1, 4);
 
-INSERT INTO config.configuration(geolevel, shapefile_id) VALUES ('Parishes', 3);
+INSERT INTO config.configuration(geolevel, shapefile_id) VALUES ('Parish', 3);
 INSERT INTO config.indicator_configuration(indicator_id, configuration_id) VALUES(1, 5);

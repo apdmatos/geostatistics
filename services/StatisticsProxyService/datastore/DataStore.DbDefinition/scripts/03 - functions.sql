@@ -260,3 +260,108 @@ $$ LANGUAGE 'plpgsql';
 --select * from config.getshapefilegroups(1, 1)
 --select * from config.getshapefilegroups(null, null)
 
+create or replace function config.insertprovider(p_name text, p_nameAbbr text, p_serviceUrl text, p_url text)
+returns int
+AS $$
+declare 
+	last_inserted_id integer;
+BEGIN
+
+	INSERT INTO config.provider(name, nameAbbr, serviceURL, URL)
+	VALUES(p_name, p_nameAbbr, p_serviceUrl, p_url) returning id into last_inserted_id;
+	
+	return last_inserted_id;
+	
+END;
+$$ LANGUAGE 'plpgsql';
+
+---------------------------------------------------
+--test
+--select config.insertprovider('teste', '1', '2', '3')
+
+create or replace function config.inserttheme(p_name text, p_nameAbbr text, p_providerid int)
+returns int
+AS $$
+declare 
+	last_inserted_id integer;
+BEGIN
+
+	INSERT INTO config.theme(name, nameAbbr, provider_id)
+	VALUES(p_name, p_nameAbbr, p_providerid) returning id into last_inserted_id;
+	
+	return last_inserted_id;
+	
+END;
+$$ LANGUAGE 'plpgsql';
+
+---------------------------------------------------
+--test
+--select config.inserttheme('teste', '1', 33);
+
+create or replace function config.insertsubtheme(p_name text, p_nameAbbr text, p_themeid int, p_providerid int)
+returns int
+AS $$
+declare 
+	last_inserted_id integer;
+BEGIN
+
+	INSERT INTO config.subtheme(name, nameAbbr, theme_id, provider_id)
+	VALUES(p_name, p_nameAbbr, p_themeid, p_providerid) returning id into last_inserted_id;
+	
+	return last_inserted_id;
+	
+END;
+$$ LANGUAGE 'plpgsql';
+
+---------------------------------------------------
+--test
+--select config.insertsubtheme('1', '2', 1, 33);
+
+create or replace function config.insertindicator(p_name text, p_nameAbbr text, p_sourceid text, p_themeid int, p_subthemeid int, p_providerid int)
+returns int
+AS $$
+declare 
+	last_inserted_id integer;
+BEGIN
+
+	INSERT INTO config.indicator(name, nameAbbr, sourceid, theme_id, subtheme_id, provider_id)
+	VALUES(p_name, p_nameAbbr, p_sourceid, p_themeid, p_subthemeid, p_providerid) returning id into last_inserted_id;
+	
+	return last_inserted_id;
+	
+END;
+$$ LANGUAGE 'plpgsql';
+
+---------------------------------------------------
+--test
+--select config.insertindicator('1', '2', '1', 1, 1, 33);
+
+
+create or replace function config.addconfiguration(p_geolevel text, p_shapefileid int, p_indicatorid int)
+returns int
+AS $$
+declare 
+
+	last_configid integer;
+	last_indicator_configid integer;
+	
+BEGIN
+
+	if (exists (select 1 from config.configuration where geolevel = p_geolevel and shapefile_id = p_shapefileid)) then
+	begin
+		select id into last_configid from config.configuration where geolevel = p_geolevel and shapefile_id = p_shapefileid;
+	end;
+	else
+		insert into config.configuration(geolevel, shapefile_id) values(p_geolevel, p_shapefileid) returning id into last_configid;
+	end if;
+
+	INSERT INTO config.indicator_configuration(indicator_id, configuration_id)
+	VALUES(p_indicatorid, last_configid);
+
+	return last_configid;
+END;
+$$ LANGUAGE 'plpgsql';
+
+---------------------------------------------------
+--test
+--select config.addconfiguration('NUTS1', 4, 4)

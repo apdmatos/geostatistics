@@ -6,6 +6,8 @@ namespace DataStore.Common.Data_Interfaces
 {
     public interface IIndicatorDAO
     {
+        int AddIndicator(Indicator indidcator);
+
         Indicator GetIndicatorById(int providerId, int indicatorId);
         
         IEnumerable<Indicator> GetIndicatorsByProviderId(int providerId, int? page, int? recordsPerPage);

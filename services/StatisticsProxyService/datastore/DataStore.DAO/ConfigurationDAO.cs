@@ -12,6 +12,18 @@ namespace DataStore.DAO
 {
     public class ConfigurationDAO : IConfigurationDAO
     {
+        public int AddConfiguration(int indicatorId, Configuration config)
+        {
+            return DbTemplateHelper<int>.GetValueByProcedure(
+                "config.addconfiguration",
+                new DbParameterHelper[]
+                {
+                    new DbParameterHelper(DbType.String,    "p_geolevel",       config.GeoLevel),
+                    new DbParameterHelper(DbType.Int32,     "p_shapefileid",    config.Shapefile.ID),
+                    new DbParameterHelper(DbType.Int32,     "p_indicatorid",    indicatorId)
+                });
+        }
+
         public IEnumerable<Configuration> GetConfigurations(int indicatorId)
         {
             return DbTemplateHelper<Configuration>.GetListByProcedure(

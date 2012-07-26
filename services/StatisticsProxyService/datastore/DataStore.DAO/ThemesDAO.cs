@@ -6,11 +6,37 @@ using DataStore.Common.Model;
 using DataStore.DbHelpers.templates;
 using DataStore.DAO.builders;
 using DataStore.Common.Data_Interfaces;
+using System.Data;
 
 namespace DataStore.DAO
 {
     public class ThemesDAO : IThemesDAO
     {
+        public int AddTheme(Theme theme)
+        {
+            return DbTemplateHelper<int>.GetValueByProcedure(
+                "config.inserttheme",
+                new DbParameterHelper[] 
+                {
+                    new DbParameterHelper(DbType.String,    "p_name",           theme.Name),
+                    new DbParameterHelper(DbType.String,    "p_nameAbbr",       theme.NameAbbr),
+                    new DbParameterHelper(DbType.Int32,     "p_providerid",     theme.ProviderID)
+                });
+        }
+
+        public int AddSubTheme(SubTheme subtheme)
+        {
+            return DbTemplateHelper<int>.GetValueByProcedure(
+                "config.insertsubtheme",
+                new DbParameterHelper[] 
+                {
+                    new DbParameterHelper(DbType.String,    "p_name",           subtheme.Name),
+                    new DbParameterHelper(DbType.String,    "p_nameAbbr",       subtheme.NameAbbr),
+                    new DbParameterHelper(DbType.Int32,     "p_themeid",        subtheme.ThemeID),
+                    new DbParameterHelper(DbType.Int32,     "p_providerid",     subtheme.ProviderID)
+                });
+        }
+
         public IEnumerable<Theme> GetProviderThemes(int providerId)
         {
             return DbTemplateHelper<Theme>.GetListBySQLQuery(

@@ -68,22 +68,6 @@ namespace DataStore.DbHelpers.templates
                     parameters,
                     timeout);
 
-                //using (DbConnection connection = ConnectionHelper.CreateDBConnection())
-                //{
-                //    using (DbCommand command = CreateCommand(connection, cmdText, commandType, timeout))
-                //    {
-                //        AddDbParameters2Command(parameters, command);
-
-                //        connection.Open();
-
-                //        using (IDataReader reader = command.ExecuteReader(CommandBehavior.CloseConnection))
-                //        {
-                //            v = builder(reader);
-                //            reader.Close();
-                //        }
-                //    }
-                //}
-
                 return v;
             }
 
@@ -221,12 +205,12 @@ namespace DataStore.DbHelpers.templates
                 timeout);
         }
 
-        public static bool ExecuteSQL(string query, IEnumerable<DbParameterHelper> parameters, int? timeout)
+        public static bool ExecuteSQL(string query, IEnumerable<DbParameterHelper> parameters, int? timeout = null)
         {
             return DbExecutor<bool>.ExecuteSql(query, CommandType.Text, parameters, timeout);
         }
 
-        public static bool ExecuteProcedure(string procedure, IEnumerable<DbParameterHelper> parameters, int? timeout)
+        public static bool ExecuteProcedure(string procedure, IEnumerable<DbParameterHelper> parameters, int? timeout = null)
         {
             return DbExecutor<bool>.ExecuteSql(procedure, CommandType.StoredProcedure, parameters, timeout);
         }
