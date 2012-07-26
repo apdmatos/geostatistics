@@ -35,6 +35,7 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
+    <Reference Include="System.ServiceModel.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -44,7 +45,10 @@
   <ItemGroup>
     <Compile Include="data models\IndicatorValues.cs" />
     <Compile Include="data models\Location.cs" />
+    <Compile Include="interfaces\IStatisticsIndicatorManagementService.cs" />
+    <Compile Include="interfaces\IStatisticsProvidersManagementService.cs" />
     <Compile Include="interfaces\IStatisticsProxyService.cs" />
+    <Compile Include="interfaces\IStatisticsThemesManagementService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />
@@ -52,6 +56,10 @@
     <ProjectReference Include="..\..\providerDefinitions\ProviderDataContracts\ProviderDataContracts.csproj">
       <Project>{965FC19E-C774-45D9-8F8F-F071552D9598}</Project>
       <Name>ProviderDataContracts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\datastore\DataStore.Common\DataStore.Common.csproj">
+      <Project>{97993FC0-9561-4B9E-9CCE-281F6DAD30C2}</Project>
+      <Name>DataStore.Common</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

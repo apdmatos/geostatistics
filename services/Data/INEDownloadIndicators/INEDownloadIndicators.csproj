@@ -127,11 +127,11 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\StatisticsProxyService\datastore\DataStore.Common\DataStore.Common.csproj">
+    <ProjectReference Include="..\..\StatisticsProxyService\datastore\DataStore.Common\DataStore.Common.csproj">
       <Project>{97993FC0-9561-4B9E-9CCE-281F6DAD30C2}</Project>
       <Name>DataStore.Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\StatisticsProxyService\datastore\DataStore.DAO\DataStore.DAO.csproj">
+    <ProjectReference Include="..\..\StatisticsProxyService\datastore\DataStore.DAO\DataStore.DAO.csproj">
       <Project>{DC94CE66-4BB4-49AD-A707-BDC3924645A4}</Project>
       <Name>DataStore.DAO</Name>
     </ProjectReference>

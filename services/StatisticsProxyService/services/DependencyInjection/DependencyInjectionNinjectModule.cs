@@ -8,6 +8,7 @@ using StatisticsProxyImpl.requesters;
 using StatisticsProxyImpl.factories;
 using DependencyInjection.factories;
 using Ninject;
+using StatisticsProxyImpl.StatisticsManagement;
 
 namespace DependencyInjection
 {
@@ -28,18 +29,10 @@ namespace DependencyInjection
                 ConfigurationManager.ConnectionStrings[_databaseConfigKey].ConnectionString,
                 ConfigurationManager.ConnectionStrings[_databaseConfigKey].ProviderName);
 
-            //Injects the constructors of all DI-ed objects
-            Bind<DefaultStatisticsProxyImpl>()
-                .ToSelf()
-                .WithConstructorArgument("configKey", _endpointConfigKey);
+            BindServices();
+
+            BindDAOs();
             
-            Bind<IStatisticsProxyService>()
-                .To<DefaultStatisticsProxyImpl>()
-                .WithConstructorArgument("configKey", _endpointConfigKey);
-
-            Bind<IIndicatorDAO>()
-                .To<IndicatorDAO>();
-
             Bind<IStatisticsRequestStrategy>()
                 .To<StatisticsProviderServiceRequester>()
                 .Named("request");           
@@ -51,6 +44,53 @@ namespace DependencyInjection
             Bind<IStatisticsProviderRequestFactory>()
                 .To<StatisticsProviderRequestFactory>()
                 .WithConstructorArgument("kernel", Kernel);
+        }
+
+        private void BindServices()
+        {
+            Bind<DefaultStatisticsProxyImpl>()
+                .ToSelf()
+                .WithConstructorArgument("configKey", _endpointConfigKey);
+
+            Bind<IStatisticsProxyService>()
+                .To<DefaultStatisticsProxyImpl>()
+                .WithConstructorArgument("configKey", _endpointConfigKey);
+
+            Bind<IStatisticsIndicatorManagementService>()
+                .To<StatisticsManagement>();
+
+            Bind<IStatisticsThemesManagementService>()
+                .To<StatisticsManagement>();
+
+            Bind<IStatisticsProvidersManagementService>()
+                .To<StatisticsManagement>();
+
+            //Bind<IStatisticsIndicatorManagementService>()
+            //    .To<IndicatorManagement>();
+            
+            //Bind<IStatisticsThemesManagementService>()
+            //    .To<ThemesManagement>();
+
+            //Bind<IStatisticsProvidersManagementService>()
+            //    .To<ProviderManagement>();
+        }
+
+        private void BindDAOs()
+        {
+            Bind<IIndicatorDAO>()
+                .To<IndicatorDAO>();
+
+            Bind<IProviderDAO>()
+                .To<ProviderDAO>();
+
+            Bind<IThemesDAO>()
+                .To<ThemesDAO>();
+
+            Bind<IConfigurationDAO>()
+                .To<ConfigurationDAO>();
+
+            Bind<IShapefileDAO>()
+                .To<ShapefileDAO>();
         }
     }
 }

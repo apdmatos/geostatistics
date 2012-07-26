@@ -60,6 +60,8 @@ Project("{C8D11400-126E-41CD-887F-60BD40844F9E}") = "DataStore.DbDefinition", "S
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StatisticsServices", "StatisticsProxyService\services\StatisticsServices\StatisticsServices.csproj", "{5ABA97AA-BD17-4117-BD08-CD5F417E4005}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "INEDownloadIndicators", "Data\INEDownloadIndicators\INEDownloadIndicators.csproj", "{5B739557-64D3-4ED6-8264-12F53F98D54D}"
+EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = services1.vsmdi
@@ -227,12 +229,23 @@ Global
 		{5ABA97AA-BD17-4117-BD08-CD5F417E4005}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{5ABA97AA-BD17-4117-BD08-CD5F417E4005}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{5ABA97AA-BD17-4117-BD08-CD5F417E4005}.Release|x86.ActiveCfg = Release|Any CPU
+		{5B739557-64D3-4ED6-8264-12F53F98D54D}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{5B739557-64D3-4ED6-8264-12F53F98D54D}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{5B739557-64D3-4ED6-8264-12F53F98D54D}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{5B739557-64D3-4ED6-8264-12F53F98D54D}.Debug|x86.ActiveCfg = Debug|x86
+		{5B739557-64D3-4ED6-8264-12F53F98D54D}.Debug|x86.Build.0 = Debug|x86
+		{5B739557-64D3-4ED6-8264-12F53F98D54D}.Release|Any CPU.ActiveCfg = Release|x86
+		{5B739557-64D3-4ED6-8264-12F53F98D54D}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{5B739557-64D3-4ED6-8264-12F53F98D54D}.Release|Mixed Platforms.Build.0 = Release|x86
+		{5B739557-64D3-4ED6-8264-12F53F98D54D}.Release|x86.ActiveCfg = Release|x86
+		{5B739557-64D3-4ED6-8264-12F53F98D54D}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{13AA3B5C-DAE6-4E6F-A202-82A016FF38B8} = {6DD2944A-1688-4B6D-84C3-80004C4620A4}
+		{5B739557-64D3-4ED6-8264-12F53F98D54D} = {6DD2944A-1688-4B6D-84C3-80004C4620A4}
 		{620987E6-9C18-4C37-85D5-35471154B473} = {8636084C-A597-4042-9183-6F61C72BE592}
 		{FBF7E43E-E348-4B5E-A563-C70B0115B948} = {8636084C-A597-4042-9183-6F61C72BE592}
 		{C46F62B0-28FB-4982-AD82-52B87653DC3D} = {8636084C-A597-4042-9183-6F61C72BE592}

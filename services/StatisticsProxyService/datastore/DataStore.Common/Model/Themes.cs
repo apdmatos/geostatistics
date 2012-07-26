@@ -2,14 +2,23 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Runtime.Serialization;
 
 namespace DataStore.Common.Model
 {
+    [DataContract]
     public class Theme
     {
+        [DataMember(EmitDefaultValue = false)]
         public int ID { get; set; }
+
+        [DataMember(EmitDefaultValue = false)]
         public int ProviderID { get; set; }
+
+        [DataMember(EmitDefaultValue = false)]
         public string Name { get; set; }
+
+        [DataMember(EmitDefaultValue = false)]
         public string NameAbbr { get; set; }
 
         public override bool Equals(object obj)

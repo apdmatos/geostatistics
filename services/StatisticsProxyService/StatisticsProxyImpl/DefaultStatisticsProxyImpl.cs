@@ -10,7 +10,6 @@ using System.ServiceModel;
 using ProviderDataContracts.Values;
 using StatisticsProxyImpl.requesters;
 using DataStore.Common.Data_Interfaces;
-using DataStore.DAO;
 using DataStore.Common.Model;
 using StatisticsProxyImpl.factories;
 

@@ -2,12 +2,17 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Runtime.Serialization;
 
 namespace DataStore.Common.Model
 {
+    [DataContract]
     public class ShapefileGroup
     {
+        [DataMember(EmitDefaultValue = false)]
         public int ID { get; set; }
+
+        [DataMember(EmitDefaultValue = false)]
         public string Name { get; set; }
 
         public override bool Equals(object obj)
