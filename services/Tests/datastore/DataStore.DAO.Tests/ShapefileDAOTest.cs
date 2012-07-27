@@ -38,7 +38,7 @@ namespace DataStore.DAO.Tests
         [TestMethod()]
         public void ShapefileDAOConstructorTest()
         {
-            ShapefileDAO target = new ShapefileDAO();
+            ShapefileDAO target = new ShapefileDAO(connnetion);
             Assert.AreNotEqual(target, null);
         }
 
@@ -48,7 +48,7 @@ namespace DataStore.DAO.Tests
         [TestMethod()]
         public void GetShapefilesByFileGroupTest()
         {
-            ShapefileDAO target = new ShapefileDAO();
+            ShapefileDAO target = new ShapefileDAO(connnetion);
             Nullable<int> shapefilegroupId = new Nullable<int>(1);
             Nullable<int> page = new Nullable<int>(1);
             Nullable<int> recordsPerPage = new Nullable<int>(1);
@@ -77,7 +77,7 @@ namespace DataStore.DAO.Tests
         [TestMethod()]
         public void GetAllShapefilesTest()
         {
-            ShapefileDAO target = new ShapefileDAO();
+            ShapefileDAO target = new ShapefileDAO(connnetion);
             Nullable<int> shapefilegroupId = new Nullable<int>(1);
             Nullable<int> page = null;
             Nullable<int> recordsPerPage = null;
@@ -92,7 +92,7 @@ namespace DataStore.DAO.Tests
         [TestMethod()]
         public void GetShapefileGroupsByPageNumberTest()
         {
-            ShapefileDAO target = new ShapefileDAO();
+            ShapefileDAO target = new ShapefileDAO(connnetion);
             Nullable<int> page = new Nullable<int>(1);
             Nullable<int> recordsPerPage = new Nullable<int>(1);
             ShapefileGroup expected = new ShapefileGroup
@@ -112,7 +112,7 @@ namespace DataStore.DAO.Tests
         [TestMethod()]
         public void GetAllShapefileGroupsTest()
         {
-            ShapefileDAO target = new ShapefileDAO();
+            ShapefileDAO target = new ShapefileDAO(connnetion);
             Nullable<int> page = null;
             Nullable<int> recordsPerPage = null;
             IEnumerable<ShapefileGroup> actual = target.GetShapefileGroups(page, recordsPerPage);

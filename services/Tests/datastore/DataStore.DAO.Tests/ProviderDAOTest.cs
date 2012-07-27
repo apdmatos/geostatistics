@@ -38,7 +38,7 @@ namespace DataStore.DAO.Tests
         [TestMethod()]
         public void ProviderDAOConstructorTest()
         {
-            ProviderDAO target = new ProviderDAO();
+            ProviderDAO target = new ProviderDAO(connnetion);
             Assert.AreNotEqual(target, null);
         }
 
@@ -48,7 +48,7 @@ namespace DataStore.DAO.Tests
         [TestMethod()]
         public void GetProvidersTest()
         {
-            ProviderDAO target = new ProviderDAO();
+            ProviderDAO target = new ProviderDAO(connnetion);
             Nullable<int> page = new Nullable<int>(1);
             Nullable<int> recordsPerPage = new Nullable<int>(1);
             Provider expected = new Provider
@@ -71,7 +71,7 @@ namespace DataStore.DAO.Tests
         [TestMethod()]
         public void GetTotalProvidersTest()
         {
-            ProviderDAO target = new ProviderDAO();
+            ProviderDAO target = new ProviderDAO(connnetion);
             long expected = 1; 
             long actual;
             actual = target.GetTotalProviders();

@@ -5,6 +5,7 @@ using System.Text;
 using StatisticsProxyServiceDefenitions.interfaces;
 using DataStore.Common.Model;
 using DataStore.Common.Data_Interfaces;
+using DataStore.DAO;
 
 namespace StatisticsProxyImpl.StatisticsManagement
 {
@@ -25,20 +26,24 @@ namespace StatisticsProxyImpl.StatisticsManagement
 
         public int AddProvider(Provider p)
         {
-            return ProviderDAO.AddProvider(p);
+            using (ProviderDAO.Connection = ConnectionSettings.CreateDBConnection())
+            {
+                return ProviderDAO.AddProvider(p);
+            }
         }
 
         public PaginationWrapper<Provider> GetProviders(int pageNumber, int recordsPerPage)
         {
-            return new PaginationWrapper<Provider>
+            using (ProviderDAO.Connection = ConnectionSettings.CreateDBConnection())
             {
-                Elements = ProviderDAO.GetProviders(pageNumber, recordsPerPage),
-                Page = pageNumber,
-                RecordsPerPage = recordsPerPage,
-                Total = ProviderDAO.GetTotalProviders()
-            };
-
-            
+                return new PaginationWrapper<Provider>
+                {
+                    Elements = ProviderDAO.GetProviders(pageNumber, recordsPerPage),
+                    Page = pageNumber,
+                    RecordsPerPage = recordsPerPage,
+                    Total = ProviderDAO.GetTotalProviders()
+                };
+            }
         }
 
         #endregion

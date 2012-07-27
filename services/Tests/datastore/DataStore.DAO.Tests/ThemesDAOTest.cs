@@ -39,7 +39,7 @@ namespace DataStore.DAO.Tests
         [TestMethod()]
         public void ThemesDAOConstructorTest()
         {
-            ThemesDAO target = new ThemesDAO();
+            ThemesDAO target = new ThemesDAO(connnetion);
             Assert.AreNotEqual(target, null);
         }
 
@@ -49,7 +49,7 @@ namespace DataStore.DAO.Tests
         [TestMethod()]
         public void GetProviderSubThemesTest()
         {
-            ThemesDAO target = new ThemesDAO();
+            ThemesDAO target = new ThemesDAO(connnetion);
             int providerId = 1;
             int themeId = 1;
             SubTheme expected = new SubTheme
@@ -72,7 +72,7 @@ namespace DataStore.DAO.Tests
         [TestMethod()]
         public void GetProviderThemesTest()
         {
-            ThemesDAO target = new ThemesDAO();
+            ThemesDAO target = new ThemesDAO(connnetion);
             int providerId = 1;
             Theme expected = new Theme 
             { 

@@ -8,14 +8,23 @@ using DataStore.DAO.builders;
 using System.Data;
 using DataStore.DAO.utils;
 using DataStore.Common.Data_Interfaces;
+using System.Data.Common;
 
 namespace DataStore.DAO
 {
-    public class IndicatorDAO : IIndicatorDAO
+    public class IndicatorDAO : BaseDAO, IIndicatorDAO
     {
+
+        public IndicatorDAO() { }
+        public IndicatorDAO(DbConnection connection) 
+        {
+            Connection = connection;
+        }
+
         public int AddIndicator(Indicator indicator)
         {
             return DbTemplateHelper<int>.GetValueByProcedure(
+                Connection,
                 "config.insertindicator",
                 new DbParameterHelper[] 
                 {
@@ -31,6 +40,7 @@ namespace DataStore.DAO
         public IEnumerable<Indicator> GetIndicatorsByProviderId(int providerId, int? page, int? recordsPerPage)
         {
             return DbTemplateHelper<Indicator>.GetListByProcedure(
+                    Connection,
                     DataStoreModelBuilders.DataReader2Indicator,
                     "config.getIndicatorsByProviderId",
                     new DbParameterHelper[]
@@ -44,6 +54,7 @@ namespace DataStore.DAO
         public IEnumerable<Indicator> GetIndicatorsBySubThemeId(int providerId, int themeId, int subthemeId, int? page, int? recordsPerPage)
         {
             return DbTemplateHelper<Indicator>.GetListByProcedure(
+                    Connection,
                     DataStoreModelBuilders.DataReader2Indicator,
                     "config.getIndicatorsBySubThemeId",
                     new DbParameterHelper[]
@@ -59,6 +70,7 @@ namespace DataStore.DAO
         public Indicator GetIndicatorById(int providerId, int indicatorId)
         {
             return DbTemplateHelper<Indicator>.GetObjectBySQLQuery(
+                    Connection,
                     DataStoreModelBuilders.DataReader2Indicator,
                     string.Format("select provider_id, provider_name, provider_nameabbr, provider_serviceurl, provider_url, indicator_id, indicator_sourceid, indicator_name, indicator_nameabbr, indicator_themeid, indicator_subthemeid from config.indicatorview where indicator_id={0} and provider_id={1}", indicatorId, providerId),
                     null);
@@ -73,7 +85,7 @@ namespace DataStore.DAO
                                                         subThemeId.HasValue ? string.Format(" and indicator_subthemeid={0}", subThemeId.Value) : string.Empty) :
                                                    string.Empty);
 
-            return DbTemplateHelper<long>.GetValueBySQLQuery(query, null);
+            return DbTemplateHelper<long>.GetValueBySQLQuery(Connection, query, null);
         }
     }
 }

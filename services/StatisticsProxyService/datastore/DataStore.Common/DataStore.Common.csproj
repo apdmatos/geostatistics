@@ -41,6 +41,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ConnectionSettings.cs" />
+    <Compile Include="Data Interfaces\IBaseDAO.cs" />
     <Compile Include="Data Interfaces\IConfigurationDAO.cs" />
     <Compile Include="Data Interfaces\IIndicatorDAO.cs" />
     <Compile Include="Data Interfaces\IProviderDAO.cs" />

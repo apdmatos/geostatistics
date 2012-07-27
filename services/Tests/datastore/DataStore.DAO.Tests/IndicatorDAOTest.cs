@@ -38,7 +38,7 @@ namespace DataStore.DAO.Tests
         [TestMethod()]
         public void IndicatorDAOConstructorTest()
         {
-            IndicatorDAO target = new IndicatorDAO();
+            IndicatorDAO target = new IndicatorDAO(connnetion);
             Assert.AreNotEqual(target, null);
         }
 
@@ -48,7 +48,7 @@ namespace DataStore.DAO.Tests
         [TestMethod()]
         public void GetIndicatorByIdTest()
         {
-            IndicatorDAO target = new IndicatorDAO();
+            IndicatorDAO target = new IndicatorDAO(connnetion);
             int providerId = 1;
             int indicatorId = 1;
             Indicator expected = new Indicator
@@ -79,7 +79,7 @@ namespace DataStore.DAO.Tests
         [TestMethod()]
         public void GetIndicatorsByProviderIdTest()
         {
-            IndicatorDAO target = new IndicatorDAO();
+            IndicatorDAO target = new IndicatorDAO(connnetion);
             int providerId = 1;
             Nullable<int> page = new Nullable<int>(1);
             Nullable<int> recordsPerPage = new Nullable<int>(1);
@@ -95,7 +95,7 @@ namespace DataStore.DAO.Tests
         [TestMethod()]
         public void GetIndicatorsBySubThemeIdTest()
         {
-            IndicatorDAO target = new IndicatorDAO(); 
+            IndicatorDAO target = new IndicatorDAO(connnetion); 
             int providerId = 1;
             int themeId = 1;
             int subthemeId = 1;
@@ -112,7 +112,7 @@ namespace DataStore.DAO.Tests
         [TestMethod()]
         public void GetTotalIndicatorsByThemesTest()
         {
-            IndicatorDAO target = new IndicatorDAO();
+            IndicatorDAO target = new IndicatorDAO(connnetion);
             int providerId = 1;
             Nullable<int> themeId = new Nullable<int>(1);
             Nullable<int> subThemeId = new Nullable<int>(1);
@@ -128,7 +128,7 @@ namespace DataStore.DAO.Tests
         [TestMethod()]
         public void GetTotalIndicatorsTest()
         {
-            IndicatorDAO target = new IndicatorDAO();
+            IndicatorDAO target = new IndicatorDAO(connnetion);
             int providerId = 1;
             long expected = 1;
             long actual;

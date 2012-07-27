@@ -50,7 +50,8 @@ namespace DataStore.DAO.Tests
         [TestMethod()]
         public void GetConfigurationTest()
         {
-            ConfigurationDAO target = new ConfigurationDAO();
+            ConfigurationDAO target = new ConfigurationDAO(connnetion);
+
             int indicatorId = 1;
             string geoLevel = "NUTS1";
             Configuration expected = new Configuration
@@ -79,7 +80,8 @@ namespace DataStore.DAO.Tests
         [TestMethod()]
         public void GetConfigurationsTest()
         {
-            ConfigurationDAO target = new ConfigurationDAO();
+            ConfigurationDAO target = new ConfigurationDAO(connnetion);
+
             int indicatorId = 1;
             IEnumerable<Configuration> actual;
             actual = target.GetConfigurations(indicatorId);
@@ -98,7 +100,7 @@ namespace DataStore.DAO.Tests
         [TestMethod()]
         public void GetShapefileConfigurationURLTest()
         {
-            ConfigurationDAO target = new ConfigurationDAO(); // TODO: Initialize to an appropriate value
+            ConfigurationDAO target = new ConfigurationDAO(connnetion);
             int indicatorId = 1; 
             string geoLevel = "NUTS1"; 
             string expected = "D:\\Dropbox\\My Dropbox\\Tese\\shapefiles\\sapo\\GIS\\NUTS1\\nuts1.shp";

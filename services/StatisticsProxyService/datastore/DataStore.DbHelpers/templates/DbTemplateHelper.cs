@@ -36,28 +36,28 @@ namespace DataStore.DbHelpers.templates
         private static class DbExecutor<V>
         {
             private delegate void StatementPrepared(DbCommand command);
-            private static void PrepareStatement(StatementPrepared prepared, string cmdText, CommandType commandType, IEnumerable<DbParameterHelper> parameters, int? timeout)
+            private static void PrepareStatement(DbConnection connection, StatementPrepared prepared, string cmdText, CommandType commandType, IEnumerable<DbParameterHelper> parameters, int? timeout)
             {
-                using (DbConnection connection = ConnectionHelper.CreateDBConnection())
+                using (DbCommand command = CreateCommand(connection, cmdText, commandType, timeout))
                 {
-                    using (DbCommand command = CreateCommand(connection, cmdText, commandType, timeout))
-                    {
-                        AddDbParameters2Command(parameters, command);
+                    AddDbParameters2Command(parameters, command);
+                    if(connection.State != ConnectionState.Open)
                         connection.Open();
 
-                        prepared(command);
-                    }
+                    prepared(command);
                 }
 
             }
 
             public delegate V ConstructFromReader(IDataReader reader);
-            public static V GetSQLObject(ConstructFromReader builder, string cmdText, CommandType commandType, IEnumerable<DbParameterHelper> parameters, int? timeout) 
+            public static V GetSQLObject(DbConnection connection, ConstructFromReader builder, string cmdText, CommandType commandType, IEnumerable<DbParameterHelper> parameters, int? timeout) 
             {
                 V v = default(V);
                 PrepareStatement(
+                    connection, 
                     (command) => {
-                        using (IDataReader reader = command.ExecuteReader(CommandBehavior.CloseConnection))
+                        //using (IDataReader reader = command.ExecuteReader(CommandBehavior.CloseConnection))
+                        using (IDataReader reader = command.ExecuteReader())
                         {
                             v = builder(reader);
                             reader.Close();
@@ -71,10 +71,11 @@ namespace DataStore.DbHelpers.templates
                 return v;
             }
 
-            public static bool ExecuteSql(string cmdText, CommandType commandType, IEnumerable<DbParameterHelper> parameters, int? timeout) 
+            public static bool ExecuteSql(DbConnection connection, string cmdText, CommandType commandType, IEnumerable<DbParameterHelper> parameters, int? timeout) 
             {
                 bool executed = false;
                 PrepareStatement(
+                    connection, 
                     (command) =>
                     {
                         command.ExecuteNonQuery();
@@ -89,9 +90,10 @@ namespace DataStore.DbHelpers.templates
             }
         }
 
-        private static T GetObject(ConstructObject constructor, string cmdText, CommandType commandType, IEnumerable<DbParameterHelper> parameters, int? timeout)
+        private static T GetObject(DbConnection connection, ConstructObject constructor, string cmdText, CommandType commandType, IEnumerable<DbParameterHelper> parameters, int? timeout)
         {
             return DbExecutor<T>.GetSQLObject(
+                        connection, 
                         (reader) =>
                         {
                             T t = default(T);
@@ -108,10 +110,11 @@ namespace DataStore.DbHelpers.templates
                         timeout);
         }
 
-        private static IEnumerable<T> GetObjectList(ConstructObject constructor, string cmdText, CommandType commandType, IEnumerable<DbParameterHelper> parameters, int? timeout)
+        private static IEnumerable<T> GetObjectList(DbConnection connection, ConstructObject constructor, string cmdText, CommandType commandType, IEnumerable<DbParameterHelper> parameters, int? timeout)
         {
 
             return DbExecutor<List<T>>.GetSQLObject(
+                        connection, 
                         (reader) =>
                         {
                             List<T> t_list = new List<T>();
@@ -132,29 +135,30 @@ namespace DataStore.DbHelpers.templates
 
         public delegate T ConstructObject(IDataReader reader);
 
-        public static T GetObjectBySQLQuery(ConstructObject constructor, string query, IEnumerable<DbParameterHelper> parameters, int? timeout = null)
+        public static T GetObjectBySQLQuery(DbConnection conn, ConstructObject constructor, string query, IEnumerable<DbParameterHelper> parameters, int? timeout = null)
         {
-            return GetObject(constructor, query, CommandType.Text, parameters, timeout);
+            return GetObject(conn, constructor, query, CommandType.Text, parameters, timeout);
         }
 
-        public static T GetObjectByProcedure(ConstructObject constructor, string procedure, IEnumerable<DbParameterHelper> parameters, int? timeout = null)
+        public static T GetObjectByProcedure(DbConnection conn, ConstructObject constructor, string procedure, IEnumerable<DbParameterHelper> parameters, int? timeout = null)
         {
-            return GetObject(constructor, procedure, CommandType.StoredProcedure, parameters, timeout);
+            return GetObject(conn, constructor, procedure, CommandType.StoredProcedure, parameters, timeout);
         }
 
-        public static IEnumerable<T> GetListByProcedure(ConstructObject constructor, string procedure, IEnumerable<DbParameterHelper> parameters, int? timeout = null)
+        public static IEnumerable<T> GetListByProcedure(DbConnection conn, ConstructObject constructor, string procedure, IEnumerable<DbParameterHelper> parameters, int? timeout = null)
         {
-            return GetObjectList(constructor, procedure, CommandType.StoredProcedure, parameters, timeout);
+            return GetObjectList(conn, constructor, procedure, CommandType.StoredProcedure, parameters, timeout);
         }
 
-        public static IEnumerable<T> GetListBySQLQuery(ConstructObject constructor, string query, IEnumerable<DbParameterHelper> parameters, int? timeout = null)
+        public static IEnumerable<T> GetListBySQLQuery(DbConnection conn, ConstructObject constructor, string query, IEnumerable<DbParameterHelper> parameters, int? timeout = null)
         {
-            return GetObjectList(constructor, query, CommandType.Text, parameters, timeout);
+            return GetObjectList(conn, constructor, query, CommandType.Text, parameters, timeout);
         }
 
-        public static IEnumerable<T> GetValuesBySQLQuery(string query, IEnumerable<DbParameterHelper> parameters, int? timeout = null)
+        public static IEnumerable<T> GetValuesBySQLQuery(DbConnection conn, string query, IEnumerable<DbParameterHelper> parameters, int? timeout = null)
         {
             return GetObjectList(
+                conn,
                 (reader) => 
                 { 
                     return (T)reader[0]; 
@@ -165,9 +169,10 @@ namespace DataStore.DbHelpers.templates
                 timeout);
         }
 
-        public static IEnumerable<T> GetValuesByProcedure(string procedure, IEnumerable<DbParameterHelper> parameters, int? timeout = null)
+        public static IEnumerable<T> GetValuesByProcedure(DbConnection conn, string procedure, IEnumerable<DbParameterHelper> parameters, int? timeout = null)
         {
             return GetObjectList(
+                conn,
                 (reader) =>
                 {
                     return (T)reader[0];
@@ -179,9 +184,10 @@ namespace DataStore.DbHelpers.templates
         }
 
         // Get value
-        public static T GetValueBySQLQuery(string query, IEnumerable<DbParameterHelper> parameters, int? timeout = null)
+        public static T GetValueBySQLQuery(DbConnection conn, string query, IEnumerable<DbParameterHelper> parameters, int? timeout = null)
         {
             return GetObject(
+                conn,
                 (reader) =>
                 {
                     return (T)reader[0];
@@ -192,9 +198,10 @@ namespace DataStore.DbHelpers.templates
                 timeout);
         }
 
-        public static T GetValueByProcedure(string procedure, IEnumerable<DbParameterHelper> parameters, int? timeout = null)
+        public static T GetValueByProcedure(DbConnection conn, string procedure, IEnumerable<DbParameterHelper> parameters, int? timeout = null)
         {
             return GetObject(
+                conn,
                 (reader) =>
                 {
                     return (T)reader[0];
@@ -205,14 +212,14 @@ namespace DataStore.DbHelpers.templates
                 timeout);
         }
 
-        public static bool ExecuteSQL(string query, IEnumerable<DbParameterHelper> parameters, int? timeout = null)
+        public static bool ExecuteSQL(DbConnection conn, string query, IEnumerable<DbParameterHelper> parameters, int? timeout = null)
         {
-            return DbExecutor<bool>.ExecuteSql(query, CommandType.Text, parameters, timeout);
+            return DbExecutor<bool>.ExecuteSql(conn, query, CommandType.Text, parameters, timeout);
         }
 
-        public static bool ExecuteProcedure(string procedure, IEnumerable<DbParameterHelper> parameters, int? timeout = null)
+        public static bool ExecuteProcedure(DbConnection conn, string procedure, IEnumerable<DbParameterHelper> parameters, int? timeout = null)
         {
-            return DbExecutor<bool>.ExecuteSql(procedure, CommandType.StoredProcedure, parameters, timeout);
+            return DbExecutor<bool>.ExecuteSql(conn, procedure, CommandType.StoredProcedure, parameters, timeout);
         }
     }
 }

@@ -5,6 +5,7 @@ using System.Text;
 using DataStore.Common.Model;
 using DataStore.DAO;
 using System.Configuration;
+using System.Data.Common;
 
 namespace INEDownloadIndicators
 {
@@ -37,14 +38,31 @@ namespace INEDownloadIndicators
                 ConfigurationManager.ConnectionStrings["db"].ConnectionString,
                 ConfigurationManager.ConnectionStrings["db"].ProviderName);
 
-            INEService.StatisticsClient client = new INEService.StatisticsClient();
-            
-            Provider p = addProvider();
-            IEnumerable<ExtendedSubTheme> subthemes = AddThemes(p, client);
-            addIndicators(p, subthemes, client);
-        }        
+            using (DbConnection conn = ConnectionSettings.CreateDBConnection())
+            {
+                conn.Open();
+                using (DbTransaction transaction = conn.BeginTransaction())
+                {
+                    try
+                    {
+                        INEService.StatisticsClient client = new INEService.StatisticsClient();
 
-        static Provider addProvider()
+                        Provider p = addProvider(conn);
+                        IEnumerable<ExtendedSubTheme> subthemes = AddThemes(conn, p, client);
+                        addIndicators(conn, p, subthemes, client);
+
+                        transaction.Commit();
+                    }
+                    catch (Exception)
+                    {
+                        transaction.Rollback();
+                        throw;
+                    }
+                }
+            }
+        }
+
+        static Provider addProvider(DbConnection conn)
         {
             Console.WriteLine(":::::::::: Adding provider :::::::::");
 
@@ -56,17 +74,17 @@ namespace INEDownloadIndicators
                 URL = "http://www.ine.pt"
             };
 
-            ProviderDAO provider = new ProviderDAO();
+            ProviderDAO provider = new ProviderDAO(conn);
             p.ID = provider.AddProvider(p);
 
             return p;
         }
 
-        static IEnumerable<ExtendedSubTheme> AddThemes(Provider p, INEService.Statistics ine)
+        static IEnumerable<ExtendedSubTheme> AddThemes(DbConnection conn, Provider p, INEService.Statistics ine)
         {
             Console.WriteLine(":::::::::: Adding themes :::::::::");
 
-            var themesDAO = new ThemesDAO();
+            var themesDAO = new ThemesDAO(conn);
 
             var insertedThemes = new List<ExtendedTheme>();
             var insertedSubThemes = new List<ExtendedSubTheme>();
@@ -111,11 +129,11 @@ namespace INEDownloadIndicators
             return insertedSubThemes;
         }
 
-        private static void addIndicators(Provider p, IEnumerable<ExtendedSubTheme> subthemes, INEService.Statistics ine)
+        private static void addIndicators(DbConnection conn, Provider p, IEnumerable<ExtendedSubTheme> subthemes, INEService.Statistics ine)
         {
             Console.WriteLine(":::::::::: Adding indicatores :::::::::");
 
-            var indicatorDAO = new IndicatorDAO();
+            var indicatorDAO = new IndicatorDAO(conn);
 
             foreach (var subtheme in subthemes)
             {
@@ -135,14 +153,14 @@ namespace INEDownloadIndicators
                     };
                     convertedIndicator.ID = indicatorDAO.AddIndicator(convertedIndicator);
 
-                    addConfiguration(convertedIndicator, indicator.GeoLevelCode);
+                    addConfiguration(conn, convertedIndicator, indicator.GeoLevelCode);
                 }
             }
         }
 
-        public static void addConfiguration(Indicator indicator, string lowestGeoLevel)
+        public static void addConfiguration(DbConnection conn, Indicator indicator, string lowestGeoLevel)
         {
-            var configurationDAO = new ConfigurationDAO();
+            var configurationDAO = new ConfigurationDAO(conn);
             for (int geoLevel = int.Parse(lowestGeoLevel); geoLevel >= 2; --geoLevel)
             {
                 GEOLevels level = (GEOLevels)geoLevel;

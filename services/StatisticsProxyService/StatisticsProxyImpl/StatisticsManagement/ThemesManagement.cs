@@ -5,6 +5,7 @@ using System.Text;
 using StatisticsProxyServiceDefenitions.interfaces;
 using DataStore.Common.Model;
 using DataStore.Common.Data_Interfaces;
+using DataStore.DAO;
 
 namespace StatisticsProxyImpl.StatisticsManagement
 {
@@ -25,22 +26,34 @@ namespace StatisticsProxyImpl.StatisticsManagement
 
         public int AddTheme(Theme theme)
         {
-            return ThemesDAO.AddTheme(theme);
+            using (ThemesDAO.Connection = ConnectionSettings.CreateDBConnection())
+            {
+                return ThemesDAO.AddTheme(theme);
+            }
         }
 
         public int AddSubTheme(SubTheme subtheme)
         {
-            return ThemesDAO.AddSubTheme(subtheme);
+            using (ThemesDAO.Connection = ConnectionSettings.CreateDBConnection())
+            {
+                return ThemesDAO.AddSubTheme(subtheme);
+            }
         }
 
         public IEnumerable<Theme> GetThemes(int providerid)
         {
-            return ThemesDAO.GetProviderThemes(providerid);
+            using (ThemesDAO.Connection = ConnectionSettings.CreateDBConnection())
+            {
+                return ThemesDAO.GetProviderThemes(providerid);
+            }
         }
 
         public IEnumerable<SubTheme> GetSubThemes(int providerid, int themeid)
         {
-            return ThemesDAO.GetProviderSubThemes(providerid, themeid);
+            using (ThemesDAO.Connection = ConnectionSettings.CreateDBConnection())
+            {
+                return ThemesDAO.GetProviderSubThemes(providerid, themeid);
+            }
         }
 
         #endregion

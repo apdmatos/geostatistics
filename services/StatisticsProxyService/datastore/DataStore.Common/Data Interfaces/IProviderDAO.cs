@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using DataStore.Common.Model;
+using DataStore.DTO.Data_Interfaces;
 
 
 namespace DataStore.Common.Data_Interfaces
 {
-    public interface IProviderDAO
+    public interface IProviderDAO : IBaseDAO
     {
         int AddProvider(Provider p);
 

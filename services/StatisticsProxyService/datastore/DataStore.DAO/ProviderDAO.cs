@@ -8,14 +8,24 @@ using DataStore.DAO.builders;
 using System.Data;
 using DataStore.DAO.utils;
 using DataStore.Common.Data_Interfaces;
+using System.Data.Common;
 
 namespace DataStore.DAO
 {
-    public class ProviderDAO : IProviderDAO
+    public class ProviderDAO : BaseDAO, IProviderDAO
     {
+
+        public ProviderDAO() { }
+        public ProviderDAO(DbConnection connection) 
+        {
+            Connection = connection;
+        }
+
+
         public int AddProvider(Provider p)
         {
             return DbTemplateHelper<int>.GetValueByProcedure(
+                Connection,
                 "config.insertprovider",
                 new DbParameterHelper[] 
                 {
@@ -29,6 +39,7 @@ namespace DataStore.DAO
         public IEnumerable<Provider> GetProviders(int? page, int? recordsPerPage)
         {
             return DbTemplateHelper<Provider>.GetListByProcedure(
+                    Connection,
                     DataStoreModelBuilders.DataReader2Provider,
                     "config.getProviders",
                     new DbParameterHelper[]
@@ -40,7 +51,7 @@ namespace DataStore.DAO
 
         public long GetTotalProviders()
         {
-            return DbTemplateHelper<long>.GetValueBySQLQuery("select count(*) from config.providerview", null);
+            return DbTemplateHelper<long>.GetValueBySQLQuery(Connection, "select count(*) from config.providerview", null);
         }
     }
 }

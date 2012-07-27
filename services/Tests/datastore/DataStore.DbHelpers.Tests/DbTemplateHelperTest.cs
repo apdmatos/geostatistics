@@ -5,6 +5,7 @@ using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Data;
 using DataStore.DbHelpers.templates;
+using System.Data.Common;
 
 namespace DataStore.DbHelpers.Tests
 {
@@ -32,10 +33,25 @@ namespace DataStore.DbHelpers.Tests
             }
         }
 
+        private DbConnection connection;
+
+        [TestInitialize]
+        public void SetUp()
+        {
+            connection = CreateDBConnection();
+        }
+
+        [TestCleanup]
+        public void ShutDown()
+        {
+            connection.Dispose();
+        }
+
         [TestMethod]
         public void GetListBySQLQuery()
         {
             IEnumerable<int> config = DbTemplateHelper<int>.GetListBySQLQuery(
+                                    connection,
                                     (reader) =>
                                     {
                                         return (int)reader["configuration_id"];
@@ -53,6 +69,7 @@ namespace DataStore.DbHelpers.Tests
         public void GetListByProcedure()
         {
             IEnumerable<int> providers = DbTemplateHelper<int>.GetListByProcedure(
+                                            connection,
                                             (reader) =>
                                             {
                                                 return (int)reader["provider_id"];
@@ -73,6 +90,7 @@ namespace DataStore.DbHelpers.Tests
         public void GetObjectByProcedure()
         {
             int providerId = DbTemplateHelper<int>.GetObjectByProcedure(
+                                    connection,
                                     (reader) =>
                                     {
                                         return (int)reader["provider_id"];
@@ -91,6 +109,7 @@ namespace DataStore.DbHelpers.Tests
         public void GetObjectBySQLQuery()
         {
             int providerId = DbTemplateHelper<int>.GetObjectBySQLQuery(
+                                    connection,
                                     (reader) =>
                                     {
                                         return (int)reader["provider_id"];
@@ -106,6 +125,7 @@ namespace DataStore.DbHelpers.Tests
         public void GetValueBySQLQuery()
         {
             int providerId = DbTemplateHelper<int>.GetValueBySQLQuery(
+                                    connection,
                                     "select provider_id from config.providerview limit 1",
                                     null);
 
@@ -116,6 +136,7 @@ namespace DataStore.DbHelpers.Tests
         public void GetValueByProcedure()
         {
             string url = DbTemplateHelper<string>.GetValueByProcedure(
+                                    connection,
                                     "config.getShapefileConfigurarionURL", 
                                     new DbParameterHelper[]{
                                         new DbParameterHelper(DbType.Int32, "p_indicatorId", 1),
@@ -129,6 +150,7 @@ namespace DataStore.DbHelpers.Tests
         public void GetValuesBySQLQuery()
         {
             IEnumerable<int> providers = DbTemplateHelper<int>.GetValuesBySQLQuery(
+                                            connection,
                                             "select provider_id from config.providerview limit 1",
                                             null);
 

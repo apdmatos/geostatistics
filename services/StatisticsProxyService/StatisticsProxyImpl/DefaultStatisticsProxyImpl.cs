@@ -12,6 +12,7 @@ using StatisticsProxyImpl.requesters;
 using DataStore.Common.Data_Interfaces;
 using DataStore.Common.Model;
 using StatisticsProxyImpl.factories;
+using DataStore.DAO;
 
 namespace StatisticsProxyImpl
 {
@@ -25,6 +26,8 @@ namespace StatisticsProxyImpl
         {
             _configurationKey = configKey;
             _indicatorRepository = indicatorRepository;
+            _indicatorRepository.Connection = ConnectionSettings.CreateDBConnection();
+
             _factory = factory;
         }
 

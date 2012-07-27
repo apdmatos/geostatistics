@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using DataStore.Common.Model;
+using DataStore.DTO.Data_Interfaces;
 
 namespace DataStore.Common.Data_Interfaces
 {
-    public interface IThemesDAO
+    public interface IThemesDAO : IBaseDAO
     {
         int AddTheme(Theme theme);
 

@@ -55,20 +55,20 @@ namespace DataStore.DbHelpers.Tests
             Assert.AreEqual(parameter.Direction,    ParameterDirection.Output);
         }
 
-        [TestMethod]
-        public void CanCreateADbParameterByDbCommand()
-        {
-            DbConnection conn = ConnectionHelper.CreateDBConnection();
-            DbCommand cmd = conn.CreateCommand();
+        //[TestMethod]
+        //public void CanCreateADbParameterByDbCommand()
+        //{
+        //    DbConnection conn = ConnectionHelper.CreateDBConnection();
+        //    DbCommand cmd = conn.CreateCommand();
 
-            DbParameterHelper parameter = new DbParameterHelper(DbType.String, "test", "somevalue");
-            IDataParameter dbparam = parameter.ToDbParameter(cmd);
+        //    DbParameterHelper parameter = new DbParameterHelper(DbType.String, "test", "somevalue");
+        //    IDataParameter dbparam = parameter.ToDbParameter(cmd);
 
-            Assert.AreEqual(dbparam.DbType,         DbType.String);
-            Assert.AreEqual(dbparam.ParameterName,  "test");
-            Assert.AreEqual(dbparam.Value,          "somevalue");
-            Assert.AreEqual(dbparam.Direction,      ParameterDirection.Input);
+        //    Assert.AreEqual(dbparam.DbType,         DbType.String);
+        //    Assert.AreEqual(dbparam.ParameterName,  "test");
+        //    Assert.AreEqual(dbparam.Value,          "somevalue");
+        //    Assert.AreEqual(dbparam.Direction,      ParameterDirection.Input);
 
-        }
+        //}
     }
 }

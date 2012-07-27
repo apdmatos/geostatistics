@@ -69,9 +69,6 @@
   <ItemGroup>
     <Content Include="Global.asax" />
     <Content Include="services\StatisticsManagementService.svc" />
-    <Content Include="services\management\___ProviderManagementService.svc" />
-    <Content Include="services\management\___ThemesManagementService.svc" />
-    <Content Include="services\management\___IndicatorManagementService.svc" />
     <Content Include="services\SOAPService.svc" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">

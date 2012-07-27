@@ -7,14 +7,23 @@ using DataStore.DbHelpers.templates;
 using DataStore.DAO.builders;
 using System.Data;
 using DataStore.Common.Data_Interfaces;
+using System.Data.Common;
 
 namespace DataStore.DAO
 {
-    public class ConfigurationDAO : IConfigurationDAO
+    public class ConfigurationDAO : BaseDAO, IConfigurationDAO
     {
+
+        public ConfigurationDAO() { }
+        public ConfigurationDAO(DbConnection connection) 
+        {
+            Connection = connection;
+        }
+
         public int AddConfiguration(int indicatorId, Configuration config)
         {
             return DbTemplateHelper<int>.GetValueByProcedure(
+                Connection,
                 "config.addconfiguration",
                 new DbParameterHelper[]
                 {
@@ -27,6 +36,7 @@ namespace DataStore.DAO
         public IEnumerable<Configuration> GetConfigurations(int indicatorId)
         {
             return DbTemplateHelper<Configuration>.GetListByProcedure(
+                    Connection,
                     DataStoreModelBuilders.DataReader2Configuration,
                     "config.getconfigurations",
                     new DbParameterHelper[]
@@ -39,6 +49,7 @@ namespace DataStore.DAO
         public Configuration GetConfiguration(int indicatorId, string geoLevel)
         {
             return DbTemplateHelper<Configuration>.GetObjectByProcedure(
+                    Connection,
                     DataStoreModelBuilders.DataReader2Configuration,
                     "config.getconfigurations",
                     new DbParameterHelper[]
@@ -51,6 +62,7 @@ namespace DataStore.DAO
         public string GetShapefileConfigurationURL(int indicatorId, string geoLevel)
         {
             return DbTemplateHelper<string>.GetValueByProcedure(
+                        Connection,
                         "config.getShapefileConfigurarionURL",
                         new DbParameterHelper[]
                         {

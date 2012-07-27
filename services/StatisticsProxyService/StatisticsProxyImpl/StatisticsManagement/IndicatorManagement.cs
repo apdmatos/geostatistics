@@ -5,6 +5,7 @@ using System.Text;
 using StatisticsProxyServiceDefenitions.interfaces;
 using DataStore.Common.Model;
 using DataStore.Common.Data_Interfaces;
+using DataStore.DAO;
 
 namespace StatisticsProxyImpl.StatisticsManagement
 {
@@ -27,44 +28,63 @@ namespace StatisticsProxyImpl.StatisticsManagement
 
         public Indicator GetIndicatorById(int providerid, int indicatorid)
         {
-            return IndicatorDAO.GetIndicatorById(providerid, indicatorid);
+            using (IndicatorDAO.Connection = ConnectionSettings.CreateDBConnection())
+            {
+                return IndicatorDAO.GetIndicatorById(providerid, indicatorid);
+            }
         }
 
         public PaginationWrapper<Indicator> GetIndicators(int providerid, int pageNumber, int recordsPerPage)
         {
-            return new PaginationWrapper<Indicator> {
-                Elements = IndicatorDAO.GetIndicatorsByProviderId(providerid, pageNumber, recordsPerPage),
-                Total = IndicatorDAO.GetTotalIndicators(providerid),
-                Page = pageNumber,
-                RecordsPerPage = recordsPerPage,
-            };
+            using (IndicatorDAO.Connection = ConnectionSettings.CreateDBConnection())
+            {
+                return new PaginationWrapper<Indicator>
+                {
+                    Elements = IndicatorDAO.GetIndicatorsByProviderId(providerid, pageNumber, recordsPerPage),
+                    Total = IndicatorDAO.GetTotalIndicators(providerid),
+                    Page = pageNumber,
+                    RecordsPerPage = recordsPerPage,
+                };
+            }
         }
 
         public PaginationWrapper<Indicator> GetIndicatorsByThemeId(
             int providerid, int themeid, int subthemeid, int pageNumber, int recordsPerPage)
         {
-            return new PaginationWrapper<Indicator>
+            using (IndicatorDAO.Connection = ConnectionSettings.CreateDBConnection())
             {
-                Elements = IndicatorDAO.GetIndicatorsBySubThemeId(providerid, themeid, subthemeid, pageNumber, recordsPerPage),
-                Total = IndicatorDAO.GetTotalIndicators(providerid, themeid, subthemeid),
-                Page = pageNumber,
-                RecordsPerPage = recordsPerPage,
-            };
+                return new PaginationWrapper<Indicator>
+                {
+                    Elements = IndicatorDAO.GetIndicatorsBySubThemeId(providerid, themeid, subthemeid, pageNumber, recordsPerPage),
+                    Total = IndicatorDAO.GetTotalIndicators(providerid, themeid, subthemeid),
+                    Page = pageNumber,
+                    RecordsPerPage = recordsPerPage,
+                };
+            }
         }
 
         public int AddIndicator(Indicator indicator)
         {
-            return IndicatorDAO.AddIndicator(indicator);
+            using (IndicatorDAO.Connection = ConnectionSettings.CreateDBConnection())
+            {
+                return IndicatorDAO.AddIndicator(indicator);
+            }
         }
 
         public int AddConfiguration(int indicatorid, Configuration config)
         {
-            return ConfigurationDAO.AddConfiguration(indicatorid, config);
+            using (ConfigurationDAO.Connection = ConnectionSettings.CreateDBConnection())
+            {
+                return ConfigurationDAO.AddConfiguration(indicatorid, config);
+            }
         }
 
         public IEnumerable<Configuration> GetIndicatorConfigurations(int providerid, int indicatorid)
         {
-            return ConfigurationDAO.GetConfigurations(indicatorid);
+            using (ConfigurationDAO.Connection = ConnectionSettings.CreateDBConnection())
+            {
+                return ConfigurationDAO.GetConfigurations(indicatorid);
+            }
         }
 
         #endregion

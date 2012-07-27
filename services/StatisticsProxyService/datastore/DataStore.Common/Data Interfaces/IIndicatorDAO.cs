@@ -1,10 +1,11 @@
 ﻿using System;
 using DataStore.Common.Model;
 using System.Collections.Generic;
+using DataStore.DTO.Data_Interfaces;
 
 namespace DataStore.Common.Data_Interfaces
 {
-    public interface IIndicatorDAO
+    public interface IIndicatorDAO : IBaseDAO
     {
         int AddIndicator(Indicator indidcator);
 

@@ -40,6 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BaseDAO.cs" />
     <Compile Include="builders\DataStoreModelBuilders.cs" />
     <Compile Include="ConfigurationDAO.cs" />
     <Compile Include="ConnectionSettings.cs" />
