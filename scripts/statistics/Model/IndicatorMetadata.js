@@ -85,6 +85,24 @@ Statistics.Model.IndicatorMetadata = Statistics.Class(Statistics.Model.Attribute
 				return dimension;
 			
 		return null;
+	},
+	
+	/**
+	 * @public
+	 * @function
+	 * @param {Statistics.Model.DimensionType} dimensionType
+	 * @returns {Statistics.Model.Dimension[]} 
+	 * returns all dimensions from the given type
+	 */
+	getDimensionsByType: function(dimensionType) {
+		
+		var typeDimensions = []; 
+		for(var i = 0, dimension; dimension = this.dimensions[i]; ++i)
+			if(dimension.type == dimensionType) 
+				typeDimensions.push ( dimension );
+			
+		return typeDimensions;
+		
 	}
 	
 });

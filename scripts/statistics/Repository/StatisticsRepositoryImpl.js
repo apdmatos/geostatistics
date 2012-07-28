@@ -66,6 +66,45 @@ Statistics.Repository.StatisticsRepositoryImpl = Statistics.Class(Statistics.Rep
 			
 		request = new Statistics.Repository.Request(xhr);
 		return request;			
-	}
+	},
+	
+	/**
+	 * @public
+	 * @function
+	 * @param {String} sourceId
+	 * @param {String} indicatorId
+	 * @param {Statistics.Model.Dimension[]} filterDimensions
+	 * @param {Statistics.Model.Dimension[]} projectedDimensions
+	 * @param {String} shapeAggregationLevel
+	 * @param {Object} callbacks
+	 * 	- successCallback {Function}
+	 *  - failCallback {Function}
+	 *  
+	 * @returns {Statistics.Repository.Request}
+	 */
+	getIndicatorValuesRange: function(sourceId, indicatorId, filterDimensions, projectedDimensions, shapeAggregationLevel, callbacks) {
+		var request = null;
+		
+		//TODO: register and call the fail callback!
+		var xhr = jQuery.getJSON(
+			this.config.getValuesRangeEndpoint() + "?callback=?", 
+			{
+				sourceid: sourceId, 
+				indicatorid: indicatorId,
+				filterDimensions: this.serializer.serializeDimensionsArray(filterDimensions),
+				projectedDimensions: this.serializer.serializeDimensionsArray(projectedDimensions),
+				shapeLevel: shapeAggregationLevel
+			}, 
+			jQuery.proxy(function(data) {
+				if(request.isCanceled()) return;
+				
+				var dataSerie = this.objectFactories.newIndicatorValuesRange(data);
+				callbacks.successCallback(dataSerie);
+				
+			}, this));
+			
+		request = new Statistics.Repository.Request(xhr);
+		return request;
+	}	
 
 });

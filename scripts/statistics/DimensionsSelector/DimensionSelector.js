@@ -40,6 +40,18 @@ Statistics.DimensionSelector = Statistics.Class({
 	 */
 	getProjectionDimensionPosition: function(dimension){
 		/*Must be implemented by each class*/
+	},
+	
+	/**
+	 * @public
+	 * @function
+	 * Each dimension contains attribute levels, indicating the hierarchy. This function will select the
+	 * default level, to represent
+	 * 
+	 * @returns {Statistics.DimensionSelector.AttributeLevel} - indicating the default attribute level
+	 */
+	getDefaultAggregationLevel: function(dimension) {
+		/*Must be implemented by each class*/
 	}
 	
 });

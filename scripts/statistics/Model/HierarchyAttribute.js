@@ -5,6 +5,13 @@ Statistics.Model.HierarchyAttribute = Statistics.Class(Statistics.Model.Attribut
 	
 	/**
 	 * @public
+	 * @property {Boolean} lazyLoad
+	 * Indicates if the hierarchy should be lazy loaded.
+	 */
+	lazyLoad: false,
+	
+	/**
+	 * @public
 	 * @property {Statistics.Model.Attribute} childAttributes
 	 * The hierarchy attributes
 	 */
@@ -16,9 +23,10 @@ Statistics.Model.HierarchyAttribute = Statistics.Class(Statistics.Model.Attribut
 	 * @param {String} name
 	 * @param {Array<Statistics.Model.Attribute>} childAttributes
 	 */
-	_init: function(id, name, childAttributes){
-		Statistics.Model.Attribute.prototype._init.apply(this, [id, name]);
+	_init: function(id, name, level, childAttributes, lazyLoad){
+		Statistics.Model.Attribute.prototype._init.apply(this, [id, name, level]);
 		this.childAttributes = childAttributes ? childAttributes : [];
+		this.lazyLoad = !!lazyLoad;
 	},
 	
 	/**
@@ -97,7 +105,7 @@ Statistics.Model.HierarchyAttribute = Statistics.Class(Statistics.Model.Attribut
  * @param {Object} obj
  * converts this object to a Dimension object
  */
-Statistics.Model.HierarchyAttribute.FromObject = function(obj) {
+Statistics.Model.HierarchyAttribute.FromObject = function(obj, level) {
 	
 	var childAttributes = [];
 	
@@ -108,12 +116,12 @@ Statistics.Model.HierarchyAttribute.FromObject = function(obj) {
 			if(attribute.childAttributes) attr = Statistics.Model.HierarchyAttribute;
 			
 			childAttributes.push(
-				attr.FromObject(attribute)
+				attr.FromObject(attribute, level + 1)
 			);
 		}
 	}
 	
-	return new Statistics.Model.HierarchyAttribute(obj.id, obj.name, childAttributes);
+	return new Statistics.Model.HierarchyAttribute(obj.id, obj.name, level, childAttributes, obj.lazyLoad);
 	
 };
 

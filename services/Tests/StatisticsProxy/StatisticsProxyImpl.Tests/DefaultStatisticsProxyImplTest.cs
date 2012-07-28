@@ -76,14 +76,15 @@ namespace StatisticsProxyImpl.Tests
                     Name = "Geografia",
                     NameAbbr = "Geografia",
                     Attributes = new List<DimensionAttribute> {
-                        new GeoAttributeHierarchy {
+                        new HierarchyAttribute { 
                             ID = "PT",
                             Name = "Portugal",
-                            Configuration = new List<GeoAttributeConfiguration>{
-                                new GeoAttributeConfiguration { ID = "Districts", Level = 1, Name = "Distritos" },
-                                new GeoAttributeConfiguration { ID = "Municipalities", Level = 2, Name = "Concelhos" }
-                            }
+                            LazyLoad = true
                         }
+                    },
+                    AggregationLevels = new List<AggregationLevel> {
+                        new AggregationLevel { ID = "Districts", Level = 1, Name = "Distritos" },
+                        new AggregationLevel { ID = "Municipalities", Level = 2, Name = "Municipios" }
                     }
                 },
                 new Dimension {

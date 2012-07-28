@@ -109,13 +109,14 @@ namespace INEProvider.Test
                         Name = "Dimensao geografica",
                         NameAbbr = "DG",
                         Attributes = new List<DimensionAttribute> {
-                            new GeoAttributeHierarchy { 
+                            new HierarchyAttribute { 
                                 ID = "PT",
                                 Name = "Portugal",
-                                Configuration = new List<GeoAttributeConfiguration>{
-                                    new GeoAttributeConfiguration { ID = "NUTS1", Level = 2, Name = "NUTS 1" }
-                                }
+                                LazyLoad = true
                             }
+                        },
+                        AggregationLevels = new List<AggregationLevel>{
+                            new AggregationLevel { ID = "NUTS1", Level = 2, Name = "NUTS 1" }
                         }
                     }
                 },

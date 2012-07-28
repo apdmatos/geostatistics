@@ -1,0 +1,6 @@
+
+
+Statistics.Map.Control = {
+	
+	
+};

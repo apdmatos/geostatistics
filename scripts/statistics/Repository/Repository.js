@@ -28,8 +28,9 @@ Statistics.Repository = Statistics.Class({
 	 * @param {Statistics.Repository.EndpointConfiguration} configuration
 	 * @param {Statistics.Serializer} serializer - The serializer object to serialize the requests, for axis dimension and selected dimensions
 	 * @param {Object} objectFactories - An object with the following keys
-	 * 	- newIndicatorValuesResult {Object}
-	 *  - newIndicatorMetadata {Object}
+	 * 	- newIndicatorValuesResult {Function}
+	 *  - newIndicatorValuesRange {Function}
+	 *  - newIndicatorMetadata {Function}
 	 */
 	_init: function(configuration, serializer, objectFactories){
 		this.config = configuration;
@@ -67,6 +68,24 @@ Statistics.Repository = Statistics.Class({
 	 */
 	getIndicatorValues: function(sourceId, indicatorId, filterDimensions, projectedDimensions, callbacks){
 		/*should be implemented by each request specific implementation*/	
+	},
+	
+	/**
+	 * @public
+	 * @function
+	 * @param {String} sourceId
+	 * @param {String} indicatorId
+	 * @param {Statistics.Model.Dimension[]} filterDimensions
+	 * @param {Statistics.Model.Dimension[]} projectedDimensions
+	 * @param {String} shapeAggregationLevel
+	 * @param {Object} callbacks
+	 * 	- successCallback {Function}
+	 *  - failCallback {Function}
+	 *  
+	 * @returns {Statistics.Repository.Request}
+	 */
+	getIndicatorValuesRange: function(sourceId, indicatorId, filterDimensions, projectedDimensions, shapeAggregationLevel, callbacks) {
+		/*should be implemented by each request specific implementation*/
 	}
 
 });

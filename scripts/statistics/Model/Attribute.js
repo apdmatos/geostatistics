@@ -16,12 +16,20 @@ Statistics.Model.Attribute = Statistics.Class({
 	name: null,
 	
 	/**
+	 * @public
+	 * @property {int} level
+	 * The attribute level.
+	 */
+	level: 0,
+	
+	/**
 	 * @constructor
 	 * @param {String} name - The attribute name
 	 */
-	_init: function(id, name){
+	_init: function(id, name, level){
 		this.id = id;
 		this.name = name;
+		this.level = level;
 	},
 	
 	/**
@@ -54,9 +62,9 @@ Statistics.Model.Attribute = Statistics.Class({
  * @param {Object} obj
  * converts this object to a Dimension object
  */
-Statistics.Model.Attribute.FromObject = function(obj) {
+Statistics.Model.Attribute.FromObject = function(obj, level) {
 	
-	return new Statistics.Model.Attribute(obj.id, obj.name, obj.selectedByDefault);
+	return new Statistics.Model.Attribute(obj.id, obj.name, level);
 	
 };
 

@@ -72,6 +72,7 @@
 		"lib/pivotTable/data_vortex.js",
 		"lib/pivotTable/pivot_table.js",
 		"lib/dynatree-1.2.0/src/jquery.dynatree.js",
+		"lib/OpenLayers-2.12/OpenLayers.debug.js",
 
 		// Internal
 		"statistics/BaseTypes/Class.js",
@@ -86,24 +87,29 @@
 		"statistics/Model/Attribute.js",
 		"statistics/Model/HierarchyAttribute.js",
 		"statistics/Model/Location.js",
+		"statistics/Model/AggregationLevel.js",
 		"statistics/Model/DimensionsConfig/DimensionConfig.js",
 		"statistics/Model/DimensionsConfig/DimensionFilterConfig.js",
 		"statistics/Model/DimensionsConfig/DimensionProjectionConfig.js",
 		"statistics/Model/DimensionsConfig/ChartSeriesConfig.js",
 		"statistics/Model/DimensionsConfig/PivotTableProjectionConfig.js",
+		"statistics/Model/DimensionsConfig/ThematicMapProjectionConfig.js",
 		"statistics/Model/Filter/DimensionFilter.js",
 		"statistics/Model/Values/IndicatorValue.js",
 		"statistics/Model/Values/IndicatorValuesResult.js",
+		"statistics/Model/Values/IndicatorValuesRange.js",
 		"statistics/ConfigurationEditor/ConfigurationEditor.js",
 		"statistics/ConfigurationEditor/DimensionsConfigEditor.js",
 		"statistics/ConfigurationEditor/PivotTableConfigEditor.js",
 		"statistics/ConfigurationEditor/ChartConfigEditor.js",
 		"statistics/ConfigurationEditor/SeriesConfigEditor.js",
+		"statistics/ConfigurationEditor/ThematicMapConfigEditor.js",
 		"statistics/ConfigurationEditor/Updaters/DimensionUpdater.js",
 		"statistics/ConfigurationEditor/Updaters/DimensionFilterUpdater.js",
 		"statistics/ConfigurationEditor/Updaters/DimensionProjectorUpdater.js",
 		"statistics/ConfigurationEditor/Updaters/SerieDimensionUpdater.js",
 		"statistics/ConfigurationEditor/Updaters/PivotTableProjectorUpdater.js",
+		"statistics/ConfigurationEditor/Updaters/ThematicMapAggregationLevelUpdater.js",
 		"statistics/Repository/Repository.js",
 		"statistics/Repository/Request.js",
 		"statistics/Repository/IndicatorRepositoryMock.js",
@@ -111,16 +117,28 @@
 		"statistics/Repository/EndpointConfiguration/EndpointConfiguration.js",
 		"statistics/Controller/Controller.js",
 		"statistics/Controller/ProjectionController.js",
+		"statistics/Controller/ThematicMapController.js",
 		"statistics/View/View.js",
 		"statistics/View/ChartView.js",
 		"statistics/View/PieChartView.js",
 		"statistics/View/BarChartView.js",
 		"statistics/View/PivotTableView.js",
+		"statistics/View/MapLayerView.js",
 		"statistics/Serializer/Serializer.js",
 		"statistics/Serializer/DimensionSerializer.js",
 		"statistics/Indicator.js",
 		"statistics/i18n/i18n.js",
-		"statistics/i18n/pt.js"
+		"statistics/i18n/pt.js",
+		"statistics/ThematicMap/ThematicMap.js",
+		"statistics/ThematicMap/ThematicMap.js",
+		"statistics/ThematicMap/DimensionSelector.js",
+		"statistics/ThematicMap/DimensionSerializer.js",
+		"statistics/ThematicMap/IntervalsCalculator/IntervalsCalculator.js",
+		"statistics/ThematicMap/IntervalsCalculator/LinearIntervalsCalculator.js",
+		"statistics/ThematicMap/Control/Control.js",
+		"statistics/ThematicMap/Control/LabelControl.js",
+		"statistics/ThematicMap/Layer/Layer.js",
+		"statistics/ThematicMap/Layer/DynamicLayer.js",
 	];
 	
 	var cssFiles = [
@@ -128,7 +146,8 @@
 		"lib/jqplot/jquery.jqplot.min.css",
 		"lib/pivotTable/pivot_table.css",
 		"lib/jquery-ui-1.8.18/css/ui-lightness/jquery-ui-1.8.18.custom.css",
-		"lib/dynatree-1.2.0/src/skin/ui.dynatree.css"
+		"lib/dynatree-1.2.0/src/skin/ui.dynatree.css",
+		"lib/OpenLayers-2.12/theme/default/style.css"
 	];
 	
 	var isIE = (navigator.appName=="Microsoft Internet Explorer");

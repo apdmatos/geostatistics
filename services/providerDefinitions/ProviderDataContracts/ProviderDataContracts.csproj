@@ -50,6 +50,7 @@
     <Compile Include="Metadata\HierarchyAttribute.cs" />
     <Compile Include="Metadata\IndicatorMetadata.cs" />
     <Compile Include="Metadata\GeoAttributeHierarchy.cs" />
+    <Compile Include="Metadata\AggregationLevel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Provider Interfaces\IStatisticsProvider.cs" />
     <Compile Include="Values\IndicatorValue.cs" />

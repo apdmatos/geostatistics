@@ -7,12 +7,13 @@ using System.Runtime.Serialization;
 namespace ProviderDataContracts.Metadata
 {
     [DataContract]
-    [KnownType(typeof(GeoAttributeHierarchy))]
     public class HierarchyAttribute : DimensionAttribute
     {
         [DataMember(Name = "childAttributes", EmitDefaultValue = false)]
         public IEnumerable<DimensionAttribute> ChildAttributes { get; set; }
 
+        [DataMember(Name = "lazyLoad", EmitDefaultValue = false)]
+        public bool LazyLoad { get; set; }
 
         public void AddAttribute(DimensionAttribute attr) 
         {

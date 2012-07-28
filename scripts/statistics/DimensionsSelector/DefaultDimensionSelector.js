@@ -100,6 +100,25 @@ Statistics.DimensionSelector.DefaultDimensionSelector = Statistics.Class(Statist
 		
 	},
 	
+	/**
+	 * @public
+	 * @function
+	 * Each dimension contains attribute levels, indicating the hierarchy. This function will select the
+	 * default level, to represent
+	 * 
+	 * @returns {Statistics.DimensionSelector.AttributeLevel} - indicating the default attribute level
+	 */
+	getDefaultAggregationLevel: function(dimension) {
+		
+		if ( dimension.aggregationLevels && dimension.aggregationLevels.length > 0 ) {
+			
+			var idx = dimension.aggregationLevels.length > 2 ? 1 : 0;
+			return dimension.aggregationLevels[idx];
+		}
+		
+		return null;
+	},
+	
 /**********************************************************************************
  * ********************************************************************************
  * Private methods

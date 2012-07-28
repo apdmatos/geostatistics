@@ -3,11 +3,20 @@
 Statistics.Repository.EndpointConfiguration = {
 	
 	/**
+	 * @public 
+	 * @property {String[]}
+	 * Contains all layer urls
+	 */
+	dynamicLayersURL: [
+		'http://localhost:8080/geoserver/cite/wms'
+	],
+	
+	/**
 	 * @public
 	 * @property {String}
 	 * Contains the server endpoint
 	 */
-	serviceURL: 'http://localhost:30355/services/RestService.svc',
+	serviceURL: 'http://localhost:30355/services/RestService.svc/',
 	
 	/**
 	 * @public
@@ -19,7 +28,17 @@ Statistics.Repository.EndpointConfiguration = {
 	 */
 	operations: {
 		metadata: 'Metadata',
-		values: 'GetIndicatorValues'
+		values: 'GetIndicatorValues',
+		valuesRange: 'GetIndicatorRange'
+	},
+	
+	/**
+	 * @public
+	 * @function
+	 * @returns {String[]} returns 
+	 */
+	getDynamicLayerURLs: function() {
+		return this.dynamicLayersURL;
 	},
 	
 	/**
@@ -39,6 +58,15 @@ Statistics.Repository.EndpointConfiguration = {
 	getValuesEndpoint: function(){
 		return this._getOperationURL('values');
 	},
+	
+	/**
+	 * @public 
+	 * @function
+	 * @returns {String} returns the endpoint to give dataserie.
+	 */
+	getValuesRangeEndpoint: function(){
+		return this._getOperationURL('valuesRange');
+	},	
 	
 	/**
 	 * @private

@@ -24,6 +24,9 @@ namespace ProviderDataContracts.Metadata
         [DataMember(Name = "attributes", EmitDefaultValue = false)] 
         public IEnumerable<DimensionAttribute> Attributes { get; set; }
 
+        [DataMember(Name = "aggregationLevels", EmitDefaultValue = false)]
+        public IEnumerable<AggregationLevel> AggregationLevels { get; set; }
+
         [DataMember(Name = "serverContextData", EmitDefaultValue = false)]
         public Object ServerContextData { get; set; }
 

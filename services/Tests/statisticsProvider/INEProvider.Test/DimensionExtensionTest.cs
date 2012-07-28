@@ -53,17 +53,18 @@ namespace INEProvider.Test
                 NameAbbr = "D1",
                 DimensionType = DimensionType.Geographic,
                 Attributes = new List<DimensionAttribute> {
-                    new GeoAttributeHierarchy {
+                    new HierarchyAttribute {
                         ID = "PT",
                         Name = "Portugal",
-                        Configuration = new List<GeoAttributeConfiguration>{
-                            new GeoAttributeConfiguration { ID = "NUTS1", Level = 2, Name = "NUTS 1" },
-                            new GeoAttributeConfiguration { ID = "NUTS2", Level = 3, Name = "NUTS 2" },
-                            new GeoAttributeConfiguration { ID = "NUTS3", Level = 4, Name = "NUTS 3" },
-                            new GeoAttributeConfiguration { ID = "Municipality", Level = 5, Name = "Concelhos" },
-                            new GeoAttributeConfiguration { ID = "Parish", Level = 6, Name = "Freguesias" }
-                        }
+                        LazyLoad = true
                     }
+                },
+                AggregationLevels = new List<AggregationLevel>{
+                    new AggregationLevel { ID = "NUTS1", Level = 2, Name = "NUTS 1" },
+                    new AggregationLevel { ID = "NUTS2", Level = 3, Name = "NUTS 2" },
+                    new AggregationLevel { ID = "NUTS3", Level = 4, Name = "NUTS 3" },
+                    new AggregationLevel { ID = "Municipality", Level = 5, Name = "Concelhos" },
+                    new AggregationLevel { ID = "Parish", Level = 6, Name = "Freguesias" }
                 }
             };
 

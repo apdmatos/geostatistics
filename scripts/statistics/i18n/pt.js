@@ -19,11 +19,14 @@ Statistics.i18n.pt = {
 	//ChartConfigEditor.js
 	selectDimension: 'Selecione uma dimensão',
 	
+	// ThematicMapConfiguration
+	selectAggregationLevel: 'Selecione um nível de agregação',
+	
 	//SeriesConfigEditor.js
 	selectDataSerie: 'Selecione uma série de dados',
 	addSerie: 'Adicionar série',
 	removeSerie: 'Remover série',
 	
 	//ChartView
-	others: 'Outros'
+	others: 'Outros',
 };

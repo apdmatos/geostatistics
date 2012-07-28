@@ -8,7 +8,6 @@ namespace ProviderDataContracts.Metadata
 {
     [DataContract]
     [KnownType(typeof(HierarchyAttribute))]
-    [KnownType(typeof(GeoAttributeHierarchy))]
     public class DimensionAttribute
     {
         [DataMember(Name = "id", EmitDefaultValue = false)]

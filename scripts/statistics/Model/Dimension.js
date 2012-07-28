@@ -53,16 +53,23 @@ Statistics.Model.Dimension = Statistics.Class({
 	projectedByDefault: false,
 	
 	/**
+	 * @public
+	 * @property {Statistics.Model.AggregationLevel[]}
+	 */
+	aggregationLevels: null, 
+	//attributeConfiguration: null,
+	
+	/**
 	 * @constructor
 	 */
-	_init: function(name, nameAbbr, id, type, attributes){
+	_init: function(name, nameAbbr, id, type, attributes, aggregationLevels){
 		
 		this.name = name;
 		this.nameAbbr = nameAbbr;
 		this.id = id;
 		this.type = type;
 		this.attributes = attributes ? attributes : [];
-		
+		this.aggregationLevels = aggregationLevels;
 	},
 	
 	/**
@@ -133,6 +140,26 @@ Statistics.Model.Dimension = Statistics.Class({
 	/**
 	 * @public
 	 * @function
+	 * @param {String} id
+	 * @returns {Statistics.Model.AggregationLevel}
+	 * returns an attribute configuration, with the given id, if any
+	 */
+	getAggregationLevelById: function(id) {
+		
+		if(this.aggregationLevels) {
+			for (var i = 0, aggregationLevel; aggregationLevel = this.aggregationLevels[i]; ++i) {
+				if(aggregationLevel.id == id)
+					return aggregationLevel;
+			}
+		}
+		
+		return null;
+		
+	},
+	
+	/**
+	 * @public
+	 * @function
 	 * @param {Boolean} cloneAttributes
 	 * 
 	 * Indicates if the attributes should be cloned too.
@@ -148,7 +175,13 @@ Statistics.Model.Dimension = Statistics.Class({
 			}
 		}
 		
-		return new Statistics.Model.Dimension(this.name, this.nameAbbr, this.id, this.type, attributes);
+		return new Statistics.Model.Dimension(
+			this.name, 
+			this.nameAbbr, 
+			this.id, 
+			this.type, 
+			attributes, 
+			this.aggregationLevels);
 	},
 	
 	/**
@@ -163,6 +196,7 @@ Statistics.Model.Dimension = Statistics.Class({
 		this.name = dimension.name;
 		this.nameAbbr = dimension.nameAbbr;
 		this.type = dimension.type;
+		this.attributeConfiguration = dimension.aggregationLevels;
 		
 		if(copyAttributes) this.attributes = dimension.attributes;
 	}
@@ -184,10 +218,10 @@ Statistics.Model.Dimension.FromObject = function(obj){
 		for (var i = 0, attribute; attribute = obj.attributes[i]; i++) {
 			
 			var attr = Statistics.Model.Attribute;
-			if(attribute.childAttributes) attr = Statistics.Model.HierarchyAttribute;
+			if(attribute.childAttributes || attribute.lazyLoad) attr = Statistics.Model.HierarchyAttribute;
 			
 			attributes.push(
-				attr.FromObject(attribute)
+				attr.FromObject(attribute, 0)
 			);
 		}
 	}
@@ -197,7 +231,16 @@ Statistics.Model.Dimension.FromObject = function(obj){
 					Statistics.Model.DimensionType[obj.type] : 
 					Statistics.Model.DimensionType.Other;
 	
-	return new Statistics.Model.Dimension(obj.name, obj.nameAbbr, obj.id, obj.type, attributes, obj.projectedByDefault); 
+	var aggregationLevels = [];
+	if(obj.attributeConfiguration) {
+		for (var i = 0; i < obj.aggregationLevels; ++i) {
+			aggregationLevels.push( Statistics.Model.AggregationLevel.FromObject(obj) );
+		}
+	}
+	
+	return new Statistics.Model.Dimension(
+			obj.name, obj.nameAbbr, obj.id, obj.type, 
+			attributes, aggregationLevels); 
 	
 };
 
