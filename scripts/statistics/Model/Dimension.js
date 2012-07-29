@@ -232,9 +232,9 @@ Statistics.Model.Dimension.FromObject = function(obj){
 					Statistics.Model.DimensionType.Other;
 	
 	var aggregationLevels = [];
-	if(obj.attributeConfiguration) {
-		for (var i = 0; i < obj.aggregationLevels; ++i) {
-			aggregationLevels.push( Statistics.Model.AggregationLevel.FromObject(obj) );
+	if(obj.aggregationLevels) {
+		for (var i = 0, level; level = obj.aggregationLevels[i]; ++i) {
+			aggregationLevels.push( Statistics.Model.AggregationLevel.FromObject(level) );
 		}
 	}
 	

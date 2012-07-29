@@ -74,6 +74,8 @@ Statistics.View.MapLayerView = Statistics.Class(Statistics.View, {
 			this.configuration.aggregationLevel,
 			this.configuration.colors
 		);
+		
+		this.map.addLayer(this.dynamicLayer);
 	},
 
 /**********************************************************************************

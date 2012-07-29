@@ -9,11 +9,13 @@ namespace ProviderDataContracts.Metadata
     [DataContract]
     public class AggregationLevel
     {
-        [DataMember(EmitDefaultValue = false)]
+        [DataMember(Name = "id", EmitDefaultValue = false)]
         public string ID { get; set; }
-        [DataMember(EmitDefaultValue = false)]
+
+        [DataMember(Name = "name", EmitDefaultValue = false)]
         public string Name { get; set; }
-        [DataMember(EmitDefaultValue = false)]
+
+        [DataMember(Name = "level", EmitDefaultValue = false)]
         public int Level { get; set; }
 
         public override bool Equals(object obj)

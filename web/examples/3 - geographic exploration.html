@@ -1,0 +1,113 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<title>Densidade populacional</title>
+		<script type="text/javascript" src="../../scripts/statistics_debug.js"></script>
+		<style>
+			
+			#map {
+				width: 500px;
+				height: 500px;
+			}
+			
+		</style>
+		<script type='text/javascript'>
+
+			var map;
+			var repository = 
+					new Statistics.Repository.StatisticsRepositoryImpl(
+						Statistics.Repository.EndpointConfiguration, 
+						new Statistics.Serializer.DimensionSerializer(),
+						{
+							newIndicatorMetadata: Statistics.Model.IndicatorMetadata.FromObject,
+							newIndicatorValuesResult: Statistics.Model.Values.IndicatorValuesResult.FromObject,
+							newIndicatorValuesRange: Statistics.Model.Values.IndicatorValuesRange.FromObject
+						});
+			
+			var dimensionSelector = new Statistics.ThematicMap.DimensionsSelector(); 
+			var config = new Statistics.Model.DimensionConfig.ThematicMapProjectionConfig(
+				dimensionSelector,
+				new Statistics.Model.DimensionConfig.DimensionFilterConfig(dimensionSelector)
+			);
+			
+			var treeConfigEditor = new Statistics.ConfigurationEditor.DimensionsConfigEditor(config, new Statistics.ConfigurationEditor.DimensionFilterUpdater(config));
+			var aggregationEditor = new Statistics.ConfigurationEditor.ThematicMapConfigEditor(config, new Statistics.ConfigurationEditor.ThematicMapAggregationLevelUpdater(config));
+			
+			function init() {
+			    map = new OpenLayers.Map({
+			        div: "map",
+			        theme: null,
+			        projection: new OpenLayers.Projection("EPSG:4326"),
+			        numZoomLevels: 18,
+			        controls: [
+						new OpenLayers.Control.Navigation(
+		                    {mouseWheelOptions: {interval: 100}}
+		                ),
+			            new OpenLayers.Control.TouchNavigation({
+			                dragPanOptions: {
+			                    enableKinetic: true
+			                }
+			            }),
+			            new OpenLayers.Control.Zoom()
+			        ],
+			        layers: [
+			            new OpenLayers.Layer.OSM("OpenStreetMap", null, {
+			                transitionEffect: 'resize'
+			            })
+			        ]
+			    });
+			    map.setCenter(new OpenLayers.LonLat(-814637.11903987, 4806398.337903), 7);
+				
+				var view = new Statistics.View.MapLayerView(
+					map, 
+					new Statistics.ThematicMap.Layer.DynamicLayer(
+						new Statistics.ThematicMap.DimensionsSerializer(),
+						Statistics.Repository.EndpointConfiguration
+					),
+					new Statistics.ThematicMap.Control.LabelControl());
+				
+				var controller = new Statistics.Controller.ThematicMapController(
+					config,
+					repository,
+					view
+				);
+				
+				var indicator = new Statistics.Indicator(
+					687, 
+					1, 
+					repository, 
+					[config]
+				);
+				
+				treeConfigEditor.draw( $("#filters") );
+				aggregationEditor.draw( $("#project") );
+			}
+			
+			window.onload = init;
+			
+			function ok() {
+				
+				treeConfigEditor.applyChanges();
+				aggregationEditor.applyChanges();
+				
+			}
+			
+			function cancel() {
+				treeConfigEditor.discardChanges();
+				aggregationEditor.discardChanges();
+			}
+			
+		</script>
+	</head>
+	<body>
+		
+		<div id="map"></div>
+		
+		<div id="filters"></div>
+		
+		<div id="project"></div>		
+		<input type="button" onclick="ok();" value="ok" />
+		<input type="button" onclick="cancel();" value="cancelar" />
+	</body>
+</html>

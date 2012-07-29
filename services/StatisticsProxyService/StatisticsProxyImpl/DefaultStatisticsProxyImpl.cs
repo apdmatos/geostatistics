@@ -33,8 +33,14 @@ namespace StatisticsProxyImpl
 
         public IndicatorMetadata GetMetadata(int sourceid, int indicatorid)
         {
-            Indicator indicator = _indicatorRepository.GetIndicatorById(sourceid, indicatorid);
-            
+            Indicator indicator = null;
+            using (_indicatorRepository.Connection = ConnectionSettings.CreateDBConnection())
+            {
+                indicator = _indicatorRepository.GetIndicatorById(sourceid, indicatorid);
+            }
+
+            if (indicator == null) return null;
+
             using (IStatisticsRequestStrategy request = _factory.GetStatisticRequestStrategy(indicator.Provider.ServiceURL, _configurationKey)) 
             {
                 IndicatorMetadata metadata = request.GetMetadata(indicator.SourceID);
@@ -49,7 +55,11 @@ namespace StatisticsProxyImpl
 
         public IndicatorValues GetIndicatorValues(int sourceid, int indicatorid, IEnumerable<DimensionFilter> filterDimensions, IEnumerable<DimensionFilter> projectedDimensions)
         {
-            Indicator indicator = _indicatorRepository.GetIndicatorById(sourceid, indicatorid);
+            Indicator indicator = null;
+            using (_indicatorRepository.Connection = ConnectionSettings.CreateDBConnection())
+            {
+                indicator = _indicatorRepository.GetIndicatorById(sourceid, indicatorid);
+            }
             if (indicator == null) return null;
 
             IEnumerable<IndicatorValue> values = null;
@@ -68,7 +78,11 @@ namespace StatisticsProxyImpl
 
         public IndicatorValueRange GetIndicatorValuesRange(int sourceid, int indicatorid, IEnumerable<DimensionFilter> filterDimensions, IEnumerable<DimensionFilter> projectedDimensions, string shapeLevel)
         {
-            Indicator indicator = _indicatorRepository.GetIndicatorById(sourceid, indicatorid);
+            Indicator indicator = null;
+            using (_indicatorRepository.Connection = ConnectionSettings.CreateDBConnection())
+            {
+                indicator = _indicatorRepository.GetIndicatorById(sourceid, indicatorid);
+            }
             if (indicator == null) return null;
 
             IndicatorValueRange range = null;

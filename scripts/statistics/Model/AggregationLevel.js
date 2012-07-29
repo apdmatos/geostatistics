@@ -47,7 +47,7 @@ Statistics.Model.AggregationLevel = Statistics.Class({
  */
 Statistics.Model.AggregationLevel.FromObject = function(obj) {
 	
-	return new Statistics.Model.AttributeConfiguration(obj.id, obj.name, obj.level);
+	return new Statistics.Model.AggregationLevel(obj.id, obj.name, obj.level);
 	
 };
 

@@ -29,17 +29,17 @@ Statistics.ConfigurationEditor.ThematicMapConfigEditor = Statistics.Class(Statis
 			+ "</select>").appendTo(this.div);
 		
 		var geoDimension = this.configuration.getMetadata().getDimensionsByType( Statistics.Model.DimensionType.Geographic )[0];
-		for(var i = 0, attrConf; attrConf = geoDimension.attributeConfiguration[i]; ++i)
+		for(var i = 0, level; level = geoDimension.aggregationLevels[i]; ++i)
 			this.aggregationLevelSelect.append(
-				"<option class='stats-dim' value='" + attrConf.id + "'>" + attrConf.name + "</option>"
+				"<option class='stats-dim' value='" + level.id + "'>" + level.name + "</option>"
 			);
 		
-		this.dimensionSelect.change(function(){
+		this.aggregationLevelSelect.change(function(){
 			if(!$(this).hasClass('.stats-dim-dummy')) {
 				
 //				var metadata = self.configuration.getMetadata();
 //				var geoDimension = metadata.getDimensionsByType( Statistics.Model.DimensionType.Geographic );
-				var aggregationLevel = geoDimension.getAttributeConfigurationById( $(this).val() );
+				var aggregationLevel = geoDimension.getAggregationLevelById( $(this).val() );
 				
 				self.updater.setAggregationLevel( aggregationLevel );
 			}
@@ -85,7 +85,7 @@ Statistics.ConfigurationEditor.ThematicMapConfigEditor = Statistics.Class(Statis
 		var value = 'none';
 		if(aggregationLevel) value = aggregationLevel.id;
 		
-		aggregationLevelSelect.val( value );
+		this.aggregationLevelSelect.val( value );
 	}
 	
 });

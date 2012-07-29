@@ -52,7 +52,7 @@ Statistics.Model.DimensionConfig.ThematicMapProjectionConfig =
 	selectDefaultDimensions: function() { 
 		
 		var geographicDimension = this.metadata.getDimensionsByType(Statistics.Model.DimensionType.Geographic)[0];
-		this.aggregationLevel = getDefaultAggregationLevel(geographicDimension);
+		this.aggregationLevel = this.dimensionSelector.getDefaultAggregationLevel(geographicDimension);
 		
 		var base = Statistics.Model.DimensionConfig.DimensionProjectionConfig; 
 		base.prototype.selectDefaultDimensions.apply(this, arguments);

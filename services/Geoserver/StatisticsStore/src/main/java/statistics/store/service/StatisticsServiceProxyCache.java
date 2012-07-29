@@ -26,19 +26,19 @@ public class StatisticsServiceProxyCache implements IStatisticsServiceProxy {
 
     @Override
     public IndicatorValuesFuture getIndicatorValues(IndicatorConfiguration config, List<String> shapeIds) {
-        //return proxy.getIndicatorValues(config, shapeIds);
+        return proxy.getIndicatorValues(config, shapeIds);
 
-        String rangeKey = "values_" + generateKey(config, shapeIds);
-        IndicatorValuesFuture values = null;
-
-        if(cache.hasResource(rangeKey)) {
-            return (IndicatorValuesFuture)cache.getResource(rangeKey);
-        }
-
-        values = proxy.getIndicatorValues(config, shapeIds);
-        cache.addResource(rangeKey, values);
-
-        return values;
+//        String rangeKey = "values_" + generateKey(config, shapeIds);
+//        IndicatorValuesFuture values = null;
+//
+//        if(cache.hasResource(rangeKey)) {
+//            return (IndicatorValuesFuture)cache.getResource(rangeKey);
+//        }
+//
+//        values = proxy.getIndicatorValues(config, shapeIds);
+//        cache.addResource(rangeKey, values);
+//
+//        return values;
     }
 
     @Override

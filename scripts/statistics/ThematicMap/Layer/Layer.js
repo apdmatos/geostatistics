@@ -1,6 +1,6 @@
 
 
-Statistics.Map.Layer = {
+Statistics.ThematicMap.Layer = {
 	
 	
 };

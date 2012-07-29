@@ -1,7 +1,7 @@
 
 
-Statistics.ThematicMap.Calculator.LinearIntervalsCalculator = 
-	Statistics.Class(Statistics.ThematicMap.Calculator.IntervalsCalculator, 
+Statistics.ThematicMap.IntervalsCalculator.LinearIntervalsCalculator = 
+	Statistics.Class(Statistics.ThematicMap.IntervalsCalculator, 
 {
 	
 	

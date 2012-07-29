@@ -1,6 +1,6 @@
 
 
-Statistics.Map.DimensionsSerializer = Statistics.Class(Statistics.Serializer.DimensionSerializer, {
+Statistics.ThematicMap.DimensionsSerializer = Statistics.Class(Statistics.Serializer.DimensionSerializer, {
 	
 	/**
 	 * @private

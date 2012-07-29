@@ -1,6 +1,6 @@
 
 
-Statistics.Map.Control = {
+Statistics.ThematicMap.Control = {
 	
 	
 };

@@ -1,6 +1,6 @@
 
 
-Statistics.Map.Control.LabelControl = Statistics.Class(OpenLayers.Control, {
+Statistics.ThematicMap.Control.LabelControl = Statistics.Class(OpenLayers.Control, {
 	
 	colors: null,
 	

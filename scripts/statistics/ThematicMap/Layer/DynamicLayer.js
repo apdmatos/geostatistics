@@ -1,6 +1,6 @@
 
 
-Statistics.Map.Layer.DynamicLayer = Statistics.Class(OpenLayers.Layer.WMS, {
+Statistics.ThematicMap.Layer.DynamicLayer = Statistics.Class(OpenLayers.Layer.WMS, {
 	
 	/**
 	 * @static
@@ -22,20 +22,33 @@ Statistics.Map.Layer.DynamicLayer = Statistics.Class(OpenLayers.Layer.WMS, {
 	 * @param {Statistics.Repository.EndpointConfiguration} configuration
 	 * @param {Object} options - layer options
 	 */
-	_init: function(serializer, endpointConfiguration, options) {
+	_init: function(serializer, endpointConfiguration, layerParams, options) {
 		
 		var extendedOptions = jQuery.extend({}, options, {
-			yx : {'EPSG:4326' : true}
+			buffer: 0,
+	        displayOutsideMaxExtent: true,
+	        isBaseLayer: false,
+	        yx : {'EPSG:4326' : true},
 		});
+		
+		var extendedParams = jQuery.extend({}, layerParams, {
+			LAYERS: 'cite:StatisticsLayer',
+            STYLES: 'statistics style',
+            format: 'image/png',
+            tiled: true,
+			transparent: true
+		});
+		
+		var bounds = new OpenLayers.Bounds(
+                    -180, -90,
+                    180, 90
+                );
+		
 		OpenLayers.Layer.WMS.prototype.initialize.apply(this, 
 			[
 				this.LAYER_NAME,
 				endpointConfiguration.getDynamicLayerURLs(),
-				{
-					LAYERS: 'cite:StatisticsLayer',
-					format: 'image/png',
-					styles: 'statistics style' 
-				},
+				extendedParams,
 				extendedOptions
 			]);
 			
@@ -62,10 +75,34 @@ Statistics.Map.Layer.DynamicLayer = Statistics.Class(OpenLayers.Layer.WMS, {
 		
 		this.serializer.setAggregationLevel(aggregationLevel);
 		this.mergeNewParams({
-			sourceId: sourceid,
-			indicatorId: indicatorid,
-			filterdimensions: "'" + this.serializer.serializeDimensionsArray( filterDimensions ) + "'",
-			projecteddimensions: "'" + this.serializer.serializeDimensionsArray( projectedDimensions ) + "'"
+			cql_filter: this._buildCQLFilter({
+				sourceId: sourceid,
+				indicatorId: indicatorid,
+				filterdimensions: "'" + this.serializer.serializeDimensionsArray( filterDimensions ) + "'",
+				projecteddimensions: "'" + this.serializer.serializeDimensionsArray( projectedDimensions ) + "'"				
+			})
 		});
+	},
+
+/**********************************************************************************
+ * ********************************************************************************
+ * Private methods
+ **********************************************************************************
+ **********************************************************************************/
+	
+	/**
+	 * @private
+	 * @function
+	 * @param {Object} obj
+	 * @returns {String}
+	 */
+	_buildCQLFilter: function(obj) {
+		
+		var str = "";
+		for(var key in obj) {
+			str += key + "=" + obj[key] + " AND ";
+		}
+		
+		return str.substring(0, str.length - 5);
 	}
 });

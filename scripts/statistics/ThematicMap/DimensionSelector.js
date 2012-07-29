@@ -1,6 +1,6 @@
 
 
-Statistics.Map.DimensionsSelector = Statistics.Class(Statistics.DimensionsSelector.DefaultDimensionsSelector, {
+Statistics.ThematicMap.DimensionsSelector = Statistics.Class(Statistics.DimensionSelector.DefaultDimensionSelector, {
 
 	/**
 	 * @public

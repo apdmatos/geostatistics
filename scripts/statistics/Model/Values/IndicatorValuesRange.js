@@ -1,5 +1,5 @@
 
-Statistics.Model.Values.IndicatorValueRange = Statistics.Class({
+Statistics.Model.Values.IndicatorValuesRange = Statistics.Class({
 	
 	/**
 	 * @public
@@ -25,10 +25,10 @@ Statistics.Model.Values.IndicatorValueRange = Statistics.Class({
 
 
 
-Statistics.Model.Values.IndicatorValueRange.FromObject = function(obj) {
+Statistics.Model.Values.IndicatorValuesRange.FromObject = function(obj) {
 	
-	return new Statistics.Model.Values.IndicatorValueRange(
-		Statistics.Model.Values.IndicatorValue.FromObject(obj.min),
-		Statistics.Model.Values.IndicatorValue.FromObject(obj.max)
+	return new Statistics.Model.Values.IndicatorValuesRange(
+		new Statistics.Model.Values.IndicatorValue.FromObject(obj.Minimum),
+		new Statistics.Model.Values.IndicatorValue.FromObject(obj.Maximum)
 	);
 }

@@ -18,7 +18,7 @@ namespace ProviderDataContracts.Metadata
         [DataMember(Name = "nameAbbr", EmitDefaultValue = false)]
         public string NameAbbr { get; set; }
 
-        [DataMember(Name = "type", EmitDefaultValue = false)] 
+        [DataMember(Name = "type")] 
         public DimensionType DimensionType { get; set; }
 
         [DataMember(Name = "attributes", EmitDefaultValue = false)] 

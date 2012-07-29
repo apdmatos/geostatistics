@@ -186,8 +186,8 @@ public class StatisticsQueryParser {
 
             StatisticsRequestParameters request = getParameters();
             indicator = new IndicatorConfiguration(
-                            request.sourceId,
                             request.indicatorId,
+                            request.sourceId,
                             parseDimensions(request.filterDimensions),
                             parseDimensions(request.projectedDimensions)
                         );

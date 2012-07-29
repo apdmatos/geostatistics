@@ -1,6 +1,6 @@
 
 
-Statistics.Controller.ProjectionController = Statistics.Class(Statistics.Controller, {
+Statistics.Controller.ThematicMapController = Statistics.Class(Statistics.Controller, {
 	
 	/**
 	 * @private
@@ -21,6 +21,11 @@ Statistics.Controller.ProjectionController = Statistics.Class(Statistics.Control
 		// Register some events to configuration
 		this.configuration.events.bind (
 				'config::aggregationLevelConfigurationChanges', 
+				jQuery.proxy(this.onRenderData, this));
+				
+		// Register some events to configuration
+		this.configuration.events.bind (
+				'config::projectedDimensionsChanged', 
 				jQuery.proxy(this.onRenderData, this));
 	},	
 	
