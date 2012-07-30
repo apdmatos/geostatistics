@@ -57,7 +57,7 @@ Statistics.View.MapLayerView = Statistics.Class(Statistics.View, {
 	 */
 	setData: function(data) {
 		this.labelControl.setIndicatorRangeValues( data, this.configuration.colors );
-		this.map.addControl( labelControl );
+		this.map.addControl( this.labelControl );
 	},
 	
 	/**

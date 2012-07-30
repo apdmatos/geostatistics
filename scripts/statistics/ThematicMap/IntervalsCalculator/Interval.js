@@ -1,6 +1,6 @@
 
 
-Statistics.ThemeticMap.IntervalsCalculator.Interval = Statistics.Class({
+Statistics.ThematicMap.IntervalsCalculator.Interval = Statistics.Class({
 	
 	/**
 	 * @public

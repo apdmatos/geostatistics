@@ -43,6 +43,7 @@ Statistics.ThematicMap.Control.LabelControl = Statistics.Class(OpenLayers.Contro
 			this.redraw();
 		}
 		
+		this.div.className = 'statistics_labels_control';
 		this.div.style.position = 'absolute';
 		this.div.style.right = '0';
 		this.div.style.bottom = '0';
@@ -56,12 +57,12 @@ Statistics.ThematicMap.Control.LabelControl = Statistics.Class(OpenLayers.Contro
 	 */
 	redraw: function() {
 		
-		this.div.empty();
+		$(this.div).empty();
 		
 		var intervals = this.intervalsCalculator.calculate(this.indicatorRange, this.colors.length);
 		for (var i = 0, interval; interval = intervals[i]; ++i) {
-			$("<div>" + 
-				"<span style='backgound:" + this.colors[i] + "'></span>" + 
+			$("<div class='stistics_legend_color_item'>" + 
+				"<span class='statistics_legend_color' style='background:" + this.colors[i] + "'></span>" + 
 				interval.min + " - " + interval.max + 
 			  "</div>"
 			).appendTo(this.div);

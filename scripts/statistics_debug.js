@@ -135,6 +135,7 @@
 		"statistics/ThematicMap/DimensionsSerializer.js",
 		"statistics/ThematicMap/IntervalsCalculator/IntervalsCalculator.js",
 		"statistics/ThematicMap/IntervalsCalculator/LinearIntervalsCalculator.js",
+		"statistics/ThematicMap/IntervalsCalculator/Interval.js",
 		"statistics/ThematicMap/Control/Control.js",
 		"statistics/ThematicMap/Control/LabelControl.js",
 		"statistics/ThematicMap/Layer/Layer.js",

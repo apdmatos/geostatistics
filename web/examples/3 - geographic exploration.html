@@ -11,6 +11,24 @@
 				height: 500px;
 			}
 			
+			.statistics_labels_control {
+				background: #F5F5F5;
+				padding: 20px;
+			}
+			
+			div.stistics_legend_color_item {
+				
+			}
+			
+			.statistics_legend_color {
+				width: 18px;
+				height: 17px;
+				display: block;
+				float: left;
+				margin-right: 5px;
+			}
+			
+			
 		</style>
 		<script type='text/javascript'>
 
@@ -65,7 +83,9 @@
 						new Statistics.ThematicMap.DimensionsSerializer(),
 						Statistics.Repository.EndpointConfiguration
 					),
-					new Statistics.ThematicMap.Control.LabelControl());
+					new Statistics.ThematicMap.Control.LabelControl(
+						new Statistics.ThematicMap.IntervalsCalculator.LinearIntervalsCalculator()
+					));
 				
 				var controller = new Statistics.Controller.ThematicMapController(
 					config,
