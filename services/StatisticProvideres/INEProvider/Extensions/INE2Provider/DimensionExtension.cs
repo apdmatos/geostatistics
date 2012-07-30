@@ -27,12 +27,10 @@ namespace INEProvider.Extensions.INE2Provider
 
             return new Dimension
             {
-                //ID = ineDimension.Code,
                 ID = Configuration.TIME_DIMENSION_ORDER.ToString(),
                 DimensionType = DimensionType.Temporal,
                 Name = ineDimension.Designation,
                 NameAbbr = ineDimension.Abbreviation,
-                //ServerContextData = Configuration.TIME_DIMENSION_ORDER,
                 Attributes = attributes
             };
         }
@@ -115,12 +113,10 @@ namespace INEProvider.Extensions.INE2Provider
             }
             
             return new Dimension { 
-                //ID = ineDimension.Code,
                 ID = order.ToString(),
                 DimensionType = type,
                 Name = ineDimension.Designation,
                 NameAbbr = ineDimension.Abbreviation,
-                //ServerContextData = order,
                 Attributes = attributes
             };
         }

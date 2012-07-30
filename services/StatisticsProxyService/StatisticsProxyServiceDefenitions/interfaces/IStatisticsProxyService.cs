@@ -21,5 +21,8 @@ namespace StatisticsProxyServiceDefenitions.interfaces
 
         [OperationContract]
         IndicatorValueRange GetIndicatorValuesRange(int sourceid, int indicatorid, IEnumerable<DimensionFilter> filterDimensions, IEnumerable<DimensionFilter> projectedDimensions, String shapeLevel);
+
+        [OperationContract]
+        IEnumerable<DimensionAttribute> GetAttributes(int sourceid, int indicatorid, string dimensionid, string attributeRootId, int level);
     }
 }

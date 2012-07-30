@@ -42,5 +42,11 @@ namespace StatisticsServices.RestService
 
             return service.GetIndicatorValuesRange(sourceid, indicatorid, filters, projected, shapeLevel);
         }
+
+
+        public IEnumerable<DimensionAttribute> GetAttributes(int sourceid, int indicatorid, string dimensionId, string attributeRootId, int level)
+        {
+            return service.GetAttributes(sourceid, indicatorid, dimensionId, attributeRootId, level);
+        }
     }
 }

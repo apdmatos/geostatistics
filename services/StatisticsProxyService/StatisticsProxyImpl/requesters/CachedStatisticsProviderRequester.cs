@@ -37,6 +37,11 @@ namespace StatisticsProxyImpl.requesters
             return _requester.GetValuesRange(indicatorId, filters, projected, shapeLevel);
         }
 
+        public IEnumerable<DimensionAttribute> GetAttributes(string indicatorId, string dimensionId, string attributeRootId, int level)
+        {
+            return _requester.GetAttributes(indicatorId, dimensionId, attributeRootId, level);
+        }
+
         public void Dispose()
         {
             _requester.Dispose();

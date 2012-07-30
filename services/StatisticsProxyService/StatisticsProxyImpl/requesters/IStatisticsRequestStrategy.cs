@@ -11,5 +11,6 @@ namespace StatisticsProxyImpl.requesters
         IndicatorMetadata GetMetadata(string indicatorId);
         IEnumerable<IndicatorValue> GetValues(string indicatorId, IEnumerable<DimensionFilter> filters, IEnumerable<DimensionFilter> projected);
         IndicatorValueRange GetValuesRange(string indicatorId, IEnumerable<DimensionFilter> filters, IEnumerable<DimensionFilter> projected, String shapeLevel);
+        IEnumerable<DimensionAttribute> GetAttributes(string indicatorId, string dimensionId, string attributeRootId, int level);
     }
 }

@@ -24,5 +24,13 @@ namespace INEProvider.request
                 return service.GetValues(indicator, dimensionFilter, valuesType, language, pageNumber, recordsPerPage);
             }
         }
+
+        public List<Category> GetClassificationCategories(string classification, int highestClassificationLevel, int lowestClassificationLevel, string language, int pageNumber, int recordsPerPage)
+        {
+            using (INEProvider.INEService.StatisticsClient service = new INEProvider.INEService.StatisticsClient())
+            {
+                return service.GetClassificationCategories(classification, highestClassificationLevel, lowestClassificationLevel, language, pageNumber, recordsPerPage);
+            }
+        }
     }
 }

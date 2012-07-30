@@ -20,5 +20,8 @@ namespace ProviderDataContracts.Metadata.Provider_Interfaces
 
         [OperationContract]
         IndicatorValueRange GetIndicatorValuesRange(string indicatorId, IEnumerable<DimensionFilter> filters, IEnumerable<DimensionFilter> projected, String geographicLevel);
+
+        [OperationContract]
+        IEnumerable<DimensionAttribute> GetAttributes(string indicatorId, string dimensionId, string attributeRootId, int level);
     }
 }

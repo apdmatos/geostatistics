@@ -93,5 +93,23 @@ namespace StatisticsProxyImpl
 
             return range;
         }
+
+        public IEnumerable<DimensionAttribute> GetAttributes(int sourceid, int indicatorid, string dimensionid, string attributeRootId, int level)
+        {
+            Indicator indicator = null;
+            using (_indicatorRepository.Connection = ConnectionSettings.CreateDBConnection())
+            {
+                indicator = _indicatorRepository.GetIndicatorById(sourceid, indicatorid);
+            }
+            if (indicator == null) return null;
+
+            IEnumerable<DimensionAttribute> attributes = null;
+            using (IStatisticsRequestStrategy request = _factory.GetStatisticRequestStrategy(indicator.Provider.ServiceURL, _configurationKey))
+            {
+                attributes = request.GetAttributes(indicator.SourceID, dimensionid, attributeRootId, level);
+            }
+
+            return attributes;
+        }
     }
 }

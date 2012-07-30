@@ -31,5 +31,11 @@ namespace StatisticsServices.RestService
             UriTemplate = "GetIndicatorRange?sourceid={sourceid}&indicatorid={indicatorid}&filterDimensions={filterDimensions}&projectedDimensions={projectedDimensions}&shapeLevel={shapeLevel}",
             ResponseFormat = WebMessageFormat.Json)]
         IndicatorValueRange GetIndicatorValuesRange(int sourceid, int indicatorid, string filterDimensions, string projectedDimensions, string shapeLevel);
+
+        [OperationContract]
+        [WebGet(
+            UriTemplate = "Attributes?sourceid={sourceid}&indicatorid={indicatorid}&dimensionid={dimensionid}&attributeRootid={attributeRootid}&level={level}",
+            ResponseFormat = WebMessageFormat.Json)]
+        IEnumerable<DimensionAttribute> GetAttributes(int sourceid, int indicatorid, string dimensionid, string attributeRootid, int level);
     }
 }

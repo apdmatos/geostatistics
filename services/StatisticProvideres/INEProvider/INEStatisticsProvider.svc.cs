@@ -51,7 +51,6 @@ namespace INEProvider
             return ineValues.IndicatorValueList.ToIndicatorValueEnumerable().ToList();
         }
 
-
         public IndicatorValueRange GetIndicatorValuesRange(string indicatorId, IEnumerable<DimensionFilter> filters, IEnumerable<DimensionFilter> projected, string geographicLevel)
         {
             //Join filters
@@ -92,6 +91,22 @@ namespace INEProvider
                 Minimum = min
             };
 
+        }
+
+        public IEnumerable<DimensionAttribute> GetAttributes(string indicatorId, string dimensionId, string attributeRootId, int level)
+        {
+            INEService.Metadata metadata = _requester.GetMetadata(indicatorId, false, Configuration.LANGUAGE);
+            if (metadata != null)
+            {
+                INEService.Dimension d = metadata.GetDimension(dimensionId);
+                if (d != null)
+                {
+                    IEnumerable<INEService.Category> categories = _requester.GetClassificationCategories(d.ClassificationCode, level, level, Configuration.LANGUAGE, 1, Configuration.MAX_RECORDS_PER_PAGE).Where(c => c.ParentCategoryCode == attributeRootId);
+                    return categories.ToDimensionAttributeEnumerable(d.LowestClassificationLevel);
+                }
+            }
+                
+            return null;
         }
     }
 }

@@ -20,6 +20,16 @@ namespace INEProvider.Extensions.INE2Provider
             yield break;
         }
 
+        public static IEnumerable<DimensionAttribute> ToDimensionAttributeEnumerable(this IEnumerable<INEService.Category> categories, int lowestClassificationLevel)
+        {
+            foreach (var category in categories)
+            {
+                yield return ToDimensionAttribute(category, category.Level < lowestClassificationLevel);
+            }
+
+            yield break;
+        }
+
         public static DimensionAttribute ToDimensionAttribute(this INEService.Category category, bool hierarchical) 
         {
             if (hierarchical)

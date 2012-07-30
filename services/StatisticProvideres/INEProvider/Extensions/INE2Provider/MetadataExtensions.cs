@@ -40,5 +40,14 @@ namespace INEProvider.Extensions.INE2Provider
             };
         }
 
+        public static INEService.Dimension GetDimension(this INEProvider.INEService.Metadata metadata, string dimensionId)
+        {
+            int order = int.Parse(dimensionId);
+            if (order == Configuration.GEO_DIMENSION_ORDER)
+                return metadata.GeoDimension;
+
+            return metadata.Dimensions[order - Configuration.OTHER_DIMENSIONS_START_ORDER];
+        }
+
     }
 }
