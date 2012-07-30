@@ -102,7 +102,7 @@ namespace INEProvider
                 if (d != null)
                 {
                     IEnumerable<INEService.Category> categories = _requester.GetClassificationCategories(d.ClassificationCode, level, level, Configuration.LANGUAGE, 1, Configuration.MAX_RECORDS_PER_PAGE).Where(c => c.ParentCategoryCode == attributeRootId);
-                    return categories.ToDimensionAttributeEnumerable(d.LowestClassificationLevel);
+                    return categories.ToDimensionAttributeEnumerable(d.LowestClassificationLevel, true);
                 }
             }
                 

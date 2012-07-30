@@ -31,6 +31,7 @@ Statistics.Repository = Statistics.Class({
 	 * 	- newIndicatorValuesResult {Function}
 	 *  - newIndicatorValuesRange {Function}
 	 *  - newIndicatorMetadata {Function}
+	 *  - newAttribute {Function}
 	 */
 	_init: function(configuration, serializer, objectFactories){
 		this.config = configuration;
@@ -85,6 +86,19 @@ Statistics.Repository = Statistics.Class({
 	 * @returns {Statistics.Repository.Request}
 	 */
 	getIndicatorValuesRange: function(sourceId, indicatorId, filterDimensions, projectedDimensions, shapeAggregationLevel, callbacks) {
+		/*should be implemented by each request specific implementation*/
+	},
+	
+	/**
+	 * @public
+	 * @function
+	 * @param {String} sourceId
+	 * @param {String} indicatorId
+	 * @param {String} dimensionId
+	 * @param {String} parentId
+	 * @param {Integer} level
+	 */
+	getDimensionAttributes: function(sourceId, indicatorId, dimensionId, parentId, level) {
 		/*should be implemented by each request specific implementation*/
 	}
 

@@ -105,6 +105,42 @@ Statistics.Repository.StatisticsRepositoryImpl = Statistics.Class(Statistics.Rep
 			
 		request = new Statistics.Repository.Request(xhr);
 		return request;
-	}	
+	},
+	
+	/**
+	 * @public
+	 * @function
+	 * @param {String} sourceId
+	 * @param {String} indicatorId
+	 * @param {String} dimensionId
+	 * @param {String} parentId
+	 * @param {Integer} level
+	 */
+	getDimensionAttributes: function(sourceId, indicatorId, dimensionId, parentId, level) {
+		var request = null;
+		
+		//TODO: register and call the fail callback!
+		var xhr = jQuery.getJSON(
+			this.config.getValuesRangeEndpoint() + "?callback=?", 
+			{
+				sourceid: sourceId, 
+				indicatorid: indicatorId,
+				dimensionid: dimensionid,
+				attributeRootid: parentId,
+				level: level
+			}, 
+			jQuery.proxy(function(data) {
+				
+				var ret = [];
+				for (var i = 0, attr; attr = data[i]; ++i)
+					ret.push( this.objectFactories.newAttribute(attr, level) );
+				
+				callbacks.successCallback(ret);
+				
+			}, this));
+			
+		request = new Statistics.Repository.Request(xhr);
+		return request;
+	}
 
 });

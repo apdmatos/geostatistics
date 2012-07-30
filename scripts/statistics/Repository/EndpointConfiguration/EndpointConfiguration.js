@@ -29,7 +29,8 @@ Statistics.Repository.EndpointConfiguration = {
 	operations: {
 		metadata: 'Metadata',
 		values: 'GetIndicatorValues',
-		valuesRange: 'GetIndicatorRange'
+		valuesRange: 'GetIndicatorRange',
+		attributes: 'Attributes'
 	},
 	
 	/**
@@ -66,7 +67,16 @@ Statistics.Repository.EndpointConfiguration = {
 	 */
 	getValuesRangeEndpoint: function(){
 		return this._getOperationURL('valuesRange');
-	},	
+	},
+	
+	/**
+	 * @public
+	 * @function
+	 * @returns {String} returns the endpoint to give dimension attributes
+	 */
+	getLazyLoadAttributesEndpoint: function() {
+		return this._getOperationURL('attributes');
+	},
 	
 	/**
 	 * @private

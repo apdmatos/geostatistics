@@ -20,23 +20,24 @@ namespace INEProvider.Extensions.INE2Provider
             yield break;
         }
 
-        public static IEnumerable<DimensionAttribute> ToDimensionAttributeEnumerable(this IEnumerable<INEService.Category> categories, int lowestClassificationLevel)
+        public static IEnumerable<DimensionAttribute> ToDimensionAttributeEnumerable(this IEnumerable<INEService.Category> categories, int lowestClassificationLevel, bool lazy = false)
         {
             foreach (var category in categories)
             {
-                yield return ToDimensionAttribute(category, category.Level < lowestClassificationLevel);
+                yield return ToDimensionAttribute(category, category.Level < lowestClassificationLevel, lazy);
             }
 
             yield break;
         }
 
-        public static DimensionAttribute ToDimensionAttribute(this INEService.Category category, bool hierarchical) 
+        public static DimensionAttribute ToDimensionAttribute(this INEService.Category category, bool hierarchical, bool lazy = false) 
         {
             if (hierarchical)
                 return new HierarchyAttribute
                 {
                     ID = category.Code,
-                    Name = category.Designation
+                    Name = category.Designation,
+                    LazyLoad = lazy
                 };
 
             return new DimensionAttribute { 
