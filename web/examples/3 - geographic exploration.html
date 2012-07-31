@@ -44,13 +44,16 @@
 							newAttribute: Statistics.Model.Attribute.FromObject
 						});
 			
+			var lazyLoader = new Statistics.Repository.LazyLoaderAttributeHierarchy(repository); 
+			function createLazyLoader() { return lazyLoader; }
+			
 			var dimensionSelector = new Statistics.ThematicMap.DimensionsSelector(); 
 			var config = new Statistics.Model.DimensionConfig.ThematicMapProjectionConfig(
 				dimensionSelector,
 				new Statistics.Model.DimensionConfig.DimensionFilterConfig(dimensionSelector)
 			);
 			
-			var treeConfigEditor = new Statistics.ConfigurationEditor.DimensionsConfigEditor(config, new Statistics.ConfigurationEditor.DimensionFilterUpdater(config));
+			var treeConfigEditor = new Statistics.ConfigurationEditor.DimensionsConfigEditor(config, new Statistics.ConfigurationEditor.DimensionFilterUpdater(config), createLazyLoader);
 			var aggregationEditor = new Statistics.ConfigurationEditor.ThematicMapConfigEditor(config, new Statistics.ConfigurationEditor.ThematicMapAggregationLevelUpdater(config));
 			
 			function init() {

@@ -115,17 +115,20 @@ Statistics.Repository.StatisticsRepositoryImpl = Statistics.Class(Statistics.Rep
 	 * @param {String} dimensionId
 	 * @param {String} parentId
 	 * @param {Integer} level
+	 * @param {Object} callbacks
+	 * 	- successCallback {Function}
+	 *  - failCallback {Function}
 	 */
-	getDimensionAttributes: function(sourceId, indicatorId, dimensionId, parentId, level) {
+	getDimensionAttributes: function(sourceId, indicatorId, dimensionId, parentId, level, callbacks) {
 		var request = null;
 		
 		//TODO: register and call the fail callback!
 		var xhr = jQuery.getJSON(
-			this.config.getValuesRangeEndpoint() + "?callback=?", 
+			this.config.getLazyLoadAttributesEndpoint() + "?callback=?", 
 			{
 				sourceid: sourceId, 
 				indicatorid: indicatorId,
-				dimensionid: dimensionid,
+				dimensionid: dimensionId,
 				attributeRootid: parentId,
 				level: level
 			}, 

@@ -64,7 +64,7 @@ Statistics.Model.Attribute = Statistics.Class({
  */
 Statistics.Model.Attribute.FromObject = function(obj, level) {
 	
-	if(attribute.childAttributes || attribute.lazyLoad)
+	if(obj.childAttributes || obj.lazyLoad)
 		return Statistics.Model.HierarchyAttribute.FromObject(obj, level); 
 	
 	return new Statistics.Model.Attribute(obj.id, obj.name, level);

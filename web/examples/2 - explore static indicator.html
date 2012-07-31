@@ -80,8 +80,13 @@
 						new Statistics.Serializer.DimensionSerializer(),
 						{
 							newIndicatorMetadata: Statistics.Model.IndicatorMetadata.FromObject,
-							newIndicatorValuesResult: Statistics.Model.Values.IndicatorValuesResult.FromObject
+							newIndicatorValuesResult: Statistics.Model.Values.IndicatorValuesResult.FromObject,
+							newIndicatorValuesRange: Statistics.Model.Values.IndicatorValuesRange.FromObject,
+							newAttribute: Statistics.Model.Attribute.FromObject
 						});
+			
+			var lazyLoader = new Statistics.Repository.LazyLoaderAttributeHierarchy(repository); 
+			function createLazyLoader() { return lazyLoader; }
 			
 			function createDialogForConfiguration(tabsSelector, dialogSelector, configByTab){
 				
@@ -145,7 +150,7 @@
 							new Statistics.View.PieChartView('pieChart')
 						);
 				
-				var treeConfigEditor = new Statistics.ConfigurationEditor.DimensionsConfigEditor(config, new Statistics.ConfigurationEditor.DimensionFilterUpdater(config));
+				var treeConfigEditor = new Statistics.ConfigurationEditor.DimensionsConfigEditor(config, new Statistics.ConfigurationEditor.DimensionFilterUpdater(config), createLazyLoader);
 				var chartConfigEditor = new Statistics.ConfigurationEditor.ChartConfigEditor(config, new Statistics.ConfigurationEditor.DimensionProjectorUpdater(config));
 
 				
@@ -182,7 +187,7 @@
 							new Statistics.View.BarChartView('barChart')
 						);
 				
-				var treeConfigEditor = new Statistics.ConfigurationEditor.DimensionsConfigEditor(config, new Statistics.ConfigurationEditor.DimensionFilterUpdater(config));
+				var treeConfigEditor = new Statistics.ConfigurationEditor.DimensionsConfigEditor(config, new Statistics.ConfigurationEditor.DimensionFilterUpdater(config), createLazyLoader);
 				var chartConfigEditor = new Statistics.ConfigurationEditor.SeriesConfigEditor(config, new Statistics.ConfigurationEditor.SerieDimensionUpdater(config));
 
 				createDialogForConfiguration(
@@ -218,7 +223,7 @@
 						);
 				
 				
-				var treeConfigEditor = new Statistics.ConfigurationEditor.DimensionsConfigEditor(config, new Statistics.ConfigurationEditor.DimensionFilterUpdater(config));
+				var treeConfigEditor = new Statistics.ConfigurationEditor.DimensionsConfigEditor(config, new Statistics.ConfigurationEditor.DimensionFilterUpdater(config), createLazyLoader);
 				var projectDimensionsConfig = new Statistics.ConfigurationEditor.PivotTableConfigEditor(config, new Statistics.ConfigurationEditor.PivotTableProjectorUpdater(config));
 				
 				createDialogForConfiguration(

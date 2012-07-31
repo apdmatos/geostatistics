@@ -48,6 +48,16 @@ Statistics.Model.HierarchyAttribute = Statistics.Class(Statistics.Model.Attribut
 	/**
 	 * @public
 	 * @function
+	 * @param {Statistics.Model.Attribute} attributes
+	 */
+	addAttributes: function(attributes) {
+		for(var i = 0, attr; attr = attributes[i]; ++i)
+			this.addAttribute(attr);
+	},
+	
+	/**
+	 * @public
+	 * @function
 	 * @param {Statistics.Model.Attribute} attribute
 	 */
 	addAttribute: function(attribute){
@@ -94,7 +104,7 @@ Statistics.Model.HierarchyAttribute = Statistics.Class(Statistics.Model.Attribut
 		}
 		
 		return null;
-	},
+	}
 });
 
 

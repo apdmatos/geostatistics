@@ -115,6 +115,7 @@
 		"statistics/Repository/IndicatorRepositoryMock.js",
 		"statistics/Repository/StatisticsRepositoryImpl.js",
 		"statistics/Repository/EndpointConfiguration/EndpointConfiguration.js",
+		"statistics/Repository/LazyLoader/LazyLoaderAttributeHierarchy.js",
 		"statistics/Controller/Controller.js",
 		"statistics/Controller/ProjectionController.js",
 		"statistics/Controller/ThematicMapController.js",

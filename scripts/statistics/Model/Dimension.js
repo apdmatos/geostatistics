@@ -221,7 +221,7 @@ Statistics.Model.Dimension.FromObject = function(obj){
 			if(attribute.childAttributes || attribute.lazyLoad) attr = Statistics.Model.HierarchyAttribute;
 			
 			attributes.push(
-				attr.FromObject(attribute, 0)
+				attr.FromObject(attribute, 1)
 			);
 		}
 	}

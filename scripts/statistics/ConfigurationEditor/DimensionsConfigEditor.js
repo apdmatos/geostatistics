@@ -17,6 +17,32 @@ Statistics.ConfigurationEditor.DimensionsConfigEditor = Statistics.Class(Statist
 	updatingTree: false,
 	
 	/**
+	 * @private
+	 * @property {Function}
+	 * This property contains a factory method that returns a LazyLoaderAttributeHierarchy
+	 */
+	lazyLoaderCreateFunc: null,
+	
+	/**
+	 * @private
+	 * @property {Statistics.Repository.LazyLoaderAttributeHierarchy}
+	 * Contains a reference to lazyLoaderAttributeHierarchy to load attributes from server
+	 */
+	lazyLoader: null,
+	
+	/**
+	 * @constructor
+	 * @param {Statistics.Model.DimensionConfig} config - The configuration to set changes on
+	 * @param {Statistics.ConfigurationEditor.DimensionUpdater} updater - An object to propagate the changes to configuration.
+	 * @param {Function} lazyLoaderCreateFunc - A function that returns a lazyLoaderAttributeHierarchy type
+	 */
+	_init: function(config, updater, lazyLoaderCreateFunc) {
+		
+		Statistics.ConfigurationEditor.prototype._init.apply(this, [config, updater]);
+		this.lazyLoaderCreateFunc = lazyLoaderCreateFunc;
+	},	
+	
+	/**
 	 * Called to draw the configuration editor
 	 * 
 	 * @override
@@ -64,7 +90,9 @@ Statistics.ConfigurationEditor.DimensionsConfigEditor = Statistics.Class(Statist
 	 * @function
 	 * @param {Statistics.Model.Dimension} dimension
 	 */
-	_drawDimension: function(dimension){
+	_drawDimension: function(dimension) {
+		
+		var self = this;
 		
 		var treeData = [];
 		for(var i = 0, attr; attr = dimension.attributes[i]; ++i)
@@ -92,10 +120,27 @@ Statistics.ConfigurationEditor.DimensionsConfigEditor = Statistics.Class(Statist
         				if( node.getEventTargetType(event) == "title" )
           					node.toggleSelect();
       				},
-					onLazyRead: function(node){
+					onLazyRead: function(node) {
 						
-						// TODO: ...						
-						alert('lazy loaded');
+						var metadata = self.configuration.getMetadata();
+						var attribute = node.data.statsAttr;
+						var loader = self.getLazyLoadederAttribute();
+						
+						var configDimension = self.configuration.getDimensionById(dimension.id);
+						
+						loader.loadAttributes(
+							metadata.sourceid,
+							metadata.id,
+							dimension, 
+							attribute,
+							attribute.level + 1,
+							function(attributes) {
+								for(var i = 0, attr; attr = attributes[i]; ++i)
+									node.append( self._getAttributeData(attr, configDimension) );
+							}
+						);
+						
+						
 					},
       				// The following options are only required, if we have more than one tree on one page:
       				idPrefix: dimension.id
@@ -109,19 +154,11 @@ Statistics.ConfigurationEditor.DimensionsConfigEditor = Statistics.Class(Statist
 	 * @param {Statistics.Model.Attribute} attribute
 	 * @param {Statistics.Model.Dimension} configDimension
 	 */
-	_attributeToTreeData: function(attribute, configDimension){
+	_attributeToTreeData: function(attribute, configDimension) {
 		
 		var isHierarchical = attribute instanceof Statistics.Model.HierarchyAttribute;
-		var treeData = {
-			title: attribute.name,
-			isFolder: isHierarchical,
-			key: attribute.id,
-			expand: false,
-			statsAttr: attribute,
-			select: !!configDimension.getAttributeById(attribute.id, true)
-		};
+		var treeData = this._getAttributeData(attribute, configDimension);
 		
-		// TODO: check if it should be lazy loaded
 		if( isHierarchical ) {
 			treeData.children = [];
 			for(var i = 0, attr; attr = attribute.childAttributes[i]; ++i)
@@ -133,10 +170,29 @@ Statistics.ConfigurationEditor.DimensionsConfigEditor = Statistics.Class(Statist
 	
 	/**
 	 * @private
+	 * @param {Statistics.Model.Attribute} attribute
+	 * @param {Statistics.Model.Dimension} configDimension
+	 * @returns {Object}
+	 */
+	_getAttributeData: function(attribute, configDimension) {
+		var isHierarchical = attribute instanceof Statistics.Model.HierarchyAttribute;
+		return {
+			title: attribute.name,
+			isFolder: isHierarchical,
+			key: attribute.id,
+			expand: false,
+			statsAttr: attribute,
+			select: !!configDimension.getAttributeById(attribute.id, true),
+			isLazy: isHierarchical && attribute.lazyLoad
+		};
+	},
+	
+	/**
+	 * @private
 	 * @function
 	 * updates the tree state. Checks for new selected/unselected nodes
 	 */
-	_updateTreeState: function(){
+	_updateTreeState: function() {
 		
 		this.updatingTree = true;
 		for(var dimensionId in this.trees){
@@ -151,4 +207,17 @@ Statistics.ConfigurationEditor.DimensionsConfigEditor = Statistics.Class(Statist
 		
 		this.updatingTree = false;
 	},
+	
+	/**
+	 * @private
+	 * @function
+	 * @returns {Statistics.Repository.LazyLoaderAttribute}
+	 * returns an instance of lazyloader attribute
+	 */
+	getLazyLoadederAttribute: function() {
+		if(!this.lazyLoader)
+			this.lazyLoader = this.lazyLoaderCreateFunc();
+		
+		return this.lazyLoader;
+	}
 });
