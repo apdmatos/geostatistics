@@ -18,7 +18,6 @@ namespace DataStore.Common.Model
         [DataMember(EmitDefaultValue = false)]
         public string NameAbbr { get; set; }
 
-        [DataMember(EmitDefaultValue = false)]
         public string ServiceURL { get; set; }
 
         [DataMember(EmitDefaultValue = false)]

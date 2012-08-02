@@ -15,7 +15,7 @@ namespace DataStore.Common.Model
         [DataMember(EmitDefaultValue = false)]
         public Provider Provider { get; set; }
 
-        [DataMember(EmitDefaultValue = false)]
+        //[DataMember(EmitDefaultValue = false)]
         public string SourceID { get; set; }
 
         [DataMember(EmitDefaultValue = false)]
