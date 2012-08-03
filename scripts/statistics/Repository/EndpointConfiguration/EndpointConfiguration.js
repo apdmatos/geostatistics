@@ -2,35 +2,100 @@
 
 Statistics.Repository.EndpointConfiguration = {
 	
-	/**
-	 * @public 
-	 * @property {String[]}
-	 * Contains all layer urls
-	 */
-	dynamicLayersURL: [
-		'http://localhost:8080/geoserver/cite/wms'
-	],
+	proxy: {
+		
+		/**
+		 * @public 
+		 * @property {String[]}
+		 * Contains all layer urls
+		 */
+		dynamicLayersURL: [
+			'http://localhost:8080/geoserver/cite/wms'
+		],
+		
+		/**
+		 * @public
+		 * @property {String}
+		 * Contains the server endpoint
+		 */
+		serviceURL: 'http://localhost:30355/services/RestService.svc/',
+		
+		/**
+		 * @public
+		 * @property {Object}
+		 * 	 - metadata {String}
+		 * 	 - dataSerie {String}
+		 * 
+		 * Contains the operation names 
+		 */
+		operations: {
+			metadata: 'Metadata',
+			values: 'GetIndicatorValues',
+			valuesRange: 'GetIndicatorRange',
+			attributes: 'Attributes'
+		},
+		
+		/**
+		 * @private
+		 * @function
+		 * @param {String} op - The operation key in the operations property.
+		 * 
+		 * @returns {String} builds and returns the url to call
+		 */
+		_getOperationURL: function(op){
+			return this.serviceURL + this.operations[op]
+		}
+	},
+	
+	management: {
+		
+		/**
+		 * @public
+		 * @property {String}
+		 * Contains the service endpoint for indicator management
+		 */
+		serviceURL: 'http://localhost:30355/services/StatisticsManagementService.svc/rest/',
+		
+		/**
+		 * @public
+		 * @property {Object}
+		 * 
+		 * Contains the operation names 
+		 */
+		operations: {
+			indicators: 'indicator/all',
+			providers: 'provider/all'
+		},
+		
+		/**
+		 * @private
+		 * @function
+		 * @param {String} op - The operation key in the operations property.
+		 * 
+		 * @returns {String} builds and returns the url to call
+		 */
+		_getOperationURL: function(op){
+			return this.serviceURL + this.operations[op]
+		}		
+		
+	},
 	
 	/**
 	 * @public
-	 * @property {String}
-	 * Contains the server endpoint
+	 * @function
+	 * @returns {String[]} returns 
 	 */
-	serviceURL: 'http://localhost:30355/services/RestService.svc/',
-	
+	getIndicatorsEndpoint: function() {
+		return this.management._getOperationURL('indicators');
+	},
+
 	/**
 	 * @public
-	 * @property {Object}
-	 * 	 - metadata {String}
-	 * 	 - dataSerie {String}
-	 * 
-	 * Contains the operation names 
+	 * @function
+	 * @returns {String[]} returns 
 	 */
-	operations: {
-		metadata: 'Metadata',
-		values: 'GetIndicatorValues',
-		valuesRange: 'GetIndicatorRange',
-		attributes: 'Attributes'
+	getProvidersEndpoint: function() {
+		return this.management._getOperationURL('providers');
 	},
 	
 	/**
@@ -39,7 +104,7 @@ Statistics.Repository.EndpointConfiguration = {
 	 * @returns {String[]} returns 
 	 */
 	getDynamicLayerURLs: function() {
-		return this.dynamicLayersURL;
+		return this.proxy.dynamicLayersURL;
 	},
 	
 	/**
@@ -48,7 +113,7 @@ Statistics.Repository.EndpointConfiguration = {
 	 * @returns {String} returns the metadata endpoint to call.
 	 */
 	getMetadataEndpoint: function(){
-		return this._getOperationURL('metadata');
+		return this.proxy._getOperationURL('metadata');
 	},
 	
 	/**
@@ -57,7 +122,7 @@ Statistics.Repository.EndpointConfiguration = {
 	 * @returns {String} returns the endpoint to give dataserie.
 	 */
 	getValuesEndpoint: function(){
-		return this._getOperationURL('values');
+		return this.proxy._getOperationURL('values');
 	},
 	
 	/**
@@ -66,7 +131,7 @@ Statistics.Repository.EndpointConfiguration = {
 	 * @returns {String} returns the endpoint to give dataserie.
 	 */
 	getValuesRangeEndpoint: function(){
-		return this._getOperationURL('valuesRange');
+		return this.proxy._getOperationURL('valuesRange');
 	},
 	
 	/**
@@ -75,18 +140,7 @@ Statistics.Repository.EndpointConfiguration = {
 	 * @returns {String} returns the endpoint to give dimension attributes
 	 */
 	getLazyLoadAttributesEndpoint: function() {
-		return this._getOperationURL('attributes');
-	},
-	
-	/**
-	 * @private
-	 * @function
-	 * @param {String} op - The operation key in the operations property.
-	 * 
-	 * @returns {String} builds and returns the url to call
-	 */
-	_getOperationURL: function(op){
-		return this.serviceURL + this.operations[op]
+		return this.proxy._getOperationURL('attributes');
 	}
 	
 };

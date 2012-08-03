@@ -32,6 +32,9 @@ Statistics.Repository = Statistics.Class({
 	 *  - newIndicatorValuesRange {Function}
 	 *  - newIndicatorMetadata {Function}
 	 *  - newAttribute {Function}
+	 *  - newProvider {Function}
+	 *  - newIndicator {Function}
+	 *  - newSearchResult {Function}
 	 */
 	_init: function(configuration, serializer, objectFactories){
 		this.config = configuration;
@@ -97,8 +100,38 @@ Statistics.Repository = Statistics.Class({
 	 * @param {String} dimensionId
 	 * @param {String} parentId
 	 * @param {Integer} level
+	 * @param {Object} callbacks
+	 * 	- successCallback {Function}
+	 *  - failCallback {Function}
 	 */
-	getDimensionAttributes: function(sourceId, indicatorId, dimensionId, parentId, level) {
+	getDimensionAttributes: function(sourceId, indicatorId, dimensionId, parentId, level, callbacks) {
+		/*should be implemented by each request specific implementation*/
+	},
+	
+	/**
+	 * @public
+	 * @function
+	 * @param {Integer} pageNumber
+	 * @param {Integer} recordsPerPage
+	 * @param {Object} callbacks
+	 * 	- successCallback {Function}
+	 *  - failCallback {Function}
+	 */
+	getProviders: function(pageNumber, recordsPerPage, callbacks) {
+		/*should be implemented by each request specific implementation*/
+	},
+	
+	/**
+	 * @public
+	 * @function
+	 * @param {Integer} providerid	 
+	 * @param {Integer} pageNumber
+	 * @param {Integer} recordsPerPage
+	 * @param {Object} callbacks
+	 * 	- successCallback {Function}
+	 *  - failCallback {Function}
+	 */	
+	getIndicators: function(providerid, pageNumber, recordsPerPage, callbacks) {
 		/*should be implemented by each request specific implementation*/
 	}
 

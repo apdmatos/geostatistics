@@ -32,8 +32,8 @@ Statistics.Model.Search = Statistics.Class({
 	 * @param {Integer} page
 	 * @param {Integer} total
 	 */
-	_init: function(providers, page, recordsPerPage, total) {
-		this.providers = providers;
+	_init: function(elements, page, recordsPerPage, total) {
+		this.elements = elements;
 		this.page = page;
 		this.recordsPerPage = recordsPerPage;
 		this.total = total;
@@ -70,10 +70,10 @@ Statistics.Model.Search.FromObject = function(obj, objFactory) {
 	
 	var elements = [];
 	for(var i = 0, elem; elem= obj.Elements[i]; ++i){
-		elements.push( objFactory(provider) );
+		elements.push( objFactory(elem) );
 	}
 	
-	return new Statistics.Model.SearchResult(elements, obj.Page, obj.RecordsPerPage, obj.Total);
+	return new Statistics.Model.Search(elements, obj.Page, obj.RecordsPerPage, obj.Total);
 };
 
 

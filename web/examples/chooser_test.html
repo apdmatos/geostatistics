@@ -1,0 +1,60 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<title>Densidade populacional</title>
+		<script type="text/javascript" src="../../scripts/statistics_debug.js"></script>
+		<link href="../App/libs/techlab-SmartWizard2-62d955b/styles/smart_wizard.css" rel="stylesheet" type="text/css">
+		<script type="text/javascript" src="../App/libs/techlab-SmartWizard2-62d955b/js/jquery.smartWizard-2.0.min.js"></script>	
+		<style>
+			
+		</style>
+		<script type='text/javascript'>
+			
+			
+			var repository = 
+					new Statistics.Repository.StatisticsRepositoryImpl(
+						Statistics.Repository.EndpointConfiguration, 
+						new Statistics.Serializer.DimensionSerializer(),
+						{
+							newIndicatorMetadata: Statistics.Model.IndicatorMetadata.FromObject,
+							newIndicatorValuesResult: Statistics.Model.Values.IndicatorValuesResult.FromObject,
+							newIndicatorValuesRange: Statistics.Model.Values.IndicatorValuesRange.FromObject,
+							newAttribute: Statistics.Model.Attribute.FromObject,
+							newSearchResult: Statistics.Model.Search.FromObject,
+	 						newIndicator: Statistics.Model.Search.Indicator.FromObject,
+	 						newProvider: Statistics.Model.Search.Provider.FromObject
+						});
+			
+			window.onload = function() {
+				
+				var sourceChooser = new Statistics.IndicatorSelectionChooser.StepChooser.SourceStepChooser(repository);
+//				sourceChooser.draw($("#provider"));
+//				sourceChooser.resetStep( new Statistics.Model.Search.Result() );
+				
+//				var indicatorResult = new Statistics.Model.Search.Result();
+//				indicatorResult.provider = new Statistics.Model.Search.Provider(1);
+				var indicatorChooser = new Statistics.IndicatorSelectionChooser.StepChooser.IndicatorStepChooser(repository);
+//				indicatorChooser.draw($("#indicator"));
+//				indicatorChooser.resetStep( indicatorResult );
+				
+				var typeselector = new Statistics.IndicatorSelectionChooser.StepChooser.VisualizationStepChooser(); 
+				
+				var wizard = new Statistics.IndicatorSelectionChooser.WizardChooser(
+					$("#wizard"),
+					[sourceChooser, indicatorChooser, typeselector]
+				);
+				wizard.startSelection(function done(){ alert('done') });
+			}
+			
+			
+		</script>
+	</head>
+	<body>
+		
+		<div id="provider"></div>
+		<div id="indicator"></div>
+		<div id="wizard"></div>
+		
+	</body>
+</html>

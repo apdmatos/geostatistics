@@ -98,6 +98,12 @@
 		"statistics/Model/Values/IndicatorValue.js",
 		"statistics/Model/Values/IndicatorValuesResult.js",
 		"statistics/Model/Values/IndicatorValuesRange.js",
+		"statistics/Model/Search/Search.js",
+		"statistics/Model/Search/Indicator.js",
+		"statistics/Model/Search/Provider.js",
+		"statistics/Model/Search/Result.js",
+		"statistics/Model/Search/StepEnum.js",
+		"statistics/Model/Search/ViewTypeEnum.js",
 		"statistics/ConfigurationEditor/ConfigurationEditor.js",
 		"statistics/ConfigurationEditor/DimensionsConfigEditor.js",
 		"statistics/ConfigurationEditor/PivotTableConfigEditor.js",
@@ -141,6 +147,13 @@
 		"statistics/ThematicMap/Control/LabelControl.js",
 		"statistics/ThematicMap/Layer/Layer.js",
 		"statistics/ThematicMap/Layer/DynamicLayer.js",
+		"statistics/IndicatorSelectionChooser/IndicatorSelectionChooser.js",
+		"statistics/IndicatorSelectionChooser/WizardChooser.js",
+		"statistics/IndicatorSelectionChooser/StepChoosers/StepChooser.js",
+		"statistics/IndicatorSelectionChooser/StepChoosers/PaginationStepChooser.js",
+		"statistics/IndicatorSelectionChooser/StepChoosers/IndicatorStepChooser.js",
+		"statistics/IndicatorSelectionChooser/StepChoosers/SourceStepChooser.js",
+		"statistics/IndicatorSelectionChooser/StepChoosers/VisualizationStepChooser.js"
 	];
 	
 	var cssFiles = [

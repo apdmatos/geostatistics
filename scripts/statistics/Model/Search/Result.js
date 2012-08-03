@@ -2,7 +2,11 @@
 
 Statistics.Model.Search.Result = Statistics.Class({
 	
-	EVENTS: ['search.result.completed'],
+	EVENTS: [
+		'search.result.completed', 
+		'search.result.providerchanged',
+		'search.result.indicatorchanged'
+	],
 	
 	/**
 	 * @public
@@ -48,8 +52,13 @@ Statistics.Model.Search.Result = Statistics.Class({
 	 */
 	setProvider: function(provider) {
 		
+		if(this.provider == provider) return;
+		
 		this.provider = provider;
+		this.indicator = null;
 		this.step = Statistics.Model.Search.StepEnum.Source;
+		
+		this.events.trigger('search.result.providerchanged', [this])
 		
 		this._done();
 	},
@@ -60,8 +69,10 @@ Statistics.Model.Search.Result = Statistics.Class({
 	 * @param {Statistics.Model.Search.Indicator} indicator
 	 */	
 	setIndicator: function(indicator) {
-		this.provider = indicator;
+		this.indicator = indicator;
 		this.step = Statistics.Model.Search.StepEnum.Indicator;
+		
+		this.events.trigger('search.result.indicatorchanged', [this])
 		
 		this._done();
 	},

@@ -61,6 +61,26 @@ Statistics.Model.Search.Indicator = Statistics.Class({
 		this.provider = provider;
 		this.themeid = themeid;
 		this.subthemeid = subthemeid;
+	},
+	
+	/**
+	 * Returns the indicator name
+	 * @public
+	 * @function
+	 * @returns {String}
+	 */
+	getText: function() {
+		return this.name;
+	},
+
+	/**
+	 * Returns the indicator id
+	 * @public
+	 * @function
+	 * @returns {Integer}
+	 */	
+	getId: function() {
+		return this.id;
 	}
 	
 });
@@ -76,6 +96,6 @@ Statistics.Model.Search.Indicator.FromObject = function(obj) {
 		obj.NameAbbr,
 		provider,
 		obj.ThemeID,
-		obj,SubThemeID 
+		obj.SubThemeID 
 	);
 }

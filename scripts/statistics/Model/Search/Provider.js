@@ -39,7 +39,27 @@ Statistics.Model.Search.Provider = Statistics.Class({
 		this.name = name;
 		this.nameAbbr = nameAbbr;
 		this.url = url;
-	}
+	},
+	
+	/**
+	 * Returns the provider name
+	 * @public
+	 * @function
+	 * @returns {String}
+	 */
+	getText: function() {
+		return this.name;
+	},
+
+	/**
+	 * Returns the provider id
+	 * @public
+	 * @function
+	 * @returns {Integer}
+	 */	
+	getId: function() {
+		return this.id;
+	}	
 	
 });
 

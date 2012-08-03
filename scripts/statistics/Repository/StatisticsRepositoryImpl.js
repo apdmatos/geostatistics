@@ -144,6 +144,68 @@ Statistics.Repository.StatisticsRepositoryImpl = Statistics.Class(Statistics.Rep
 			
 		request = new Statistics.Repository.Request(xhr);
 		return request;
-	}
+	},
+	
+	/**
+	 * @public
+	 * @function
+	 * @param {Integer} pageNumber
+	 * @param {Integer} recordsPerPage
+	 * @param {Object} callbacks
+	 * 	- successCallback {Function}
+	 *  - failCallback {Function}
+	 */
+	getProviders: function(pageNumber, recordsPerPage, callbacks) {
+		var request = null;
+		
+		//TODO: register and call the fail callback!
+		var xhr = jQuery.getJSON(
+			this.config.getProvidersEndpoint() + "?callback=?", 
+			{
+				pageNumber: pageNumber, 
+				recordsPerPage: recordsPerPage
+			}, 
+			jQuery.proxy(function(data) {
+				
+				var result = this.objectFactories.newSearchResult(data, this.objectFactories.newProvider);
+				callbacks.successCallback(result);
+				
+			}, this));
+			
+		request = new Statistics.Repository.Request(xhr);
+		return request;
+	},
+	
+	/**
+	 * @public
+	 * @function
+	 * @param {Integer} providerid	 
+	 * @param {Integer} pageNumber
+	 * @param {Integer} recordsPerPage
+	 * @param {Object} callbacks
+	 * 	- successCallback {Function}
+	 *  - failCallback {Function}
+	 */	
+	getIndicators: function(providerid, pageNumber, recordsPerPage, callbacks) {
+		var request = null;
+		
+		//TODO: register and call the fail callback!
+		var xhr = jQuery.getJSON(
+			this.config.getIndicatorsEndpoint() + "?callback=?", 
+			{
+				providerid: providerid, 
+				pageNumber: pageNumber,
+				recordsPerPage: recordsPerPage
+			}, 
+			jQuery.proxy(function(data) {
+				
+				var result = this.objectFactories.newSearchResult(data, this.objectFactories.newIndicator);
+				callbacks.successCallback(result);
+				
+			}, this));
+			
+		request = new Statistics.Repository.Request(xhr);
+		return request;
+	}	
 
 });
