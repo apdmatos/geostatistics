@@ -19,15 +19,34 @@
 				padding-top: 50px;
 			}
 			
+			#wizard {
+				position: absolute;
+				z-index: 99999;
+			}
+			
+			.background {
+				background: black;
+			    height: 100%;
+			    left: 0;
+			    opacity: 0.5;
+			    position: absolute;
+			    top: 0;
+			    width: 100%;
+				z-index: 99999;
+			}
+			
 		</style>
-		<script type="text/javascript" src="../scripts/statistics_debug.js"></script>
-		<script type="text/javascript" src="scripts/initialize.js"></script>
+		<script type="text/javascript" src="../../scripts/statistics_debug.js"></script>
+		<script type="text/javascript" src="script/App.js"></script>
+		<script type="text/javascript" src="script/Wizard.js"></script>
 	</head>
 	<body>
 		
 		<h1 class="new_indicator">
 			<a href="#">Adicionar indicador</a>
 		</h1>
-		
+		<div class='background' style="display:none;"></div>
+		<div id="wizard" style="display:none;"></div>
+				
 	</body>
 </html>

@@ -73,6 +73,7 @@
 		"lib/pivotTable/pivot_table.js",
 		"lib/dynatree-1.2.0/src/jquery.dynatree.js",
 		"lib/OpenLayers-2.12/OpenLayers.debug.js",
+		"lib/SmartWizard/js/jquery.smartWizard-2.0.min.js",
 
 		// Internal
 		"statistics/BaseTypes/Class.js",
@@ -162,7 +163,8 @@
 		"lib/pivotTable/pivot_table.css",
 		"lib/jquery-ui-1.8.18/css/ui-lightness/jquery-ui-1.8.18.custom.css",
 		"lib/dynatree-1.2.0/src/skin/ui.dynatree.css",
-		"lib/OpenLayers-2.12/theme/default/style.css"
+		"lib/OpenLayers-2.12/theme/default/style.css",
+		"lib/SmartWizard/styles/smart_wizard.css"
 	];
 	
 	var isIE = (navigator.appName=="Microsoft Internet Explorer");
