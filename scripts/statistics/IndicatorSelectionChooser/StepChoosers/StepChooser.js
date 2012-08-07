@@ -24,11 +24,39 @@ Statistics.IndicatorSelectionChooser.StepChooser = Statistics.Class({
 	result: null,
 	
 	/**
+	 * @private
+	 * @property
+	 * @param {Integer} idx
+	 * The step index
+	 */
+	idx: null,
+	
+	/**
 	 * @constructor
 	 * @param {Statistics.Repository} repository
 	 */
 	_init: function(repository) {
 		this.repository = repository;
+	},
+	
+	/**
+	 * Sets the step idx
+	 * @public
+	 * @function
+	 * @param {Integer} idx
+	 */
+	setStepIndex: function(idx) {
+		this.idx = idx;
+	},
+	
+	/**
+	 * @public
+	 * @function
+	 * @returns {Integer}
+	 * Returns the step index
+	 */
+	getStepIndex: function() {
+		return this.idx;
 	},
 	
 	/**

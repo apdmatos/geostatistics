@@ -17,6 +17,7 @@
 				padding-bottom: 50px;
 				padding-left: 109px;
 				padding-top: 50px;
+				border-bottom: none;
 			}
 			
 			#wizard {
@@ -24,28 +25,38 @@
 				z-index: 99999;
 			}
 			
-			.background {
+			.wizardbackground {
 				background: black;
 			    height: 100%;
 			    left: 0;
-			    opacity: 0.5;
+			    opacity: 0.85;
 			    position: absolute;
 			    top: 0;
 			    width: 100%;
 				z-index: 99999;
 			}
 			
+			.statistics_search_item_selected {
+				border: 
+			}
+			
+			/*html, body {
+				overflow: hidden;
+			}*/
+			
 		</style>
 		<script type="text/javascript" src="../../scripts/statistics_debug.js"></script>
 		<script type="text/javascript" src="script/App.js"></script>
+		<script type="text/javascript" src="script/util/KEYS.js"></script>
 		<script type="text/javascript" src="script/Wizard.js"></script>
+		<script type="text/javascript" src="script/AnalysisWindow.js"></script>
 	</head>
 	<body>
 		
 		<h1 class="new_indicator">
 			<a href="#">Adicionar indicador</a>
 		</h1>
-		<div class='background' style="display:none;"></div>
+		<div class='wizardbackground' style="display:none;"></div>
 		<div id="wizard" style="display:none;"></div>
 				
 	</body>

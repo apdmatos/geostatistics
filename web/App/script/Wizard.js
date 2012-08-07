@@ -7,21 +7,33 @@ Statistics.App.Wizard = {
 	 */
 	wizard: null,
 	
+	/**
+	 * @Initializer
+	 * @param {Statistics.Repository} repository
+	 */
 	init: function(repository) {
-		
 		
 		this.wizard = new Statistics.IndicatorSelectionChooser.WizardChooser(
 			$("#wizard"),
 			[
-				new Statistics.IndicatorSelectionChooser.StepChooser.SourceStepChooser(this.repository),
-				new Statistics.IndicatorSelectionChooser.StepChooser.IndicatorStepChooser(this.repository),
+				new Statistics.IndicatorSelectionChooser.StepChooser.SourceStepChooser(repository),
+				new Statistics.IndicatorSelectionChooser.StepChooser.IndicatorStepChooser(repository),
 				new Statistics.IndicatorSelectionChooser.StepChooser.VisualizationStepChooser()
 			]
 		);
 		
 		
+		var self = this;
+		
 		//bind events
 		$(".new_indicator a").click($.proxy(Statistics.App.Wizard.showWizard, this));
+		$(window).resize(jQuery.proxy(this._positionWizard, this));
+		
+		// bind cancel events
+		$(window).keypress(function(e) {
+			if(e.keyCode == Statistics.App.KEYS.ESC) self._removeWizard(); 
+		});
+		$(".wizardbackground").click(jQuery.proxy(this._removeWizard, this));
 	},
 	
 	/**
@@ -30,8 +42,44 @@ Statistics.App.Wizard = {
 	 * @function
 	 */
 	showWizard: function() {
-		$("#wizard").show();
-		this.wizard.startSelection();
+		$("#wizard, .wizardbackground").show();
+		this.wizard.startSelection(function(result) {
+			Statistics.App.Wizard._removeWizard();
+			Statistics.App.AnalysisWindow.createAnalysis(result);
+		});
+		this._positionWizard();
+	},
+
+/**********************************************************************************
+ * ********************************************************************************
+ * Private methods
+ **********************************************************************************
+ **********************************************************************************/
+	
+	/**
+	 * @private
+	 * @handler
+	 * @called when the window is resized, to position the wizard
+	 */
+	_positionWizard: function() {
+		
+		var left = $(window).width()/2 - $("#wizard").width()/2;
+		var top = $(window).height()/2 - $("#wizard").height()/2;
+		
+		$("#wizard").css({ top: top, left: left });
+		$(".wizardbackground").css({ 
+			width: $(document).width(),
+			height: $(document).height() 
+		});
+	},
+	
+	/**
+	 * @private
+	 * @handler
+	 * @called to close wizard and cancel indicator selection
+	 */
+	_removeWizard: function() {
+		$("#wizard, .wizardbackground").hide();
 	}
 	
 	

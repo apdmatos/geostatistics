@@ -43,14 +43,17 @@ Statistics.IndicatorSelectionChooser.WizardChooser =
 		}
 		
 		var self = this;
-		function leaveAStepCallback(anchor) {
-			return self.validateStep(Number(anchor.attr('rel')));
+		function leaveAStepCallback(currAnchor, nextAnchor) {
+			return self.validateStep(Number(currAnchor.attr('rel')), Number(nextAnchor.attr('rel')));
 		}
 		
 		function onFinishCallback( ) {
-			for(var i = 0; i < self.steps.length; ++i)
-				if(!self.validateStep(i + 1)) return false;
-				
+			for (var i = 0; i < self.steps.length; ++i) 
+				if (!self.validateStep(i + 1)) {
+					self.selectStep(self.steps[i]);
+					return false;
+				}
+			if(self.doneFunc) self.doneFunc(self.result);
 			return true;
 		}
 		
@@ -68,7 +71,8 @@ Statistics.IndicatorSelectionChooser.WizardChooser =
 	 * @param {Statistics.Model.Search.StepEnum} stepEnumType
 	 */	
 	selectStepByType: function(stepEnumType) {
-		// TODO: implement this
+		var step = this.getStepByType(stepEnumType);
+		this.selectStep(step);
 	},
 	
 	/**
@@ -77,7 +81,8 @@ Statistics.IndicatorSelectionChooser.WizardChooser =
 	 * @param {Statistics.IndicatorSelectionChooser.StepChooser} stepEnumType
 	 */	
 	selectStep: function(step) {
-		// TODO: implement this
+		var idx = step.getStepIndex();
+		this._wizard.smartWizard('showStep', idx);
 	},
 	
 /**********************************************************************************
@@ -91,9 +96,13 @@ Statistics.IndicatorSelectionChooser.WizardChooser =
 	 * @function
 	 * @param {Integer} stepIdx
 	 */
-	validateStep: function(stepIdx) {
-		var idx = stepIdx - 1;
-		var step = this.steps[idx];
+	validateStep: function(currStepIdx, nextStepIdx) {
+		var currIdx = currStepIdx - 1;
+		var nextIdx = nextStepIdx - 1;
+		
+		if (nextIdx < currIdx) return true;
+		
+		var step = this.steps[currIdx];
 		if(!step.validateStep()){
 			this._wizard.smartWizard('showMessage', step.validationError());
       		this._wizard.smartWizard('setError',{stepnum:step,iserror:true});
@@ -102,7 +111,6 @@ Statistics.IndicatorSelectionChooser.WizardChooser =
 		}
 		
 		this._wizard.smartWizard('setError',{stepnum:step,iserror:false});
-		
 		return true;
 	}
 	

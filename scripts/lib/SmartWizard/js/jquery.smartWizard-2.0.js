@@ -17,7 +17,9 @@
                 var curStepIdx = options.selected;
                 var steps = $("ul > li > a", obj); // Get all anchors in this array
                 var contentWidth = 0;
-                var loader,msgBox,elmActionBar,elmStepContainer,btNext,btPrevious,btFinish;
+                var elmStepContainer = $("div.stepContainer");
+				var loader,msgBox,elmActionBar,/*elmStepContainer,*/btNext,btPrevious,btFinish;
+				
                 
                 elmActionBar = $('.actionBar',obj);
                 if(elmActionBar.length == 0){
@@ -48,9 +50,14 @@
                   var ar =  Array.prototype.slice.call( args, 1 );
                   setError(ar[0].stepnum,ar[0].iserror);
                   return true;
-                } else {
-                  $.error( 'Method ' +  action + ' does not exist' );
-                }
+                } else if (action === 'showStep') {
+				  var ar =  Array.prototype.slice.call( args, 1 );
+                  //showStep(ar[0]);
+				  LoadContent(ar[0]);
+                  return true;
+				} else {
+					$.error('Method ' + action + ' does not exist');
+				}
                 
                 function init(){
                   var allDivs =obj.children('div'); //$("div", obj);                
@@ -183,7 +190,7 @@
                     var curStep = steps.eq(curStepIdx);
                     if(stepIdx != curStepIdx){
                       if($.isFunction(options.onLeaveStep)) {
-                        if(!options.onLeaveStep.call(this,$(curStep))){
+                        if(!options.onLeaveStep.call(this,$(curStep),$(selStep))){
                           return false;
                         }
                       }
@@ -317,7 +324,7 @@
           selected: 0,  // Selected Step, 0 = first step   
           keyNavigation: true, // Enable/Disable key navigation(left and right keys are used if enabled)
           enableAllSteps: false,
-          transitionEffect: 'fade', // Effect on navigation, none/fade/slide/slideleft
+          transitionEffect: 'slideleft', // Effect on navigation, none/fade/slide/slideleft
           contentURL:null, // content url, Enables Ajax content loading
           contentCache:true, // cache step contents, if false content is fetched always from ajax url
           cycleSteps: false, // cycle step navigation

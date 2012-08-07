@@ -73,7 +73,7 @@
 		"lib/pivotTable/pivot_table.js",
 		"lib/dynatree-1.2.0/src/jquery.dynatree.js",
 		"lib/OpenLayers-2.12/OpenLayers.debug.js",
-		"lib/SmartWizard/js/jquery.smartWizard-2.0.min.js",
+		"lib/SmartWizard/js/jquery.smartWizard-2.0.js",
 
 		// Internal
 		"statistics/BaseTypes/Class.js",

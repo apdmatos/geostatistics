@@ -28,6 +28,13 @@ Statistics.IndicatorSelectionChooser = Statistics.Class({
 	result: null,
 	
 	/**
+	 * @private
+	 * @property {Function}
+	 * Function to call when the results are available
+	 */
+	doneFunc: null,
+	
+	/**
 	 * @constructor
 	 * @param {JQueryElement} div
 	 * @param {Statistics.IndicatorSelectionChooser.StepChooser[]} steps
@@ -35,6 +42,9 @@ Statistics.IndicatorSelectionChooser = Statistics.Class({
 	_init: function(div, steps) {
 		this.div = div;
 		this.steps = steps; 
+		
+		for(var i = 0, step; step = this.steps[i]; ++i)
+			step.setStepIndex(i);
 	},
 
 	/**
@@ -47,10 +57,20 @@ Statistics.IndicatorSelectionChooser = Statistics.Class({
 		if(!this.drawn) this.draw();
 		
 		this.result = new Statistics.Model.Search.Result();
-		this.result.events.bind('search.result.completed', doneFunc);
+		//this.result.events.bind('search.result.completed', doneFunc);
+		this.doneFunc = doneFunc;
 		
 		for(var i = 0, step; step = this.steps[i]; ++i)
 			step.setResult(this.result);
+	},
+	
+	/**
+	 * @public
+	 * @function
+	 * @returns {Boolean} returns true if the chooser is already drawn, false otherwise
+	 */
+	isDrawn: function() {
+		return this.drawn;
 	},
 
 	/**
