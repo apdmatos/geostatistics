@@ -9,6 +9,12 @@ Statistics.App = {
 	repository: null,
 	
 	/**
+	 * @public
+	 * @property {Statistics.Repository.LazyLoaderAttributeHierarchy}
+	 */
+	lazyLoader: null,
+	
+	/**
 	 * @Initializer
 	 */
 	init: function() {
@@ -28,9 +34,22 @@ Statistics.App = {
 						});
 						
 		Statistics.App.Wizard.init(this.repository);
+	},
+	
+	/**
+	 * A lazy loader object to load attribute hierarchies
+	 * @public
+	 * @function
+	 * @returns {Statistics.Repository.LazyLoaderAttributeHierarchy}
+	 */
+	getLazyLoader: function() {
+		if(!this.lazyLoader)
+			this.lazyLoader = new Statistics.Repository.LazyLoaderAttributeHierarchy(this.repository);
+			
+		return this.lazyLoader; 
 	}
 	
 	
 };
 
-jQuery(Statistics.App.init);
+jQuery(jQuery.proxy(Statistics.App.init, Statistics.App));

@@ -1,0 +1,73 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<title>Densidade populacional</title>
+		<script type="text/javascript" src="../../scripts/statistics_debug.js"></script>
+		<style>
+			
+			#map, .map {
+				width: 500px;
+				height: 500px;
+			}
+			
+			
+		</style>
+		<script type='text/javascript'>
+			function init() {
+				
+				var div = $("<div id='map'></div>")
+				
+			    var map = new OpenLayers.Map({
+			        theme: null,
+			        projection: new OpenLayers.Projection("EPSG:4326"),
+			        numZoomLevels: 18,
+			        controls: [
+						new OpenLayers.Control.Navigation(
+		                    {mouseWheelOptions: {interval: 100}}
+		                ),
+			            new OpenLayers.Control.TouchNavigation({
+			                dragPanOptions: {
+			                    enableKinetic: true
+			                }
+			            }),
+			            new OpenLayers.Control.Zoom()
+			        ],
+			        layers: [
+			            new OpenLayers.Layer.OSM("OpenStreetMap", null, {
+			                transitionEffect: 'resize'
+			            })
+			        ]
+			    });
+			    
+				
+				
+				div.dialog({
+					position: 'center',
+					height: 500,
+					width: 400,
+					minWidth: 300,
+					minHeight: 300,
+					buttons: [
+						{
+							text: 'Opções',
+							'class': 'config',
+							click: function(){
+								configurationDialog.dialog('open');
+							}
+						}
+					]
+				});
+				
+				map.render(div[0]);
+				map.setCenter(new OpenLayers.LonLat(-814637.11903987, 4806398.337903), 7);
+			}
+			
+			window.onload = init;
+			
+		</script>
+	</head>
+	<body>
+		<!--<div id='map'></div>-->
+	</body>
+</html>

@@ -5,6 +5,84 @@
 		<title>Análise estatística</title>
 		<style>
 			
+			.stats-series-action {
+				font-size: 12px;
+				position: absolute;
+				right: 0;
+				bottom: 0;
+			}
+			
+			.hide {
+				display: none;
+			}
+			
+			.dialog .tabcontent  h1 {
+				font-size: 17px;
+				max-width: 500px;
+			}
+			
+			.dialog .tabcontent   h2{
+				font-size: 15px;
+			}
+			
+			.stats-pivot-bag {
+				width: 245px;
+				margin-right: 10px;
+				margin-top: 10px;
+				float: left;
+			}
+	
+			.stats-pivot-bag li {
+				text-align: center;
+				width: 100%;
+				height: 19px;
+				background: #C9C9C9;
+				margin-top: 5px;
+				line-height: 1.3em;
+				font-size: 13px;
+			}
+			
+			.stats-pivot-bag .stats-pivot-placeholder {
+				background: none;
+			}
+			
+			.stats-pivot-bag ul {
+				list-style: none;
+				padding: 10px;
+				margin: 0px;
+			}
+	
+			.stats-pivot-bag .stats-pivot-content {
+				overflow: auto;
+				margin-top: -12px;
+				height: 132px;
+			}
+			
+			.stats-pivot-bag h1 {
+				margin-top: 0px;
+			}
+			
+			.stats-clear{
+				clear: both;
+			}
+			
+			.statistics_labels_control {
+				background: #F5F5F5;
+				padding: 20px;
+			}
+			
+			div.stistics_legend_color_item {
+				
+			}
+			
+			.statistics_legend_color {
+				width: 18px;
+				height: 17px;
+				display: block;
+				float: left;
+				margin-right: 5px;
+			}
+			
 			h1.new_indicator {
 				text-align:center;
 				margin-top: 25%;
@@ -36,13 +114,10 @@
 				z-index: 99999;
 			}
 			
-			.statistics_search_item_selected {
-				border: 
+			.map {
+				width: 100%;
+				height: 100%;
 			}
-			
-			/*html, body {
-				overflow: hidden;
-			}*/
 			
 		</style>
 		<script type="text/javascript" src="../../scripts/statistics_debug.js"></script>
@@ -50,6 +125,11 @@
 		<script type="text/javascript" src="script/util/KEYS.js"></script>
 		<script type="text/javascript" src="script/Wizard.js"></script>
 		<script type="text/javascript" src="script/AnalysisWindow.js"></script>
+		<script type="text/javascript" src="script/Analysis/Analysis.js"></script>
+		<script type="text/javascript" src="script/Analysis/BarChart.js"></script>
+		<script type="text/javascript" src="script/Analysis/PieChart.js"></script>
+		<script type="text/javascript" src="script/Analysis/PivotTable.js"></script>
+		<script type="text/javascript" src="script/Analysis/ThematicMap.js"></script>
 	</head>
 	<body>
 		
