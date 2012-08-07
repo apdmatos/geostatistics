@@ -24,16 +24,19 @@ Statistics.IndicatorSelectionChooser.StepChooser.VisualizationStepChooser =
 	redraw: function() {
 		
 		var representation = $("<ul>"
-			+ "<li data-view='ThematicMap'>Mapa</li>"
-			+ "<li data-view='PieChart'>Gráfico circular</li>"
-			+ "<li data-view='BarChart'>Gráfico de barras</li>"
-			+ "<li data-view='PivotTable'>Tabela pivot</li>"
+			+ "<li class='thematicMap' data-view='ThematicMap'>Mapa</li>"
+			+ "<li class='piechart' data-view='PieChart'>Gráfico circular</li>"
+			+ "<li class='barchart' data-view='BarChart'>Gráfico de barras</li>"
+			+ "<li class='pivotTable' data-view='PivotTable'>Tabela pivot</li>"
 		+ "</ul>");
 		
 		this.div.append(representation);
 		
 		var self = this;
 		representation.find('li').click(function(){
+			
+			$(this).parent().find('li').removeClass('statistics_visualization_selected');
+			$(this).addClass('statistics_visualization_selected');
 			
 			var viewType = $(this).data('view');
 			self.result.setViewType(Statistics.Model.Search.ViewTypeEnum[viewType]);

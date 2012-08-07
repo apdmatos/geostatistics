@@ -55,5 +55,20 @@ namespace INEProvider.Extensions.INE2Provider
             };
         }
 
+        public static DimensionAttribute GetDimensionAttributeById(this IEnumerable<DimensionAttribute> attributes, string id)
+        {
+            foreach (var attr in attributes)
+            {
+                if (attr.ID == id) return attr;
+                if (attr is HierarchyAttribute)
+                {
+                    DimensionAttribute attribute = ((HierarchyAttribute)attr).GetAttributeById(id);
+                    if (attribute != null) return attribute;
+                }
+            }
+
+            return null;
+        }
+
     }
 }

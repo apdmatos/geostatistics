@@ -104,7 +104,10 @@ namespace INEProvider.Extensions.INE2Provider
                             attributes.Add(attribute);
                         else
                         {
-                            HierarchyAttribute attrHierarchy = (HierarchyAttribute)attributes.Where(a => a.ID == category.ParentCategoryCode).FirstOrDefault();
+                            //HierarchyAttribute attrHierarchy = (HierarchyAttribute)attributes.Where(a => a.ID == category.ParentCategoryCode).FirstOrDefault();
+                            //attrHierarchy.AddAttribute(attribute);
+
+                            HierarchyAttribute attrHierarchy = (HierarchyAttribute)attributes.GetDimensionAttributeById(category.ParentCategoryCode);
                             attrHierarchy.AddAttribute(attribute);
                         }
                             
@@ -120,5 +123,6 @@ namespace INEProvider.Extensions.INE2Provider
                 Attributes = attributes
             };
         }
+
     }
 }

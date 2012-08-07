@@ -24,6 +24,23 @@ namespace ProviderDataContracts.Metadata
             ((List<DimensionAttribute>)ChildAttributes).Add(attr);
         }
 
+        public DimensionAttribute GetAttributeById(string id)
+        {
+            if (ChildAttributes == null) return null;
+
+            foreach (var attribute in ChildAttributes)
+            {
+                if (attribute.ID == id) return attribute;
+                if (attribute is HierarchyAttribute)
+                {
+                    DimensionAttribute attr = ((HierarchyAttribute)attribute).GetAttributeById(id);
+                    if (attr != null) return attr;
+                }
+            }
+
+            return null;
+        }
+
         public override bool Equals(object obj)
         {
             var attr = obj as HierarchyAttribute;
