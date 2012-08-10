@@ -8,13 +8,13 @@
   <name>StatisticsStore</name>
   <url>http://maven.apache.org</url>
     <build>
-      <resources>
+      <!--<resources>
         <resource>
           <targetPath>META-INF</targetPath>
           <directory>src</directory>
           <includes/>
         </resource>
-      </resources>
+      </resources>-->
       <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -133,12 +133,3 @@
         </repository>
     </repositories>
 </project>
-
-
-
-
-
-
-
-
-

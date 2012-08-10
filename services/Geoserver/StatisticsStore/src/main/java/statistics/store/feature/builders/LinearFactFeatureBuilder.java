@@ -34,7 +34,7 @@ public class LinearFactFeatureBuilder extends FeatureBuilder {
         String projectedDimensions = query.projectedDimensions != null ? query.projectedDimensions : "";
         IndicatorValue value = values.get(0);
 
-        double percent = value.value / (range.getMaxValue().value - range.getMinValue().value);
+        double percent = (value.value - range.getMinValue().value) / (range.getMaxValue().value - range.getMinValue().value);
 
         SimpleFeatureBuilder featureBuilder = new SimpleFeatureBuilder( featureType );
         featureBuilder.add( shape.getFeatureGeometry() );

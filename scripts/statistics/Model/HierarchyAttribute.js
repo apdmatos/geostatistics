@@ -93,7 +93,7 @@ Statistics.Model.HierarchyAttribute = Statistics.Class(Statistics.Model.Attribut
 		
 		for(var i = 0, attribute; attribute = this.childAttributes[i]; ++i) {
 			
-			if(attribute.id = attributeId)
+			if(attribute.id == attributeId)
 				return attribute;
 				
 			if(attribute instanceof Statistics.Model.HierarchyAttribute)

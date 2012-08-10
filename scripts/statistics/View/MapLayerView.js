@@ -30,7 +30,7 @@ Statistics.View.MapLayerView = Statistics.Class(Statistics.View, {
 	 * @param {Statistics.ThematicMap.Control.LabelControl} labelControl
 	 */
 	_init: function(map, layer, labelControl) {
-		Statistics.View.prototype.setData(this, [map.div]);
+		Statistics.View.prototype._init.apply(this, [map.div]);
 		
 		this.map = map;
 		this.dynamicLayer = layer;
