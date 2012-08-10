@@ -169,17 +169,43 @@ Statistics.App.Analysis = Statistics.Class({
 			configDialog .find('.tabs').append(content);
 		}
 		
+		
+		function resizeTabContent(configElement) {
+			var h = $(configElement).height() - 
+					$(configElement).find('.tabcontent').filter(':visible').position().top - 
+					$(configElement).find('ul').position().top - 
+					$(configElement).find('ul').height();
+					
+			var w = $(configElement).width() - 
+					$(configElement).find('.tabcontent').filter(':visible').position().left - 
+					$(configElement).find('ul').position().left - 
+					$(configElement).find('ul').position().right;		
+			
+			$(configElement).find('.tabcontent').filter(':visible').css({
+				width: w,
+				height: h
+			});
+		}
+		
 		configDialog.appendTo($(document));
-		configDialog .find(".tabs").tabs();
+		configDialog .find(".tabs").tabs({
+			select: function(event, ui) {
+				resizeTabContent($(this).parent());
+			}
+		});
 		configDialog.dialog({
 			height: 500,
-			width: 'auto',
-			maxHeight: 500,
-			maxWidth: 650,
+			width: 630,
+			minWidth: 630,
+			minHeight: 200,
 			autoOpen: false,
 			modal: true,
 			position: 'top',
+			resize: function(event, ui) {
+				resizeTabContent(this);
+			},
 			open: function(){
+				resizeTabContent(configDialog);
 				$(editorObjs).each(function(idx, tabObj){
 					if(!tabObj.editor.isDrawn())
 						tabObj.editor.draw(tabObj.tabContent);

@@ -30,12 +30,21 @@ Statistics.View = Statistics.Class({
 	currentData: null,	
 	
 	/**
+	 * @private
+	 * @property {JQUeryElement}
+	 * An element to show when data is being loaded from server
+	 */
+	loadingMessageElement: null,
+	
+	/**
 	 * @constructor
 	 * @param {jQueryElement} div - The div element to render the control to
 	 */
 	_init: function(div){
 		
 		this.div = div;
+		this.loadingMessageElement = $("<div class='stats-loading'>A carregar...</div>");
+		
 	},
 	
 	/**
@@ -54,7 +63,8 @@ Statistics.View = Statistics.Class({
 	 */
 	setLoadingData: function() {
 		this.currentData = null;
-		/*MUST BE IMPLEMENTED!!!*/
+		var container = typeof this.div == 'string' ? $('#' + this.div) : this.div;
+		this.loadingMessageElement.appendTo(container);	
 	},
 	
 	/**
@@ -74,6 +84,7 @@ Statistics.View = Statistics.Class({
 	 */
 	setData: function(data){
 		this.currentData = data;
+		this.loadingMessageElement.detach();
 		// this method should be redefined by each specific class
 	},
 	

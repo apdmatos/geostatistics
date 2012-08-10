@@ -11,7 +11,7 @@ Statistics.App.Analysis.PivotTable = Statistics.Class(Statistics.App.Analysis, {
 	 * @returns {Object}
 	 */
 	getDialogOptions: function() { 
-		return { width: 'auto', height: 'auto', minWidth: 300, minHeight: 300 };
+		return { width: '300', height: '300', minWidth: 300, minHeight: 300 };
 	},
 
 	/**
