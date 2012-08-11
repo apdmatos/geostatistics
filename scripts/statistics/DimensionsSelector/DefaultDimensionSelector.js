@@ -112,7 +112,7 @@ Statistics.DimensionSelector.DefaultDimensionSelector = Statistics.Class(Statist
 		
 		if ( dimension.aggregationLevels && dimension.aggregationLevels.length > 0 ) {
 			
-			var idx = dimension.aggregationLevels.length > 2 ? 1 : 0;
+			var idx = dimension.aggregationLevels.length > 1 ? 1 : 0;
 			return dimension.aggregationLevels[idx];
 		}
 		

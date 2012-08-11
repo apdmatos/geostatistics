@@ -37,7 +37,7 @@ Statistics.App.Analysis.ThematicMap = Statistics.Class(Statistics.App.Analysis, 
 	    });
 		Statistics.App.Analysis.prototype.createWindow.apply(this, arguments);
 		this.map.render(this.dialog[0]);
-		this.map.setCenter(new OpenLayers.LonLat(-814637.11903987, 4806398.337903), 7);
+		this.map.setCenter(new OpenLayers.LonLat(-814637.11903987, 4806398.337903), 6);
 	},
 	
 	/**
