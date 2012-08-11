@@ -42,12 +42,18 @@ Statistics.App.Analysis = Statistics.Class({
 	 * @property {Statistics.Repository.LazyLoader}
 	 */
 	lazyLoader: null,
+
+	/**
+	 * @public 
+	 * @property {Statistics.Model.Provider}
+	 */
+	provider: null,
 	
 	/**
 	 * @public 
-	 * @property {Statistics.Model.Search.Result}
+	 * @property {Statistics.Model.Indicator}
 	 */
-	result: null,	
+	indicator: null,	
 	
 	/**
 	 * @public
@@ -65,11 +71,14 @@ Statistics.App.Analysis = Statistics.Class({
 	
 	/**
 	 * @constructor
-	 * @param {Statistics.Model.Search.Result} result
+	 * @param {Statistics.Model.Provider} provider
+	 * @param {Statistics.Model.Indicator} indicator
 	 * @param {Statistics.Repository} repository
+	 * @param {Statistics.Repository.LazyLoaderAttributeHierarchy} repository
 	 */
-	_init: function(result, repository, lazyLoader) {
-		this.result = result;
+	_init: function(provider, indicator, repository, lazyLoader) {
+		this.provider = provider;
+		this.indicator = indicator;
 		this.repository = repository;
 		this.lazyLoader = lazyLoader;
 	},
@@ -97,6 +106,12 @@ Statistics.App.Analysis = Statistics.Class({
  **********************************************************************************
  **********************************************************************************/
 	
+	/**
+	 * returns the lazy loader instance
+	 * @private
+	 * @function
+	 * @returns {Statistics.Repository.LazyLoaderAttributeHierarchy}
+	 */
 	getLazyLoader: function() {
 		return this.lazyLoader;
 	},
@@ -117,7 +132,7 @@ Statistics.App.Analysis = Statistics.Class({
 				width: 400,
 				minWidth: 300,
 				minHeight: 300,
-				title: this.result.indicator.nameAbbr,
+				title: this.indicator.nameAbbr,
 				buttons: [
 					{
 						text: 'Opções',

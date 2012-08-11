@@ -17,11 +17,11 @@ Statistics.IndicatorSelectionChooser.StepChooser = Statistics.Class({
 	repository: null,
 	
 	/**
-	 * The result to fill
+	 * The next step to send state to
 	 * @private
-	 * @property {Statistics.Model.Search.Result}
+	 * @property {Statistics.IndicatorSelectionChooser.StepChooser}
 	 */
-	result: null,
+	nextStep: null,
 	
 	/**
 	 * @private
@@ -32,11 +32,37 @@ Statistics.IndicatorSelectionChooser.StepChooser = Statistics.Class({
 	idx: null,
 	
 	/**
+	 * Contains the current step selected object
+	 * @private
+	 * @property {Object}
+	 */
+	stepSelectedObject: null,
+
+	/**
+	 * Contains the current step selected object
+	 * @private
+	 * @property {Object}
+	 */	
+	prevStepState: null,
+	
+	/**
 	 * @constructor
 	 * @param {Statistics.Repository} repository
 	 */
-	_init: function(repository) {
+	_init: function(repository, nextStep) {
 		this.repository = repository;
+		this.nextStep = nextStep;
+	},
+	
+	/**
+	 * Contains the previous step state object
+	 * @public
+	 * @function
+	 * @param {Object} previousStepState
+	 */
+	setPrevStepState: function(previousStepState){
+		this.stepSelectedObject = null;
+		this.prevStepState = previousStepState;
 	},
 	
 	/**
@@ -70,6 +96,16 @@ Statistics.IndicatorSelectionChooser.StepChooser = Statistics.Class({
 	},
 	
 	/**
+	 * Returns the step selection
+	 * @private
+	 * @function
+	 * @returns {Object}
+	 */
+	getSelectionObject: function() {
+		return this.stepSelectedObject;
+	},
+	
+	/**
 	 * Returns the step
 	 * @abstract
 	 * @public
@@ -90,19 +126,6 @@ Statistics.IndicatorSelectionChooser.StepChooser = Statistics.Class({
 	},
 	
 	/**
-	 * Cleans the step and sets the result to be filled on
-	 * Called to turn the step visible
-	 * @abstract
-	 * @public
-	 * @function
-	 */
-	setResult: function(prevResult) {
-		this.result = prevResult;
-		
-		/*abstract method, should be implemented by each specific class*/
-	},	
-	
-	/**
 	 * Returns the step name, to display
 	 * @abstract
 	 * @public
@@ -115,13 +138,12 @@ Statistics.IndicatorSelectionChooser.StepChooser = Statistics.Class({
 	
 	/**
 	 * Returns true, if the step is valid, false otherwise
-	 * @abstract
 	 * @public
 	 * @function
 	 * @returns {Boolean}
 	 */
 	validateStep: function() {
-		/*abstract method, should be implemented by each specific class*/
+		return this.stepSelectedObject !== null;
 	},
 	
 	/**
@@ -141,6 +163,11 @@ Statistics.IndicatorSelectionChooser.StepChooser = Statistics.Class({
  * Protected methods
  **********************************************************************************
  **********************************************************************************/
+	
+	setStepSelectedObject: function(stepState) {
+		this.stepSelectedObject = stepState;
+		if(this.nextStep) this.nextStep.setPrevStepState(stepState);
+	},
 	
 	/**
 	 * Shows a loading message in the current step

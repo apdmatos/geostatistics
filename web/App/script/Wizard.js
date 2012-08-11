@@ -16,9 +16,9 @@ Statistics.App.Wizard = {
 		this.wizard = new Statistics.IndicatorSelectionChooser.WizardChooser(
 			$("#wizard"),
 			[
-				new Statistics.IndicatorSelectionChooser.StepChooser.SourceStepChooser(repository),
-				new Statistics.IndicatorSelectionChooser.StepChooser.IndicatorStepChooser(repository),
-				new Statistics.IndicatorSelectionChooser.StepChooser.VisualizationStepChooser()
+				Statistics.App.AnalysisWindow.steps.provider,
+				Statistics.App.AnalysisWindow.steps.indicator,
+				Statistics.App.AnalysisWindow.steps.viewType
 			]
 		);
 		

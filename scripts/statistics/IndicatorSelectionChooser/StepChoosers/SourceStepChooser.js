@@ -2,8 +2,7 @@
 
 Statistics.IndicatorSelectionChooser.StepChooser.SourceStepChooser = 
 	Statistics.Class(Statistics.IndicatorSelectionChooser.StepChooser.PaginationStepChooser, 
-{
-	
+{	
 	/**
 	 * Returns the step
 	 * @public
@@ -15,6 +14,18 @@ Statistics.IndicatorSelectionChooser.StepChooser.SourceStepChooser =
 	},	
 	
 	/**
+	 * @public
+	 * @abstract
+	 * @function
+	 */
+	redraw: function() {
+		
+		Statistics.IndicatorSelectionChooser.StepChooser.PaginationStepChooser.prototype.redraw.apply(this, arguments);
+		this.clearResults();
+		this.requestResults(1);
+	},	
+	
+	/**
 	 * Returns the step name, to display
 	 * @public
 	 * @function
@@ -22,16 +33,6 @@ Statistics.IndicatorSelectionChooser.StepChooser.SourceStepChooser =
 	 */
 	getStepName: function() {
 		return Statistics.i18n('sourceName');
-	},
-	
-	/**
-	 * Returns true, if the step is valid, false otherwise
-	 * @public
-	 * @function
-	 * @returns {Boolean}
-	 */
-	validateStep: function() {
-		return !!this.result.provider;
 	},
 	
 	/**
@@ -67,16 +68,5 @@ Statistics.IndicatorSelectionChooser.StepChooser.SourceStepChooser =
 				successCallback: $.proxy(this.renderSearchResults, this)
 			});
 			
-	},
-	
-	/**
-	 * called when an element in the list is selected
-	 * @abstract
-	 * @protected
-	 * @function
-	 * @param {Object} element
-	 */
-	elementSelected: function(element) {
-		this.result.setProvider(element);
 	}	
 });

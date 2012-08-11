@@ -1,8 +1,4 @@
 
-//TODO: this class should be changed to select the server hints
-//			selectedByDefault
-//			projectedByDefault
-
 Statistics.DimensionSelector.DefaultDimensionSelector = Statistics.Class(Statistics.DimensionSelector, {
 	
 	/**
@@ -25,6 +21,13 @@ Statistics.DimensionSelector.DefaultDimensionSelector = Statistics.Class(Statist
 	 * The maximum projected dimensions. For chart, this value should be 1.
 	 */
 	maximumProjectedDimensions: null,
+	
+	/**
+	 * @private
+	 * @property {Integer}
+	 * The maximum dimensions to select
+	 */
+	maxSelectedDimensions: 5,
 
 	/**
 	 * @constructor
@@ -84,6 +87,7 @@ Statistics.DimensionSelector.DefaultDimensionSelector = Statistics.Class(Statist
 	 *  returns the selected dimension
 	 */
 	getProjectedDimensions: function(dimensions) {
+			
 		if(!this.maximunProjectedDimensions) return [dimensions[0]];
 		return [dimensions[0], dimensions[1]];
 	},
@@ -138,10 +142,12 @@ Statistics.DimensionSelector.DefaultDimensionSelector = Statistics.Class(Statist
 		if(!attributes) return;
 		
 		for(var i = 0, attr; attr = attributes[i]; ++i) {
-			
-			arr.push(attr);
-			if(attr instanceof Statistics.Model.HierarchyAttribute) 
-				this.flatHierarchyAttributes(arr, attr.childAttributes);
+			 
+			if(arr.length < this.maxSelectedDimensions)
+				arr.push(attr);
+				
+//			if(attr instanceof Statistics.Model.HierarchyAttribute) 
+//				this.flatHierarchyAttributes(arr, attr.childAttributes);
 				
 		}
 	}

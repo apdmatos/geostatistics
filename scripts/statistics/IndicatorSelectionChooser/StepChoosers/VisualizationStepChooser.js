@@ -39,8 +39,7 @@ Statistics.IndicatorSelectionChooser.StepChooser.VisualizationStepChooser =
 			$(this).addClass('statistics_visualization_selected');
 			
 			var viewType = $(this).data('view');
-			self.result.setViewType(Statistics.Model.Search.ViewTypeEnum[viewType]);
-			
+			self.setStepSelectedObject( Statistics.Model.Search.ViewTypeEnum[viewType] );
 		});
 		
 	},	
@@ -54,17 +53,6 @@ Statistics.IndicatorSelectionChooser.StepChooser.VisualizationStepChooser =
 	 */
 	getStepName: function() {
 		return Statistics.i18n('visualizationType');
-	},
-	
-	/**
-	 * Returns true, if the step is valid, false otherwise
-	 * @abstract
-	 * @public
-	 * @function
-	 * @returns {Boolean}
-	 */
-	validateStep: function() {
-		return this.result.viewType != null;
 	},
 	
 	/**

@@ -33,6 +33,7 @@ Statistics.App = {
 	 						newProvider: Statistics.Model.Search.Provider.FromObject
 						});
 						
+		Statistics.App.AnalysisWindow.init(this.repository);
 		Statistics.App.Wizard.init(this.repository);
 	},
 	

@@ -5,6 +5,20 @@ Statistics.IndicatorSelectionChooser.StepChooser.IndicatorStepChooser =
 {
 	
 	/**
+	 * Contains the previous step state object
+	 * @public
+	 * @function
+	 * @param {Object} previousStepState
+	 */
+	setPrevStepState: function(previousStepState){
+		if(this.stepSelectedObject && this.stepSelectedObject.id === previousStepState.id ) return;
+		Statistics.IndicatorSelectionChooser.StepChooser.PaginationStepChooser.prototype.setPrevStepState.apply(this, arguments);
+		
+		this.clearResults();
+		this.requestResults(1);
+	},	
+	
+	/**
 	 * Returns the step
 	 * @public
 	 * @function
@@ -22,30 +36,6 @@ Statistics.IndicatorSelectionChooser.StepChooser.IndicatorStepChooser =
 	 */
 	getStepName: function() {
 		return Statistics.i18n('indicator');
-	},
-
-	/**
-	 * Cleans the step and sets the result to be filled on
-	 * Called to turn the step visible
-	 * @public
-	 * @function
-	 */
-	setResult: function(prevResult) {
-		
-		if(this.result) this.result.events.unbind('search.result.providerchanged', this.reloadFunc);
-		Statistics.IndicatorSelectionChooser.StepChooser.PaginationStepChooser.prototype.setResult.apply(this, arguments);
-		
-		this.result.events.bind('search.result.providerchanged', this.reloadFunc);
-	},
-	
-	/**
-	 * Returns true, if the step is valid, false otherwise
-	 * @public
-	 * @function
-	 * @returns {Boolean}
-	 */
-	validateStep: function() {
-		return !!this.result.indicator;
 	},
 	
 	/**
@@ -74,27 +64,16 @@ Statistics.IndicatorSelectionChooser.StepChooser.IndicatorStepChooser =
 	 */
 	requestResults: function(page) {
 		
-		if(!this.result.provider) return;
+		if(!this.prevStepState) return;
 		
 		this.repository.getIndicators(
-			this.result.provider.id,
+			this.prevStepState.id,
 			page, 
 			this.resultsPerPage, 
 			{
 				successCallback: $.proxy(this.renderSearchResults, this)
 			});
 			
-	},
-	
-	/**
-	 * called when an element in the list is selected
-	 * @abstract
-	 * @protected
-	 * @function
-	 * @param {Object} element
-	 */
-	elementSelected: function(element) {
-		this.result.setIndicator(element);
 	}
 	
 });

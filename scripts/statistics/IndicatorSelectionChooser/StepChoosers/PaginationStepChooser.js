@@ -39,19 +39,6 @@ Statistics.IndicatorSelectionChooser.StepChooser.PaginationStepChooser =
 		this.reloadFunc = jQuery.proxy(this.reload, this);
 	},
 	
-	/**
-	 * Cleans the step and sets the result to be filled on
-	 * Called to turn the step visible
-	 * @public
-	 * @function
-	 */
-	setResult: function(prevResult) {
-		Statistics.IndicatorSelectionChooser.StepChooser.prototype.setResult.apply(this, arguments);
-		this.clearResults();
-		this.requestResults(1);
-	},	
-
-
 /**********************************************************************************
  * ********************************************************************************
  * Protected methods
@@ -132,7 +119,7 @@ Statistics.IndicatorSelectionChooser.StepChooser.PaginationStepChooser =
 		elem.click(function() { 
 			elem.parent().find('li').removeClass('statistics_search_item_selected');
 			elem.addClass('statistics_search_item_selected');
-			self.elementSelected(element);
+			self.setStepSelectedObject(element);
 		});
 	},
 	

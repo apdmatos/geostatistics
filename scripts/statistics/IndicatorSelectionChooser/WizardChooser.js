@@ -22,7 +22,7 @@ Statistics.IndicatorSelectionChooser.WizardChooser =
 		var ul = $("<ul></ul>");
 		this.div.append(ul);
 		
-		for(var i = 0, step; step = this.steps[i]; ++i){
+		for(var i = 0, step; step = this.steps[i]; ++i) {
 			var stepNumber = i + 1;
 			var li = $(
 					"<li>"
@@ -53,7 +53,7 @@ Statistics.IndicatorSelectionChooser.WizardChooser =
 					self.selectStep(self.steps[i]);
 					return false;
 				}
-			if(self.doneFunc) self.doneFunc(self.result);
+			if(self.doneFunc) self.doneFunc(self.getStepsSelection());
 			return true;
 		}
 		

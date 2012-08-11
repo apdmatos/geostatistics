@@ -23,12 +23,6 @@ Statistics.IndicatorSelectionChooser = Statistics.Class({
 	
 	/**
 	 * @private
-	 * @property {Statistics.Model.Search.Result}
-	 */
-	result: null,
-	
-	/**
-	 * @private
 	 * @property {Function}
 	 * Function to call when the results are available
 	 */
@@ -55,13 +49,21 @@ Statistics.IndicatorSelectionChooser = Statistics.Class({
 	startSelection: function(doneFunc) {
 		
 		if(!this.drawn) this.draw();
-		
-		this.result = new Statistics.Model.Search.Result();
-		//this.result.events.bind('search.result.completed', doneFunc);
 		this.doneFunc = doneFunc;
-		
-		for(var i = 0, step; step = this.steps[i]; ++i)
-			step.setResult(this.result);
+	},
+
+	/**
+	 * Returns all steps selection objects
+	 * @public
+	 * @function
+	 * @returns {Object[]}
+	 */
+	getStepsSelection: function() {
+		var arr = [];
+		for(var i = 0, step; step = this.steps[i]; ++i) {
+			arr.push( step.getSelectionObject() );
+		}
+		return arr;
 	},
 	
 	/**
