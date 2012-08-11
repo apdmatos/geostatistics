@@ -10,6 +10,13 @@ Statistics.ConfigurationEditor.SerieDimensionUpdater = Statistics.Class(
 	 * @property {Statistics.Model.Dimension}
 	 */
 	serieDimension: null,
+	
+	/**
+	 * A flag indicating if the configuration should be updated or not
+	 * @private
+	 * @property {Boolean} 
+	 */
+	update: false,
 
 	/**
 	 * @override
@@ -29,11 +36,15 @@ Statistics.ConfigurationEditor.SerieDimensionUpdater = Statistics.Class(
 	 * Applies the modifications, to the configuration
 	 */
 	applyConfiguration: function() {
-		
-		var axis = this.dimensions ? this.dimensions[0] : this.configuration.getAxisDimension();
-		this.configuration.setSeriesDimension(axis, this.serieDimension);
-		this.serieDimension = null;
-		this.dimensions = null;
+		if (this.update) {
+			var axis = this.dimensions ? this.dimensions[0] : this.configuration.getAxisDimension();
+			this.configuration.setSeriesDimension(axis, this.serieDimension);
+			this.serieDimension = null;
+			this.dimensions = null;
+			this.update = false;
+		}else {
+			Statistics.ConfigurationEditor.DimensionProjectorUpdater.prototype.applyConfiguration.apply(this, arguments);
+		}
 	},
 	
 	/**
@@ -60,5 +71,6 @@ Statistics.ConfigurationEditor.SerieDimensionUpdater = Statistics.Class(
 	 */
 	setSerieDimension: function(dimension){
 		this.serieDimension = dimension;
+		this.update = true;
 	}
 });

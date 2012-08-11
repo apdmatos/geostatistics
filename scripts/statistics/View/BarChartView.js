@@ -20,7 +20,7 @@ Statistics.View.BarChartView = Statistics.Class(Statistics.View.ChartView, {
 	                    renderer: $.jqplot.CategoryAxisRenderer
 	                }
 	            },
-            	highlighter: { show: false }
+            	highlighter: { show: false },
         	}, plotOptions);
 		
 		Statistics.View.ChartView.prototype._init.apply(this, [div, opts]);
@@ -67,7 +67,7 @@ Statistics.View.BarChartView = Statistics.Class(Statistics.View.ChartView, {
 		}else 
 			this.plotOptions.legend = {
 				show: true,
-		        placement: 'outsideGrid'
+		        placement: 'outside'
 		    };
 		
 		for(var i= 0, attribute; attribute = serie.attributes[i]; ++i)

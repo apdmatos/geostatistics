@@ -38,7 +38,7 @@ Statistics.App.Analysis.PieChart = Statistics.Class(Statistics.App.Analysis, {
 	 */	
 	createView: function(element) {
 		if(!element.attr('id')) {
-			var id = Math.floor(Math.random()*11);
+			var id = Statistics.Util.createUniqueID();
 			element.attr('id', id)
 		}
 		return new Statistics.View.PieChartView(element.attr('id'))

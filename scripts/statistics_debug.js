@@ -79,6 +79,7 @@
 		"statistics/BaseTypes/Class.js",
 		"statistics/BaseTypes/Object.js",
 		"statistics/Events.js",
+		"statistics/Util.js",
 		"statistics/DimensionsSelector/DimensionSelector.js",
 		"statistics/DimensionsSelector/DefaultDimensionSelector.js",
 		"statistics/Model/Model.js",

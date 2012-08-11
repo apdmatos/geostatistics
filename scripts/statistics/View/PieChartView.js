@@ -22,11 +22,11 @@ Statistics.View.PieChartView = Statistics.Class(Statistics.View.ChartView, {
 		  		}, 
 				legend: { 
 					show:true, 
-					placement: 'inside',
-					rendererOptions: {
-                          numberRows: 5
-                     },
-					location: 's' 
+					placement: 'outside',
+//					rendererOptions: {
+//                          numberRows: 5
+//                     },
+					location: 'e' 
 				}
 			}, plotOptions);
 		

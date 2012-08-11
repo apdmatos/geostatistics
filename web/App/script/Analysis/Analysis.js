@@ -167,7 +167,7 @@ Statistics.App.Analysis = Statistics.Class({
 		var editorObjs = [];
 		
 		for(var i = 0, tab; tab = tabNames[i]; ++i) {
-			var randomnumber=Math.floor(Math.random() * 10000000);
+			var id = Statistics.Util.createUniqueID();
 			var refName = "tab-" + randomnumber;
 			
 			
@@ -279,7 +279,7 @@ Statistics.App.Analysis = Statistics.Class({
 	 * @abstract
 	 * @returns {Object}
 	 */
-	getDialogOptions: function() { },
+	getDialogOptions: function() { /* abstract method. should be defined by each subclass */ },
 
 	/**
 	 * @protected
@@ -288,7 +288,7 @@ Statistics.App.Analysis = Statistics.Class({
 	 * @param {Statistics.View} view
 	 * @returns {Statistics.Controller}
 	 */
-	createController: function(config, view) {},
+	createController: function(config, view) { /* abstract method. should be defined by each subclass */ },
 
 	/**
 	 * @protected
@@ -296,14 +296,14 @@ Statistics.App.Analysis = Statistics.Class({
 	 * @param {JQueryElement} element
 	 * @returns {Statistics.View}
 	 */	
-	createView: function(element) {},
+	createView: function(element) { /* abstract method. should be defined by each subclass */ },
 
 	/**
 	 * @protected
 	 * @abstract
 	 * @returns {Statistics.Model.DimensionConfig}
 	 */	
-	createConfiguration: function() { },
+	createConfiguration: function() { /* abstract method. should be defined by each subclass */ },
 
 	/**
 	 * @protected
@@ -311,7 +311,7 @@ Statistics.App.Analysis = Statistics.Class({
 	 * @param {Statistics.Model.DimensionConfig} config
 	 * @returns {Statistics.ConfigurationEditor}
 	 */		
-	createEditors: function(config) { },
+	createEditors: function(config) { /* abstract method. should be defined by each subclass */ },
 	
 	/**
 	 * @protected
@@ -319,5 +319,5 @@ Statistics.App.Analysis = Statistics.Class({
 	 * @abstract
 	 * @returns {String[]}
 	 */
-	getEditorsTabNames: function() { }
+	getEditorsTabNames: function() { /* abstract method. should be defined by each subclass */ }
 });
