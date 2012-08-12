@@ -168,7 +168,7 @@ Statistics.App.Analysis = Statistics.Class({
 		
 		for(var i = 0, tab; tab = tabNames[i]; ++i) {
 			var id = Statistics.Util.createUniqueID();
-			var refName = "tab-" + randomnumber;
+			var refName = "tab-" + id;
 			
 			
 			var li = $("<li><a href='#" + refName + "'>" + tab + "</a></li>");

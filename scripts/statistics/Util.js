@@ -1,4 +1,9 @@
 
+/**
+ * Namespace: Util
+ */
+Statistics.Util = Statistics.Util || {};
+
 
 /**
  * Property: lastSeqID
