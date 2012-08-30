@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<StyledLayerDescriptor version="1.0.0" 
+ xsi:schemaLocation="http://www.opengis.net/sld StyledLayerDescriptor.xsd" 
+ xmlns="http://www.opengis.net/sld" 
+ xmlns:ogc="http://www.opengis.net/ogc" 
+ xmlns:xlink="http://www.w3.org/1999/xlink" 
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <!-- a Named Layer is the basic building block of an SLD document -->
+  <NamedLayer>
+    <Name>default_polygon</Name>
+    <UserStyle>
+    <!-- Styles can have names, titles and abstracts -->
+      <Title>Default Polygon</Title>
+      <Abstract>A sample style that draws a polygon</Abstract>
+      <!-- FeatureTypeStyles describe how to render different features -->
+      <!-- A FeatureTypeStyle for rendering polygons -->
+      <FeatureTypeStyle>
+        <Rule>
+          <Name>color1</Name>
+          <Title>Color 1</Title>
+          <ogc:Filter>
+            <ogc:PropertyIsLessThanOrEqualTo>
+              <ogc:PropertyName>percent</ogc:PropertyName>
+              <ogc:Function name="env">
+                <ogc:Literal>value1</ogc:Literal>
+                <ogc:Literal>0.143</ogc:Literal>
+              </ogc:Function>
+            </ogc:PropertyIsLessThanOrEqualTo>
+          </ogc:Filter>
+          <PolygonSymbolizer>
+            <Fill>
+              <CssParameter name="fill">
+                #<ogc:Function name="env"><ogc:Literal>color1</ogc:Literal><ogc:Literal>e5e6f2</ogc:Literal></ogc:Function></CssParameter>
+            </Fill>
+            <Stroke>
+              <CssParameter name="stroke">#000000</CssParameter>
+              <CssParameter name="stroke-width">0.1</CssParameter>
+            </Stroke>
+          </PolygonSymbolizer>
+        </Rule>
+        <Rule>
+          <Name>color2</Name>
+          <Title>Color 2</Title>
+          <ogc:Filter>
+            <ogc:PropertyIsGreaterThan>
+              <ogc:PropertyName>percent</ogc:PropertyName>
+              <ogc:Function name="env">
+                <ogc:Literal>value1</ogc:Literal>
+                <ogc:Literal>0.143</ogc:Literal>
+              </ogc:Function>
+            </ogc:PropertyIsGreaterThan>
+            <ogc:PropertyIsLessThanOrEqualTo>
+              <ogc:PropertyName>VALUE</ogc:PropertyName>
+              <ogc:Function name="env">
+                <ogc:Literal>value2</ogc:Literal>
+                <ogc:Literal>0.286</ogc:Literal>
+              </ogc:Function>
+            </ogc:PropertyIsLessThanOrEqualTo>
+          </ogc:Filter>
+          <PolygonSymbolizer>
+            <Fill>
+              <CssParameter name="fill">
+                #<ogc:Function name="env"><ogc:Literal>color2</ogc:Literal><ogc:Literal>ccd1ff</ogc:Literal></ogc:Function></CssParameter>
+            </Fill>
+            <Stroke>
+              <CssParameter name="stroke">#000000</CssParameter>
+              <CssParameter name="stroke-width">0.1</CssParameter>
+            </Stroke>
+          </PolygonSymbolizer>
+        </Rule>
+        <Rule>
+          <Name>color3</Name>
+          <Title>Color 3</Title>
+          <ogc:Filter>
+            <ogc:PropertyIsGreaterThan>
+              <ogc:PropertyName>percent</ogc:PropertyName>
+              <ogc:Function name="env">
+                <ogc:Literal>value2</ogc:Literal>
+                <ogc:Literal>0.286</ogc:Literal>
+              </ogc:Function>
+            </ogc:PropertyIsGreaterThan>
+            <ogc:PropertyIsLessThanOrEqualTo>
+              <ogc:PropertyName>percent</ogc:PropertyName>
+              <ogc:Function name="env">
+                <ogc:Literal>value3</ogc:Literal>
+                <ogc:Literal>0.429</ogc:Literal>
+              </ogc:Function>
+            </ogc:PropertyIsLessThanOrEqualTo>
+          </ogc:Filter>
+          <PolygonSymbolizer>
+            <Fill>
+              <CssParameter name="fill">
+                #<ogc:Function name="env"><ogc:Literal>color3</ogc:Literal><ogc:Literal>999ecb</ogc:Literal></ogc:Function></CssParameter>
+            </Fill>
+            <Stroke>
+              <CssParameter name="stroke">#000000</CssParameter>
+              <CssParameter name="stroke-width">0.1</CssParameter>
+            </Stroke>
+          </PolygonSymbolizer>
+        </Rule>
+        <Rule>
+          <Name>color4</Name>
+          <Title>Color 4</Title>
+          <ogc:Filter>
+            <ogc:PropertyIsGreaterThan>
+              <ogc:PropertyName>percent</ogc:PropertyName>
+              <ogc:Function name="env">
+                <ogc:Literal>value3</ogc:Literal>
+                <ogc:Literal>0.429</ogc:Literal>
+              </ogc:Function>
+            </ogc:PropertyIsGreaterThan>
+            <ogc:PropertyIsLessThanOrEqualTo>
+              <ogc:PropertyName>percent</ogc:PropertyName>
+              <ogc:Function name="env">
+                <ogc:Literal>value4</ogc:Literal>
+                <ogc:Literal>0.572</ogc:Literal>
+              </ogc:Function>
+            </ogc:PropertyIsLessThanOrEqualTo>
+          </ogc:Filter>
+          <PolygonSymbolizer>
+            <Fill>
+              <CssParameter name="fill">
+                #<ogc:Function name="env"><ogc:Literal>color4</ogc:Literal><ogc:Literal>6676ff</ogc:Literal></ogc:Function></CssParameter>
+            </Fill>
+            <Stroke>
+              <CssParameter name="stroke">#000000</CssParameter>
+              <CssParameter name="stroke-width">0.1</CssParameter>
+            </Stroke>
+          </PolygonSymbolizer>
+        </Rule>
+        <Rule>
+          <Name>color5</Name>
+          <Title>Color 5</Title>
+          <ogc:Filter>
+            <ogc:PropertyIsGreaterThan>
+              <ogc:PropertyName>percent</ogc:PropertyName>
+              <ogc:Function name="env">
+                <ogc:Literal>value4</ogc:Literal>
+                <ogc:Literal>0.572</ogc:Literal>
+              </ogc:Function>
+            </ogc:PropertyIsGreaterThan>
+            <ogc:PropertyIsLessThanOrEqualTo>
+              <ogc:PropertyName>percent</ogc:PropertyName>
+              <ogc:Function name="env">
+                <ogc:Literal>value5</ogc:Literal>
+                <ogc:Literal>0.715</ogc:Literal>
+              </ogc:Function>
+            </ogc:PropertyIsLessThanOrEqualTo>
+          </ogc:Filter>
+          <PolygonSymbolizer>
+            <Fill>
+              <CssParameter name="fill">
+                #<ogc:Function name="env"><ogc:Literal>color5</ogc:Literal><ogc:Literal>3348ff</ogc:Literal></ogc:Function></CssParameter>
+            </Fill>
+            <Stroke>
+              <CssParameter name="stroke">#000000</CssParameter>
+              <CssParameter name="stroke-width">0.1</CssParameter>
+            </Stroke>
+          </PolygonSymbolizer>
+        </Rule>
+        <Rule>
+          <Name>color6</Name>
+          <Title>Color 6</Title>
+          <ogc:Filter>
+            <ogc:PropertyIsGreaterThan>
+              <ogc:PropertyName>percent</ogc:PropertyName>
+              <ogc:Function name="env">
+                <ogc:Literal>value5</ogc:Literal>
+                <ogc:Literal>0.715</ogc:Literal>
+              </ogc:Function>
+            </ogc:PropertyIsGreaterThan>
+            <ogc:PropertyIsLessThanOrEqualTo>
+              <ogc:PropertyName>percent</ogc:PropertyName>
+              <ogc:Function name="env">
+                <ogc:Literal>value6</ogc:Literal>
+                <ogc:Literal>0.858</ogc:Literal>
+              </ogc:Function>
+            </ogc:PropertyIsLessThanOrEqualTo>
+          </ogc:Filter>
+          <PolygonSymbolizer>
+            <Fill>
+              <CssParameter name="fill">
+                #<ogc:Function name="env"><ogc:Literal>color6</ogc:Literal><ogc:Literal>0019ff</ogc:Literal></ogc:Function></CssParameter>
+            </Fill>
+            <Stroke>
+              <CssParameter name="stroke">#000000</CssParameter>
+              <CssParameter name="stroke-width">0.1</CssParameter>
+            </Stroke>
+          </PolygonSymbolizer>
+        </Rule>
+        <Rule>
+          <Name>color7</Name>
+          <Title>Color 7</Title>
+          <ogc:Filter>
+            <ogc:PropertyIsGreaterThan>
+              <ogc:PropertyName>percent</ogc:PropertyName>
+              <ogc:Function name="env">
+                <ogc:Literal>value6</ogc:Literal>
+                <ogc:Literal>0.858</ogc:Literal>
+              </ogc:Function>
+            </ogc:PropertyIsGreaterThan>
+          </ogc:Filter>
+          <PolygonSymbolizer>
+            <Fill>
+              <CssParameter name="fill">
+                #<ogc:Function name="env"><ogc:Literal>color7</ogc:Literal><ogc:Literal>000b7c</ogc:Literal></ogc:Function></CssParameter>
+            </Fill>
+            <Stroke>
+              <CssParameter name="stroke">#000000</CssParameter>
+              <CssParameter name="stroke-width">0.1</CssParameter>
+            </Stroke>
+          </PolygonSymbolizer>
+        </Rule>
+      </FeatureTypeStyle>
+    </UserStyle>
+  </NamedLayer>
+</StyledLayerDescriptor>
